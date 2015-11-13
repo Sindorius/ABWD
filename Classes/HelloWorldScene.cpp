@@ -1,6 +1,8 @@
 #include "HelloWorldScene.h"
 
 USING_NS_CC;
+using boost::asio::ip::udp;
+
 
 Scene* HelloWorld::createScene()
 {
@@ -26,14 +28,51 @@ bool HelloWorld::init()
     {
         return false;
     }
-    	 
+    
+	std::ifstream is("config.json");
+	cereal::JSONInputArchive configloader(is);
+	setupdata = ConfigFileInput();
+	configloader(setupdata);
+	is.close();
+
+	char mycp1[32];
+	char mycp2[32];
+	strncpy(mycp1, setupdata.ipaddress.c_str(), 32);
+	strncpy(mycp2, std::to_string(setupdata.port).c_str(), 32);
+
+	try
+	{
+		CCLOG("setting up udp interface");
+		CCLOG(mycp1);
+		CCLOG(mycp2);
+		//boost::asio::io_service io_service;
+		io_service_p = new boost::asio::io_service;
+	
+		//udp::socket myudpsocket2(*io_service_p, udp::endpoint(udp::v4(), 0));
+		myudpsocketp = new udp::socket(*io_service_p, udp::endpoint(udp::v4(), 0));
+		udp::resolver resolver(*io_service_p);
+
+		playernum = setupdata.player;
+		myendpoint = *resolver.resolve({ udp::v4(), mycp1, mycp2 });
+		//myudpinterfacep = new UDPInterface(*io_service_p, endpoint);
+		doReceive();
+		
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Exception: " << e.what() << "\n";
+		CCLOG("exception");
+		CCLOG(e.what());
+	}
+
+
+
 
 	std::string file = "res//demoroom.tmx";
 	auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
 	tileMap = cocos2d::experimental::TMXTiledMap::createWithXML(str->getCString(), "");
 	
 	addChild(tileMap, -1);
-
 
 	player1 = Player::create();
 	player1->setPlayernum(1);
@@ -78,6 +117,7 @@ bool HelloWorld::init()
 	player1->runAction(RepeatForever::create(walkanim));
 	player2->runAction(RepeatForever::create(walkanim2));
 
+
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(HelloWorld::KeyDown, this);
 	keyListener->onKeyReleased = CC_CALLBACK_2(HelloWorld::KeyRelease, this);
@@ -99,36 +139,61 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 }
 
 
+void HelloWorld::update(float dt)
+{
+
+	io_service_p->poll();
+
+	//CCLOG("POLLING");
+
+
+
+	
+	if (xmove || ymove)
+	{
+		PlayerInputPacket p2 = PlayerInputPacket(playernum, xmove, ymove);
+		std::ostringstream os2;
+		cereal::BinaryOutputArchive outar(os2);
+		outar(p2);
+		outstringbuffer = os2.str();
+		CCLOG("Sending packet");
+		myudpsocketp->async_send_to(boost::asio::buffer(outstringbuffer), myendpoint, [this](boost::system::error_code /*ec*/, std::size_t /*bytes_sent*/)
+		{
+			//CCLOG("Sent packet");
+		});
+		CCLOG("sentplayerpacket");
+		CCLOG(std::to_string(xmove).c_str());
+		CCLOG(std::to_string(ymove).c_str());
+	}
+}
+
+HelloWorld::~HelloWorld()
+{
+	if (io_service_p)
+		delete io_service_p;
+	
+	//if (myudpinterfacep)
+	//	delete myudpinterfacep;
+	
+}
+
 
 void HelloWorld::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 {
-	
+
 	switch (keyCode){
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
-		y1move += 2;
+		ymove += 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		y1move -= 2;
+		ymove -= 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-		x1move -= 2;
+		xmove -= 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-		x1move += 2;
+		xmove += 2;
 		break;
-	case EventKeyboard::KeyCode::KEY_W:
-		y2move += 2;
-		break;
-	case EventKeyboard::KeyCode::KEY_S:
-		y2move -= 2;
-		break;
-	case EventKeyboard::KeyCode::KEY_A:
-		x2move -= 2;
-		break;
-	case EventKeyboard::KeyCode::KEY_D:
-		x2move += 2;
-		break;
-
 	}
 	event->stopPropagation();
 }
@@ -138,44 +203,62 @@ void HelloWorld::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 
 	switch (keyCode){
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
-		y1move = 0;
+		ymove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		y1move = 0;
+		ymove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-		x1move = 0;
+		xmove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-		x1move = 0;
-		break;
-	
-	
-	case EventKeyboard::KeyCode::KEY_W:
-		y2move = 0;
-		break;
-	case EventKeyboard::KeyCode::KEY_S:
-		y2move = 0;
-		break;
-	case EventKeyboard::KeyCode::KEY_A:
-		x2move = 0;
-		break;
-	case EventKeyboard::KeyCode::KEY_D:
-		x2move = 0;
+		xmove = 0;
 		break;
 	}
 	event->stopPropagation();
 
 }
 
-void HelloWorld::update(float dt)
+void HelloWorld::processPacket(ServerPositionPacket p)
 {
-	player1->setPositionX(player1->getPositionX() + x1move);
-	player1->setPositionY(player1->getPositionY() + y1move);
-	player2->setPositionX(player2->getPositionX() + x2move);
-	player2->setPositionY(player2->getPositionY() + y2move);
+	CCLOG("updatedserverpacket");
+	CCLOG(std::to_string(p.p1x).c_str());
+	CCLOG(std::to_string(p.p2x).c_str());
+	CCLOG(std::to_string(p.vx).c_str());
+	player1->setPosition(Vec2(p.p1x, p.p1y));
+	player2->setPosition(Vec2(p.p2x, p.p2y));
+	villain->setPosition(Vec2(p.vx, p.vy));
+}
 
-	villain->runAI(&players);
-
-
+void HelloWorld::doReceive()
+{
+	myudpsocketp->async_receive_from(
+		boost::asio::buffer(indata, max_length), myendpoint,
+		[this](boost::system::error_code ec, std::size_t bytes_recvd)
+	{
+		if (!ec && bytes_recvd > 0)
+		{
+			CCLOG("received data");
+			std::stringstream is2;
+			cereal::BinaryInputArchive inar(is2);
+			for (size_t i = 0; i < bytes_recvd; i++)
+			{
+				// there has to be a better way vectorized? than using for loop!!!
+				is2 << indata[i];
+			}
+			//		
+			ServerPositionPacket inpack;
+			inar(inpack);
+			CCLOG(is2.str().c_str());
+			CCLOG("input from server");
+			CCLOG(std::to_string(inpack.vx).c_str());
+			processPacket(inpack);
+			//s.send_to(boost::asio::buffer(os2.str()), endpoint);
+			doReceive();
+		}
+		else
+		{
+			doReceive();
+		}
+	});
 }
