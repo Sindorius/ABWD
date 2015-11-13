@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
+#include "ServerDemoScene.h"
 
 USING_NS_CC;
 
@@ -12,6 +12,7 @@ AppDelegate::AppDelegate() {
 
 AppDelegate::~AppDelegate() 
 {
+	
 }
 
 //if you want a different context,just modify the value of glContextAttrs
@@ -55,7 +56,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
+    auto scene = ServerDemo::createScene();
 
     // run
     director->runWithScene(scene);

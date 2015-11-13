@@ -19,7 +19,6 @@ Villain* Villain::create()
 void Villain::runAI(std::vector<Player*>* players)
 {
 	int testplayer1x = players->at(0)->getPositionX();
-	int testplayer1y = players->at(0)->getPositionY();
 
 	if (this->getPositionX() > testplayer1x)
 	{
@@ -27,13 +26,5 @@ void Villain::runAI(std::vector<Player*>* players)
 	}
 	else{
 		this->setPositionX(this->getPositionX() + 1);
-	}
-
-	if (this->getPositionY() > testplayer1y)
-	{
-		this->setPositionY(this->getPositionY() - 1);
-	}
-	else{
-		this->setPositionY(this->getPositionY() + 1);
 	}
 }
