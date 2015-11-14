@@ -60,5 +60,6 @@
     <ClCompile Include="..\Classes\Villain.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="main_server.cpp" />
   </ItemGroup>
 </Project>
