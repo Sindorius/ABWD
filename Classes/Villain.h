@@ -11,22 +11,27 @@ public:
 	Villain(){};
 	~Villain(){};
 
-	void runAI(std::vector<Player*>* players);
+	
 	static Villain* create();
 	static Villain* create(int playernum);
-
-
-	void setHitpoints(int hp){ hitpoints = hp; }
-	int getHitpoints(){ return hitpoints; }
+	//gameloop villain function
+	void runAI(std::vector<Player*>* players);
+	//the index of the ai's current target
+	int getTarget();
+	//the current action type the villain uses, use to determine animations and whatnot
+	//number key located at the end of file
+	int getBehavior();
 
 private:
 
-	int hitpoints = 1;
-	int speedboost = 1;
-	int state = 1;
-	int jeffreygivememoreattributes = 1;
+
+	int target = 0;
+	int behavior = 0;
 
 };
-
+/*
+behavior code
+code 0 - ai will walk towards the specified target parameter with no special actions
+*/
 
 #endif // _VILLAIN_HPP_
