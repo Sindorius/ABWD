@@ -17,6 +17,10 @@ private:
 		ar & p1y;
 		ar & p2x;
 		ar & p2y;
+		ar & p3x;
+		ar & p3y;
+		ar & p4x;
+		ar & p4y;
 	}
 
 public:
@@ -26,10 +30,15 @@ public:
 	float p1y;
 	float p2x;
 	float p2y;
+	float p3x;
+	float p3y;
+	float p4x;
+	float p4y;
+
 
 	ServerPositionPacket(){};
-	ServerPositionPacket(float a, float b, float c, float d, float e, float f) :
-		vx(a), vy(b), p1x(c), p1y(d), p2x(e), p2y(f)
+	ServerPositionPacket(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j) :
+		vx(a), vy(b), p1x(c), p1y(d), p2x(e), p2y(f), p3x(g), p3y(h), p4x(i), p4y(j)
 	{}
 };
 

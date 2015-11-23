@@ -44,16 +44,12 @@ public:
 				CCLOG(std::to_string(inpacket.playernum).c_str());
 				CCLOG(std::to_string(inpacket.dx).c_str());
 				CCLOG(std::to_string(inpacket.dy).c_str());
-				if (inpacket.playernum == 1)
+				if (clientmap.find(inpacket.playernum) == clientmap.end())
 				{
-					x1move = inpacket.dx;
-					y1move = inpacket.dy;
+					clientmap.emplace(inpacket.playernum, sender_endpoint_);
 				}
-				else
-				{
-					x2move = inpacket.dx;
-					y2move = inpacket.dy;
-				}
+				xmove[inpacket.playernum - 1] = inpacket.dx;
+				ymove[inpacket.playernum - 1] = inpacket.dy;
 				//s.send_to(boost::asio::buffer(os2.str()), endpoint);
 				do_receive();
 			}
@@ -70,16 +66,20 @@ public:
 		CCLOG("sending data back");
 		std::ostringstream os2;
 		cereal::BinaryOutputArchive outar(os2);
-		ServerPositionPacket packet1(1.2f, 2.3f, 3.4f, 4.5f, 5.6f, 6.7f);
+		ServerPositionPacket packet1(1.2f, 2.3f, 3.4f, 4.5f, 5.6f, 6.7f, 1.1f,1.1f,1.1f,1.1f);
 		outar(packet1);
 
 		outstringbuffer = os2.str();
-		socket_.async_send_to(
-			boost::asio::buffer(outstringbuffer), sender_endpoint_,
-			[this](boost::system::error_code /*ec*/, std::size_t /*bytes_sent*/)
+		for (auto& kv : clientmap)
 		{
-			do_receive();
-		});
+
+			socket_.async_send_to(
+				boost::asio::buffer(outstringbuffer), kv.second,
+				[this](boost::system::error_code /*ec*/, std::size_t /*bytes_sent*/)
+			{
+				do_receive();
+			});
+		}
 	}
 
 	void sendPacket(ServerPositionPacket p)
@@ -100,26 +100,22 @@ public:
 		});
 	}
 
-	PlayerInputPacket getPlayer1Packet()
+	PlayerInputPacket getPlayerPacket(int pnum)
 	{
-		return PlayerInputPacket(1, x1move, y1move);
+		return PlayerInputPacket(pnum, xmove[pnum-1], ymove[pnum-1]);
 	}
-	PlayerInputPacket getPlayer2Packet()
-	{
-		return PlayerInputPacket(2, x2move, y2move);
-	}
+	
+
 
 private:
 	udp::socket socket_;
 	udp::endpoint sender_endpoint_;
+	std::map<int, udp::endpoint> clientmap;
 	enum { max_length = 1024 };
 	char data_[max_length];
 	std::string outstringbuffer;
-	int x1move= 0;
-	int x2move= 0;
-	int y1move = 0;
-	int y2move= 0;
-
+	int xmove[4] = { 0 };
+	int ymove[4] = { 0 };
 };
 
 #endif // __UDPSERVER_H__

@@ -79,17 +79,33 @@ bool ClientDemo::init()
 	player1->getTexture()->setAliasTexParameters();
 	player1->setPosition(Vec2(100, 100));
 	player1->setScale(1.5);
-	addChild(player1,0);
+	addChild(player1, 0);
 
 	player2 = Player::create();
 	player2->setPlayernum(2);
 	player2->getTexture()->setAliasTexParameters();
-	player2->setPosition(Vec2(200, 300));
+	player2->setPosition(Vec2(200, 200));
 	player2->setScale(1.5);
 	addChild(player2, 0);
 
+	player3 = Player::create();
+	player3->setPlayernum(3);
+	player3->getTexture()->setAliasTexParameters();
+	player3->setPosition(Vec2(300, 300));
+	player3->setScale(1.5);
+	addChild(player3, 0);
+
+	player4 = Player::create();
+	player4->setPlayernum(4);
+	player4->getTexture()->setAliasTexParameters();
+	player4->setPosition(Vec2(400, 400));
+	player4->setScale(1.5);
+	addChild(player4, 0);
+
 	players.push_back(player1);
 	players.push_back(player2);
+	players.push_back(player3);
+	players.push_back(player4);
 
 	villain = Villain::create();
 	villain->getTexture()->setAliasTexParameters();
@@ -114,8 +130,13 @@ bool ClientDemo::init()
 	Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
 	walkanim = Animate::create(animation);
 	walkanim2 = Animate::create(animation);
+	walkanim3 = Animate::create(animation);
+	walkanim4 = Animate::create(animation);
 	player1->runAction(RepeatForever::create(walkanim));
 	player2->runAction(RepeatForever::create(walkanim2));
+	player3->runAction(RepeatForever::create(walkanim3));
+	player4->runAction(RepeatForever::create(walkanim4));
+
 
 
 	auto keyListener = EventListenerKeyboard::create();
@@ -224,9 +245,13 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	CCLOG("updatedserverpacket");
 	CCLOG(std::to_string(p.p1x).c_str());
 	CCLOG(std::to_string(p.p2x).c_str());
+	CCLOG(std::to_string(p.p3x).c_str());
+	CCLOG(std::to_string(p.p4x).c_str());
 	CCLOG(std::to_string(p.vx).c_str());
 	player1->setPosition(Vec2(p.p1x, p.p1y));
 	player2->setPosition(Vec2(p.p2x, p.p2y));
+	player3->setPosition(Vec2(p.p3x, p.p3y));
+	player4->setPosition(Vec2(p.p4x, p.p4y));
 	villain->setPosition(Vec2(p.vx, p.vy));
 }
 

@@ -24,14 +24,18 @@ private:
 
 	Player* player1;
 	Player* player2;
+	Player* player3;
+	Player* player4;
 	std::vector<Player*> players;
 	Villain* villain;
 
 	std::vector<cocos2d::Sprite*> objects;
 
-
+	//temp//
 	cocos2d::Animate* walkanim;
 	cocos2d::Animate* walkanim2;
+	cocos2d::Animate* walkanim3;
+	cocos2d::Animate* walkanim4;
 
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -49,10 +53,9 @@ public:
 	void KeyDown(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void KeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void update(float dt);
-	float x1move = 0;
-	float y1move = 0;
-	float x2move = 0;
-	float y2move = 0;
+	float xmove[4] = { 0 };
+	float ymove[4] = { 0 };
+	
 
 	ConfigFileInput setupdata;
 

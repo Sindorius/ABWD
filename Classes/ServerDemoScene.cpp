@@ -70,12 +70,28 @@ bool ServerDemo::init()
 	player2 = Player::create();
 	player2->setPlayernum(2);
 	player2->getTexture()->setAliasTexParameters();
-	player2->setPosition(Vec2(200, 300));
+	player2->setPosition(Vec2(200, 200));
 	player2->setScale(1.5);
 	addChild(player2, 0);
 
+	player3 = Player::create();
+	player3->setPlayernum(3);
+	player3->getTexture()->setAliasTexParameters();
+	player3->setPosition(Vec2(300, 300));
+	player3->setScale(1.5);
+	addChild(player3, 0);
+
+	player4 = Player::create();
+	player4->setPlayernum(4);
+	player4->getTexture()->setAliasTexParameters();
+	player4->setPosition(Vec2(400, 400));
+	player4->setScale(1.5);
+	addChild(player4, 0);
+
 	players.push_back(player1);
 	players.push_back(player2);
+	players.push_back(player3);
+	players.push_back(player4);
 
 	villain = Villain::create();
 	villain->getTexture()->setAliasTexParameters();
@@ -100,8 +116,12 @@ bool ServerDemo::init()
 	Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
 	walkanim = Animate::create(animation);
 	walkanim2 = Animate::create(animation);
+	walkanim3 = Animate::create(animation);
+	walkanim4 = Animate::create(animation);
 	player1->runAction(RepeatForever::create(walkanim));
 	player2->runAction(RepeatForever::create(walkanim2));
+	player3->runAction(RepeatForever::create(walkanim3));
+	player4->runAction(RepeatForever::create(walkanim4));
 
 
 	this->scheduleUpdate();
@@ -128,8 +148,10 @@ void ServerDemo::update(float dt)
 
 
 	villain->runAI(&players);
-	PlayerInputPacket p1 = myudpserverp->getPlayer1Packet();
-	PlayerInputPacket p2 = myudpserverp->getPlayer2Packet();
+	PlayerInputPacket p1 = myudpserverp->getPlayerPacket(1);
+	PlayerInputPacket p2 = myudpserverp->getPlayerPacket(2);
+	PlayerInputPacket p3 = myudpserverp->getPlayerPacket(3);
+	PlayerInputPacket p4 = myudpserverp->getPlayerPacket(4);
 	CCLOG("setting p1 postiion");
 	CCLOG(std::to_string(player1->getPositionX()+p1.dx).c_str());
 	CCLOG(std::to_string(p1.dx).c_str());
@@ -137,9 +159,13 @@ void ServerDemo::update(float dt)
 	player1->setPositionY(player1->getPositionY() + p1.dy);
 	player2->setPositionX(player2->getPositionX() + p2.dx);
 	player2->setPositionY(player2->getPositionY() + p2.dy);
+	player3->setPositionX(player3->getPositionX() + p3.dx);
+	player3->setPositionY(player3->getPositionY() + p3.dy);
+	player4->setPositionX(player4->getPositionX() + p4.dx);
+	player4->setPositionY(player4->getPositionY() + p4.dy);
 
 
-	ServerPositionPacket p(villain->getPositionX(), villain->getPositionY(), player1->getPositionX(), player1->getPositionY(), player2->getPositionX(), player2->getPositionY());
+	ServerPositionPacket p(villain->getPositionX(), villain->getPositionY(), player1->getPositionX(), player1->getPositionY(), player2->getPositionX(), player2->getPositionY(), player3->getPositionX(), player3->getPositionY(), player4->getPositionX(), player4->getPositionY());
 
 	myudpserverp->sendPacket(p);
 	//myudpserverp->do_send();
