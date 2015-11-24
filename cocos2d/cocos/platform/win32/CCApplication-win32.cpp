@@ -31,6 +31,9 @@ THE SOFTWARE.
 #include <algorithm>
 #include "platform/CCFileUtils.h"
 #include <shellapi.h>
+#include <boost/thread.hpp>
+#include <iostream>
+
 /**
 @brief    This function change the PVRFrame show/hide setting in register.
 @param  bEnable If true show the PVRFrame window, otherwise hide.
@@ -56,11 +59,30 @@ Application::~Application()
 {
     CC_ASSERT(this == sm_pSharedApplication);
     sm_pSharedApplication = nullptr;
+	UINT TARGET_RESOLUTION = 1;         // 1-millisecond target resolution
+	TIMECAPS tc;
+	UINT     wTimerRes;
+	wTimerRes = std::min(std::max(tc.wPeriodMin, TARGET_RESOLUTION), tc.wPeriodMax);
+	timeEndPeriod(wTimerRes);
 }
 
 int Application::run()
 {
     PVRFrameEnableControlWindow(false);
+
+	UINT TARGET_RESOLUTION = 1;         // 1-millisecond target resolution
+
+	TIMECAPS tc;
+	UINT     wTimerRes;
+
+	if (timeGetDevCaps(&tc, sizeof(TIMECAPS)) != TIMERR_NOERROR)
+	{
+		// Error; application can't continue.
+	}
+
+	wTimerRes = std::min(std::max(tc.wPeriodMin, TARGET_RESOLUTION), tc.wPeriodMax);
+	timeBeginPeriod(wTimerRes);
+
 
     // Main message loop:
     LARGE_INTEGER nLast;
@@ -94,7 +116,7 @@ int Application::run()
         }
         else
         {
-            Sleep(1);
+			boost::this_thread::sleep(boost::posix_time::milliseconds(1));
         }
     }
 
