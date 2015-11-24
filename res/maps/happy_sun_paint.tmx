@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="12" height="15" tilewidth="24" tileheight="24" nextobjectid="82">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="12" height="15" tilewidth="24" tileheight="24" nextobjectid="84">
  <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
   <image source="../sprites/walls.png" width="192" height="192"/>
  </tileset>
@@ -35,7 +35,7 @@
    <image width="48" height="48" source="../sprites/table.png"/>
   </tile>
   <tile id="9">
-   <image width="14" height="14" source="../sprites/tiny_sun_framed.png"/>
+   <image width="28" height="29" source="../sprites/tiny_sun_framed.png"/>
   </tile>
   <tile id="10">
    <image width="24" height="48" source="../sprites/animations/char_red_front_0.png"/>
@@ -91,11 +91,11 @@
   </data>
  </layer>
  <objectgroup name="Painting Paints">
-  <object id="1" gid="116" x="137" y="48" width="14" height="14"/>
   <object id="2" gid="124" x="192" y="96" width="24" height="24"/>
   <object id="3" gid="123" x="168" y="96" width="24" height="24"/>
   <object id="4" gid="122" x="72" y="96" width="24" height="24"/>
   <object id="5" gid="125" x="96" y="96" width="24" height="24"/>
+  <object id="82" gid="116" x="130" y="54" width="28" height="29"/>
  </objectgroup>
  <objectgroup name="Paint Tiles">
   <object id="8" gid="112" x="72" y="168" width="24" height="24"/>
