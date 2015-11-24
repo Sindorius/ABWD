@@ -8,7 +8,7 @@ Villain* Villain::create()
 {
 	Villain* pSprite = new Villain();
 
-	if (pSprite->initWithFile("res//villain.png"))
+	if (pSprite->initWithFile("sprites//animations//sam_front_0.png"))
 	{
 		pSprite->autorelease();
 
