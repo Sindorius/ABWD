@@ -17,11 +17,17 @@ public:
 	void setHitpoints(int hp){ hitpoints = hp; }
 	int getHitpoints(){ return hitpoints; }
 
+	void setColor(std::string c) { color = c; }
+	std::string getColor() { return color; }
+
+
 private:
 	int playernumber = 0;
 	int inventoryitem = 0;
 	int hitpoints = 1;
 	int speedboost = 1;
+
+	std::string color = "";
 
 };
 

@@ -16,11 +16,23 @@
 #include "ConfigFileInput.hpp"
 #include "ServerPositionPacket.hpp"
 #include "UDPServer.hpp"
+#include "NetworkManager.h"
+#include "PaintTile.h"
+
+class UDPServer;
 
 class ServerDemo : public cocos2d::Layer
 {
 private:
-	cocos2d::experimental::TMXTiledMap* tileMap;
+	cocos2d::CCTMXTiledMap* tileMap;
+
+
+	cocos2d::CCTMXLayer* blockage;
+	cocos2d::CCTMXLayer* blueBucket;
+	cocos2d::CCTMXLayer* redBucket;
+	cocos2d::CCTMXLayer* yellowBucket;
+	cocos2d::CCTMXLayer* orangeBucket;
+	cocos2d::CCTMXLayer* colorTiles;
 
 	Player* player1;
 	Player* player2;
@@ -63,6 +75,19 @@ public:
 	UDPServer* myudpserverp;
 
 	~ServerDemo();
+
+	NetworkManager* netmanager;
+	void processPlayerPacket(PlayerInputPacket p);
+
+	cocos2d::CCPoint p1pos;
+	cocos2d::CCPoint p2pos;
+	cocos2d::CCPoint p3pos;
+	cocos2d::CCPoint p4pos;
+	cocos2d::CCPoint vpos;
+
+	// Paint on the floor
+	void space();
+
 };
 
-#endif // __HELLOWORLD_SCENE_H__
+#endif // __SERVERDEMO_SCENE_H__

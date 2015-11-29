@@ -23,7 +23,7 @@ using boost::asio::ip::udp;
 class ClientDemo : public cocos2d::Layer
 {
 private:
-	cocos2d::experimental::TMXTiledMap* tileMap;
+	cocos2d::CCTMXTiledMap* tileMap;
 
 	Player* player1;
 	Player* player2;
@@ -59,7 +59,7 @@ public:
 	void update(float dt);
 	float xmove = 0;
 	float ymove = 0;
-	
+	bool button1 = false;
 	int playernum;
 	ConfigFileInput setupdata;
 

@@ -68,11 +68,11 @@ bool ClientDemo::init()
 
 
 
-	std::string file = "res//maps//happy_sun_paint.tmx";
+	std::string file = "res//maps//newroom//newroom.tmx";
 	auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
-	tileMap = cocos2d::experimental::TMXTiledMap::createWithXML(str->getCString(), "");
-	
-	addChild(tileMap, -1);
+	tileMap = cocos2d::CCTMXTiledMap::createWithXML(str->getCString(), "");
+
+	addChild(tileMap, -1000);
 
 	player1 = Player::create(1);
 	player1->setPlayernum(1);
@@ -167,7 +167,7 @@ void ClientDemo::update(float dt)
 	
 	if (xmove || ymove)
 	{
-		PlayerInputPacket p2 = PlayerInputPacket(playernum, xmove, ymove);
+		PlayerInputPacket p2 = PlayerInputPacket(playernum, xmove, ymove, button1);
 		std::ostringstream os2;
 		cereal::BinaryOutputArchive outar(os2);
 		outar(p2);
@@ -176,11 +176,19 @@ void ClientDemo::update(float dt)
 		myudpsocketp->async_send_to(boost::asio::buffer(outstringbuffer), myendpoint, [this](boost::system::error_code /*ec*/, std::size_t /*bytes_sent*/)
 		{
 			//CCLOG("Sent packet");
+			
 		});
 		CCLOG("sentplayerpacket");
 		CCLOG(std::to_string(xmove).c_str());
 		CCLOG(std::to_string(ymove).c_str());
 	}
+
+	player1->setZOrder(-player1->getPositionY());
+	player2->setZOrder(-player2->getPositionY());
+	player3->setZOrder(-player3->getPositionY());
+	player4->setZOrder(-player4->getPositionY());
+	villain->setZOrder(-villain->getPositionY());
+
 }
 
 ClientDemo::~ClientDemo()
@@ -210,6 +218,9 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 		xmove += 2;
 		break;
+	case EventKeyboard::KeyCode::KEY_SPACE:
+		button1 = true;
+		break;
 	}
 	event->stopPropagation();
 }
@@ -229,6 +240,9 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 		xmove = 0;
+		break;
+	case EventKeyboard::KeyCode::KEY_SPACE:
+		button1 = false;
 		break;
 	}
 	event->stopPropagation();

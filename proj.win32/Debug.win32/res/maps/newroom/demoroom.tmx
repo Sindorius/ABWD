@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="27" height="15" tilewidth="24" tileheight="24" nextobjectid="80">
+ <tileset firstgid="1" name="Tiles" tilewidth="24" tileheight="24" tilecount="1344">
+  <image source="Tiles.png" width="1024" height="768"/>
+  <tile id="297">
+   <properties>
+    <property name="toColor" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="1345" name="blockage1" tilewidth="24" tileheight="24" tilecount="2">
+  <image source="meta_tiles.png" trans="ff00ff" width="67" height="34"/>
+  <terraintypes>
+   <terrain name="New Terrain" tile="-1"/>
+  </terraintypes>
+  <tile id="0">
+   <properties>
+    <property name="Blockage" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Collectable" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="1347" name="newTiles" tilewidth="24" tileheight="24" tilecount="64">
+  <image source="walls.png" trans="ff00ff" width="192" height="192"/>
+ </tileset>
+ <tileset firstgid="1411" name="floorTiles" tilewidth="24" tileheight="24" tilecount="42">
+  <image source="Floor Tiles.png" trans="ff00ff" width="168" height="144"/>
+ </tileset>
+ <tileset firstgid="1453" name="special" tilewidth="28" tileheight="48" tilecount="7">
+  <tile id="0">
+   <image width="24" height="48" source="door.png"/>
+  </tile>
+  <tile id="1">
+   <image width="24" height="24" source="bucket_b.png"/>
+  </tile>
+  <tile id="2">
+   <image width="24" height="24" source="bucket_o.png"/>
+  </tile>
+  <tile id="3">
+   <image width="24" height="24" source="bucket_r.png"/>
+  </tile>
+  <tile id="4">
+   <image width="24" height="24" source="bucket_y.png"/>
+  </tile>
+  <tile id="5">
+   <image width="28" height="29" source="tiny_sun_framed.png"/>
+  </tile>
+  <tile id="6">
+   <image width="24" height="24" source="paint_overlay_dry.png"/>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="27" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxrZGBgaBwAzArEbHRSow/EBjRUU4+EI4E4Ck0MHVNLzSimLt4IxJvQ8GYa2XUbiO+g4bs0souVEZhH0DA748CH9ygeWNxGI/0Ab/nEfQ==
+  </data>
+ </layer>
+ <layer name="CantMove" width="27" height="15" visible="0" opacity="0.97">
+  <data encoding="base64" compression="zlib">
+   eJzTYmRg0KIxhgFa2zNQdiEDfHLUVjMKqAuIiWdC8T/S7RoFowAAmtsSJQ==
+  </data>
+ </layer>
+ <layer name="blockage1" width="27" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxzZGVgcBzFFGFkgE0MHVBLzSigLiAmfkftGgWjAD8AADt7HLc=
+  </data>
+ </layer>
+ <layer name="collectable" width="27" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMNKAEytt9AMAJVoAjw==
+  </data>
+ </layer>
+ <layer name="colorTiles" width="27" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2B4AC1GTDxq16hdo4C+AAAuWAQ0
+  </data>
+ </layer>
+</map>
