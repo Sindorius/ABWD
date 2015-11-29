@@ -14,22 +14,16 @@
     <ClInclude Include="..\Classes\PlayerInputPacket.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ServerAppDelegate.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ServerDemoScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ServerPositionPacket.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UDPServer.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Villain.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ClientAppDelegate.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PaintTile.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
@@ -48,12 +42,6 @@
     <ClCompile Include="..\Classes\Player.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ServerAppDelegate.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ServerDemoScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Villain.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -61,5 +49,8 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="main_client.cpp" />
+    <ClCompile Include="..\Classes\PaintTile.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

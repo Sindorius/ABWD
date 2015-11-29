@@ -32,6 +32,9 @@
     <ClInclude Include="..\Classes\Villain.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\PaintTile.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
@@ -61,5 +64,11 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="main_server.cpp" />
+    <ClCompile Include="..\Classes\PaintTile.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UDPServer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
