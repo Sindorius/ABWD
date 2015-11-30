@@ -121,7 +121,6 @@ bool ServerDemo::init()
 	//player3->runAction(RepeatForever::create(walkanim3));
 	//player4->runAction(RepeatForever::create(walkanim4));
 
-	netmanager = new NetworkManager(player1->getPosition(), player2->getPosition(), player3->getPosition(), player4->getPosition(), villain->getPosition());
 	std::ifstream is("config.json");
 	cereal::JSONInputArchive configloader(is);
 	setupdata = ConfigFileInput();
@@ -193,9 +192,7 @@ ServerDemo::~ServerDemo()
 	
 	if (myudpserverp)
 		delete myudpserverp;
-	
-	if (netmanager)
-		delete netmanager;
+
 
 }
 

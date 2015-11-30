@@ -16,7 +16,6 @@
 #include "ConfigFileInput.hpp"
 #include "ServerPositionPacket.hpp"
 #include "UDPServer.hpp"
-#include "NetworkManager.h"
 #include "PaintTile.h"
 
 class UDPServer;
@@ -76,7 +75,6 @@ public:
 
 	~ServerDemo();
 
-	NetworkManager* netmanager;
 	void processPlayerPacket(PlayerInputPacket p);
 
 	cocos2d::CCPoint p1pos;
