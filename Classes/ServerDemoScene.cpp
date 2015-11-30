@@ -193,9 +193,6 @@ ServerDemo::~ServerDemo()
 	
 	if (myudpserverp)
 		delete myudpserverp;
-	
-	if (netmanager)
-		delete netmanager;
 
 }
 
