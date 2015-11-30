@@ -4,6 +4,8 @@
 #include <cereal/archives/binary.hpp>
 #include <cereal/archives/json.hpp>
 
+#include <cereal/types/array.hpp>
+
 class ServerPositionPacket
 {
 private:
@@ -21,6 +23,7 @@ private:
 		ar & p3y;
 		ar & p4x;
 		ar & p4y;
+		ar & tilevalues;
 	}
 
 public:
@@ -34,11 +37,11 @@ public:
 	float p3y;
 	float p4x;
 	float p4y;
-
-
+	std::array<std::array<int, 6>, 6> tilevalues;
+	
 	ServerPositionPacket(){};
-	ServerPositionPacket(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j) :
-		vx(a), vy(b), p1x(c), p1y(d), p2x(e), p2y(f), p3x(g), p3y(h), p4x(i), p4y(j)
+	ServerPositionPacket(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j, std::array<std::array<int, 6>, 6> k) :
+		vx(a), vy(b), p1x(c), p1y(d), p2x(e), p2y(f), p3x(g), p3y(h), p4x(i), p4y(j), tilevalues(k)
 	{}
 };
 

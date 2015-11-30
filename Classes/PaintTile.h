@@ -14,6 +14,7 @@ public:
 
 	void setColor(std::string c) { color = c; }
 	std::string getColor() { return color; }
+	void refreshColor();
 };
 
 

@@ -78,24 +78,28 @@ bool ClientDemo::init()
 	player1->setPlayernum(1);
 	player1->getTexture()->setAliasTexParameters();
 	player1->setPosition(Vec2(100, 100));
+	player1->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(player1, 0);
 
 	player2 = Player::create(2);
 	player2->setPlayernum(2);
 	player2->getTexture()->setAliasTexParameters();
 	player2->setPosition(Vec2(200, 200));
+	player2->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(player2, 0);
 
 	player3 = Player::create(3);
 	player3->setPlayernum(3);
 	player3->getTexture()->setAliasTexParameters();
 	player3->setPosition(Vec2(300, 300));
+	player3->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(player3, 0);
 
 	player4 = Player::create(4);
 	player4->setPlayernum(4);
 	player4->getTexture()->setAliasTexParameters();
 	player4->setPosition(Vec2(400, 400));
+	player4->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(player4, 0);
 
 	players.push_back(player1);
@@ -107,6 +111,18 @@ bool ClientDemo::init()
 	villain->getTexture()->setAliasTexParameters();
 	villain->setPosition(Vec2(500, 300));
 	addChild(villain, 0);
+
+	for (int i = 0; i <= 5; i++)
+	{
+		for (int j = 0; j <= 5; j++)
+		{
+			tileptrarray[i][j] = PaintTile::create();
+			tileptrarray[i][j]->setPosition(24 * 2 * i + 264 * 2, 24 * 2 * j + 100);
+			tileptrarray[i][j]->setScale(1);
+			tileptrarray[i][j]->debugDraw(true);
+			addChild(tileptrarray[i][j], -999);
+		}
+	}
 
 
 	//Vector<SpriteFrame*> animFrames;
@@ -165,22 +181,22 @@ void ClientDemo::update(float dt)
 
 
 	
-	if (xmove || ymove)
+	if (xmove || ymove || button1)
 	{
 		PlayerInputPacket p2 = PlayerInputPacket(playernum, xmove, ymove, button1);
 		std::ostringstream os2;
 		cereal::BinaryOutputArchive outar(os2);
 		outar(p2);
 		outstringbuffer = os2.str();
-		CCLOG("Sending packet");
+		//CCLOG("Sending packet");
 		myudpsocketp->async_send_to(boost::asio::buffer(outstringbuffer), myendpoint, [this](boost::system::error_code /*ec*/, std::size_t /*bytes_sent*/)
 		{
 			//CCLOG("Sent packet");
 			
 		});
-		CCLOG("sentplayerpacket");
-		CCLOG(std::to_string(xmove).c_str());
-		CCLOG(std::to_string(ymove).c_str());
+		//CCLOG("sentplayerpacket");
+		//CCLOG(std::to_string(xmove).c_str());
+		//CCLOG(std::to_string(ymove).c_str());
 	}
 
 	player1->setZOrder(-player1->getPositionY());
@@ -252,16 +268,53 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 void ClientDemo::processPacket(ServerPositionPacket p)
 {
 	CCLOG("updatedserverpacket");
-	CCLOG(std::to_string(p.p1x).c_str());
-	CCLOG(std::to_string(p.p2x).c_str());
-	CCLOG(std::to_string(p.p3x).c_str());
-	CCLOG(std::to_string(p.p4x).c_str());
-	CCLOG(std::to_string(p.vx).c_str());
+	//CCLOG(std::to_string(p.p1x).c_str());
+	//CCLOG(std::to_string(p.p2x).c_str());
+	//CCLOG(std::to_string(p.p3x).c_str());
+	//CCLOG(std::to_string(p.p4x).c_str());
+	//CCLOG(std::to_string(p.vx).c_str());
+	CCLOG(std::to_string(tilevalues[0][0]).c_str());
+	CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
 	player1->setPosition(Vec2(p.p1x, p.p1y));
 	player2->setPosition(Vec2(p.p2x, p.p2y));
 	player3->setPosition(Vec2(p.p3x, p.p3y));
 	player4->setPosition(Vec2(p.p4x, p.p4y));
 	villain->setPosition(Vec2(p.vx, p.vy));
+	//tilevalues = p.tilevalues;
+
+	for (int i = 0; i <= 5; i++)
+	{
+		for (int j = 0; j <= 5; j++)
+		{
+			if (tilevalues[i][j] != p.tilevalues[i][j])
+			{
+				tilevalues[i][j] = p.tilevalues[i][j];
+				if (tilevalues[i][j] == 1)
+				{
+					tileptrarray[i][j]->setColor("red");
+					tileptrarray[i][j]->refreshColor();
+				}
+				if (tilevalues[i][j] == 2)
+				{
+					tileptrarray[i][j]->setColor("blue");
+					tileptrarray[i][j]->refreshColor();
+					CCLOG(std::to_string(tilevalues[0][0]).c_str());
+					CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
+				}
+				if (tilevalues[i][j] == 3)
+				{
+					tileptrarray[i][j]->setColor("yellow");
+					tileptrarray[i][j]->refreshColor();
+				}
+				if (tilevalues[i][j] == 4)
+				{
+					tileptrarray[i][j]->setColor("orange");
+					tileptrarray[i][j]->refreshColor();
+				}
+			}
+		}
+	}
+
 }
 
 void ClientDemo::doReceive()

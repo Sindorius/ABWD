@@ -16,6 +16,7 @@
 #include "ConfigFileInput.hpp"
 #include "ServerPositionPacket.hpp"
 #include "PlayerInputPacket.hpp"
+#include "PaintTile.h"
 
 USING_NS_CC;
 using boost::asio::ip::udp;
@@ -77,6 +78,10 @@ public:
 	char indata[max_length];
 	char outdata[max_length];
 	std::string outstringbuffer;
+
+
+	PaintTile* tileptrarray[6][6];
+	std::array<std::array<int, 6>, 6> tilevalues = { 1 };
 
 	~ClientDemo();
 	

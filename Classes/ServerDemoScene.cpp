@@ -62,6 +62,8 @@ bool ServerDemo::init()
 	player1->setPlayernum(1);
 	player1->getTexture()->setAliasTexParameters();
 	player1->setPosition(Vec2(100, 100));
+	player1->debugDraw(true);
+	player1->setAnchorPoint(Vec2(0.5, 0.0));
 	p1pos = player1->getPosition();
 	addChild(player1,0);
 
@@ -70,6 +72,8 @@ bool ServerDemo::init()
 	player2->getTexture()->setAliasTexParameters();
 	player2->setPosition(Vec2(200, 200));
 	p2pos = player2->getPosition();
+	player2->debugDraw(true);
+	player2->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(player2, 0);
 
 	player3 = Player::create(3);
@@ -77,12 +81,14 @@ bool ServerDemo::init()
 	player3->getTexture()->setAliasTexParameters();
 	player3->setPosition(Vec2(300, 300));
 	p3pos = player3->getPosition();
+	player3->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(player3, 0);
 
 	player4 = Player::create(4);
 	player4->setPlayernum(4);
 	player4->getTexture()->setAliasTexParameters();
 	player4->setPosition(Vec2(400, 400));
+	player4->setAnchorPoint(Vec2(0.5, 0.0));
 	p4pos = player4->getPosition();
 	addChild(player4, 0);
 
@@ -97,6 +103,17 @@ bool ServerDemo::init()
 	vpos = villain->getPosition();
 	addChild(villain, 0);
 
+	for (int i = 0; i <= 5; i++)
+	{
+		for (int j = 0; j <= 5; j++)
+		{
+			tileptrarray[i][j] = PaintTile::create();
+			tileptrarray[i][j]->setPosition(24*2 * i + 264*2, 24 *2* j + 100);
+			tileptrarray[i][j]->setScale(1);
+			tileptrarray[i][j]->debugDraw(true);
+			addChild(tileptrarray[i][j], -999);
+		}
+	}
 
 	//Vector<SpriteFrame*> animFrames;
 	//animFrames.reserve(4);
@@ -179,8 +196,13 @@ void ServerDemo::update(float dt)
 	player4->setPosition(p4pos);
 	villain->runAI(&players);
 	
-	ServerPositionPacket p(villain->getPositionX(), villain->getPositionY(), player1->getPositionX(), player1->getPositionY(), player2->getPositionX(), player2->getPositionY(), player3->getPositionX(), player3->getPositionY(), player4->getPositionX(), player4->getPositionY());
-
+	ServerPositionPacket p(villain->getPositionX(), villain->getPositionY(), player1->getPositionX(), player1->getPositionY(), player2->getPositionX(), player2->getPositionY(), player3->getPositionX(), player3->getPositionY(), player4->getPositionX(), player4->getPositionY(),tilevalues);
+	
+	player1->setZOrder(-player1->getPositionY());
+	player2->setZOrder(-player2->getPositionY());
+	player3->setZOrder(-player3->getPositionY());
+	player4->setZOrder(-player4->getPositionY());
+	villain->setZOrder(-villain->getPositionY());
 	myudpserverp->sendPacket(p);
 	//myudpserverp->do_send();
 }
@@ -326,9 +348,10 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 
 
 
-void ServerDemo::space() {
+void ServerDemo::space() 
+{
 
-	auto playerPos = player1->getPosition();
+/*	auto playerPos = player1->getPosition();
 	int x = playerPos.x / (tileMap->getTileSize().width * 2);
 	int y = (720 - playerPos.y) / (tileMap->getTileSize().height * 2);
 	CCPoint tileCoord = CCPoint(x, y);
@@ -354,4 +377,34 @@ void ServerDemo::space() {
 			
 		}
 	}
+	*/
+
+	for (int i = 0; i <= 5; i++)
+	{
+		for (int j = 0; j <= 5; j++)
+		{
+			if (player1->getPositionX() > tileptrarray[i][j]->getPositionX() -24 && player1->getPositionX() < tileptrarray[i][j]->getPositionX() + 24 && player1->getPositionY() > tileptrarray[i][j]->getPositionY() -24 && player1->getPositionY() < tileptrarray[i][j]->getPositionY() + 24)
+			{
+				tileptrarray[i][j]->setColor(player1->getColor());
+				tileptrarray[i][j]->refreshColor();
+				if(player1->getColor()=="red")
+				{
+					tilevalues[i][j] = 1;
+				}
+				if (player1->getColor() == "blue")
+				{
+					tilevalues[i][j] = 2;
+				}
+				if (player1->getColor() == "yellow")
+				{
+					tilevalues[i][j] = 3;
+				}
+				if (player1->getColor() == "orange")
+				{
+					tilevalues[i][j] = 4;
+				}
+			}
+		}
+	}
+
 }

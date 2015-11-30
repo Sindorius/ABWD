@@ -83,6 +83,8 @@ public:
 	cocos2d::CCPoint p4pos;
 	cocos2d::CCPoint vpos;
 
+	PaintTile* tileptrarray[6][6];
+	std::array<std::array<int, 6>, 6> tilevalues = { 1 };
 	// Paint on the floor
 	void space();
 

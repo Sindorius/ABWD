@@ -6,6 +6,7 @@ PaintTile* PaintTile::create()
 
 	if (pSprite->initWithFile("res//maps//newroom//Red.png"))
 	{
+		pSprite->setColor("clear");
 		pSprite->autorelease();
 
 		return pSprite;
@@ -77,4 +78,29 @@ PaintTile* PaintTile::create(std::string color)
 
 	CC_SAFE_DELETE(pSprite);
 	return NULL;
+}
+
+void PaintTile::refreshColor()
+{
+	if(color == "red")
+	{
+		setTexture("res//maps//newroom//Red.png");
+	}
+	if (color == "blue")
+	{
+		setTexture("res//maps//newroom//Blue.png");
+	}
+
+	if (color == "yellow")
+	{
+		setTexture("res//maps//newroom//Yellow.png");
+	}
+
+	if (color == "orange")
+	{
+		setTexture("res//maps//newroom//Orange.png");
+	}
+
+
+
 }
