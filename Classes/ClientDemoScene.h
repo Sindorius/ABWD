@@ -36,10 +36,11 @@ private:
 	std::vector<cocos2d::Sprite*> objects;
 
 	//temp//
-	cocos2d::Animate* walkanim;
-	cocos2d::Animate* walkanim2;
-	cocos2d::Animate* walkanim3;
-	cocos2d::Animate* walkanim4;
+	cocos2d::Animate* walkupanim;
+	cocos2d::Animate* walkdownanim;
+	cocos2d::Animate* walkleftanim;
+	cocos2d::Animate* walkrightanim;
+	cocos2d::Animate* paintanim;
 
 
 public:
