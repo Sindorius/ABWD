@@ -125,25 +125,80 @@ bool ClientDemo::init()
 	}
 
 
-	//Vector<SpriteFrame*> animFrames;
+	Vector<SpriteFrame*> walkupanimFrames;
+	walkupanimFrames.reserve(4);
+	Vector<SpriteFrame*> walkdownanimFrames;
+	walkdownanimFrames.reserve(4);
+	Vector<SpriteFrame*> walkleftanimFrames;
+	walkleftanimFrames.reserve(4);
+	Vector<SpriteFrame*> walkrightanimFrames;
+	walkrightanimFrames.reserve(4);
+	Vector<SpriteFrame*> paintFrames;
+	paintFrames.reserve(1);
 	//animFrames.reserve(4);
 
-	//animFrames.pushBack(SpriteFrame::create("\\res\\man1_0.png", Rect(0, 0, 64, 128)));
-	//animFrames.pushBack(SpriteFrame::create("\\res\\man1_1.png", Rect(0, 0, 64, 128)));
-	//animFrames.pushBack(SpriteFrame::create("\\res\\man1_2.png", Rect(0, 0, 64, 128)));
-	//animFrames.pushBack(SpriteFrame::create("\\res\\man1_1.png", Rect(0, 0, 64, 128)));
+	walkupanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_back_0.png", Rect(0, 0, 48, 96)));
+	walkupanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_back_1.png", Rect(0, 0, 48, 96)));
+	walkupanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_back_2.png", Rect(0, 0, 48, 96)));
+	walkupanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_back_3.png", Rect(0, 0, 48, 96)));
+	walkupanimFrames.at(0)->getTexture()->setAliasTexParameters();
+	walkupanimFrames.at(1)->getTexture()->setAliasTexParameters();
+	walkupanimFrames.at(2)->getTexture()->setAliasTexParameters();
+	walkupanimFrames.at(3)->getTexture()->setAliasTexParameters();
 
-	//animFrames.at(0)->getTexture()->setAliasTexParameters();
-	//animFrames.at(1)->getTexture()->setAliasTexParameters();
-	//animFrames.at(2)->getTexture()->setAliasTexParameters();
+	walkdownanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_front_0.png", Rect(0, 0, 48, 96)));
+	walkdownanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_front_1.png", Rect(0, 0, 48, 96)));
+	walkdownanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_front_2.png", Rect(0, 0, 48, 96)));
+	walkdownanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_front_3.png", Rect(0, 0, 48, 96)));
+	walkdownanimFrames.at(0)->getTexture()->setAliasTexParameters();
+	walkdownanimFrames.at(1)->getTexture()->setAliasTexParameters();
+	walkdownanimFrames.at(2)->getTexture()->setAliasTexParameters();
+	walkdownanimFrames.at(3)->getTexture()->setAliasTexParameters();
+
+	walkleftanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_left_0.png", Rect(0, 0, 48, 96)));
+	walkleftanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_left_1.png", Rect(0, 0, 48, 96)));
+	walkleftanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_left_2.png", Rect(0, 0, 48, 96)));
+	walkleftanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_left_3.png", Rect(0, 0, 48, 96)));
+	walkleftanimFrames.at(0)->getTexture()->setAliasTexParameters();
+	walkleftanimFrames.at(1)->getTexture()->setAliasTexParameters();
+	walkleftanimFrames.at(2)->getTexture()->setAliasTexParameters();
+	walkleftanimFrames.at(3)->getTexture()->setAliasTexParameters();
+
+	walkrightanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_right_0.png", Rect(0, 0, 48, 96)));
+	walkrightanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_right_1.png", Rect(0, 0, 48, 96)));
+	walkrightanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_right_2.png", Rect(0, 0, 48, 96)));
+	walkrightanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_right_3.png", Rect(0, 0, 48, 96)));
+	walkrightanimFrames.at(0)->getTexture()->setAliasTexParameters();
+	walkrightanimFrames.at(1)->getTexture()->setAliasTexParameters();
+	walkrightanimFrames.at(2)->getTexture()->setAliasTexParameters();
+	walkrightanimFrames.at(3)->getTexture()->setAliasTexParameters();
+
+		paintFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_right_0_paint.png", Rect(0, 0, 48, 96)));
+	paintFrames.at(0)->getTexture()->setAliasTexParameters();
 
 	// create the animation out of the frames
-	//Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
-	//walkanim = Animate::create(animation);
+	Animation* upanimation = Animation::createWithSpriteFrames(walkupanimFrames, 0.1f);
+	walkupanim = Animate::create(upanimation);
+	walkupanim->retain();
+	Animation* downanimation = Animation::createWithSpriteFrames(walkdownanimFrames, 0.1f);
+	walkdownanim = Animate::create(downanimation);
+	walkdownanim->retain();
+	Animation* leftanimation = Animation::createWithSpriteFrames(walkleftanimFrames, 0.1f);
+	walkleftanim = Animate::create(leftanimation);
+	walkleftanim->retain();
+	Animation* rightanimation = Animation::createWithSpriteFrames(walkrightanimFrames, 0.1f);
+	walkrightanim = Animate::create(rightanimation);
+	walkrightanim->retain();
+
+	
+	Animation* paintanimation = Animation::createWithSpriteFrames(paintFrames, 0.1f);
+	paintanim = Animate::create(paintanimation);
+	paintanim->retain();
+
 	//walkanim2 = Animate::create(animation);
 	//walkanim3 = Animate::create(animation);
 	//walkanim4 = Animate::create(animation);
-	//player1->runAction(RepeatForever::create(walkanim));
+	//player1->runAction(RepeatForever::create(walkupanim));
 	//player2->runAction(RepeatForever::create(walkanim2));
 	//player3->runAction(RepeatForever::create(walkanim3));
 	//player4->runAction(RepeatForever::create(walkanim4));
@@ -224,18 +279,45 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 	switch (keyCode){
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
 		ymove += 2;
+		if (playernum == 1)
+		{
+			player1->stopAllActions();
+			player1->runAction(RepeatForever::create(walkupanim));
+		}
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+		if (playernum == 1)
+		{
+			player1->stopAllActions();
+			player1->runAction(RepeatForever::create(walkdownanim));
+		}
 		ymove -= 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+		if (playernum == 1)
+		{
+			player1->stopAllActions();
+			player1->runAction(RepeatForever::create(walkleftanim));
+		}
 		xmove -= 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		if (playernum == 1)
+		{
+			player1->stopAllActions();
+			player1->runAction(RepeatForever::create(walkrightanim));
+		}
 		xmove += 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
+		if (playernum == 1)
+		{
+			player1->stopAllActions();
+			player1->runAction(RepeatForever::create(paintanim));
+		}
 		button1 = true;
+		xmove = 0;
+		ymove = 0;
 		break;
 	}
 	event->stopPropagation();
@@ -246,18 +328,38 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 
 	switch (keyCode){
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
+		if (playernum == 1)
+		{
+			player1->stopAllActions();
+		}
 		ymove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+		if (playernum == 1)
+		{
+			player1->stopAllActions();
+		}
 		ymove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+		if (playernum == 1)
+		{
+			player1->stopAllActions();
+		}
 		xmove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		if (playernum == 1)
+		{
+			player1->stopAllActions();
+		}
 		xmove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
+		if (playernum == 1)
+		{
+			player1->stopAllActions();
+		}
 		button1 = false;
 		break;
 	}
