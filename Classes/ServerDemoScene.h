@@ -23,15 +23,16 @@ class UDPServer;
 class ServerDemo : public cocos2d::Layer
 {
 private:
-	cocos2d::CCTMXTiledMap* tileMap;
+	//cocos2d::CCTMXTiledMap* tileMap;
+	cocos2d::experimental::TMXTiledMap* tileMap;
+	cocos2d::experimental::TMXLayer* bucketlayer;
 
-
-	cocos2d::CCTMXLayer* blockage;
-	cocos2d::CCTMXLayer* blueBucket;
-	cocos2d::CCTMXLayer* redBucket;
-	cocos2d::CCTMXLayer* yellowBucket;
-	cocos2d::CCTMXLayer* orangeBucket;
-	cocos2d::CCTMXLayer* colorTiles;
+	//cocos2d::CCTMXLayer* blockage;
+	//cocos2d::CCTMXLayer* blueBucket;
+	//cocos2d::CCTMXLayer* redBucket;
+	//cocos2d::CCTMXLayer* yellowBucket;
+	//cocos2d::CCTMXLayer* orangeBucket;
+	//cocos2d::CCTMXLayer* colorTiles;
 
 	Player* player1;
 	Player* player2;
@@ -86,7 +87,7 @@ public:
 	PaintTile* tileptrarray[6][6];
 	std::array<std::array<int, 6>, 6> tilevalues = { 1 };
 	// Paint on the floor
-	void space();
+	void space(int playernum);
 
 };
 

@@ -68,7 +68,7 @@ bool ClientDemo::init()
 
 
 
-	std::string file = "res//maps//newroom//newroom.tmx";
+	std::string file = "res//maps//happy_sun_paint.tmx";
 	auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
 	tileMap = cocos2d::CCTMXTiledMap::createWithXML(str->getCString(), "");
 
@@ -119,7 +119,7 @@ bool ClientDemo::init()
 			tileptrarray[i][j] = PaintTile::create();
 			tileptrarray[i][j]->setPosition(24 * 2 * i + 264 * 2, 24 * 2 * j + 100);
 			tileptrarray[i][j]->setScale(1);
-			tileptrarray[i][j]->debugDraw(true);
+			//tileptrarray[i][j]->debugDraw(true);
 			addChild(tileptrarray[i][j], -999);
 		}
 	}
