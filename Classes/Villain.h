@@ -26,11 +26,16 @@ public:
 	void charge();
 	//charge charge
 	void chargeCharge();
+	//warp to a location
+	void teleport();
+	//charge teleport
+	void chargeTeleport();
 	//the index of the ai's current target
 	int getTarget();
 	//the current action type the villain uses, use to determine animations and whatnot
 	//number key located at the end of file
 	int getBehavior();
+	bool timeCheck();
 
 private:
 
@@ -40,6 +45,7 @@ private:
 	int behavior_timer = 0;
 	int walk_speed = 1;
 	int charge_speed = 4;
+	int x, y;
 	std::vector<Player*>* player_list;
 	std::vector<int> distance;
 	

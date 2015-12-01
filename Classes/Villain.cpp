@@ -38,6 +38,13 @@ void Villain::runAI(std::vector<Player*>* players)
 	case 2:
 		charge();
 		break;
+	case 3:
+		chargeTeleport();
+		break;
+	case 4:
+		teleport();
+		break;
+
 	}
 
 }
@@ -54,16 +61,23 @@ void Villain::calculations() {
 
 
 void Villain::chooseBehavior() {
-	int choose = rand() % 2;
+	int choose = rand() % 3;
 	switch (choose) {
 	case 0:
 		behavior_timer = 150;
-		
 		behavior = 0;
 		break;
+		/*
 	case 1:
 		behavior_timer = 30;
 		behavior = 1;
+		break;*/
+	case 2:
+		target = rand() % player_list->size();
+		x = player_list->at(target)->getPositionX();
+		y = player_list->at(target)->getPositionY();
+		behavior_timer = 80;
+		behavior = 3;
 		break;
 	}
 	behavior_unlocked = false;
@@ -71,7 +85,7 @@ void Villain::chooseBehavior() {
 
 
 void Villain::walk() {
-	if (behavior_timer > 0) {
+	if (timeCheck()) {
 		behavior_timer--;
 		int temp = -1;
 		for (int i = 0; i < distance.size(); i++) {
@@ -103,10 +117,8 @@ void Villain::walk() {
 
 
 void Villain::charge() {
-	if (behavior_timer > 0) {
+	if (timeCheck()) {
 		behavior_timer--;
-		//this->setPositionX(1200);
-		//this->setPositionY(600);
 	}
 	else {
 		behavior_unlocked = true;
@@ -115,7 +127,7 @@ void Villain::charge() {
 
 
 void Villain::chargeCharge() {
-	if (behavior_timer > 0) {
+	if (timeCheck()) {
 		behavior_timer--;
 	}
 	else {
@@ -125,10 +137,35 @@ void Villain::chargeCharge() {
 }
 
 
+void Villain::teleport() {
+	if (timeCheck()) {
+		behavior_timer--;
+	}
+	else {
+		this->setPositionX(x);
+		this->setPositionY(y);
+		behavior_unlocked = true;
+	}
+}
+
+void Villain::chargeTeleport() {
+	if (timeCheck()) {
+		behavior_timer--;
+	}
+	else {
+		behavior_timer = 1;
+		behavior = 4;
+	}
+}
+
 int Villain::getTarget() {
 	return target;
 }
 
 int Villain::getBehavior() {
 	return behavior;
+}
+
+bool Villain::timeCheck() {
+	return behavior_timer > 0;
 }
