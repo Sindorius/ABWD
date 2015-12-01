@@ -77,29 +77,29 @@ bool ClientDemo::init()
 	player1 = Player::create(1);
 	player1->setPlayernum(1);
 	player1->getTexture()->setAliasTexParameters();
-	player1->setPosition(Vec2(100, 100));
 	player1->setAnchorPoint(Vec2(0.5, 0.0));
+	player1->setPosition(Vec2(100, 100));
 	addChild(player1, 0);
 
 	player2 = Player::create(2);
 	player2->setPlayernum(2);
 	player2->getTexture()->setAliasTexParameters();
-	player2->setPosition(Vec2(200, 200));
 	player2->setAnchorPoint(Vec2(0.5, 0.0));
+	player2->setPosition(Vec2(200, 200));
 	addChild(player2, 0);
 
 	player3 = Player::create(3);
 	player3->setPlayernum(3);
 	player3->getTexture()->setAliasTexParameters();
-	player3->setPosition(Vec2(300, 300));
 	player3->setAnchorPoint(Vec2(0.5, 0.0));
+	player3->setPosition(Vec2(300, 300));
 	addChild(player3, 0);
 
 	player4 = Player::create(4);
 	player4->setPlayernum(4);
 	player4->getTexture()->setAliasTexParameters();
-	player4->setPosition(Vec2(400, 400));
 	player4->setAnchorPoint(Vec2(0.5, 0.0));
+	player4->setPosition(Vec2(400, 400));
 	addChild(player4, 0);
 
 	players.push_back(player1);
@@ -109,15 +109,22 @@ bool ClientDemo::init()
 
 	villain = Villain::create();
 	villain->getTexture()->setAliasTexParameters();
+	villain->setAnchorPoint(Vec2(0.5, 0.0));
 	villain->setPosition(Vec2(500, 300));
 	addChild(villain, 0);
+
+	Sprite* wallpainting = Sprite::create("sprites/tiny_sun_framed.png");
+	wallpainting->getTexture()->setAliasTexParameters();
+	wallpainting->setPosition(Vec2(640, 640));
+	wallpainting->setScale(1.5);
+	addChild(wallpainting, -999);
 
 	for (int i = 0; i <= 5; i++)
 	{
 		for (int j = 0; j <= 5; j++)
 		{
 			tileptrarray[i][j] = PaintTile::create();
-			tileptrarray[i][j]->setPosition(24 * 2 * i + 264 * 2, 24 * 2 * j + 100);
+			tileptrarray[i][j]->setPosition(24 * 2 * i + 264 * 2, 24 * 2 * j + 180);
 			tileptrarray[i][j]->setScale(1);
 			//tileptrarray[i][j]->debugDraw(true);
 			addChild(tileptrarray[i][j], -999);

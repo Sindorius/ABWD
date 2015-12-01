@@ -104,15 +104,24 @@ bool ServerDemo::init()
 	villain = Villain::create();
 	villain->getTexture()->setAliasTexParameters();
 	villain->setPosition(Vec2(500, 300));
+	villain->setAnchorPoint(Vec2(0.5, 0.0));
 	vpos = villain->getPosition();
 	addChild(villain, 0);
+
+	Sprite* wallpainting = Sprite::create("sprites/tiny_sun_framed.png");
+	wallpainting->getTexture()->setAliasTexParameters();
+	wallpainting->setPosition(Vec2(640, 640));
+	wallpainting->setScale(1.5);
+	addChild(wallpainting,-999);
+
+	
 
 	for (int i = 0; i <= 5; i++)
 	{
 		for (int j = 0; j <= 5; j++)
 		{
 			tileptrarray[i][j] = PaintTile::create();
-			tileptrarray[i][j]->setPosition(24*2 * i + 264*2, 24 *2* j + 100);
+			tileptrarray[i][j]->setPosition(24*2 * i + 264*2, 24 *2* j + 180);
 			tileptrarray[i][j]->setScale(1);
 			tileptrarray[i][j]->debugDraw(true);
 			addChild(tileptrarray[i][j], -999);
@@ -209,6 +218,21 @@ void ServerDemo::update(float dt)
 	villain->setZOrder(-villain->getPositionY());
 	myudpserverp->sendPacket(p);
 	//myudpserverp->do_send();
+
+
+	if (checkSolution())
+	{
+		villain->setPosition(0, 0);
+		vpos = cocos2d::ccp(0,0);
+		player1->setPosition(100, 640);
+		p1pos = cocos2d::ccp(100, 640);
+		player2->setPosition(200, 640);
+		p2pos = cocos2d::ccp(200, 640);
+		player3->setPosition(300, 640);
+		p3pos = cocos2d::ccp(300, 640);
+		player4->setPosition(400, 640);
+		p4pos = cocos2d::ccp(400, 640);
+	}
 }
 
 ServerDemo::~ServerDemo()
@@ -692,5 +716,29 @@ void ServerDemo::space(int playernum)
 			}
 		}
 	}
+
+}
+
+bool ServerDemo::checkSolution()
+{
+
+
+	for (int i = 0; i <= 5; i++)
+	{
+		for (int j = 0; j <= 5; j++)
+		{
+			if(tilevalues[i][j] != solution[i][j])
+			{
+				CCLOG(std::to_string(i).c_str());
+				CCLOG(std::to_string(j).c_str());
+				CCLOG("not equal");
+				CCLOG(std::to_string(tilevalues[i][j]).c_str());
+				CCLOG(std::to_string(solution[i][j]).c_str());
+				return false;
+			}
+		}
+
+	}
+	return true;
 
 }

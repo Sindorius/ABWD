@@ -85,10 +85,29 @@ public:
 	cocos2d::CCPoint vpos;
 
 	PaintTile* tileptrarray[6][6];
-	std::array<std::array<int, 6>, 6> tilevalues = { 1 };
+	std::array<std::array<int, 6>, 6> tilevalues = 
+	{{
+		{ 1,1,1,1,1,1 },
+		{ 1,1,1,1,1,1 },
+		{ 1,1,1,1,1,1 },
+		{ 1,1,1,1,1,1 },
+		{ 1,1,1,1,1,1 },
+		{ 1,1,1,1,1,1 }
+
+		} };
+	std::array<std::array<int, 6>, 6> solution = 
+	{{
+		{ 2,2,4,1,2,2 },
+		{ 2,1,3,3,4,2 },
+		{ 4,3,3,3,3,1 },
+		{ 1,3,3,3,3,4 },
+		{ 2,4,3,3,1,2 },
+		{ 2,2,1,4,2,2 }
+
+	}};
 	// Paint on the floor
 	void space(int playernum);
-
+	bool checkSolution();
 };
 
 #endif // __SERVERDEMO_SCENE_H__
