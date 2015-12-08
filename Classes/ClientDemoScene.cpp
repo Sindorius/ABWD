@@ -420,6 +420,11 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 					tileptrarray[i][j]->setColor("orange");
 					tileptrarray[i][j]->refreshColor();
 				}
+				if (tilevalues[i][j] == 5)
+				{
+					tileptrarray[i][j]->setColor("black");
+					tileptrarray[i][j]->refreshColor();
+				}
 			}
 		}
 	}

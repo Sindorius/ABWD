@@ -101,6 +101,11 @@ void PaintTile::refreshColor()
 		setTexture("res//maps//newroom//Orange.png");
 	}
 
+	if (color == "black")
+	{
+		setTexture("res//maps//newroom//Black.png");
+	}
+
 
 
 }
