@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="12" height="15" tilewidth="24" tileheight="24" nextobjectid="84">
+ <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
+  <image source="res/sprites/walls.png" width="192" height="192"/>
+ </tileset>
+ <tileset firstgid="65" name="Floor Tiles" tilewidth="24" tileheight="24" tilecount="42">
+  <image source="res/sprites/Floor Tiles.png" width="168" height="144"/>
+ </tileset>
+ <tileset firstgid="107" name="special" tilewidth="96" tileheight="96" tilecount="24">
+  <tile id="0">
+   <image width="48" height="96" source="res/sprites/Bed.png"/>
+  </tile>
+  <tile id="1">
+   <image width="48" height="72" source="res/sprites/Bookshelf.png"/>
+  </tile>
+  <tile id="2">
+   <image width="24" height="24" source="res/sprites/bucket.png"/>
+  </tile>
+  <tile id="3">
+   <image width="96" height="72" source="res/sprites/Drawer.png"/>
+  </tile>
+  <tile id="4">
+   <image width="24" height="24" source="res/sprites/Note.png"/>
+  </tile>
+  <tile id="5">
+   <image width="24" height="24" source="res/sprites/paint_overlay_dry.png"/>
+  </tile>
+  <tile id="6">
+   <image width="24" height="24" source="res/sprites/paint_overlay_wet.png"/>
+  </tile>
+  <tile id="7">
+   <image width="15" height="24" source="res/sprites/Stool.png"/>
+  </tile>
+  <tile id="8">
+   <image width="48" height="48" source="res/sprites/table.png"/>
+  </tile>
+  <tile id="9">
+   <image width="28" height="29" source="res/sprites/tiny_sun_framed.png"/>
+  </tile>
+  <tile id="10">
+   <image width="24" height="48" source="res/sprites/animations/char_red_front_0.png"/>
+  </tile>
+  <tile id="11">
+   <image width="24" height="48" source="res/sprites/animations/sam_back_0.png"/>
+  </tile>
+  <tile id="12">
+   <image width="24" height="48" source="res/sprites/animations/sam_front_0.png"/>
+  </tile>
+  <tile id="13">
+   <image width="24" height="48" source="res/sprites/animations/sam_left_0.png"/>
+  </tile>
+  <tile id="14">
+   <image width="24" height="48" source="res/sprites/animations/sam_right_0.png"/>
+  </tile>
+  <tile id="15">
+   <image width="24" height="24" source="res/sprites/bucket_b.png"/>
+  </tile>
+  <tile id="16">
+   <image width="24" height="24" source="res/sprites/bucket_o.png"/>
+  </tile>
+  <tile id="17">
+   <image width="24" height="24" source="res/sprites/bucket_r.png"/>
+  </tile>
+  <tile id="18">
+   <image width="24" height="24" source="res/sprites/bucket_y.png"/>
+  </tile>
+  <tile id="19">
+   <image width="24" height="24" source="res/sprites/paint_b.png"/>
+  </tile>
+  <tile id="20">
+   <image width="24" height="24" source="res/sprites/paint_o.png"/>
+  </tile>
+  <tile id="21">
+   <image width="24" height="24" source="res/sprites/paint_r.png"/>
+  </tile>
+  <tile id="22">
+   <image width="24" height="24" source="res/sprites/paint_y.png"/>
+  </tile>
+  <tile id="23">
+   <image width="24" height="48" source="res/sprites/door.png"/>
+  </tile>
+ </tileset>
+ <layer name="Floor" width="12" height="15">
+  <data encoding="base64" compression="zlib">
+   eJwLYGBg8AfiACJoEPAEYg8iaQYizR01f9R8XOaTCgCO3y3A
+  </data>
+ </layer>
+ <layer name="Walls" width="12" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYWBgECISswIxNxBLEYk5oeqViMQw9cSCUfXDXz0bEDMRidmBGAAvawQ7
+  </data>
+ </layer>
+ <objectgroup name="Painting Paints">
+  <object id="2" gid="124" x="192" y="96" width="24" height="24"/>
+  <object id="3" gid="123" x="168" y="96" width="24" height="24"/>
+  <object id="4" gid="122" x="72" y="96" width="24" height="24"/>
+  <object id="5" gid="125" x="96" y="96" width="24" height="24"/>
+  <object id="82" gid="116" x="130" y="54" width="28" height="29"/>
+ </objectgroup>
+ <objectgroup name="Paint Tiles">
+  <object id="8" gid="112" x="72" y="168" width="24" height="24"/>
+  <object id="9" gid="112" x="96" y="168" width="24" height="24"/>
+  <object id="10" gid="112" x="120" y="168" width="24" height="24"/>
+  <object id="11" gid="112" x="144" y="168" width="24" height="24"/>
+  <object id="12" gid="112" x="168" y="168" width="24" height="24"/>
+  <object id="13" gid="112" x="192" y="168" width="24" height="24"/>
+  <object id="14" gid="112" x="72" y="192" width="24" height="24"/>
+  <object id="15" gid="112" x="168" y="192" width="24" height="24"/>
+  <object id="16" gid="112" x="120" y="192" width="24" height="24"/>
+  <object id="17" gid="112" x="144" y="192" width="24" height="24"/>
+  <object id="18" gid="112" x="192" y="192" width="24" height="24"/>
+  <object id="19" gid="112" x="96" y="192" width="24" height="24"/>
+  <object id="56" gid="112" x="96" y="240" width="24" height="24"/>
+  <object id="57" gid="112" x="144" y="240" width="24" height="24"/>
+  <object id="58" gid="112" x="120" y="240" width="24" height="24"/>
+  <object id="59" gid="112" x="72" y="216" width="24" height="24"/>
+  <object id="60" gid="112" x="192" y="240" width="24" height="24"/>
+  <object id="61" gid="112" x="168" y="216" width="24" height="24"/>
+  <object id="62" gid="112" x="168" y="240" width="24" height="24"/>
+  <object id="63" gid="112" x="144" y="216" width="24" height="24"/>
+  <object id="64" gid="112" x="120" y="216" width="24" height="24"/>
+  <object id="65" gid="112" x="72" y="240" width="24" height="24"/>
+  <object id="66" gid="112" x="192" y="216" width="24" height="24"/>
+  <object id="67" gid="112" x="96" y="216" width="24" height="24"/>
+  <object id="68" gid="112" x="168" y="264" width="24" height="24"/>
+  <object id="69" gid="112" x="168" y="288" width="24" height="24"/>
+  <object id="70" gid="112" x="120" y="264" width="24" height="24"/>
+  <object id="71" gid="112" x="96" y="264" width="24" height="24"/>
+  <object id="72" gid="112" x="72" y="264" width="24" height="24"/>
+  <object id="73" gid="112" x="192" y="288" width="24" height="24"/>
+  <object id="74" gid="112" x="96" y="288" width="24" height="24"/>
+  <object id="75" gid="112" x="144" y="288" width="24" height="24"/>
+  <object id="76" gid="112" x="144" y="264" width="24" height="24"/>
+  <object id="77" gid="112" x="72" y="288" width="24" height="24"/>
+  <object id="78" gid="112" x="120" y="288" width="24" height="24"/>
+  <object id="79" gid="112" x="192" y="264" width="24" height="24"/>
+ </objectgroup>
+ <objectgroup name="Door">
+  <object id="80" gid="130" x="48" y="72" width="24" height="48"/>
+ </objectgroup>
+</map>
