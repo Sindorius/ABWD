@@ -1,3 +1,4 @@
+
 #include "Villain.h"
 #include "Player.h"
 #include <math.h>
@@ -23,16 +24,16 @@ void Villain::runAI(std::vector<Player*>* players)
 {
 	player_list = players;
 	calculations();
-
+	teleport_cd--;
 	if (behavior_unlocked) {
 		chooseBehavior();
 	}
 
 	switch (behavior) {
-	case 0 :
+	case 0:
 		walk();
 		break;
-	case 1 :
+	case 1:
 		chargeCharge();
 		break;
 	case 2:
@@ -64,20 +65,22 @@ void Villain::chooseBehavior() {
 	int choose = rand() % 3;
 	switch (choose) {
 	case 0:
-		behavior_timer = 150;
+		behavior_timer = 200;
 		behavior = 0;
 		break;
 		/*
-	case 1:
+		case 1:
 		behavior_timer = 30;
 		behavior = 1;
 		break;*/
 	case 2:
-		target = rand() % player_list->size();
-		x = player_list->at(target)->getPositionX();
-		y = player_list->at(target)->getPositionY();
-		behavior_timer = 80;
-		behavior = 3;
+		if (teleport_cd <= 0) {
+			target = rand() % player_list->size();
+			x = player_list->at(target)->getPositionX();
+			y = player_list->at(target)->getPositionY();
+			behavior_timer = 80;
+			behavior = 3;
+		}
 		break;
 	}
 	behavior_unlocked = false;
@@ -145,6 +148,7 @@ void Villain::teleport() {
 		this->setPositionX(x);
 		this->setPositionY(y);
 		behavior_unlocked = true;
+		teleport_cd = 150;
 	}
 }
 

@@ -8,10 +8,10 @@ class Villain : public cocos2d::Sprite
 {
 
 public:
-	Villain(){};
-	~Villain(){};
+	Villain() {};
+	~Villain() {};
 
-	
+
 	static Villain* create();
 	//static Villain* create(int playernum);
 	//gameloop villain function
@@ -43,12 +43,13 @@ private:
 	int target = 0;
 	int behavior = 0;
 	int behavior_timer = 0;
-	int walk_speed = 1;
+	float walk_speed = 1.5;
 	int charge_speed = 4;
 	int x, y;
+	int teleport_cd = 150;
 	std::vector<Player*>* player_list;
 	std::vector<int> distance;
-	
+
 	bool behavior_unlocked = true;
 
 };
