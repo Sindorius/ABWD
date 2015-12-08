@@ -231,6 +231,8 @@ void ServerDemo::update(float dt)
 					{
 						whichplayertiles[i][j] = 0;
 						tilevalues[i][j] = 5;
+						tileptrarray[i][j]->setColor("black");
+						tileptrarray[i][j]->refreshColor();
 					}
 
 
