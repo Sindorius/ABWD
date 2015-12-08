@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="27" height="15" tilewidth="24" tileheight="24" nextobjectid="90">
+ <tileset firstgid="1" name="Tiles" tilewidth="24" tileheight="24" tilecount="1344">
+  <image source="res/maps/newroom/Tiles.png" width="1024" height="768"/>
+  <tile id="3">
+   <properties>
+    <property name="Yellow" value="true"/>
+   </properties>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="Orange" value="true"/>
+   </properties>
+  </tile>
+  <tile id="133">
+   <properties>
+    <property name="Blue" value="true"/>
+   </properties>
+  </tile>
+  <tile id="168">
+   <properties>
+    <property name="toPaint" value="true"/>
+   </properties>
+  </tile>
+  <tile id="255">
+   <properties>
+    <property name="Blue" value="true"/>
+   </properties>
+  </tile>
+  <tile id="296">
+   <properties>
+    <property name="Red" value="true"/>
+   </properties>
+  </tile>
+  <tile id="297">
+   <properties>
+    <property name="toColor" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="1345" name="blockage1" tilewidth="24" tileheight="24" tilecount="2">
+  <image source="res/maps/newroom/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
+  <terraintypes>
+   <terrain name="New Terrain" tile="-1"/>
+  </terraintypes>
+  <tile id="0">
+   <properties>
+    <property name="Blockage" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Collectable" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="1347" name="object" tilewidth="24" tileheight="24" tilecount="42">
+  <image source="res/maps/newroom/Object_Tiles.png" trans="ff00ff" width="168" height="144"/>
+  <tile id="0">
+   <properties>
+    <property name="Blue" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Orange" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Red" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Yellow" value="true"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="PaintTiles" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Sun" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Sun" value="true"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="Sun" value="true"/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="Sun" value="true"/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="Door" value="true"/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="Door" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="background" width="27" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzjZmBgaKQD5oZiUvUxAjEzleyKZMSvLxSIw6lkVzMBuygJw3o64FG7Ru0atWvULnLsAgBujLqk
+  </data>
+ </layer>
+ <layer name="blockage1" width="27" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxzZGVgcBwhGASGg130AKN2jdo1atfwsoteGADnQSnX
+  </data>
+ </layer>
+ <layer name="paintTiles" width="27" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AU4AIrceBRu0btoqddQwkAACqyF8U=
+  </data>
+ </layer>
+ <layer name="orange" width="27" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFIw3oDbQDRsEoGAXDFgAAz5QALw==
+  </data>
+ </layer>
+ <layer name="yellow" width="27" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFIwmwDLQDRsEoGAXDGgAAF+QABQ==
+  </data>
+ </layer>
+ <layer name="red" width="27" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFwxVoMg60C0bBKBgFIw0AAMIDACs=
+  </data>
+ </layer>
+ <layer name="blue" width="27" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFwxIwDrQDRsEoGAUjEQAACs8AAg==
+  </data>
+ </layer>
+</map>
