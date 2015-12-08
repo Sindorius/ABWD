@@ -105,6 +105,17 @@ public:
 		{ 2,2,1,4,2,2 }
 
 	}};
+	std::array<std::array<int, 6>, 6> whichplayertiles =
+	{ {
+		{ 0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0 }
+
+		} };
+
 	// Paint on the floor
 	void space(int playernum);
 	bool checkSolution();

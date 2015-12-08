@@ -219,6 +219,30 @@ void ServerDemo::update(float dt)
 	myudpserverp->sendPacket(p);
 	//myudpserverp->do_send();
 
+	for(Player* p : players)
+	{ 
+		if (abs(villain->getPositionX() - p->getPositionX()) < 5 && abs(villain->getPositionY() - p->getPositionY()) < 5)
+		{
+			for (int i = 0; i <= 5; i++)
+			{
+				for (int j = 0; j <= 5; j++)
+				{
+					if (whichplayertiles[i][j] == p->getPlayernum())
+					{
+						whichplayertiles[i][j] = 0;
+						tilevalues[i][j] = 5;
+						tileptrarray[i][j]->setColor("black");
+						tileptrarray[i][j]->refreshColor();
+					}
+
+
+
+				}
+			}
+						
+		}
+	}
+
 
 	if (checkSolution())
 	{
@@ -233,15 +257,21 @@ void ServerDemo::update(float dt)
 		player4->setPosition(400, 640);
 		p4pos = cocos2d::ccp(400, 640);
 	}
+
+
 }
 
 ServerDemo::~ServerDemo()
 {
 	if (io_service_p)
+	{
 		delete io_service_p;
+	}
 	
 	if (myudpserverp)
+	{
 		delete myudpserverp;
+	}
 
 }
 
@@ -250,329 +280,115 @@ ServerDemo::~ServerDemo()
 void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 {
 
-	if (p.playernum == 1)
+
+	float dxmove = p.dx;
+	float dymove = p.dy;
+	auto playerPos = CCPoint(0, 0);
+	std::string newcolor = "none";
+
+	if(p.playernum == 1)
 	{
-		
-		auto playerPos = player1->getPosition();
-		float x1move = p.dx;
-		float y1move = p.dy;
-
-		// Convert the players position into tile coordinates
-		int x = playerPos.x / (tileMap->getTileSize().width * 2);
-		//int y = (720 - playerPos.y) / (tileMap->getTileSize().height * 2);
-		int y = (720 - playerPos.y) / (tileMap->getTileSize().height * 2);
-		CCPoint tileCoord = CCPoint(x, y);
-
-		// Seeing if the sprite collides with a blocked tile
-		/*
-		int tileBlock = blockage->getTileGIDAt(tileCoord);
-
-		if (tileBlock) {
-			auto properties = tileMap->getPropertiesForGID(tileBlock).asValueMap();
-
-			if (!properties.empty()) {
-				auto collision = properties["Blockage"].asString();
-
-				if ("true" == collision) {
-					x1move = -x1move;
-					y1move = -y1move;
-				}
-			}
-		}*/
-
-		int bTile = bucketlayer->getTileGIDAt(tileCoord);
-
-		if (bTile) {
-			auto tilemapvals = tileMap->getPropertiesForGID(bTile).asValueMap();
-
-			if (!tilemapvals.empty()) {
-				auto r = tilemapvals["Red"].asString();
-				auto b = tilemapvals["Blue"].asString();
-				auto y = tilemapvals["Yellow"].asString();
-				auto o = tilemapvals["Orange"].asString();
-
-				if ("true" == r) 
-				{
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player1->setColor("red");
-				}
-				if ("true" == b) 
-				{
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player1->setColor("blue");
-				}
-				if ("true" == y) {
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player1->setColor("yellow");
-				}
-				if ("true" == o) {
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player1->setColor("orange");
-				}
-
-
-			}
-	
-		}
-
-		//CCLOG("This is the player color: %s", player->getColor().c_str());
-		player1->setPositionX(player1->getPositionX() + x1move);
-		player1->setPositionY(player1->getPositionY() + y1move);
-				
-		p1pos += cocos2d::ccp(x1move, y1move);
-
-		if(p.button1)
-		{
-			space(p.playernum);
-		}
-
+		playerPos = player1->getPosition();
 	}
 	else if (p.playernum == 2)
 	{
-		auto playerPos = player2->getPosition();
-		float x1move = p.dx;
-		float y1move = p.dy;
-
-		// Convert the players position into tile coordinates
-		int x = playerPos.x / (tileMap->getTileSize().width * 2);
-		//int y = (720 - playerPos.y) / (tileMap->getTileSize().height * 2);
-		int y = (720 - playerPos.y) / (tileMap->getTileSize().height * 2);
-		CCPoint tileCoord = CCPoint(x, y);
-
-		// Seeing if the sprite collides with a blocked tile
-		/*
-		int tileBlock = blockage->getTileGIDAt(tileCoord);
-
-		if (tileBlock) {
-		auto properties = tileMap->getPropertiesForGID(tileBlock).asValueMap();
-
-		if (!properties.empty()) {
-		auto collision = properties["Blockage"].asString();
-
-		if ("true" == collision) {
-		x1move = -x1move;
-		y1move = -y1move;
-		}
-		}
-		}*/
-
-		int bTile = bucketlayer->getTileGIDAt(tileCoord);
-
-		if (bTile) {
-			auto tilemapvals = tileMap->getPropertiesForGID(bTile).asValueMap();
-
-			if (!tilemapvals.empty()) {
-				auto r = tilemapvals["Red"].asString();
-				auto b = tilemapvals["Blue"].asString();
-				auto y = tilemapvals["Yellow"].asString();
-				auto o = tilemapvals["Orange"].asString();
-
-				if ("true" == r)
-				{
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player2->setColor("red");
-				}
-				if ("true" == b)
-				{
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player2->setColor("blue");
-				}
-				if ("true" == y) {
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player2->setColor("yellow");
-				}
-				if ("true" == o) {
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player2->setColor("orange");
-				}
-
-
-			}
-
-		}
-
-		//CCLOG("This is the player color: %s", player->getColor().c_str());
-		player2->setPositionX(player2->getPositionX() + x1move);
-		player2->setPositionY(player2->getPositionY() + y1move);
-
-		p2pos += cocos2d::ccp(x1move, y1move);
-
-		if (p.button1)
-		{
-			space(p.playernum);
-		}
-
-		
-		//p2pos += cocos2d::ccp(p.dx, p.dy);
+		playerPos = player2->getPosition();
 	}
 	else if (p.playernum == 3)
 	{
-		auto playerPos = player3->getPosition();
-		float x1move = p.dx;
-		float y1move = p.dy;
-
-		// Convert the players position into tile coordinates
-		int x = playerPos.x / (tileMap->getTileSize().width * 2);
-		//int y = (720 - playerPos.y) / (tileMap->getTileSize().height * 2);
-		int y = (720 - playerPos.y) / (tileMap->getTileSize().height * 2);
-		CCPoint tileCoord = CCPoint(x, y);
-
-		// Seeing if the sprite collides with a blocked tile
-		/*
-		int tileBlock = blockage->getTileGIDAt(tileCoord);
-
-		if (tileBlock) {
-		auto properties = tileMap->getPropertiesForGID(tileBlock).asValueMap();
-
-		if (!properties.empty()) {
-		auto collision = properties["Blockage"].asString();
-
-		if ("true" == collision) {
-		x1move = -x1move;
-		y1move = -y1move;
-		}
-		}
-		}*/
-
-		int bTile = bucketlayer->getTileGIDAt(tileCoord);
-
-		if (bTile) {
-			auto tilemapvals = tileMap->getPropertiesForGID(bTile).asValueMap();
-
-			if (!tilemapvals.empty()) {
-				auto r = tilemapvals["Red"].asString();
-				auto b = tilemapvals["Blue"].asString();
-				auto y = tilemapvals["Yellow"].asString();
-				auto o = tilemapvals["Orange"].asString();
-
-				if ("true" == r)
-				{
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player3->setColor("red");
-				}
-				if ("true" == b)
-				{
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player3->setColor("blue");
-				}
-				if ("true" == y) {
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player3->setColor("yellow");
-				}
-				if ("true" == o) {
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player3->setColor("orange");
-				}
-
-
-			}
-
-		}
-
-		//CCLOG("This is the player color: %s", player->getColor().c_str());
-		player3->setPositionX(player3->getPositionX() + x1move);
-		player3->setPositionY(player3->getPositionY() + y1move);
-
-		p3pos += cocos2d::ccp(x1move, y1move);
-
-		if (p.button1)
-		{
-			space(p.playernum);
-		}
-		//p3pos += cocos2d::ccp(p.dx, p.dy);
+		playerPos = player3->getPosition();
 	}
 	else if (p.playernum == 4)
 	{
-		auto playerPos = player4->getPosition();
-		float x1move = p.dx;
-		float y1move = p.dy;
+		playerPos = player4->getPosition();
+	}
 
-		// Convert the players position into tile coordinates
-		int x = playerPos.x / (tileMap->getTileSize().width * 2);
-		//int y = (720 - playerPos.y) / (tileMap->getTileSize().height * 2);
-		int y = (720 - playerPos.y) / (tileMap->getTileSize().height * 2);
-		CCPoint tileCoord = CCPoint(x, y);
+	// Convert the players position into tile coordinates
+	int testx = playerPos.x / (tileMap->getTileSize().width * 2) + p.dx;
+	//int y = (720 - playerPos.y) / (tileMap->getTileSize().height * 2);
+	int testy = (720 - playerPos.y) / (tileMap->getTileSize().height * 2 + p.dy);
+	CCPoint tileCoord = CCPoint(testx, testy);
 
-		// Seeing if the sprite collides with a blocked tile
-		/*
-		int tileBlock = blockage->getTileGIDAt(tileCoord);
 
-		if (tileBlock) {
-		auto properties = tileMap->getPropertiesForGID(tileBlock).asValueMap();
-
-		if (!properties.empty()) {
-		auto collision = properties["Blockage"].asString();
-
-		if ("true" == collision) {
-		x1move = -x1move;
-		y1move = -y1move;
-		}
-		}
-		}*/
-
+	if (tileCoord.x >= 0 && tileCoord.x <= 25 && tileCoord.y >= 0 && tileCoord.y <=14)
+	{
 		int bTile = bucketlayer->getTileGIDAt(tileCoord);
 
-		if (bTile) {
+		if (bTile) 
+		{
 			auto tilemapvals = tileMap->getPropertiesForGID(bTile).asValueMap();
 
-			if (!tilemapvals.empty()) {
+			if (!tilemapvals.empty()) 
+			{
 				auto r = tilemapvals["Red"].asString();
 				auto b = tilemapvals["Blue"].asString();
 				auto y = tilemapvals["Yellow"].asString();
 				auto o = tilemapvals["Orange"].asString();
-
+				
 				if ("true" == r)
 				{
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player4->setColor("red");
+					dxmove = -dxmove * 2;
+					dymove = -dymove * 2;
+					newcolor = "red";
 				}
 				if ("true" == b)
 				{
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player4->setColor("blue");
+					dxmove = -dxmove * 2;
+					dymove = -dymove * 2;
+					newcolor = "blue";
 				}
 				if ("true" == y) {
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player4->setColor("yellow");
+					dxmove = -dxmove * 2;
+					dymove = -dymove * 2;
+					newcolor = "yellow";
 				}
 				if ("true" == o) {
-					x1move = -x1move * 2;
-					y1move = -y1move * 2;
-					player4->setColor("orange");
+					dxmove = -dxmove * 2;
+					dymove = -dymove * 2;
+					newcolor = "orange";
 				}
-
-
 			}
-
 		}
-
-		//CCLOG("This is the player color: %s", player->getColor().c_str());
-		player4->setPositionX(player4->getPositionX() + x1move);
-		player4->setPositionY(player4->getPositionY() + y1move);
-
-		p4pos += cocos2d::ccp(x1move, y1move);
-
-		if (p.button1)
-		{
-			space(p.playernum);
-		}
-		//p4pos += cocos2d::ccp(p.dx, p.dy);
 	}
+	
+	if (p.playernum == 1)
+	{
+		player1->setPositionX(player1->getPositionX() + dxmove);
+		player1->setPositionY(player1->getPositionY() + dymove);
+		p1pos += cocos2d::ccp(dxmove, dymove);
+		if (newcolor != "none")
+		{player1->setColor(newcolor);}
+	}
+	else if (p.playernum == 2)
+	{
+		player2->setPositionX(player2->getPositionX() + dxmove);
+		player2->setPositionY(player2->getPositionY() + dymove);
+		p2pos += cocos2d::ccp(dxmove, dymove);
+		if (newcolor != "none") 
+		{player2->setColor(newcolor);}
+	}
+	else if (p.playernum == 3)
+	{
+		player3->setPositionX(player3->getPositionX() + dxmove);
+		player3->setPositionY(player3->getPositionY() + dymove);
+		p3pos += cocos2d::ccp(dxmove, dymove);
+		if (newcolor != "none")
+		{player3->setColor(newcolor);}
+	}
+	else if (p.playernum == 4)
+	{
+		player4->setPositionX(player4->getPositionX() + dxmove);
+		player4->setPositionY(player4->getPositionY() + dymove);
+		p4pos += cocos2d::ccp(dxmove, dymove);
+		if (newcolor != "none")
+		{player4->setColor(newcolor);}
+	}
+
+	if(p.button1)
+	{
+		space(p.playernum);
+	}
+
 
 }
 
@@ -637,6 +453,7 @@ void ServerDemo::space(int playernum)
 					{
 						tilevalues[i][j] = 4;
 					}
+					whichplayertiles[i][j] = 1;
 				}
 			}
 			else if (playernum == 2)
@@ -662,6 +479,7 @@ void ServerDemo::space(int playernum)
 					{
 						tilevalues[i][j] = 4;
 					}
+					whichplayertiles[i][j] = 2;
 				}
 			}
 			else if (playernum == 3)
@@ -669,7 +487,7 @@ void ServerDemo::space(int playernum)
 
 				if (player3->getPositionX() > tileptrarray[i][j]->getPositionX() - 24 && player3->getPositionX() < tileptrarray[i][j]->getPositionX() + 24 && player3->getPositionY() > tileptrarray[i][j]->getPositionY() - 24 && player3->getPositionY() < tileptrarray[i][j]->getPositionY() + 24)
 				{
-					tileptrarray[i][j]->setColor(player1->getColor());
+					tileptrarray[i][j]->setColor(player3->getColor());
 					tileptrarray[i][j]->refreshColor();
 					if (player3->getColor() == "red")
 					{
@@ -687,6 +505,7 @@ void ServerDemo::space(int playernum)
 					{
 						tilevalues[i][j] = 4;
 					}
+					whichplayertiles[i][j] = 3;
 				}
 			}
 			if (playernum == 4)
@@ -712,6 +531,7 @@ void ServerDemo::space(int playernum)
 					{
 						tilevalues[i][j] = 4;
 					}
+					whichplayertiles[i][j] = 4;
 				}
 			}
 		}
