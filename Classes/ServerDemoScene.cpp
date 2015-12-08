@@ -219,6 +219,28 @@ void ServerDemo::update(float dt)
 	myudpserverp->sendPacket(p);
 	//myudpserverp->do_send();
 
+	for(Player* p : players)
+	{ 
+		if (abs(villain->getPositionX() - p->getPositionX()) < 5 && abs(villain->getPositionY() - p->getPositionY()) < 5)
+		{
+			for (int i = 0; i <= 5; i++)
+			{
+				for (int j = 0; j <= 5; j++)
+				{
+					if (whichplayertiles[i][j] == p->getPlayernum())
+					{
+						whichplayertiles[i][j] = 0;
+						tilevalues[i][j] = 5;
+					}
+
+
+
+				}
+			}
+						
+		}
+	}
+
 
 	if (checkSolution())
 	{
@@ -233,15 +255,21 @@ void ServerDemo::update(float dt)
 		player4->setPosition(400, 640);
 		p4pos = cocos2d::ccp(400, 640);
 	}
+
+
 }
 
 ServerDemo::~ServerDemo()
 {
 	if (io_service_p)
+	{
 		delete io_service_p;
+	}
 	
 	if (myudpserverp)
+	{
 		delete myudpserverp;
+	}
 
 }
 
@@ -423,6 +451,7 @@ void ServerDemo::space(int playernum)
 					{
 						tilevalues[i][j] = 4;
 					}
+					whichplayertiles[i][j] = 1;
 				}
 			}
 			else if (playernum == 2)
@@ -448,6 +477,7 @@ void ServerDemo::space(int playernum)
 					{
 						tilevalues[i][j] = 4;
 					}
+					whichplayertiles[i][j] = 2;
 				}
 			}
 			else if (playernum == 3)
@@ -455,7 +485,7 @@ void ServerDemo::space(int playernum)
 
 				if (player3->getPositionX() > tileptrarray[i][j]->getPositionX() - 24 && player3->getPositionX() < tileptrarray[i][j]->getPositionX() + 24 && player3->getPositionY() > tileptrarray[i][j]->getPositionY() - 24 && player3->getPositionY() < tileptrarray[i][j]->getPositionY() + 24)
 				{
-					tileptrarray[i][j]->setColor(player1->getColor());
+					tileptrarray[i][j]->setColor(player3->getColor());
 					tileptrarray[i][j]->refreshColor();
 					if (player3->getColor() == "red")
 					{
@@ -473,6 +503,7 @@ void ServerDemo::space(int playernum)
 					{
 						tilevalues[i][j] = 4;
 					}
+					whichplayertiles[i][j] = 3;
 				}
 			}
 			if (playernum == 4)
@@ -498,6 +529,7 @@ void ServerDemo::space(int playernum)
 					{
 						tilevalues[i][j] = 4;
 					}
+					whichplayertiles[i][j] = 4;
 				}
 			}
 		}
