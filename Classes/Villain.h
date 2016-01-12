@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Player.h"
+#include <array>
 
 class Villain : public cocos2d::Sprite
 {
@@ -14,6 +15,9 @@ public:
 
 	static Villain* create();
 	//static Villain* create(int playernum);
+	
+	void setPriority(std::array<std::array<int, 6>, 6> tiles);
+
 	//gameloop villain function
 	void runAI(std::vector<Player*>* players);
 	//update villain knowledge
@@ -49,8 +53,8 @@ private:
 	int teleport_cd = 150;
 	std::vector<Player*>* player_list;
 	std::vector<int> distance;
-
 	bool behavior_unlocked = true;
+	int priority1, priority2, priority3, priority4;
 
 };
 /*
