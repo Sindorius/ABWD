@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "cocos2d.h"
+#include <iostream>
 
 Villain* Villain::create()
 {
@@ -45,6 +46,7 @@ void Villain::setPriority(std::array<std::array<int, 6>, 6> tiles) {
 
 void Villain::runAI(std::vector<Player*>* players)
 {
+	std::cout << target << std::endl;
 	player_list = players;
 	calculations();
 	teleport_cd--;

@@ -31,6 +31,11 @@ private:
 	Player* player3;
 	Player* player4;
 	std::vector<Player*> players;
+	std::string state1, state2, state3, state4;
+	bool anim1 = true;
+	bool anim2 = true;
+	bool anim3 = true;
+	bool anim4 = true;
 	Villain* villain;
 
 	std::vector<cocos2d::Sprite*> objects;

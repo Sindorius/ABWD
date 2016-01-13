@@ -288,31 +288,31 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 		ymove += 2;
 		if (playernum == 1)
 		{
-			player1->stopAllActions();
-			player1->runAction(RepeatForever::create(walkupanim));
+			//player1->stopAllActions();
+			//player1->runAction(RepeatForever::create(walkupanim));
 		}
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
 		if (playernum == 1)
 		{
-			player1->stopAllActions();
-			player1->runAction(RepeatForever::create(walkdownanim));
+			//player1->stopAllActions();
+			//player1->runAction(RepeatForever::create(walkdownanim));
 		}
 		ymove -= 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 		if (playernum == 1)
 		{
-			player1->stopAllActions();
-			player1->runAction(RepeatForever::create(walkleftanim));
+			//player1->stopAllActions();
+			//player1->runAction(RepeatForever::create(walkleftanim));
 		}
 		xmove -= 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 		if (playernum == 1)
 		{
-			player1->stopAllActions();
-			player1->runAction(RepeatForever::create(walkrightanim));
+			//player1->stopAllActions();
+			//player1->runAction(RepeatForever::create(walkrightanim));
 		}
 		xmove += 2;
 		break;
@@ -320,7 +320,7 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 		if (playernum == 1)
 		{
 			player1->stopAllActions();
-			player1->runAction(RepeatForever::create(paintanim));
+			//player1->runAction(RepeatForever::create(paintanim));
 		}
 		button1 = true;
 		xmove = 0;
@@ -337,28 +337,28 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
 		if (playernum == 1)
 		{
-			player1->stopAllActions();
+			//player1->stopAllActions();
 		}
 		ymove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
 		if (playernum == 1)
 		{
-			player1->stopAllActions();
+			//player1->stopAllActions();
 		}
 		ymove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 		if (playernum == 1)
 		{
-			player1->stopAllActions();
+			//player1->stopAllActions();
 		}
 		xmove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 		if (playernum == 1)
 		{
-			player1->stopAllActions();
+			//player1->stopAllActions();
 		}
 		xmove = 0;
 		break;
@@ -384,11 +384,58 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	//CCLOG(std::to_string(p.vx).c_str());
 	CCLOG(std::to_string(tilevalues[0][0]).c_str());
 	CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
+	Vec2 position1 = player1->getPosition();
+	Vec2 position2 = player2->getPosition();
+	Vec2 position3 = player3->getPosition();
+	Vec2 position4 = player4->getPosition();
 	player1->setPosition(Vec2(p.p1x, p.p1y));
 	player2->setPosition(Vec2(p.p2x, p.p2y));
 	player3->setPosition(Vec2(p.p3x, p.p3y));
 	player4->setPosition(Vec2(p.p4x, p.p4y));
 	villain->setPosition(Vec2(p.vx, p.vy));
+
+	if (player1->getPosition().y > position1.y && anim1) {
+		state1 = "up";
+		player1->stopAllActions();
+		player1->runAction(RepeatForever::create(walkupanim));
+		anim1 = false;
+		anim2 = true;
+		anim3 = true;
+		anim4 = true;
+	}
+	else if (player1->getPosition().y < position1.y && anim2) {
+		state1 = "down";
+		player1->stopAllActions();
+		player1->runAction(RepeatForever::create(walkdownanim));
+		anim1 = true;
+		anim2 = false;
+		anim3 = true;
+		anim4 = true;
+	}
+	else if (player1->getPosition().x < position1.x && anim3) {
+		state1 = "left";
+		player1->stopAllActions();
+		player1->runAction(RepeatForever::create(walkleftanim));
+		anim1 = true;
+		anim2 = true;
+		anim3 = false;
+		anim4 = true;
+	}
+	else if (player1->getPosition().x > position1.x && anim4) {
+		state1 = "right";
+		player1->stopAllActions();
+		player1->runAction(RepeatForever::create(walkrightanim));
+		anim1 = true;
+		anim2 = true;
+		anim3 = true;
+		anim4 = false;
+	}
+	else
+	{
+		state1 = "stationary";
+		//player1->stopAllActions();
+	}
+	//player1->stopAllActions();
 	//tilevalues = p.tilevalues;
 
 	for (int i = 0; i <= 5; i++)
