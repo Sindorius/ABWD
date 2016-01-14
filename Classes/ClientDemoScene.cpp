@@ -180,7 +180,7 @@ bool ClientDemo::init()
 	walkrightanimFrames.at(2)->getTexture()->setAliasTexParameters();
 	walkrightanimFrames.at(3)->getTexture()->setAliasTexParameters();
 
-		paintFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_right_0_paint.png", Rect(0, 0, 48, 96)));
+	paintFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\char_red_right_0_paint.png", Rect(0, 0, 48, 96)));
 	paintFrames.at(0)->getTexture()->setAliasTexParameters();
 
 	// create the animation out of the frames
@@ -210,6 +210,75 @@ bool ClientDemo::init()
 	//player3->runAction(RepeatForever::create(walkanim3));
 	//player4->runAction(RepeatForever::create(walkanim4));
 
+	Vector<SpriteFrame*> walkupanimFrames1;
+	walkupanimFrames1.reserve(4);
+	Vector<SpriteFrame*> walkdownanimFrames1;
+	walkdownanimFrames1.reserve(4);
+	Vector<SpriteFrame*> walkleftanimFrames1;
+	walkleftanimFrames1.reserve(4);
+	Vector<SpriteFrame*> walkrightanimFrames1;
+	walkrightanimFrames1.reserve(4);
+	Vector<SpriteFrame*> paintFrames1;
+	paintFrames1.reserve(1);
+	//animFrames.reserve(4);
+
+	walkupanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_back_0.png", Rect(0, 0, 48, 96)));
+	walkupanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_back_1.png", Rect(0, 0, 48, 96)));
+	walkupanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_back_2.png", Rect(0, 0, 48, 96)));
+	walkupanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_back_3.png", Rect(0, 0, 48, 96)));
+	walkupanimFrames1.at(0)->getTexture()->setAliasTexParameters();
+	walkupanimFrames1.at(1)->getTexture()->setAliasTexParameters();
+	walkupanimFrames1.at(2)->getTexture()->setAliasTexParameters();
+	walkupanimFrames1.at(3)->getTexture()->setAliasTexParameters();
+
+	walkdownanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_front_0.png", Rect(0, 0, 48, 96)));
+	walkdownanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_front_1.png", Rect(0, 0, 48, 96)));
+	walkdownanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_front_2.png", Rect(0, 0, 48, 96)));
+	walkdownanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_front_3.png", Rect(0, 0, 48, 96)));
+	walkdownanimFrames1.at(0)->getTexture()->setAliasTexParameters();
+	walkdownanimFrames1.at(1)->getTexture()->setAliasTexParameters();
+	walkdownanimFrames1.at(2)->getTexture()->setAliasTexParameters();
+	walkdownanimFrames1.at(3)->getTexture()->setAliasTexParameters();
+
+	walkleftanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_left_0.png", Rect(0, 0, 48, 96)));
+	walkleftanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_left_1.png", Rect(0, 0, 48, 96)));
+	walkleftanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_left_2.png", Rect(0, 0, 48, 96)));
+	walkleftanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_left_3.png", Rect(0, 0, 48, 96)));
+	walkleftanimFrames1.at(0)->getTexture()->setAliasTexParameters();
+	walkleftanimFrames1.at(1)->getTexture()->setAliasTexParameters();
+	walkleftanimFrames1.at(2)->getTexture()->setAliasTexParameters();
+	walkleftanimFrames1.at(3)->getTexture()->setAliasTexParameters();
+
+	walkrightanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_right_0.png", Rect(0, 0, 48, 96)));
+	walkrightanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_right_1.png", Rect(0, 0, 48, 96)));
+	walkrightanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_right_2.png", Rect(0, 0, 48, 96)));
+	walkrightanimFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_right_3.png", Rect(0, 0, 48, 96)));
+	walkrightanimFrames1.at(0)->getTexture()->setAliasTexParameters();
+	walkrightanimFrames1.at(1)->getTexture()->setAliasTexParameters();
+	walkrightanimFrames1.at(2)->getTexture()->setAliasTexParameters();
+	walkrightanimFrames1.at(3)->getTexture()->setAliasTexParameters();
+
+	paintFrames1.pushBack(SpriteFrame::create("\\sprites\\animations\\char_blue_right_0_paint.png", Rect(0, 0, 48, 96)));
+	paintFrames1.at(0)->getTexture()->setAliasTexParameters();
+
+	// create the animation out of the frames
+	Animation* upanimation1 = Animation::createWithSpriteFrames(walkupanimFrames1, 0.1f);
+	walkupanim1 = Animate::create(upanimation1);
+	walkupanim1->retain();
+	Animation* downanimation1 = Animation::createWithSpriteFrames(walkdownanimFrames1, 0.1f);
+	walkdownanim1 = Animate::create(downanimation1);
+	walkdownanim1->retain();
+	Animation* leftanimation1 = Animation::createWithSpriteFrames(walkleftanimFrames1, 0.1f);
+	walkleftanim1 = Animate::create(leftanimation1);
+	walkleftanim1->retain();
+	Animation* rightanimation1 = Animation::createWithSpriteFrames(walkrightanimFrames1, 0.1f);
+	walkrightanim1 = Animate::create(rightanimation1);
+	walkrightanim1->retain();
+
+
+	Animation* paintanimation1 = Animation::createWithSpriteFrames(paintFrames1, 0.1f);
+	paintanim1 = Animate::create(paintanimation1);
+	paintanim1->retain();
 
 
 	auto keyListener = EventListenerKeyboard::create();
@@ -394,49 +463,84 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	player4->setPosition(Vec2(p.p4x, p.p4y));
 	villain->setPosition(Vec2(p.vx, p.vy));
 
-	if (player1->getPosition().y > position1.y && anim1) {
-		state1 = "up";
+	if (player1->getPosition().y > position1.y && anim1a) {
 		player1->stopAllActions();
 		player1->runAction(RepeatForever::create(walkupanim));
-		anim1 = false;
-		anim2 = true;
-		anim3 = true;
-		anim4 = true;
+		anim1a = false;
+		anim1b = true;
+		anim1c = true;
+		anim1d = true;
 	}
-	else if (player1->getPosition().y < position1.y && anim2) {
-		state1 = "down";
+	else if (player1->getPosition().y < position1.y && anim1b) {
 		player1->stopAllActions();
 		player1->runAction(RepeatForever::create(walkdownanim));
-		anim1 = true;
-		anim2 = false;
-		anim3 = true;
-		anim4 = true;
+		anim1a = true;
+		anim1b = false;
+		anim1c = true;
+		anim1d = true;
 	}
-	else if (player1->getPosition().x < position1.x && anim3) {
-		state1 = "left";
+	else if (player1->getPosition().x < position1.x && anim1c) {
 		player1->stopAllActions();
 		player1->runAction(RepeatForever::create(walkleftanim));
-		anim1 = true;
-		anim2 = true;
-		anim3 = false;
-		anim4 = true;
+		anim1a = true;
+		anim1b = true;
+		anim1c = false;
+		anim1d = true;
 	}
-	else if (player1->getPosition().x > position1.x && anim4) {
-		state1 = "right";
+	else if (player1->getPosition().x > position1.x && anim1d) {
 		player1->stopAllActions();
 		player1->runAction(RepeatForever::create(walkrightanim));
-		anim1 = true;
-		anim2 = true;
-		anim3 = true;
-		anim4 = false;
+		anim1a = true;
+		anim1b = true;
+		anim1c = true;
+		anim1d = false;
 	}
 	else
 	{
-		state1 = "stationary";
 		//player1->stopAllActions();
 	}
 	//player1->stopAllActions();
 	//tilevalues = p.tilevalues;
+	
+	
+	//player2 animations
+	if (player2->getPosition().y > position2.y && anim2a) {
+		player2->stopAllActions();
+		player2->runAction(RepeatForever::create(walkupanim1));
+		anim2a = false;
+		anim2b = true;
+		anim2c = true;
+		anim2d = true;
+	}
+	else if (player2->getPosition().y < position2.y && anim2b) {
+		player2->stopAllActions();
+		player2->runAction(RepeatForever::create(walkdownanim1));
+		anim2a = true;
+		anim2b = false;
+		anim2c = true;
+		anim2d = true;
+	}
+	else if (player2->getPosition().x < position2.x && anim2c) {
+		player2->stopAllActions();
+		player2->runAction(RepeatForever::create(walkleftanim1));
+		anim2a = true;
+		anim2b = true;
+		anim2c = false;
+		anim2d = true;
+	}
+	else if (player2->getPosition().x > position2.x && anim2d) {
+		player2->stopAllActions();
+		player2->runAction(RepeatForever::create(walkrightanim1));
+		anim2a = true;
+		anim2b = true;
+		anim2c = true;
+		anim2d = false;
+	}
+	else
+	{
+		//player2->stopAllActions();
+	}
+
 
 	for (int i = 0; i <= 5; i++)
 	{

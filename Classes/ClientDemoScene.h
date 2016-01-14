@@ -32,10 +32,15 @@ private:
 	Player* player4;
 	std::vector<Player*> players;
 	std::string state1, state2, state3, state4;
-	bool anim1 = true;
-	bool anim2 = true;
-	bool anim3 = true;
-	bool anim4 = true;
+	bool anim1a = true;
+	bool anim1b = true;
+	bool anim1c = true;
+	bool anim1d = true;
+	
+	bool anim2a = true;
+	bool anim2b = true;
+	bool anim2c = true;
+	bool anim2d = true;
 	Villain* villain;
 
 	std::vector<cocos2d::Sprite*> objects;
@@ -46,6 +51,12 @@ private:
 	cocos2d::Animate* walkleftanim;
 	cocos2d::Animate* walkrightanim;
 	cocos2d::Animate* paintanim;
+
+	cocos2d::Animate* walkupanim1;
+	cocos2d::Animate* walkdownanim1;
+	cocos2d::Animate* walkleftanim1;
+	cocos2d::Animate* walkrightanim1;
+	cocos2d::Animate* paintanim1;
 
 
 public:
