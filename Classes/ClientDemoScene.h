@@ -42,6 +42,15 @@ private:
 	bool anim2c = true;
 	bool anim2d = true;
 
+	bool anim3a = true;
+	bool anim3b = true;
+	bool anim3c = true;
+	bool anim3d = true;
+
+	bool anim4a = true;
+	bool anim4b = true;
+	bool anim4c = true;
+	bool anim4d = true;
 
 	Villain* villain;
 
@@ -64,6 +73,18 @@ private:
 	cocos2d::Animate* walkleftanim1;
 	cocos2d::Animate* walkrightanim1;
 	cocos2d::Animate* paintanim1;
+
+	cocos2d::Animate* walkupanim2;
+	cocos2d::Animate* walkdownanim2;
+	cocos2d::Animate* walkleftanim2;
+	cocos2d::Animate* walkrightanim2;
+	cocos2d::Animate* paintanim2;
+
+	cocos2d::Animate* walkupanim3;
+	cocos2d::Animate* walkdownanim3;
+	cocos2d::Animate* walkleftanim3;
+	cocos2d::Animate* walkrightanim3;
+	cocos2d::Animate* paintanim3;
 
 	cocos2d::Animate* samupanim;
 	cocos2d::Animate* samdownanim;
