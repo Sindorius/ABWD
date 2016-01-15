@@ -41,7 +41,14 @@ private:
 	bool anim2b = true;
 	bool anim2c = true;
 	bool anim2d = true;
+
+
 	Villain* villain;
+
+	bool sam1a = true;
+	bool sam1b = true;
+	bool sam1c = true;
+	bool sam1d = true;
 
 	std::vector<cocos2d::Sprite*> objects;
 
@@ -57,6 +64,11 @@ private:
 	cocos2d::Animate* walkleftanim1;
 	cocos2d::Animate* walkrightanim1;
 	cocos2d::Animate* paintanim1;
+
+	cocos2d::Animate* samupanim;
+	cocos2d::Animate* samdownanim;
+	cocos2d::Animate* samleftanim;
+	cocos2d::Animate* samrightanim;
 
 
 public:

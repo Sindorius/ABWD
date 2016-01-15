@@ -34,6 +34,8 @@ public:
 	void teleport();
 	//charge teleport
 	void chargeTeleport();
+	//idle
+	void wait();
 	//the index of the ai's current target
 	int getTarget();
 	//the current action type the villain uses, use to determine animations and whatnot
@@ -47,14 +49,21 @@ private:
 	int target = 0;
 	int behavior = 0;
 	int behavior_timer = 0;
-	float walk_speed = 1.5;
+	float walk_speed = 1;
 	int charge_speed = 4;
 	int x, y;
 	int teleport_cd = 150;
 	std::vector<Player*>* player_list;
 	std::vector<int> distance;
 	bool behavior_unlocked = true;
-	int priority1, priority2, priority3, priority4;
+	int priority[4];
+	bool idle = false;
+
+
+	int idle_time = 50;
+	int walk_time = 100;
+	int charge_teleport_time = 80;
+	int teleport_fail_timer = 50;
 
 };
 /*

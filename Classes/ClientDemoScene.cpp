@@ -131,7 +131,8 @@ bool ClientDemo::init()
 		}
 	}
 
-
+	//player 1 animations
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Vector<SpriteFrame*> walkupanimFrames;
 	walkupanimFrames.reserve(4);
 	Vector<SpriteFrame*> walkdownanimFrames;
@@ -210,6 +211,9 @@ bool ClientDemo::init()
 	//player3->runAction(RepeatForever::create(walkanim3));
 	//player4->runAction(RepeatForever::create(walkanim4));
 
+
+	//player2 animations
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Vector<SpriteFrame*> walkupanimFrames1;
 	walkupanimFrames1.reserve(4);
 	Vector<SpriteFrame*> walkdownanimFrames1;
@@ -279,6 +283,71 @@ bool ClientDemo::init()
 	Animation* paintanimation1 = Animation::createWithSpriteFrames(paintFrames1, 0.1f);
 	paintanim1 = Animate::create(paintanimation1);
 	paintanim1->retain();
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//sam animations
+	Vector<SpriteFrame*> samupanimFrames;
+	samupanimFrames.reserve(4);
+	Vector<SpriteFrame*> samdownanimFrames;
+	samdownanimFrames.reserve(4);
+	Vector<SpriteFrame*> samleftanimFrames;
+	samleftanimFrames.reserve(4);
+	Vector<SpriteFrame*> samrightanimFrames;
+	samrightanimFrames.reserve(4);
+	//animFrames.reserve(4);
+
+	samupanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_back_0.png", Rect(0, 0, 48, 96)));
+	samupanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_back_1.png", Rect(0, 0, 48, 96)));
+	samupanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_back_2.png", Rect(0, 0, 48, 96)));
+	samupanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_back_3.png", Rect(0, 0, 48, 96)));
+	samupanimFrames.at(0)->getTexture()->setAliasTexParameters();
+	samupanimFrames.at(1)->getTexture()->setAliasTexParameters();
+	samupanimFrames.at(2)->getTexture()->setAliasTexParameters();
+	samupanimFrames.at(3)->getTexture()->setAliasTexParameters();
+
+	samdownanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_front_0.png", Rect(0, 0, 48, 96)));
+	samdownanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_front_1.png", Rect(0, 0, 48, 96)));
+	samdownanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_front_2.png", Rect(0, 0, 48, 96)));
+	samdownanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_front_3.png", Rect(0, 0, 48, 96)));
+	samdownanimFrames.at(0)->getTexture()->setAliasTexParameters();
+	samdownanimFrames.at(1)->getTexture()->setAliasTexParameters();
+	samdownanimFrames.at(2)->getTexture()->setAliasTexParameters();
+	samdownanimFrames.at(3)->getTexture()->setAliasTexParameters();
+
+	samleftanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_left_0.png", Rect(0, 0, 48, 96)));
+	samleftanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_left_1.png", Rect(0, 0, 48, 96)));
+	samleftanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_left_2.png", Rect(0, 0, 48, 96)));
+	samleftanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_left_3.png", Rect(0, 0, 48, 96)));
+	samleftanimFrames.at(0)->getTexture()->setAliasTexParameters();
+	samleftanimFrames.at(1)->getTexture()->setAliasTexParameters();
+	samleftanimFrames.at(2)->getTexture()->setAliasTexParameters();
+	samleftanimFrames.at(3)->getTexture()->setAliasTexParameters();
+
+	samrightanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_right_0.png", Rect(0, 0, 48, 96)));
+	samrightanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_right_1.png", Rect(0, 0, 48, 96)));
+	samrightanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_right_2.png", Rect(0, 0, 48, 96)));
+	samrightanimFrames.pushBack(SpriteFrame::create("\\sprites\\animations\\sam_right_3.png", Rect(0, 0, 48, 96)));
+	samrightanimFrames.at(0)->getTexture()->setAliasTexParameters();
+	samrightanimFrames.at(1)->getTexture()->setAliasTexParameters();
+	samrightanimFrames.at(2)->getTexture()->setAliasTexParameters();
+	samrightanimFrames.at(3)->getTexture()->setAliasTexParameters();
+
+	// create the animation out of the frames
+	Animation* samupanimation = Animation::createWithSpriteFrames(samupanimFrames, 0.1f);
+	samupanim = Animate::create(samupanimation);
+	samupanim->retain();
+	Animation* samdownanimation = Animation::createWithSpriteFrames(samdownanimFrames, 0.1f);
+	samdownanim = Animate::create(samdownanimation);
+	samdownanim->retain();
+	Animation* samleftanimation = Animation::createWithSpriteFrames(samleftanimFrames, 0.1f);
+	samleftanim = Animate::create(samleftanimation);
+	samleftanim->retain();
+	Animation* samrightanimation = Animation::createWithSpriteFrames(samrightanimFrames, 0.1f);
+	samrightanim = Animate::create(samrightanimation);
+	samrightanim->retain();
+
+
 
 
 	auto keyListener = EventListenerKeyboard::create();
@@ -388,7 +457,7 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 	case EventKeyboard::KeyCode::KEY_SPACE:
 		if (playernum == 1)
 		{
-			player1->stopAllActions();
+			//player1->stopAllActions();
 			//player1->runAction(RepeatForever::create(paintanim));
 		}
 		button1 = true;
@@ -434,7 +503,7 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 	case EventKeyboard::KeyCode::KEY_SPACE:
 		if (playernum == 1)
 		{
-			player1->stopAllActions();
+		//	player1->stopAllActions();
 		}
 		button1 = false;
 		break;
@@ -457,12 +526,17 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	Vec2 position2 = player2->getPosition();
 	Vec2 position3 = player3->getPosition();
 	Vec2 position4 = player4->getPosition();
+	Vec2 samPosition = villain->getPosition();
 	player1->setPosition(Vec2(p.p1x, p.p1y));
 	player2->setPosition(Vec2(p.p2x, p.p2y));
 	player3->setPosition(Vec2(p.p3x, p.p3y));
 	player4->setPosition(Vec2(p.p4x, p.p4y));
 	villain->setPosition(Vec2(p.vx, p.vy));
 
+
+	//player1 animations
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
 	if (player1->getPosition().y > position1.y && anim1a) {
 		player1->stopAllActions();
 		player1->runAction(RepeatForever::create(walkupanim));
@@ -479,7 +553,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 		anim1c = true;
 		anim1d = true;
 	}
-	else if (player1->getPosition().x < position1.x && anim1c) {
+	else if (player1->getPosition().x < position1.x && player1->getPosition().y == position1.y && anim1c) {
 		player1->stopAllActions();
 		player1->runAction(RepeatForever::create(walkleftanim));
 		anim1a = true;
@@ -487,7 +561,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 		anim1c = false;
 		anim1d = true;
 	}
-	else if (player1->getPosition().x > position1.x && anim1d) {
+	else if (player1->getPosition().x > position1.x && player1->getPosition().y == position1.y && anim1d) {
 		player1->stopAllActions();
 		player1->runAction(RepeatForever::create(walkrightanim));
 		anim1a = true;
@@ -504,6 +578,8 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	
 	
 	//player2 animations
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
 	if (player2->getPosition().y > position2.y && anim2a) {
 		player2->stopAllActions();
 		player2->runAction(RepeatForever::create(walkupanim1));
@@ -520,7 +596,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 		anim2c = true;
 		anim2d = true;
 	}
-	else if (player2->getPosition().x < position2.x && anim2c) {
+	else if (player2->getPosition().x < position2.x && player2->getPosition().y == position2.y && anim2c) {
 		player2->stopAllActions();
 		player2->runAction(RepeatForever::create(walkleftanim1));
 		anim2a = true;
@@ -528,7 +604,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 		anim2c = false;
 		anim2d = true;
 	}
-	else if (player2->getPosition().x > position2.x && anim2d) {
+	else if (player2->getPosition().x > position2.x && player2->getPosition().y == position2.y && anim2d) {
 		player2->stopAllActions();
 		player2->runAction(RepeatForever::create(walkrightanim1));
 		anim2a = true;
@@ -540,6 +616,45 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	{
 		//player2->stopAllActions();
 	}
+
+
+	//sam animations
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	if (villain->getPosition().y < samPosition.y && sam1b) {
+		villain->stopAllActions();
+		villain->runAction(RepeatForever::create(samdownanim));
+		sam1a = true;
+		sam1b = false;
+		sam1c = true;
+		sam1d = true;
+	}
+	else if (villain->getPosition().y > samPosition.y && sam1a) {
+		villain->stopAllActions();
+		villain->runAction(RepeatForever::create(samupanim));
+		sam1a = false;
+		sam1b = true;
+		sam1c = true;
+		sam1d = true;
+	}
+	else if (villain->getPosition().x < samPosition.x && villain->getPosition().y == samPosition.y && sam1c) {
+		villain->stopAllActions();
+		villain->runAction(RepeatForever::create(samleftanim));
+		sam1a = true;
+		sam1b = true;
+		sam1c = false;
+		sam1d = true;
+	}
+	else if (villain->getPosition().x > samPosition.x && villain->getPosition().y == samPosition.y && sam1d) {
+		villain->stopAllActions();
+		villain->runAction(RepeatForever::create(samrightanim));
+		sam1a = true;
+		sam1b = true;
+		sam1c = true;
+		sam1d = false;
+	}
+
 
 
 	for (int i = 0; i <= 5; i++)
