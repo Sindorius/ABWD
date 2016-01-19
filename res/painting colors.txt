@@ -1,0 +1,10 @@
+Key
+Light Yellow = 236, 250, 85
+Dark Yellow = 234, 152, 26
+
+Pteradactyl
+Dark Blue = 1, 16, 73
+Blue = 4, 31, 131
+Light Green = 47, 247, 145
+Green = 11, 187, 60
+Dark Green = 2, 123, 36
