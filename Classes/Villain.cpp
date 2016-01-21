@@ -1,8 +1,10 @@
+
 #include "Villain.h"
 #include "Player.h"
 #include <math.h>
 #include <stdlib.h>
 #include "cocos2d.h"
+#include <iostream>
 
 Villain* Villain::create()
 {
@@ -19,20 +21,44 @@ Villain* Villain::create()
 	return NULL;
 }
 
+void Villain::setPriority(std::array<std::array<int, 6>, 6> tiles) {
+	priority1 = 0;
+	priority2 = 0;
+	priority3 = 0;
+	priority4 = 0;
+	for (int i = 0; i < 6; i++) {
+		for (int j = 0; j < 6; j++) {
+			if (tiles[i][j] == 1) {
+				priority1++;
+			}
+			else if (tiles[i][j] == 2) {
+				priority2++;
+			}
+			else if (tiles[i][j] == 3) {
+				priority3++;
+			}
+			else if (tiles[i][j] == 4) {
+				priority4++;
+			}
+		}
+	}
+}
+
 void Villain::runAI(std::vector<Player*>* players)
 {
+	std::cout << target << std::endl;
 	player_list = players;
 	calculations();
-
+	teleport_cd--;
 	if (behavior_unlocked) {
 		chooseBehavior();
 	}
 
 	switch (behavior) {
-	case 0 :
+	case 0:
 		walk();
 		break;
-	case 1 :
+	case 1:
 		chargeCharge();
 		break;
 	case 2:
@@ -64,20 +90,36 @@ void Villain::chooseBehavior() {
 	int choose = rand() % 3;
 	switch (choose) {
 	case 0:
-		behavior_timer = 150;
+		behavior_timer = 200;
 		behavior = 0;
 		break;
 		/*
-	case 1:
+		case 1:
 		behavior_timer = 30;
 		behavior = 1;
 		break;*/
 	case 2:
-		target = rand() % player_list->size();
-		x = player_list->at(target)->getPositionX();
-		y = player_list->at(target)->getPositionY();
-		behavior_timer = 80;
-		behavior = 3;
+		if (teleport_cd <= 0) {
+			int player;
+			//target = rand() % player_list->size();
+			player = rand() % (priority1 + priority2 + priority3 + priority4 + 1);
+			if (player < priority1) {
+				target = 0;
+			}
+			else if (player < (priority1 + priority2)) {
+				target = 1;
+			}
+			else if (player < (priority1 + priority2 + priority3)) {
+				target = 2;
+			}
+			else if (player < (priority1 + priority2 + priority3 + priority4)) {
+				target = 3;
+			}
+			x = player_list->at(target)->getPositionX();
+			y = player_list->at(target)->getPositionY();
+			behavior_timer = 80;
+			behavior = 3;
+		}
 		break;
 	}
 	behavior_unlocked = false;
@@ -145,6 +187,7 @@ void Villain::teleport() {
 		this->setPositionX(x);
 		this->setPositionY(y);
 		behavior_unlocked = true;
+		teleport_cd = 150;
 	}
 }
 

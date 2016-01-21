@@ -207,6 +207,7 @@ void ServerDemo::update(float dt)
 	player2->setPosition(p2pos);
 	player3->setPosition(p3pos);
 	player4->setPosition(p4pos);
+	villain->setPriority(whichplayertiles);
 	villain->runAI(&players);
 	
 	ServerPositionPacket p(villain->getPositionX(), villain->getPositionY(), player1->getPositionX(), player1->getPositionY(), player2->getPositionX(), player2->getPositionY(), player3->getPositionX(), player3->getPositionY(), player4->getPositionX(), player4->getPositionY(),tilevalues);
