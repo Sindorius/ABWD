@@ -17,9 +17,14 @@
 #include "ServerPositionPacket.hpp"
 #include "PlayerInputPacket.hpp"
 #include "PaintTile.h"
+#include "TCPSplitter.hpp"
+#include "TCPCSession.hpp"
 
 USING_NS_CC;
 using boost::asio::ip::udp;
+using boost::asio::ip::tcp;
+
+class TCPCSession;
 
 class ClientDemo : public cocos2d::Layer
 {
@@ -36,7 +41,7 @@ private:
 	bool anim1b = true;
 	bool anim1c = true;
 	bool anim1d = true;
-	
+
 	bool anim2a = true;
 	bool anim2b = true;
 	bool anim2c = true;
@@ -117,21 +122,25 @@ public:
 	boost::asio::io_service* io_service_p;
 	boost::asio::io_service io_service_;
 	//UDPInterface* myudpinterfacep;
-	udp::socket* myudpsocketp;
-	
-	udp::endpoint myendpoint;
+	//udp::socket* myudpsocketp;
+	std::shared_ptr<tcp::socket> mytcpsocketp;
+
+	//udp::endpoint myendpoint;
+	tcp::endpoint myendpoint;
 
 	void processPacket(ServerPositionPacket p);
-	void doReceive();
+	//void doReceive();
 
 	enum { max_length = 1024 };
 	char indata[max_length];
 	char outdata[max_length];
 	std::string outstringbuffer;
-
+	TCPSplitter tcpsplitter;
+	TCPCSession* tcpsessionptr;
 
 	PaintTile* tileptrarray[6][6];
 	std::array<std::array<int, 6>, 6> tilevalues = { 1 };
+
 
 	~ClientDemo();
 	

@@ -15,10 +15,12 @@
 #include <boost/thread/thread.hpp>
 #include "ConfigFileInput.hpp"
 #include "ServerPositionPacket.hpp"
-#include "UDPServer.hpp"
+//#include "UDPServer.hpp"
+#include "TCPServer.hpp"
 #include "PaintTile.h"
 
-class UDPServer;
+class TCPServer;
+
 
 class ServerDemo : public cocos2d::Layer
 {
@@ -72,7 +74,9 @@ public:
 	ConfigFileInput setupdata;
 
 	boost::asio::io_service* io_service_p;
-	UDPServer* myudpserverp;
+	//UDPServer* myudpserverp;
+	TCPServer* mytcpserverp;
+
 
 	~ServerDemo();
 

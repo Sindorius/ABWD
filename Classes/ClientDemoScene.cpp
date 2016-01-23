@@ -1,7 +1,8 @@
 #include "ClientDemoScene.h"
 
 USING_NS_CC;
-using boost::asio::ip::udp;
+//using boost::asio::ip::udp;
+using boost::asio::ip::tcp;
 
 
 Scene* ClientDemo::createScene()
@@ -39,23 +40,31 @@ bool ClientDemo::init()
 	char mycp2[32];
 	strncpy(mycp1, setupdata.ipaddress.c_str(), 32);
 	strncpy(mycp2, std::to_string(setupdata.port).c_str(), 32);
-
+	playernum = setupdata.level;
+	//myendpoint = resolver.resolve({ tcp::v4(), mycp1, mycp2 });
+	CCLOG("setting player number");
+	CCLOG(std::to_string(playernum).c_str());
 	try
 	{
-		CCLOG("setting up udp interface");
+		CCLOG("setting up tcp interface");
 		CCLOG(mycp1);
 		CCLOG(mycp2);
 		//boost::asio::io_service io_service;
 		io_service_p = new boost::asio::io_service;
 	
 		//udp::socket myudpsocket2(*io_service_p, udp::endpoint(udp::v4(), 0));
-		myudpsocketp = new udp::socket(*io_service_p, udp::endpoint(udp::v4(), 0));
-		udp::resolver resolver(*io_service_p);
+		//myudpsocketp = new udp::socket(*io_service_p, udp::endpoint(udp::v4(), 0));
+		//udp::resolver resolver(*io_service_p);
+		tcp::resolver resolver(*io_service_p);
+		tcp::resolver::query query{ mycp1,mycp2 };
+		tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
 
-		playernum = setupdata.level;
-		myendpoint = *resolver.resolve({ udp::v4(), mycp1, mycp2 });
+		mytcpsocketp = std::make_shared<tcp::socket>(*io_service_p);
+		boost::asio::connect(*mytcpsocketp, endpoint_iterator);
+		tcpsessionptr = new TCPCSession(mytcpsocketp,this);
+		tcpsessionptr->do_read_header();
 		//myudpinterfacep = new UDPInterface(*io_service_p, endpoint);
-		doReceive();
+//		doReceive();
 		
 	}
 	catch (std::exception& e)
@@ -131,6 +140,7 @@ bool ClientDemo::init()
 		}
 	}
 
+
 	//player 1 animations
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Vector<SpriteFrame*> walkupanimFrames;
@@ -198,7 +208,7 @@ bool ClientDemo::init()
 	walkrightanim = Animate::create(rightanimation);
 	walkrightanim->retain();
 
-	
+
 	Animation* paintanimation = Animation::createWithSpriteFrames(paintFrames, 0.1f);
 	paintanim = Animate::create(paintanimation);
 	paintanim->retain();
@@ -283,7 +293,7 @@ bool ClientDemo::init()
 	Animation* paintanimation1 = Animation::createWithSpriteFrames(paintFrames1, 0.1f);
 	paintanim1 = Animate::create(paintanimation1);
 	paintanim1->retain();
-	
+
 
 	//player3 animations
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -356,7 +366,7 @@ bool ClientDemo::init()
 	//Animation* paintanimation3 = Animation::createWithSpriteFrames(paintFrames3, 0.1f);
 	//paintanim2 = Animate::create(paintanimation3);
 	//paintanim2->retain();
-	
+
 
 	//player4 animations
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -493,7 +503,6 @@ bool ClientDemo::init()
 
 
 
-
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(ClientDemo::KeyDown, this);
 	keyListener->onKeyReleased = CC_CALLBACK_2(ClientDemo::KeyRelease, this);
@@ -527,20 +536,66 @@ void ClientDemo::update(float dt)
 	
 	if (xmove || ymove || button1)
 	{
+		
 		PlayerInputPacket p2 = PlayerInputPacket(playernum, xmove, ymove, button1);
 		std::ostringstream os2;
 		cereal::BinaryOutputArchive outar(os2);
 		outar(p2);
 		outstringbuffer = os2.str();
-		//CCLOG("Sending packet");
-		myudpsocketp->async_send_to(boost::asio::buffer(outstringbuffer), myendpoint, [this](boost::system::error_code /*ec*/, std::size_t /*bytes_sent*/)
+		CCLOG("outstringbuffer length");
+		CCLOG(std::to_string(outstringbuffer.length()).c_str());
+		/*
+		std::memcpy(tcpsplitter.body(), outstringbuffer.c_str(), outstringbuffer.length());
+		tcpsplitter.body_length(outstringbuffer.length());
+		//tcpsplitter.decode_header();
+		CCLOG("splitterlength");
+		CCLOG(std::to_string(tcpsplitter.length()).c_str());
+		CCLOG("outstringbuvver");
+		CCLOG(outstringbuffer.c_str());
+		CCLOG("bodylength");
+		CCLOG(std::to_string(tcpsplitter.body_length()).c_str());
+		CCLOG("body");
+		CCLOG(tcpsplitter.body());
+		std::string bodystring = std::string(tcpsplitter.body());
+		CCLOG(bodystring.c_str());
+		CCLOG("Sending packet");
+		OutputDebugStringW(L"My output string.");
+		OutputDebugStringA(bodystring.c_str());
+		OutputDebugStringA(outstringbuffer.c_str());
+
+		std::ofstream file("out.json");
+		cereal::JSONOutputArchive archive(file);
+		archive(p2);
+		std::stringstream is2;
+		cereal::BinaryInputArchive inar(is2);
+		for (size_t i = 0; i < tcpsplitter.body_length(); i++)
 		{
+			// there has to be a better way vectorized? than using for loop!!!
+			is2 << tcpsplitter.body()[i];
+		}
+		PlayerInputPacket inpacket(0, 0.0f, 0.0f, false);
+		inar(inpacket);
+		std::ofstream file2("out2.json");
+		cereal::JSONOutputArchive archive2(file2);
+		archive2(inpacket);
+
+		////myudpsocketp->async_send_to(boost::asio::buffer(outstringbuffer), myendpoint, [this](boost::system::error_code /*ec*/
+		//, std::size_t /*bytes_sent*/)
+		//{
 			//CCLOG("Sent packet");
-			
-		});
+
+		//});
+		//mytcpsocketp->async_write_some(boost::asio::buffer(tcpsplitter.data(),tcpsplitter.length()), [this](boost::system::error_code /*ec*/, std::size_t /*bytes_sent*/)
+	//	{
+	//		CCLOG("Sent packet");
+
+		//});
 		//CCLOG("sentplayerpacket");
 		//CCLOG(std::to_string(xmove).c_str());
 		//CCLOG(std::to_string(ymove).c_str());
+
+		CCLOG("sending packet");
+		tcpsessionptr->writewithstringbuffer(outstringbuffer);
 	}
 
 	player1->setZOrder(-player1->getPositionY());
@@ -570,39 +625,39 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 		ymove += 2;
 		if (playernum == 1)
 		{
-			//player1->stopAllActions();
-			//player1->runAction(RepeatForever::create(walkupanim));
+			player1->stopAllActions();
+			player1->runAction(RepeatForever::create(walkupanim));
 		}
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
 		if (playernum == 1)
 		{
-			//player1->stopAllActions();
-			//player1->runAction(RepeatForever::create(walkdownanim));
+			player1->stopAllActions();
+			player1->runAction(RepeatForever::create(walkdownanim));
 		}
 		ymove -= 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 		if (playernum == 1)
 		{
-			//player1->stopAllActions();
-			//player1->runAction(RepeatForever::create(walkleftanim));
+			player1->stopAllActions();
+			player1->runAction(RepeatForever::create(walkleftanim));
 		}
 		xmove -= 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 		if (playernum == 1)
 		{
-			//player1->stopAllActions();
-			//player1->runAction(RepeatForever::create(walkrightanim));
+			player1->stopAllActions();
+			player1->runAction(RepeatForever::create(walkrightanim));
 		}
 		xmove += 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
 		if (playernum == 1)
 		{
-			//player1->stopAllActions();
-			//player1->runAction(RepeatForever::create(paintanim));
+			player1->stopAllActions();
+			player1->runAction(RepeatForever::create(paintanim));
 		}
 		button1 = true;
 		xmove = 0;
@@ -619,35 +674,35 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
 		if (playernum == 1)
 		{
-			//player1->stopAllActions();
+			player1->stopAllActions();
 		}
 		ymove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
 		if (playernum == 1)
 		{
-			//player1->stopAllActions();
+			player1->stopAllActions();
 		}
 		ymove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 		if (playernum == 1)
 		{
-			//player1->stopAllActions();
+			player1->stopAllActions();
 		}
 		xmove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 		if (playernum == 1)
 		{
-			//player1->stopAllActions();
+			player1->stopAllActions();
 		}
 		xmove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
 		if (playernum == 1)
 		{
-		//	player1->stopAllActions();
+			player1->stopAllActions();
 		}
 		button1 = false;
 		break;
@@ -676,8 +731,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	player3->setPosition(Vec2(p.p3x, p.p3y));
 	player4->setPosition(Vec2(p.p4x, p.p4y));
 	villain->setPosition(Vec2(p.vx, p.vy));
-
-
+	//tilevalues = p.tilevalues;
 	//player1 animations
 	//////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -719,8 +773,8 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	}
 	//player1->stopAllActions();
 	//tilevalues = p.tilevalues;
-	
-	
+
+
 	//player2 animations
 	//////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -885,7 +939,6 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	}
 
 
-
 	for (int i = 0; i <= 5; i++)
 	{
 		for (int j = 0; j <= 5; j++)
@@ -925,12 +978,11 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	}
 
 }
-
+/*
 void ClientDemo::doReceive()
 {
-	myudpsocketp->async_receive_from(
-		boost::asio::buffer(indata, max_length), myendpoint,
-		[this](boost::system::error_code ec, std::size_t bytes_recvd)
+	mytcpsocketp->async_read_some(
+		boost::asio::buffer(indata, max_length), [this](boost::system::error_code ec, std::size_t bytes_recvd)
 	{
 		if (!ec && bytes_recvd > 0)
 		{
@@ -957,4 +1009,4 @@ void ClientDemo::doReceive()
 			doReceive();
 		}
 	});
-}
+}*/
