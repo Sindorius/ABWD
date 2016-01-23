@@ -108,7 +108,7 @@ bool ServerDemo::init()
 	vpos = villain->getPosition();
 	addChild(villain, 0);
 
-	Sprite* wallpainting = Sprite::create("sprites/tiny_sun_framed.png");
+	Sprite* wallpainting = Sprite::create("res/sprites/tiny_sun_framed.png");
 	wallpainting->getTexture()->setAliasTexParameters();
 	wallpainting->setPosition(Vec2(640, 640));
 	wallpainting->setScale(1.5);
@@ -160,12 +160,15 @@ bool ServerDemo::init()
 	CCLOG("port is");
 	CCLOG(std::to_string(setupdata.port).c_str());
 	CCLOG("THIS WORKING DOG?");
-	std::cout << "cout works dog" << std::endl;
+
 	try
 	{
+		CCLOG("intry");
 		//boost::asio::io_service io_service;
 		io_service_p = new boost::asio::io_service;
-		myudpserverp = new UDPServer(*io_service_p, setupdata.port, this);
+		CCLOG("madepastioservice");
+		mytcpserverp = new TCPServer(*io_service_p, setupdata.port, this);
+		CCLOG("madepastserver");
 	}
 	catch (std::exception& e)
 	{
@@ -191,8 +194,7 @@ void ServerDemo::update(float dt)
 {
 
 	io_service_p->poll();
-	std::cout << "polling";
-	CCLOG("POLLING");
+	//CCLOG("POLLING");
 
 
 	//PlayerInputPacket p1 = myudpserverp->getPlayerPacket(1);
@@ -207,6 +209,7 @@ void ServerDemo::update(float dt)
 	player2->setPosition(p2pos);
 	player3->setPosition(p3pos);
 	player4->setPosition(p4pos);
+	villain->setPriority(whichplayertiles);
 	villain->runAI(&players);
 	
 	ServerPositionPacket p(villain->getPositionX(), villain->getPositionY(), player1->getPositionX(), player1->getPositionY(), player2->getPositionX(), player2->getPositionY(), player3->getPositionX(), player3->getPositionY(), player4->getPositionX(), player4->getPositionY(),tilevalues);
@@ -216,7 +219,7 @@ void ServerDemo::update(float dt)
 	player3->setZOrder(-player3->getPositionY());
 	player4->setZOrder(-player4->getPositionY());
 	villain->setZOrder(-villain->getPositionY());
-	myudpserverp->sendPacket(p);
+	mytcpserverp->sendPacket(p);
 	//myudpserverp->do_send();
 
 	for(Player* p : players)
@@ -263,14 +266,15 @@ void ServerDemo::update(float dt)
 
 ServerDemo::~ServerDemo()
 {
+	CCLOG("ServerDemoDeconstructor");
 	if (io_service_p)
 	{
 		delete io_service_p;
 	}
 	
-	if (myudpserverp)
+	if (mytcpserverp)
 	{
-		delete myudpserverp;
+		delete mytcpserverp;
 	}
 
 }
@@ -549,11 +553,11 @@ bool ServerDemo::checkSolution()
 		{
 			if(tilevalues[i][j] != solution[i][j])
 			{
-				CCLOG(std::to_string(i).c_str());
-				CCLOG(std::to_string(j).c_str());
-				CCLOG("not equal");
-				CCLOG(std::to_string(tilevalues[i][j]).c_str());
-				CCLOG(std::to_string(solution[i][j]).c_str());
+				//CCLOG(std::to_string(i).c_str());
+				//CCLOG(std::to_string(j).c_str());
+				//CCLOG("solution not equal");
+				//CCLOG(std::to_string(tilevalues[i][j]).c_str());
+				//CCLOG(std::to_string(solution[i][j]).c_str());
 				return false;
 			}
 		}

@@ -17,9 +17,14 @@
 #include "ServerPositionPacket.hpp"
 #include "PlayerInputPacket.hpp"
 #include "PaintTile.h"
+#include "TCPSplitter.hpp"
+#include "TCPCSession.hpp"
 
 USING_NS_CC;
 using boost::asio::ip::udp;
+using boost::asio::ip::tcp;
+
+class TCPCSession;
 
 class ClientDemo : public cocos2d::Layer
 {
@@ -31,7 +36,33 @@ private:
 	Player* player3;
 	Player* player4;
 	std::vector<Player*> players;
+	std::string state1, state2, state3, state4;
+	bool anim1a = true;
+	bool anim1b = true;
+	bool anim1c = true;
+	bool anim1d = true;
+
+	bool anim2a = true;
+	bool anim2b = true;
+	bool anim2c = true;
+	bool anim2d = true;
+
+	bool anim3a = true;
+	bool anim3b = true;
+	bool anim3c = true;
+	bool anim3d = true;
+
+	bool anim4a = true;
+	bool anim4b = true;
+	bool anim4c = true;
+	bool anim4d = true;
+
 	Villain* villain;
+
+	bool sam1a = true;
+	bool sam1b = true;
+	bool sam1c = true;
+	bool sam1d = true;
 
 	std::vector<cocos2d::Sprite*> objects;
 
@@ -41,6 +72,29 @@ private:
 	cocos2d::Animate* walkleftanim;
 	cocos2d::Animate* walkrightanim;
 	cocos2d::Animate* paintanim;
+
+	cocos2d::Animate* walkupanim1;
+	cocos2d::Animate* walkdownanim1;
+	cocos2d::Animate* walkleftanim1;
+	cocos2d::Animate* walkrightanim1;
+	cocos2d::Animate* paintanim1;
+
+	cocos2d::Animate* walkupanim2;
+	cocos2d::Animate* walkdownanim2;
+	cocos2d::Animate* walkleftanim2;
+	cocos2d::Animate* walkrightanim2;
+	cocos2d::Animate* paintanim2;
+
+	cocos2d::Animate* walkupanim3;
+	cocos2d::Animate* walkdownanim3;
+	cocos2d::Animate* walkleftanim3;
+	cocos2d::Animate* walkrightanim3;
+	cocos2d::Animate* paintanim3;
+
+	cocos2d::Animate* samupanim;
+	cocos2d::Animate* samdownanim;
+	cocos2d::Animate* samleftanim;
+	cocos2d::Animate* samrightanim;
 
 
 public:
@@ -68,21 +122,25 @@ public:
 	boost::asio::io_service* io_service_p;
 	boost::asio::io_service io_service_;
 	//UDPInterface* myudpinterfacep;
-	udp::socket* myudpsocketp;
-	
-	udp::endpoint myendpoint;
+	//udp::socket* myudpsocketp;
+	std::shared_ptr<tcp::socket> mytcpsocketp;
+
+	//udp::endpoint myendpoint;
+	tcp::endpoint myendpoint;
 
 	void processPacket(ServerPositionPacket p);
-	void doReceive();
+	//void doReceive();
 
 	enum { max_length = 1024 };
 	char indata[max_length];
 	char outdata[max_length];
 	std::string outstringbuffer;
-
+	TCPSplitter tcpsplitter;
+	TCPCSession* tcpsessionptr;
 
 	PaintTile* tileptrarray[6][6];
 	std::array<std::array<int, 6>, 6> tilevalues = { 1 };
+
 
 	~ClientDemo();
 	

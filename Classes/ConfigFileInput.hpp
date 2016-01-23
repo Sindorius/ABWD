@@ -25,7 +25,7 @@ public:
 	int level;
 
 
-	ConfigFileInput(){ ipaddress = "127.0.0.1"; port = 1001; level = 1; };
+	ConfigFileInput(){ ipaddress = "127.0.0.1"; port = 10001; level = 1; };
 	ConfigFileInput(std::string a, int b, int c) :
 		ipaddress(a), port(b), level(c)
 	{}
