@@ -9,8 +9,11 @@
 #include "PlayerInputPacket.hpp"
 #include "ServerDemoScene.h"
 #include "cocos2d.h"
+#include "TCPSplitter.hpp"
+#include "TCPSSession.hpp"
 
 class ServerDemo;
+class TCPSSession;
 
 using boost::asio::ip::tcp;
 
@@ -18,24 +21,33 @@ class TCPServer
 {
 
 private:
+	boost::asio::io_service* io_service_p;
+	std::shared_ptr<tcp::socket> newsocket;
 	tcp::socket socket_;
-	tcp::endpoint sender_endpoint_;
 	tcp::acceptor acceptor_;
-	std::map<int, tcp::endpoint> clientmap;
+	std::vector<TCPSSession> sessionvector;
+	std::map<int, TCPSSession> clientsessionmap;
+	std::vector<std::shared_ptr<tcp::socket>> socketvector;
+	
 	enum { max_length = 1024 };
 	char data_[max_length];
 	std::string outstringbuffer;
+	TCPSplitter tcpsplitter;
+
 	int xmove[4] = { 0 };
 	int ymove[4] = { 0 };
 
 	ServerDemo* serverptr;
+	
 
 public:
 
 	TCPServer::TCPServer(boost::asio::io_service& io_service, short port, ServerDemo* sptr);
 	void do_receive();
+	void do_read();
+	void do_accept();
 	void sendPacket(ServerPositionPacket p);
-
+	void handle_accept(	const boost::system::error_code& error);
 	/*UDPServer::UDPServer(boost::asio::io_service& io_service, short port, NetworkManager* mptr)
 	: socket_(io_service, udp::endpoint(udp::v4(), port))
 	{
@@ -44,9 +56,7 @@ public:
 	do_receive();
 
 	}
-
 	*/
-
 	/*
 	void do_send()
 	{
