@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="26" height="15" tilewidth="24" tileheight="24" nextobjectid="84">
+ <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
+  <image source="./res/sprites/tiles/walls.png" width="192" height="192"/>
+ </tileset>
+ <tileset firstgid="65" name="floor" tilewidth="24" tileheight="24" tilecount="42">
+  <image source="./res/sprites/tiles/floor.png" width="168" height="144"/>
+ </tileset>
+ <tileset firstgid="107" name="buckets" tilewidth="24" tileheight="24" tilecount="4">
+  <image source="./res/sprites/buckets.png" width="96" height="24"/>
+  <tile id="0">
+   <properties>
+    <property name="Red" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Blue" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Yellow" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Orange" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Floor" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJwLYGBg8AfiACJoTyhNKmaA6vUgkqbEHmL8MeqfUf+MZP/gUkML/+Cyh1j/kBNe5PqHEnvo5R96AQBngGqs
+  </data>
+ </layer>
+ <layer name="Walls" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYWBgEKIxZgVibiCWojHmhNqjRGMMs4fWYNSeUXtG7Rm1B9keNiBmojFmB2IA9soImw==
+  </data>
+ </layer>
+ <layer name="Paintbuckets" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFtATZUDoHSudC6bwBcMsoGAWjYBQQAwDx8QGz
+  </data>
+ </layer>
+</map>
