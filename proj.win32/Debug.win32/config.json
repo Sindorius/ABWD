@@ -1,8 +1,8 @@
 {
     "setup": {
         "cereal_class_version": 0,
-        "value0": "169.234.43x.72",
+        "value0": "127.0.0.1",
         "value1": 1001,
-        "value2": 3
+        "value2": 1
     }
 }
