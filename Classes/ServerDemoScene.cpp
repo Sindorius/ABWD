@@ -108,7 +108,7 @@ bool ServerDemo::init()
 	vpos = villain->getPosition();
 	addChild(villain, 0);
 
-	Sprite* wallpainting = Sprite::create("sprites/tiny_sun_framed.png");
+	Sprite* wallpainting = Sprite::create("res/sprites/tiny_sun_framed.png");
 	wallpainting->getTexture()->setAliasTexParameters();
 	wallpainting->setPosition(Vec2(640, 640));
 	wallpainting->setScale(1.5);
