@@ -154,6 +154,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Player.h" />
     <ClInclude Include="..\Classes\PlayerInputPacket.hpp" />
     <ClInclude Include="..\Classes\ServerPositionPacket.hpp" />
+    <ClInclude Include="..\Classes\TCPCSession.hpp" />
     <ClInclude Include="..\Classes\Villain.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
@@ -177,6 +178,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\ClientDemoScene.cpp" />
     <ClCompile Include="..\Classes\PaintTile.cpp" />
     <ClCompile Include="..\Classes\Player.cpp" />
+    <ClCompile Include="..\Classes\TCPCSession.cpp" />
     <ClCompile Include="..\Classes\Villain.cpp" />
     <ClCompile Include="main_client.cpp" />
   </ItemGroup>
