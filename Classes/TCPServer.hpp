@@ -25,7 +25,7 @@ private:
 	std::shared_ptr<tcp::socket> newsocket;
 	tcp::socket socket_;
 	tcp::acceptor acceptor_;
-	std::vector<TCPSSession> sessionvector;
+	std::vector<TCPSSession*> sessionvector;
 	std::map<int, TCPSSession> clientsessionmap;
 	std::vector<std::shared_ptr<tcp::socket>> socketvector;
 	
@@ -43,6 +43,10 @@ private:
 public:
 
 	TCPServer::TCPServer(boost::asio::io_service& io_service, short port, ServerDemo* sptr);
+	~TCPServer()
+	{
+		CCLOG("TCPServer deconstructor should not see");
+	}
 	void do_receive();
 	void do_read();
 	void do_accept();

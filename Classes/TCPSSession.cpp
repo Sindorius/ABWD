@@ -13,62 +13,67 @@ void TCPSSession::do_read_header()
 	CCLOG("inreadheader");
 	boost::asio::async_read(*socketptr,
 		boost::asio::buffer(tcpsplitterin.data(), tcpsplitterin.header_length),
-		[this](boost::system::error_code ec, std::size_t bytes_recvd)
-	{
-		if (!ec && tcpsplitterin.decode_header())
-		{
-			do_read_body();
-		}
-		else
-		{
-			//socket_.close();
-			CCLOG("error");
-		}
-	});
+		boost::bind(&TCPSSession::handle_read_header, this,
+			boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 }
+
+void TCPSSession::handle_read_header(boost::system::error_code ec, std::size_t bytes_recvd)
+{
+	if (!ec && tcpsplitterin.decode_header())
+	{
+		do_read_body();
+	}
+	else
+	{
+		//socket_.close();
+		CCLOG("error");
+	}
+};
 
 void TCPSSession::do_read_body()
 {
 	CCLOG("inreadbody");
 	boost::asio::async_read(*socketptr,
 		boost::asio::buffer(tcpsplitterin.body(), tcpsplitterin.body_length()),
-		[this](boost::system::error_code ec, std::size_t bytes_recvd)
-	{
-
-		if (!ec && bytes_recvd > 0)
-		{
-
-			//std::cout.write(tcpsplitterin.body(), tcpsplitterin.body_length());
-			CCLOG(tcpsplitterin.body());
-
-
-
-			CCLOG("received data");
-			std::stringstream is2;
-			cereal::BinaryInputArchive inar(is2);
-			for (size_t i = 0; i < bytes_recvd; i++)
-			{
-				// there has to be a better way vectorized? than using for loop!!!
-				is2 << tcpsplitterin.body()[i];
-			}
-			PlayerInputPacket inpacket;
-			inar(inpacket);
-			CCLOG("input from client");
-			CCLOG(std::to_string(inpacket.dx).c_str());
-			CCLOG(std::to_string(inpacket.dy).c_str());
-			//s.send_to(boost::asio::buffer(os2.str()), endpoint);
-			serverptr->processPlayerPacket(inpacket);
-
-			do_read_header();
-		}
-		else
-		{
-			//socket_.close();
-			CCLOG("error");
-		}
-	});
+		boost::bind(&TCPSSession::handle_read_body, this,
+			boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 }
 
+void TCPSSession::handle_read_body(boost::system::error_code ec, std::size_t bytes_recvd)	
+{
+
+	if (!ec && bytes_recvd > 0)
+	{
+
+		//std::cout.write(tcpsplitterin.body(), tcpsplitterin.body_length());
+		CCLOG(tcpsplitterin.body());
+
+
+
+		CCLOG("received data");
+		std::stringstream is2;
+		cereal::BinaryInputArchive inar(is2);
+		for (size_t i = 0; i < bytes_recvd; i++)
+		{
+			// there has to be a better way vectorized? than using for loop!!!
+			is2 << tcpsplitterin.body()[i];
+		}
+		PlayerInputPacket inpacket;
+		inar(inpacket);
+		CCLOG("input from client");
+		CCLOG(std::to_string(inpacket.dx).c_str());
+		CCLOG(std::to_string(inpacket.dy).c_str());
+		//s.send_to(boost::asio::buffer(os2.str()), endpoint);
+		serverptr->processPlayerPacket(inpacket);
+
+		do_read_header();
+	}
+	else
+	{
+		//socket_.close();
+		CCLOG("error");
+	}
+}
 
 
 

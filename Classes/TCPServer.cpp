@@ -25,14 +25,14 @@ void TCPServer::do_accept()
 void TCPServer::handle_accept(
 	const boost::system::error_code& error)
 {
-	CCLOG("in accept");
+	CCLOG("in handle accept");
 	if (!error)
 	{
 		CCLOG("no error adding to socketlist");
 		CCLOG("starting socket read header");
-		
-		sessionvector.push_back(TCPSSession(newsocket,serverptr));
-		sessionvector.at(sessionvector.size() - 1).do_read_header();
+		TCPSSession* newsession = new TCPSSession(newsocket, serverptr);
+		sessionvector.push_back(newsession);
+		sessionvector.at(sessionvector.size() - 1)->do_read_header();
 		
 		CCLOG(std::to_string(sessionvector.size()).c_str());
 		//socketvector.push_back(newsocket);
@@ -54,23 +54,23 @@ void TCPServer::do_receive()
 
 void TCPServer::sendPacket(ServerPositionPacket p)
 {
-	std::cout << "sending data back";
-	CCLOG("sending data back");
 	std::ostringstream os2;
 	cereal::BinaryOutputArchive outar(os2);
 
 	outar(p);
 
 	outstringbuffer = os2.str();
-	for each(TCPSSession s in sessionvector)
+	int i = 1;
+	for each(TCPSSession* s in sessionvector)
 	{
 	//	s.socketptr->async_write_some(boost::asio::buffer(outstringbuffer),
 	//		[this](boost::system::error_code /*ec*/, std::size_t /*bytes_sent*/)
 	//	{
 	//		CCLOG("wrote to client");
 	//	});
-
-		s.writewithstringbuffer(outstringbuffer);
+		CCLOG("sending data to session"+i);
+		i++;
+		s->writewithstringbuffer(outstringbuffer);
 		
 	}
 	

@@ -35,11 +35,19 @@ public:
 
 	TCPSSession(std::shared_ptr<tcp::socket> sptr, ServerDemo* sdptr) : socketptr(sptr), serverptr(sdptr)
 	{};
+	~TCPSSession()
+	{
+		CCLOG("deconstructor - should not happen");
+
+	}
 
 	std::string readString();
 	void setServerPtr(ServerDemo* cptr);
 	void do_read_header();
 	void do_read_body();
+	void handle_read_header(boost::system::error_code ec, std::size_t bytes_recvd);
+	void handle_read_body(boost::system::error_code ec, std::size_t bytes_recvd);
+
 	void writewithstringbuffer(std::string s);
 	void handle_write(const boost::system::error_code& error,
 		size_t bytes_transferred);
