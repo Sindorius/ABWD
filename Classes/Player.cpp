@@ -4,7 +4,7 @@ Player* Player::create()
 {
 	Player* pSprite = new Player();
 
-	if (pSprite->initWithFile("sprites//animations//char_red_front_0.png"))
+	if (pSprite->initWithFile("\\res\\sprites\\animations\\main_characters\\char_red_walking_down0.png"))
 	{
 		pSprite->autorelease();
 		return pSprite;
@@ -20,7 +20,7 @@ Player* Player::create(int playernum)
 
 	if (playernum == 1)
 	{
-		if (pSprite->initWithFile("sprites//animations//char_red_front_0.png"))
+		if (pSprite->initWithFile("\\res\\sprites\\animations\\main_characters\\char_red_walking_down0.png"))
 		{
 			pSprite->autorelease();
 			return pSprite;
@@ -28,7 +28,7 @@ Player* Player::create(int playernum)
 	}
 	else if (playernum == 2)
 	{
-		if (pSprite->initWithFile("sprites//animations//char_blue_front_0.png"))
+		if (pSprite->initWithFile("\\res\\sprites\\animations\\main_characters\\char_blue_walking_down0.png"))
 		{
 			pSprite->autorelease();
 			return pSprite;
@@ -36,7 +36,7 @@ Player* Player::create(int playernum)
 	}
 	else if (playernum == 3)
 	{
-		if (pSprite->initWithFile("sprites//animations//char_green_front_0.png"))
+		if (pSprite->initWithFile("\\res\\sprites\\animations\\main_characters\\char_green_walking_down0.png"))
 		{
 			pSprite->autorelease();
 			return pSprite;
@@ -44,7 +44,7 @@ Player* Player::create(int playernum)
 	}
 	else if (playernum == 4)
 	{
-		if (pSprite->initWithFile("sprites//animations//char_yellow_front_0.png"))
+		if (pSprite->initWithFile("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_down0.png"))
 		{
 			pSprite->autorelease();
 			return pSprite;
