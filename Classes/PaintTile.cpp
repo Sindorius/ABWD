@@ -4,7 +4,7 @@ PaintTile* PaintTile::create()
 {
 	PaintTile* pSprite = new PaintTile();
 
-	if (pSprite->initWithFile("res//maps//newroom//Red.png"))
+	if (pSprite->initWithFile("res//sprites//paint_r.png"))
 	{
 		pSprite->setColor("clear");
 		pSprite->autorelease();
@@ -21,7 +21,7 @@ PaintTile* PaintTile::create(std::string color)
 	PaintTile* pSprite = new PaintTile();
 	if (color == "red")
 	{
-		if (pSprite->initWithFile("res//maps//newroom//Red.png"))
+		if (pSprite->initWithFile("res//sprites//paint_r.png"))
 		{
 			pSprite->setColor("red");
 
@@ -32,7 +32,7 @@ PaintTile* PaintTile::create(std::string color)
 	}
 	if (color == "blue")
 	{
-		if (pSprite->initWithFile("res//maps//newroom//Blue.png"))
+		if (pSprite->initWithFile("res//sprites//paint_b.png"))
 		{
 			pSprite->setColor("blue");
 
@@ -43,7 +43,7 @@ PaintTile* PaintTile::create(std::string color)
 	}
 	if (color == "yellow")
 	{
-		if (pSprite->initWithFile("res//maps//newroom//Yellow.png"))
+		if (pSprite->initWithFile("res//sprites//paint_y.png"))
 		{
 			pSprite->setColor("yellow");
 
@@ -54,7 +54,7 @@ PaintTile* PaintTile::create(std::string color)
 	}
 	if (color == "orange")
 	{
-		if (pSprite->initWithFile("res//maps//newroom//Orange.png"))
+		if (pSprite->initWithFile("res//sprites//paint_o.png"))
 		{
 			pSprite->setColor("orange");
 
@@ -65,7 +65,7 @@ PaintTile* PaintTile::create(std::string color)
 	}
 	else
 	{
-		if (pSprite->initWithFile("res//maps//newroom//Red.png"))
+		if (pSprite->initWithFile("res//sprites//paint_r.png"))
 		{
 			pSprite->setColor("red");
 
@@ -84,26 +84,26 @@ void PaintTile::refreshColor()
 {
 	if(color == "red")
 	{
-		setTexture("res//maps//newroom//Red.png");
+		setTexture("res//sprites//paint_r.png");
 	}
 	if (color == "blue")
 	{
-		setTexture("res//maps//newroom//Blue.png");
+		setTexture("res//sprites//paint_b.png");
 	}
 
 	if (color == "yellow")
 	{
-		setTexture("res//maps//newroom//Yellow.png");
+		setTexture("res//sprites//paint_y.png");
 	}
 
 	if (color == "orange")
 	{
-		setTexture("res//maps//newroom//Orange.png");
+		setTexture("res//sprites//paint_o.png");
 	}
 
 	if (color == "black")
 	{
-		setTexture("res//maps//newroom//Black.png");
+		setTexture("res//sprites//paint_overlay_dry.png");
 	}
 
 
