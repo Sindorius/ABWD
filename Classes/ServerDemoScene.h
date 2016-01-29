@@ -26,10 +26,21 @@ class ServerDemo : public cocos2d::Layer
 {
 private:
 	//cocos2d::CCTMXTiledMap* tileMap;
-	cocos2d::experimental::TMXTiledMap* tileMap;
-	cocos2d::experimental::TMXLayer* bucketlayer;
 
-	//cocos2d::CCTMXLayer* blockage;
+	//cocos2d::experimental::TMXTiledMap* tileMap;
+	//cocos2d::experimental::TMXLayer* bucketlayer;
+	/////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
+	cocos2d::CCTMXTiledMap* tileMap;
+	cocos2d::CCTMXLayer* bucketlayer;
+
+	cocos2d::CCTMXLayer* blockage;
+	cocos2d::CCTMXObjectGroup* spawnObjs;
+	cocos2d::Sprite* redBucket;
+	cocos2d::Sprite* blueBucket;
+	cocos2d::Sprite* yellowBucket;
+	cocos2d::Sprite* orangeBucket;
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	//cocos2d::CCTMXLayer* blueBucket;
 	//cocos2d::CCTMXLayer* redBucket;
 	//cocos2d::CCTMXLayer* yellowBucket;
@@ -101,12 +112,20 @@ public:
 		} };
 	std::array<std::array<int, 6>, 6> solution = 
 	{{
+			/*
 		{ 2,2,4,1,2,2 },
 		{ 2,1,3,3,4,2 },
 		{ 4,3,3,3,3,1 },
 		{ 1,3,3,3,3,4 },
 		{ 2,4,3,3,1,2 },
 		{ 2,2,1,4,2,2 }
+		*/
+		{ 3,3,5,2,3,3 },
+		{ 3,2,4,4,5,3 },
+		{ 5,4,4,4,4,2 },
+		{ 2,4,4,4,4,5 },
+		{ 3,5,4,4,2,3 },
+		{ 3,3,2,5,3,3 }
 
 	}};
 	std::array<std::array<int, 6>, 6> whichplayertiles =
@@ -122,6 +141,10 @@ public:
 
 	// Paint on the floor
 	void space(int playernum);
+	// Paint on the floor
+	////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
+	void space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, float dymove);
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	bool checkSolution();
 };
 

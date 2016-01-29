@@ -4,7 +4,7 @@ PaintTile* PaintTile::create()
 {
 	PaintTile* pSprite = new PaintTile();
 
-	if (pSprite->initWithFile("res//sprites//paint_r.png"))
+	if (pSprite->initWithFile("res//sprites//paint_overlay_dry.png"))
 	{
 		pSprite->setColor("clear");
 		pSprite->autorelease();

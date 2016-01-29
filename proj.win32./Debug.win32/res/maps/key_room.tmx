@@ -20,7 +20,7 @@
   </tile>
   <tile id="2">
    <properties>
-    <property name="Yellow" value="true"/>
+    <property name="Orange" value="true"/>
    </properties>
   </tile>
   <tile id="3">
@@ -28,6 +28,9 @@
     <property name="Orange" value="true"/>
    </properties>
   </tile>
+ </tileset>
+ <tileset firstgid="111" name="meta_tiles" tilewidth="24" tileheight="24" tilecount="8">
+  <image source="./res/sprites/tiles/meta_tiles.png" width="96" height="48"/>
  </tileset>
  <layer name="Floor" width="13" height="19">
   <data encoding="base64" compression="zlib">
@@ -44,9 +47,14 @@
    eJxjYBjeIAcHPQpGwXAHAMDZAUU=
   </data>
  </layer>
- <layer name="Tile Layer 4" width="13" height="19">
+ <layer name="Canvas" width="13" height="19">
   <data encoding="base64" compression="zlib">
    eJxjYBgFAwVygTgbjSYEsrFgWuiBuYnW9gw3tw0mAADmYBLa
+  </data>
+ </layer>
+ <layer name="Collision" width="13" height="19">
+  <data encoding="base64" compression="zlib">
+   eJzLZ2BgyB9mmBQwqmdUz1DRQyoGAIK+KFQ=
   </data>
  </layer>
 </map>

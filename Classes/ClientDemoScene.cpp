@@ -7,29 +7,29 @@ using boost::asio::ip::tcp;
 
 Scene* ClientDemo::createScene()
 {
-    // 'scene' is an autorelease object
-    auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
-    auto layer = ClientDemo::create();
+	// 'scene' is an autorelease object
+	auto scene = Scene::create();
 
-    // add layer as a child to scene
-    scene->addChild(layer);
+	// 'layer' is an autorelease object
+	auto layer = ClientDemo::create();
 
-    // return the scene
-    return scene;
+	// add layer as a child to scene
+	scene->addChild(layer);
+
+	// return the scene
+	return scene;
 }
 
 // on "init" you need to initialize your instance
 bool ClientDemo::init()
 {
-    //////////////////////////////
-    // 1. super init first
-    if ( !Layer::init() )
-    {
-        return false;
-    }
-    
+	//////////////////////////////
+	// 1. super init first
+	if (!Layer::init())
+	{
+		return false;
+	}
+
 	std::ifstream is("config.json");
 	cereal::JSONInputArchive configloader(is);
 	setupdata = ConfigFileInput();
@@ -51,7 +51,7 @@ bool ClientDemo::init()
 		CCLOG(mycp2);
 		//boost::asio::io_service io_service;
 		io_service_p = new boost::asio::io_service;
-	
+
 		//udp::socket myudpsocket2(*io_service_p, udp::endpoint(udp::v4(), 0));
 		//myudpsocketp = new udp::socket(*io_service_p, udp::endpoint(udp::v4(), 0));
 		//udp::resolver resolver(*io_service_p);
@@ -61,11 +61,11 @@ bool ClientDemo::init()
 
 		mytcpsocketp = std::make_shared<tcp::socket>(*io_service_p);
 		boost::asio::connect(*mytcpsocketp, endpoint_iterator);
-		tcpsessionptr = new TCPCSession(mytcpsocketp,this);
+		tcpsessionptr = new TCPCSession(mytcpsocketp, this);
 		tcpsessionptr->do_read_header();
 		//myudpinterfacep = new UDPInterface(*io_service_p, endpoint);
-//		doReceive();
-		
+		//		doReceive();
+
 	}
 	catch (std::exception& e)
 	{
@@ -76,39 +76,81 @@ bool ClientDemo::init()
 
 
 
-
 	std::string file = "res//maps//happy_sun_paint.tmx";
 	auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
 	tileMap = cocos2d::CCTMXTiledMap::createWithXML(str->getCString(), "");
 
 	addChild(tileMap, -1000);
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE HERE
+	// Load the paint bucket layer
+	bucketlayer = tileMap->getLayer("Paintbuckets");
+	blockage = tileMap->getLayer("Collision");
+	blockage->setVisible(false);
+
+	// Check to see if there is an object layer 
+	spawnObjs = tileMap->objectGroupNamed("SpawnObjects");
+
+	if (spawnObjs == NULL) {
+		CCLOG("TMX map has no Red Bucket object layer");
+	}
+
+	// Player one spawn position coordinates 
+	ValueMap playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
+	int p1X = playerOneSP["x"].asInt();
+	int p1Y = playerOneSP["y"].asInt();
+
+	ValueMap playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
+	int p2X = playerTwoSP["x"].asInt();
+	int p2Y = playerTwoSP["y"].asInt();
+
+	ValueMap playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
+	int p3X = playerThreeSP["x"].asInt();
+	int p3Y = playerThreeSP["y"].asInt();
+
+	ValueMap playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
+	int p4X = playerFourSP["x"].asInt();
+	int p4Y = playerFourSP["y"].asInt();
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	player1 = Player::create(1);
 	player1->setPlayernum(1);
 	player1->getTexture()->setAliasTexParameters();
 	player1->setAnchorPoint(Vec2(0.5, 0.0));
-	player1->setPosition(Vec2(100, 100));
+	//player1->setPosition(Vec2(100, 100));
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
+	player1->setPosition(Vec2(p1X, p1Y));
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	addChild(player1, 0);
 
 	player2 = Player::create(2);
 	player2->setPlayernum(2);
 	player2->getTexture()->setAliasTexParameters();
 	player2->setAnchorPoint(Vec2(0.5, 0.0));
-	player2->setPosition(Vec2(200, 200));
+	//player2->setPosition(Vec2(200, 200));
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
+	player2->setPosition(Vec2(p2X, p2Y));
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	addChild(player2, 0);
 
 	player3 = Player::create(3);
 	player3->setPlayernum(3);
 	player3->getTexture()->setAliasTexParameters();
 	player3->setAnchorPoint(Vec2(0.5, 0.0));
-	player3->setPosition(Vec2(300, 300));
+	//player3->setPosition(Vec2(300, 300));
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
+	player3->setPosition(Vec2(p3X, p3Y));
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	addChild(player3, 0);
 
 	player4 = Player::create(4);
 	player4->setPlayernum(4);
 	player4->getTexture()->setAliasTexParameters();
 	player4->setAnchorPoint(Vec2(0.5, 0.0));
-	player4->setPosition(Vec2(400, 400));
+	//player4->setPosition(Vec2(400, 400));
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
+	player4->setPosition(Vec2(p4X, p4Y));
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	addChild(player4, 0);
 
 	players.push_back(player1);
@@ -121,6 +163,29 @@ bool ClientDemo::init()
 	villain->setAnchorPoint(Vec2(0.5, 0.0));
 	villain->setPosition(Vec2(500, 300));
 	addChild(villain, 0);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
+	// Player Label Creation
+	p1CLabel = CCLabelTTF::create("p1", "fonts/Marker Felt.ttf", 20);
+	p1CLabel->setPosition(Vec2(p1X, p1Y + 93));
+	p1CLabel->setAnchorPoint(Vec2(0.5, 0.0));
+	addChild(p1CLabel, 100);
+
+	p2CLabel = CCLabelTTF::create("p2", "fonts/Marker Felt.ttf", 20);
+	p2CLabel->setPosition(Vec2(p2X, p2Y + 93));
+	p2CLabel->setAnchorPoint(Vec2(0.5, 0.0));
+	addChild(p2CLabel, 100);
+
+	p3CLabel = CCLabelTTF::create("p3", "fonts/Marker Felt.ttf", 20);
+	p3CLabel->setPosition(Vec2(p3X, p3Y + 93));
+	p3CLabel->setAnchorPoint(Vec2(0.5, 0.0));
+	addChild(p3CLabel, 100);
+
+	p4CLabel = CCLabelTTF::create("p4", "fonts/Marker Felt.ttf", 20);
+	p4CLabel->setPosition(Vec2(p4X, p4Y + 93));
+	p4CLabel->setAnchorPoint(Vec2(0.5, 0.0));
+	addChild(p4CLabel, 100);
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	Sprite* wallpainting = Sprite::create("res/sprites/objects/tiny_sun_framed.png");
 	wallpainting->getTexture()->setAliasTexParameters();
@@ -509,16 +574,16 @@ bool ClientDemo::init()
 	_eventDispatcher->addEventListenerWithFixedPriority(keyListener, 2);
 
 	this->scheduleUpdate();
-    return true;
+	return true;
 }
 
 
 void ClientDemo::menuCloseCallback(Ref* pSender)
 {
-    Director::getInstance()->end();
+	Director::getInstance()->end();
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
+	exit(0);
 #endif
 }
 
@@ -532,10 +597,10 @@ void ClientDemo::update(float dt)
 
 
 
-	
+
 	if (xmove || ymove || button1)
 	{
-		
+
 		PlayerInputPacket p2 = PlayerInputPacket(playernum, xmove, ymove, button1);
 		std::ostringstream os2;
 		cereal::BinaryOutputArchive outar(os2);
@@ -569,8 +634,8 @@ void ClientDemo::update(float dt)
 		cereal::BinaryInputArchive inar(is2);
 		for (size_t i = 0; i < tcpsplitter.body_length(); i++)
 		{
-			// there has to be a better way vectorized? than using for loop!!!
-			is2 << tcpsplitter.body()[i];
+		// there has to be a better way vectorized? than using for loop!!!
+		is2 << tcpsplitter.body()[i];
 		}
 		PlayerInputPacket inpacket(0, 0.0f, 0.0f, false);
 		inar(inpacket);
@@ -581,12 +646,12 @@ void ClientDemo::update(float dt)
 		////myudpsocketp->async_send_to(boost::asio::buffer(outstringbuffer), myendpoint, [this](boost::system::error_code /*ec*/
 		//, std::size_t /*bytes_sent*/)
 		//{
-			//CCLOG("Sent packet");
+		//CCLOG("Sent packet");
 
 		//});
 		//mytcpsocketp->async_write_some(boost::asio::buffer(tcpsplitter.data(),tcpsplitter.length()), [this](boost::system::error_code /*ec*/, std::size_t /*bytes_sent*/)
-	//	{
-	//		CCLOG("Sent packet");
+		//	{
+		//		CCLOG("Sent packet");
 
 		//});
 		//CCLOG("sentplayerpacket");
@@ -609,17 +674,17 @@ ClientDemo::~ClientDemo()
 {
 	if (io_service_p)
 		delete io_service_p;
-	
+
 	//if (myudpinterfacep)
 	//	delete myudpinterfacep;
-	
+
 }
 
 
 void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 {
 
-	switch (keyCode){
+	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
 		ymove += 2;
 		if (playernum == 1)
@@ -661,6 +726,9 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 		button1 = true;
 		xmove = 0;
 		ymove = 0;
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
+		space();
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		break;
 	}
 	event->stopPropagation();
@@ -669,7 +737,7 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 {
 
-	switch (keyCode){
+	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
 		if (playernum == 1)
 		{
@@ -710,6 +778,207 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
+// This will convert the players coordinates into tile coordinates
+CCPoint ClientDemo::plyrCoordToTileCoord(int playerNum)
+{
+	if (playerNum == 1) {
+		int newx = player1->getPositionX() / (tileMap->getTileSize().width * 2 + xmove);
+		int newy = (720 - player1->getPositionY()) / (tileMap->getTileSize().height * 2 + ymove);
+		return(CCPoint(newx, newy));
+	}
+	else if (playerNum == 2) {
+		int newx = player2->getPositionX() / (tileMap->getTileSize().width * 2 + xmove);
+		int newy = (720 - player2->getPositionY()) / (tileMap->getTileSize().height * 2 + ymove);
+		return(CCPoint(newx, newy));
+	}
+	else if (playerNum == 3) {
+		int newx = player3->getPositionX() / (tileMap->getTileSize().width * 2 + xmove);
+		int newy = (720 - player3->getPositionY()) / (tileMap->getTileSize().height * 2 + ymove);
+		return(CCPoint(newx, newy));
+	}
+	else if (playerNum = 4) {
+		int newx = player4->getPositionX() / (tileMap->getTileSize().width * 2 + xmove);
+		int newy = (720 - player4->getPositionY()) / (tileMap->getTileSize().height * 2 + ymove);
+		return(CCPoint(newx, newy));
+	}
+}
+
+
+
+int ClientDemo::getTileProperties(CCPoint tileCoord)
+{
+	if (tileCoord.x >= 0 && tileCoord.x <= 25 && tileCoord.y >= 0 && tileCoord.y <= 14)
+	{
+		return (bucketlayer->getTileGIDAt(tileCoord));
+	}
+}
+
+
+
+void ClientDemo::changeLabelColor(int bTile, int playerNum)
+{
+	if (playerNum == 1) {
+		if (bTile)
+		{
+			auto tilemapvals = tileMap->getPropertiesForGID(bTile).asValueMap();
+
+			if (!tilemapvals.empty())
+			{
+				auto r = tilemapvals["Red"].asString();
+				auto b = tilemapvals["Blue"].asString();
+				auto y = tilemapvals["Yellow"].asString();
+				auto o = tilemapvals["Orange"].asString();
+
+				if ("true" == r)
+				{
+					//p1CLabel->setString("Red");
+					p1CLabel->setFontFillColor(ccc3(247, 52, 47));
+				}
+				if ("true" == b)
+				{
+					//p1CLabel->setString("Blue");
+					p1CLabel->setFontFillColor(ccc3(49, 58, 197));
+				}
+				if ("true" == y) {
+					//p1CLabel->setString("Yellow");
+					p1CLabel->setFontFillColor(ccc3(222, 244, 69));
+				}
+				if ("true" == o) {
+					//p1CLabel->setString("Orange");
+					p1CLabel->setFontFillColor(ccc3(234, 152, 46));
+				}
+			}
+		}
+	}
+	else if (playerNum == 2) {
+		if (bTile)
+		{
+			auto tilemapvals = tileMap->getPropertiesForGID(bTile).asValueMap();
+
+			if (!tilemapvals.empty())
+			{
+				auto r = tilemapvals["Red"].asString();
+				auto b = tilemapvals["Blue"].asString();
+				auto y = tilemapvals["Yellow"].asString();
+				auto o = tilemapvals["Orange"].asString();
+
+				if ("true" == r)
+				{
+					p2CLabel->setFontFillColor(ccc3(247, 52, 47));
+				}
+				if ("true" == b)
+				{
+					p2CLabel->setFontFillColor(ccc3(49, 58, 197));
+				}
+				if ("true" == y) {
+					p2CLabel->setFontFillColor(ccc3(222, 244, 69));
+				}
+				if ("true" == o) {
+					p2CLabel->setFontFillColor(ccc3(234, 152, 46));
+				}
+			}
+		}
+	}
+	else if (playerNum == 3) {
+		if (bTile)
+		{
+			auto tilemapvals = tileMap->getPropertiesForGID(bTile).asValueMap();
+
+			if (!tilemapvals.empty())
+			{
+				auto r = tilemapvals["Red"].asString();
+				auto b = tilemapvals["Blue"].asString();
+				auto y = tilemapvals["Yellow"].asString();
+				auto o = tilemapvals["Orange"].asString();
+
+				if ("true" == r)
+				{
+					p3CLabel->setFontFillColor(ccc3(247, 52, 47));
+				}
+				if ("true" == b)
+				{
+					p3CLabel->setFontFillColor(ccc3(49, 58, 197));
+				}
+				if ("true" == y) {
+					p3CLabel->setFontFillColor(ccc3(222, 244, 69));
+				}
+				if ("true" == o) {
+					p3CLabel->setFontFillColor(ccc3(234, 152, 46));
+				}
+			}
+		}
+
+	}
+	else if (playerNum == 4) {
+		if (bTile)
+		{
+			auto tilemapvals = tileMap->getPropertiesForGID(bTile).asValueMap();
+
+			if (!tilemapvals.empty())
+			{
+				auto r = tilemapvals["Red"].asString();
+				auto b = tilemapvals["Blue"].asString();
+				auto y = tilemapvals["Yellow"].asString();
+				auto o = tilemapvals["Orange"].asString();
+
+				if ("true" == r)
+				{
+					p4CLabel->setFontFillColor(ccc3(247, 52, 47));
+				}
+				if ("true" == b)
+				{
+					p4CLabel->setFontFillColor(ccc3(49, 58, 197));
+				}
+				if ("true" == y) {
+					p4CLabel->setFontFillColor(ccc3(222, 244, 69));
+				}
+				if ("true" == o) {
+					p4CLabel->setFontFillColor(ccc3(234, 152, 46));
+				}
+			}
+		}
+	}
+
+}
+
+
+// Will check to see if you are on a bucket and change the color of the player's label
+void ClientDemo::space()
+{
+
+	if (playernum == 1) {
+		CCPoint tileCoord = plyrCoordToTileCoord(1);
+		int bTile = getTileProperties(tileCoord);
+		changeLabelColor(bTile, 1);
+	}
+
+
+	if (playernum == 2) {
+		CCPoint tileCoord = plyrCoordToTileCoord(2);
+		int bTile = getTileProperties(tileCoord);
+		changeLabelColor(bTile, 2);
+	}
+
+
+	if (playernum == 3) {
+		CCPoint tileCoord = plyrCoordToTileCoord(3);
+		int bTile = getTileProperties(tileCoord);
+		changeLabelColor(bTile, 3);
+	}
+
+
+	if (playernum == 4) {
+		CCPoint tileCoord = plyrCoordToTileCoord(4);
+		int bTile = getTileProperties(tileCoord);
+		changeLabelColor(bTile, 4);
+	}
+
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 void ClientDemo::processPacket(ServerPositionPacket p)
 {
 	CCLOG("updatedserverpacket");
@@ -725,6 +994,14 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	Vec2 position3 = player3->getPosition();
 	Vec2 position4 = player4->getPosition();
 	Vec2 samPosition = villain->getPosition();
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
+	p1CLabel->setPosition(Vec2(p.p1x, p.p1y + 93));
+	p2CLabel->setPosition(Vec2(p.p2x, p.p2y + 93));
+	p3CLabel->setPosition(Vec2(p.p3x, p.p3y + 93));
+	p4CLabel->setPosition(Vec2(p.p4x, p.p4y + 93));
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	player1->setPosition(Vec2(p.p1x, p.p1y));
 	player2->setPosition(Vec2(p.p2x, p.p2y));
 	player3->setPosition(Vec2(p.p3x, p.p3y));
@@ -945,29 +1222,29 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 			if (tilevalues[i][j] != p.tilevalues[i][j])
 			{
 				tilevalues[i][j] = p.tilevalues[i][j];
-				if (tilevalues[i][j] == 1)
+				if (tilevalues[i][j] == 2)
 				{
 					tileptrarray[i][j]->setColor("red");
 					tileptrarray[i][j]->refreshColor();
 				}
-				if (tilevalues[i][j] == 2)
+				if (tilevalues[i][j] == 3)
 				{
 					tileptrarray[i][j]->setColor("blue");
 					tileptrarray[i][j]->refreshColor();
 					CCLOG(std::to_string(tilevalues[0][0]).c_str());
 					CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
 				}
-				if (tilevalues[i][j] == 3)
+				if (tilevalues[i][j] == 4)
 				{
 					tileptrarray[i][j]->setColor("yellow");
 					tileptrarray[i][j]->refreshColor();
 				}
-				if (tilevalues[i][j] == 4)
+				if (tilevalues[i][j] == 5)
 				{
 					tileptrarray[i][j]->setColor("orange");
 					tileptrarray[i][j]->refreshColor();
 				}
-				if (tilevalues[i][j] == 5)
+				if (tilevalues[i][j] == 6)
 				{
 					tileptrarray[i][j]->setColor("black");
 					tileptrarray[i][j]->refreshColor();
@@ -980,32 +1257,32 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 /*
 void ClientDemo::doReceive()
 {
-	mytcpsocketp->async_read_some(
-		boost::asio::buffer(indata, max_length), [this](boost::system::error_code ec, std::size_t bytes_recvd)
-	{
-		if (!ec && bytes_recvd > 0)
-		{
-			CCLOG("received data");
-			std::stringstream is2;
-			cereal::BinaryInputArchive inar(is2);
-			for (size_t i = 0; i < bytes_recvd; i++)
-			{
-				// there has to be a better way vectorized? than using for loop!!!
-				is2 << indata[i];
-			}
-			//		
-			ServerPositionPacket inpack;
-			inar(inpack);
-			CCLOG(is2.str().c_str());
-			CCLOG("input from server");
-			CCLOG(std::to_string(inpack.vx).c_str());
-			processPacket(inpack);
-			//s.send_to(boost::asio::buffer(os2.str()), endpoint);
-			doReceive();
-		}
-		else
-		{
-			doReceive();
-		}
-	});
+mytcpsocketp->async_read_some(
+boost::asio::buffer(indata, max_length), [this](boost::system::error_code ec, std::size_t bytes_recvd)
+{
+if (!ec && bytes_recvd > 0)
+{
+CCLOG("received data");
+std::stringstream is2;
+cereal::BinaryInputArchive inar(is2);
+for (size_t i = 0; i < bytes_recvd; i++)
+{
+// there has to be a better way vectorized? than using for loop!!!
+is2 << indata[i];
+}
+//
+ServerPositionPacket inpack;
+inar(inpack);
+CCLOG(is2.str().c_str());
+CCLOG("input from server");
+CCLOG(std::to_string(inpack.vx).c_str());
+processPacket(inpack);
+//s.send_to(boost::asio::buffer(os2.str()), endpoint);
+doReceive();
+}
+else
+{
+doReceive();
+}
+});
 }*/

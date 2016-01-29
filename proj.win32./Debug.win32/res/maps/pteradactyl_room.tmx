@@ -29,6 +29,9 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="111" name="meta_tiles" tilewidth="24" tileheight="24" tilecount="8">
+  <image source="./res/sprites/tiles/meta_tiles.png" width="96" height="48"/>
+ </tileset>
  <layer name="Floor" width="31" height="22">
   <data encoding="base64" compression="zlib">
    eJxjYGBg8AfiACJoTyD2oAINwjBArD5PEtyJj/ZHsnvU36P+HvX30PA3TA21/U2K+6jtb2rEM639TYv4ppW/qeUfcvxNLf+M+nvU36P+xvQ3AAsgvSs=
@@ -44,9 +47,14 @@
    eJxjYBgFowA7yKZQfhSMglEwckHuEDN3FIwCWoPROpM8AAAonQIc
   </data>
  </layer>
- <layer name="Tile Layer 4" width="31" height="22">
+ <layer name="Canvas" width="31" height="22">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2Bkg2w0nEuGGLXsJgcPRbuxhedI8PdItXs0vkeW3QMZ36Ng+AEAFVJVUQ==
+   eJzLZ2BgyB/FIxrTAgwlu7PRcC4ZYtSymxw8FO3GFp60shsdUNPfhNwwajcEUDO+h5K/R6rd9IjvgQAj3e6BwgAbBMn0
+  </data>
+ </layer>
+ <layer name="Collision" width="31" height="22">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAODPAAqoAAE=
   </data>
  </layer>
 </map>
