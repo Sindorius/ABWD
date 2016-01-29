@@ -35,7 +35,7 @@
   </tile>
  </tileset>
  <tileset firstgid="111" name="meta" tilewidth="24" tileheight="24" tilecount="2">
-  <image source="./res/sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
+  <image source="./res/sprites/tiles/meta_tiles.png" trans="ff00ff" width="48" height="24"/>
   <tile id="0">
    <properties>
     <property name="Collidable" value="true"/>

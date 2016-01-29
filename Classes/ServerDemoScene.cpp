@@ -29,10 +29,6 @@ bool ServerDemo::init()
         return false;
     }
     
-
-
-	
-
 	std::string file = "res//maps//happy_sun_paint.tmx";
 	auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
 	//tileMap = cocos2d::CCTMXTiledMap::createWithXML(str->getCString(), "");
@@ -52,10 +48,10 @@ bool ServerDemo::init()
 	spawnObjs = tileMap->objectGroupNamed("SpawnObjects");
 
 	if (spawnObjs == NULL) {
-		CCLOG("TMX map has no Red Bucket object layer");
+		CCLOG("TMX map has SpawnObjects layer");
 	}
 
-	// Player one spawn position coordinates 
+	// Player spawn coordinates depend on tiled map
 	ValueMap playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
 	int p1X = playerOneSP["x"].asInt();
 	int p1Y = playerOneSP["y"].asInt();
@@ -71,33 +67,13 @@ bool ServerDemo::init()
 	ValueMap playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
 	int p4X = playerFourSP["x"].asInt();
 	int p4Y = playerFourSP["y"].asInt();
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	//blueBucket = tileMap->layerNamed("blue");
-	//blueBucket->setVisible(true);
-
-	//redBucket = tileMap->layerNamed("red");
-	//redBucket->setVisible(true);
-
-	//yellowBucket = tileMap->layerNamed("yellow");
-	//yellowBucket->setVisible(true);
-
-	//orangeBucket = tileMap->layerNamed("orange");
-	//orangeBucket->setVisible(true);
-
-	//colorTiles = tileMap->layerNamed("paintTiles");
 
 	bucketlayer = tileMap->getLayer("Paintbuckets");
-	//orangeBucket->setVisible(true);
-
 
 	player1 = Player::create(1);
 	player1->setPlayernum(1);
 	player1->getTexture()->setAliasTexParameters();
-	//player1->setPosition(Vec2(100, 100));
-	////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
 	player1->setPosition(Vec2(p1X, p1Y));
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	player1->debugDraw(true);
 	player1->setAnchorPoint(Vec2(0.5, 0.0));
 	p1pos = player1->getPosition();
@@ -106,10 +82,7 @@ bool ServerDemo::init()
 	player2 = Player::create(2);
 	player2->setPlayernum(2);
 	player2->getTexture()->setAliasTexParameters();
-	//player2->setPosition(Vec2(200, 200));
-	////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
 	player2->setPosition(Vec2(p2X, p2Y));
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	p2pos = player2->getPosition();
 	player2->debugDraw(true);
 	player2->setAnchorPoint(Vec2(0.5, 0.0));
@@ -149,6 +122,7 @@ bool ServerDemo::init()
 	vpos = villain->getPosition();
 	addChild(villain, 0);
 
+	// Should also be part of SpawnObject layer if possible
 	Sprite* wallpainting = Sprite::create("res/sprites/objects/tiny_sun_framed.png");
 	wallpainting->getTexture()->setAliasTexParameters();
 	wallpainting->setPosition(Vec2(640, 640));
@@ -156,7 +130,7 @@ bool ServerDemo::init()
 	addChild(wallpainting,-999);
 
 	
-
+	// Initialize painting area 
 	for (int i = 0; i <= 5; i++)
 	{
 		for (int j = 0; j <= 5; j++)
@@ -168,29 +142,6 @@ bool ServerDemo::init()
 			addChild(tileptrarray[i][j], -999);
 		}
 	}
-
-	//Vector<SpriteFrame*> animFrames;
-	//animFrames.reserve(4);
-
-	//animFrames.pushBack(SpriteFrame::create("\\res\\man1_0.png", Rect(0, 0, 64, 128)));
-	//animFrames.pushBack(SpriteFrame::create("\\res\\man1_1.png", Rect(0, 0, 64, 128)));
-	//animFrames.pushBack(SpriteFrame::create("\\res\\man1_2.png", Rect(0, 0, 64, 128)));
-	//animFrames.pushBack(SpriteFrame::create("\\res\\man1_1.png", Rect(0, 0, 64, 128)));
-
-	//animFrames.at(0)->getTexture()->setAliasTexParameters();
-	//animFrames.at(1)->getTexture()->setAliasTexParameters();
-	//animFrames.at(2)->getTexture()->setAliasTexParameters();
-
-	// create the animation out of the frames
-	//Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
-	//walkanim = Animate::create(animation);
-	//walkanim2 = Animate::create(animation);
-	//walkanim3 = Animate::create(animation);
-	//walkanim4 = Animate::create(animation);
-	//player1->runAction(RepeatForever::create(walkanim));
-	//player2->runAction(RepeatForever::create(walkanim2));
-	//player3->runAction(RepeatForever::create(walkanim3));
-	//player4->runAction(RepeatForever::create(walkanim4));
 
 	std::ifstream is("config.json");
 	cereal::JSONInputArchive configloader(is);
@@ -235,16 +186,6 @@ void ServerDemo::update(float dt)
 {
 
 	io_service_p->poll();
-	//CCLOG("POLLING");
-
-
-	//PlayerInputPacket p1 = myudpserverp->getPlayerPacket(1);
-	//PlayerInputPacket p2 = myudpserverp->getPlayerPacket(2);
-	//PlayerInputPacket p3 = myudpserverp->getPlayerPacket(3);
-	//PlayerInputPacket p4 = myudpserverp->getPlayerPacket(4);
-	//CCLOG("setting p1 postiion");
-	//CCLOG(std::to_string(player1->getPositionX()+p1.dx).c_str());
-	//CCLOG(std::to_string(p1.dx).c_str());
 
 	player1->setPosition(p1pos);
 	player2->setPosition(p2pos);
@@ -261,8 +202,8 @@ void ServerDemo::update(float dt)
 	player4->setZOrder(-player4->getPositionY());
 	villain->setZOrder(-villain->getPositionY());
 	mytcpserverp->sendPacket(p);
-	//myudpserverp->do_send();
 
+	// Villain checks if she's on a player, messes everything up if she's on them
 	for(Player* p : players)
 	{ 
 		if (abs(villain->getPositionX() - p->getPositionX()) < 5 && abs(villain->getPositionY() - p->getPositionY()) < 5)
@@ -284,7 +225,7 @@ void ServerDemo::update(float dt)
 		}
 	}
 
-
+	// Move them all to the top if they've won
 	if (checkSolution())
 	{
 		villain->setPosition(0, 0);
@@ -321,8 +262,6 @@ ServerDemo::~ServerDemo()
 
 void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 {
-
-
 	float dxmove = p.dx;
 	float dymove = p.dy;
 	auto playerPos = CCPoint(0, 0);
@@ -346,26 +285,16 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 	}
 
 	// Convert the players position into tile coordinates
-	int testx = playerPos.x / (tileMap->getTileSize().width * 2) + p.dx;
-	//int y = (720 - playerPos.y) / (tileMap->getTileSize().height * 2);
-	int testy = (720 - playerPos.y) / (tileMap->getTileSize().height * 2 + p.dy);
+	int testx = (playerPos.x + p.dx) / (tileMap->getTileSize().width * 2);
+	int testy = ((tileMap->getMapSize().height * tileMap->getTileSize().height * 2) - playerPos.y - p.dy) / (tileMap->getTileSize().height * 2);
 	CCPoint tileCoord = CCPoint(testx, testy);
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
 	// This will check if the player has hit a wall
 	// So far it does not do this correctly 
-
 	//auto winSize = CCDirector::getInstance()->getWinSize();
 	int mapWidth = tileMap->getMapSize().width;
 	int mapHeight = tileMap->getMapSize().height;
 
-
-	//if (playerPos.y <= 0 && playerPos.x) {
-
-	//}
-
-	/*
-	if (tileCoord.x >= 0 && tileCoord.x <= 25 && tileCoord.y >= 0 && tileCoord.y <= 14) {
+//	if (tileCoord.x >= 0 && tileCoord.x <= 25 && tileCoord.y >= 0 && tileCoord.y <= 14) {
 		int bkTile = blockage->getTileGIDAt(tileCoord);
 
 		if (bkTile) {
@@ -382,10 +311,10 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 				}
 			}
 
-		}
+	//	}
 	
 	}
-	*/
+	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
