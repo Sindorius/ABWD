@@ -46,12 +46,12 @@ bool ServerAppDelegate::applicationDidFinishLaunching() {
     director->setDisplayStats(true);
 
     // set FPS. the default value is 1.0/60 if you don't call this
-    director->setAnimationInterval(1.0 / 60);
+    director->setAnimationInterval(1.0 / 30);
 
     // Set the design resolution
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::FIXED_HEIGHT);
-	glview->setFrameSize(designResolutionSize.width*2,designResolutionSize.height*2);
-	director->setContentScaleFactor(0.5f);
+	director->getOpenGLView()->setFrameZoomFactor(1.0f);
+
 
     register_all_packages();
 

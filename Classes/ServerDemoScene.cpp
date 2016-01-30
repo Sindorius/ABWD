@@ -117,7 +117,7 @@ bool ServerDemo::init()
 
 	villain = Villain::create();
 	villain->getTexture()->setAliasTexParameters();
-	villain->setPosition(Vec2(500, 300));
+	villain->setPosition(Vec2(250, 150));
 	villain->setAnchorPoint(Vec2(0.5, 0.0));
 	vpos = villain->getPosition();
 	addChild(villain, 0);
@@ -125,7 +125,7 @@ bool ServerDemo::init()
 	// Should also be part of SpawnObject layer if possible
 	Sprite* wallpainting = Sprite::create("res/sprites/objects/tiny_sun_framed.png");
 	wallpainting->getTexture()->setAliasTexParameters();
-	wallpainting->setPosition(Vec2(640, 640));
+	wallpainting->setPosition(Vec2(320, 320));
 	wallpainting->setScale(1.5);
 	addChild(wallpainting,-999);
 
@@ -136,7 +136,7 @@ bool ServerDemo::init()
 		for (int j = 0; j <= 5; j++)
 		{
 			tileptrarray[i][j] = PaintTile::create();
-			tileptrarray[i][j]->setPosition(24*2 * i + 264*2, 24 *2* j + 180);
+			tileptrarray[i][j]->setPosition(24 * i + 264, 24 * j + 90);
 			tileptrarray[i][j]->setScale(1);
 			tileptrarray[i][j]->debugDraw(true);
 			addChild(tileptrarray[i][j], -999);
@@ -230,14 +230,14 @@ void ServerDemo::update(float dt)
 	{
 		villain->setPosition(0, 0);
 		vpos = cocos2d::ccp(0,0);
-		player1->setPosition(100, 640);
-		p1pos = cocos2d::ccp(100, 640);
-		player2->setPosition(200, 640);
-		p2pos = cocos2d::ccp(200, 640);
-		player3->setPosition(300, 640);
-		p3pos = cocos2d::ccp(300, 640);
-		player4->setPosition(400, 640);
-		p4pos = cocos2d::ccp(400, 640);
+		player1->setPosition(50, 320);
+		p1pos = cocos2d::ccp(50, 320);
+		player2->setPosition(100, 320);
+		p2pos = cocos2d::ccp(100, 320);
+		player3->setPosition(150, 320);
+		p3pos = cocos2d::ccp(150, 320);
+		player4->setPosition(200, 320);
+		p4pos = cocos2d::ccp(200, 320);
 	}
 
 
@@ -285,8 +285,8 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 	}
 
 	// Convert the players position into tile coordinates
-	int testx = (playerPos.x + p.dx) / (tileMap->getTileSize().width * 2);
-	int testy = ((tileMap->getMapSize().height * tileMap->getTileSize().height * 2) - playerPos.y - p.dy) / (tileMap->getTileSize().height * 2);
+	int testx = (playerPos.x + p.dx) / (tileMap->getTileSize().width);
+	int testy = ((tileMap->getMapSize().height * tileMap->getTileSize().height) - playerPos.y - p.dy) / (tileMap->getTileSize().height);
 	CCPoint tileCoord = CCPoint(testx, testy);
 	// This will check if the player has hit a wall
 	// So far it does not do this correctly 
@@ -627,7 +627,7 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 			if(playernum == 1)
 			{
 
-				if (player1->getPositionX() > tileptrarray[i][j]->getPositionX() - 24 && player1->getPositionX() < tileptrarray[i][j]->getPositionX() + 24 && player1->getPositionY() > tileptrarray[i][j]->getPositionY() - 24 && player1->getPositionY() < tileptrarray[i][j]->getPositionY() + 24)
+				if (player1->getPositionX() > tileptrarray[i][j]->getPositionX() - 12 && player1->getPositionX() < tileptrarray[i][j]->getPositionX() + 12 && player1->getPositionY() > tileptrarray[i][j]->getPositionY() - 12 && player1->getPositionY() < tileptrarray[i][j]->getPositionY() + 12)
 				{
 					tileptrarray[i][j]->setColor(player1->getColor());
 					tileptrarray[i][j]->refreshColor();
@@ -653,7 +653,7 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 			else if (playernum == 2)
 			{
 
-				if (player2->getPositionX() > tileptrarray[i][j]->getPositionX() - 24 && player2->getPositionX() < tileptrarray[i][j]->getPositionX() + 24 && player2->getPositionY() > tileptrarray[i][j]->getPositionY() - 24 && player2->getPositionY() < tileptrarray[i][j]->getPositionY() + 24)
+				if (player2->getPositionX() > tileptrarray[i][j]->getPositionX() - 12 && player2->getPositionX() < tileptrarray[i][j]->getPositionX() + 12 && player2->getPositionY() > tileptrarray[i][j]->getPositionY() - 12 && player2->getPositionY() < tileptrarray[i][j]->getPositionY() + 12)
 				{
 					tileptrarray[i][j]->setColor(player2->getColor());
 					tileptrarray[i][j]->refreshColor();
@@ -679,7 +679,7 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 			else if (playernum == 3)
 			{
 
-				if (player3->getPositionX() > tileptrarray[i][j]->getPositionX() - 24 && player3->getPositionX() < tileptrarray[i][j]->getPositionX() + 24 && player3->getPositionY() > tileptrarray[i][j]->getPositionY() - 24 && player3->getPositionY() < tileptrarray[i][j]->getPositionY() + 24)
+				if (player3->getPositionX() > tileptrarray[i][j]->getPositionX() - 12 && player3->getPositionX() < tileptrarray[i][j]->getPositionX() + 12 && player3->getPositionY() > tileptrarray[i][j]->getPositionY() - 12 && player3->getPositionY() < tileptrarray[i][j]->getPositionY() + 12)
 				{
 					tileptrarray[i][j]->setColor(player3->getColor());
 					tileptrarray[i][j]->refreshColor();
@@ -705,7 +705,7 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 			if (playernum == 4)
 			{
 
-				if (player4->getPositionX() > tileptrarray[i][j]->getPositionX() - 24 && player4->getPositionX() < tileptrarray[i][j]->getPositionX() + 24 && player4->getPositionY() > tileptrarray[i][j]->getPositionY() - 24 && player4->getPositionY() < tileptrarray[i][j]->getPositionY() + 24)
+				if (player4->getPositionX() > tileptrarray[i][j]->getPositionX() - 12 && player4->getPositionX() < tileptrarray[i][j]->getPositionX() + 12 && player4->getPositionY() > tileptrarray[i][j]->getPositionY() - 12 && player4->getPositionY() < tileptrarray[i][j]->getPositionY() + 12)
 				{
 					tileptrarray[i][j]->setColor(player4->getColor());
 					tileptrarray[i][j]->refreshColor();
