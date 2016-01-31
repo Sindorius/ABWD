@@ -324,46 +324,36 @@ ClientDemo::~ClientDemo()
 
 void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 {
-
+	std::string playerstring = "p";
+	playerstring += std::to_string(playernum).c_str();
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
+		
+		players[playernum - 1]->stopAllActions();
+		players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring+"up")));
 		ymove += 2;
-		if (playernum == 1)
-		{
-			player1->stopAllActions();
-			player1->runAction(RepeatForever::create(animationmanager.animationmap.at("p1up")));
-		}
 		break;
+
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		if (playernum == 1)
-		{
-			player1->stopAllActions();
-			player1->runAction(RepeatForever::create(animationmanager.animationmap.at("p1down")));
-		}
+		players[playernum - 1]->stopAllActions();
+		players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring+"down")));
 		ymove -= 2;
+		
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-		if (playernum == 1)
-		{
-			player1->stopAllActions();
-			player1->runAction(RepeatForever::create(animationmanager.animationmap.at("p1left")));
-		}
+		players[playernum - 1]->stopAllActions();
+		players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring + "left")));
 		xmove -= 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-		if (playernum == 1)
-		{
-			player1->stopAllActions();
-			player1->runAction(RepeatForever::create(animationmanager.animationmap.at("p1right")));
-		}
+		players[playernum - 1]->stopAllActions();
+		players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring + "right")));
 		xmove += 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
-		if (playernum == 1)
-		{
-			player1->stopAllActions();
-			player1->runAction(RepeatForever::create(animationmanager.animationmap.at("p1paint")));
-		}
+		players[playernum - 1]->stopAllActions();
+		players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring + "paint")));
+		
 		button1 = true;
 		xmove = 0;
 		ymove = 0;
@@ -380,38 +370,23 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
-		if (playernum == 1)
-		{
 		//	player1->stopAllActions();
-		}
 		ymove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		if (playernum == 1)
-		{
-	//		player1->stopAllActions();
-		}
+		//player1->stopAllActions();
 		ymove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-		if (playernum == 1)
-		{
-	//		player1->stopAllActions();
-		}
+		//player1->stopAllActions();
 		xmove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-		if (playernum == 1)
-		{
-	//		player1->stopAllActions();
-		}
+		//player1->stopAllActions();
 		xmove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
-		if (playernum == 1)
-		{
-	//		player1->stopAllActions();
-		}
+		//player1->stopAllActions();
 		button1 = false;
 		break;
 	}
