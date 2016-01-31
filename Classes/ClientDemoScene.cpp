@@ -166,22 +166,22 @@ bool ClientDemo::init()
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
 	// Player Label Creation
-	p1CLabel = CCLabelTTF::create("p1", "fonts/Marker Felt.ttf", 20);
+	p1CLabel = CCLabelTTF::create("p1", "fonts/Marker Felt.ttf", 10);
 	p1CLabel->setPosition(Vec2(p1X, p1Y + 46));
 	p1CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(p1CLabel, 100);
 
-	p2CLabel = CCLabelTTF::create("p2", "fonts/Marker Felt.ttf", 20);
+	p2CLabel = CCLabelTTF::create("p2", "fonts/Marker Felt.ttf", 10);
 	p2CLabel->setPosition(Vec2(p2X, p2Y + 46));
 	p2CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(p2CLabel, 100);
 
-	p3CLabel = CCLabelTTF::create("p3", "fonts/Marker Felt.ttf", 20);
+	p3CLabel = CCLabelTTF::create("p3", "fonts/Marker Felt.ttf", 10);
 	p3CLabel->setPosition(Vec2(p3X, p3Y + 46));
 	p3CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(p3CLabel, 100);
 
-	p4CLabel = CCLabelTTF::create("p4", "fonts/Marker Felt.ttf", 20);
+	p4CLabel = CCLabelTTF::create("p4", "fonts/Marker Felt.ttf", 10);
 	p4CLabel->setPosition(Vec2(p4X, p4Y + 46));
 	p4CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(p4CLabel, 100);
@@ -587,32 +587,38 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	//tilevalues = p.tilevalues;
 	//player1 animations
 
+	std::string p1anims = animationmanager.stringFromInt(p.p1anim);
+	std::string p2anims = animationmanager.stringFromInt(p.p2anim);
+	std::string p3anims = animationmanager.stringFromInt(p.p3anim);
+	std::string p4anims = animationmanager.stringFromInt(p.p4anim);
+	std::string vanims = animationmanager.stringFromInt(p.vanim);
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////
-	if (player1->getAnim() != p.p1anim && p.p1anim !="") {
+	if (p.p1anim != 0 && player1->getAnim() != p1anims) {
 		player1->stopAllActions();
-		player1->runAction(RepeatForever::create(animationmanager.animationmap.at(p.p1anim)));
-		player1->setAnim(p.p1anim);
+		player1->runAction(RepeatForever::create(animationmanager.animationmap.at(p1anims)));
+		player1->setAnim(p1anims);
 	}
-	if (player2->getAnim() != p.p2anim && p.p2anim != "") {
+	if (p.p2anim != 0 && player2->getAnim() != p2anims) {
 		player2->stopAllActions();
-		player2->runAction(RepeatForever::create(animationmanager.animationmap.at(p.p2anim)));
-		player2->setAnim(p.p2anim);
+		player2->runAction(RepeatForever::create(animationmanager.animationmap.at(p2anims)));
+		player2->setAnim(p2anims);
 	}
-	if (player3->getAnim() != p.p3anim && p.p3anim != "") {
+	if (p.p3anim != 0 && player3->getAnim() != p3anims) {
 		player3->stopAllActions();
-		player3->runAction(RepeatForever::create(animationmanager.animationmap.at(p.p3anim)));
-		player3->setAnim(p.p3anim);
+		player3->runAction(RepeatForever::create(animationmanager.animationmap.at(p3anims)));
+		player3->setAnim(p3anims);
 	}
-	if (player4->getAnim() != p.p4anim && p.p4anim != "") {
+	if (p.p4anim != 0 && player4->getAnim() != p4anims) {
 		player4->stopAllActions();
-		player4->runAction(RepeatForever::create(animationmanager.animationmap.at(p.p4anim)));
-		player4->setAnim(p.p4anim);
+		player4->runAction(RepeatForever::create(animationmanager.animationmap.at(p4anims)));
+		player4->setAnim(p4anims);
 	}
-	if (villain->getAnim() != p.vanim && p.vanim != "") {
+	if (p.vanim != 0 && villain->getAnim() != vanims) {
 		villain->stopAllActions();
-		villain->runAction(RepeatForever::create(animationmanager.animationmap.at(p.vanim)));
-		villain->setAnim(p.vanim);
+		villain->runAction(RepeatForever::create(animationmanager.animationmap.at(vanims)));
+		villain->setAnim(vanims);
 	}
 
 

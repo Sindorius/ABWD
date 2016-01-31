@@ -35,23 +35,23 @@ private:
 public:
 	float vx;
 	float vy;
-	std::string vanim;
+	int vanim;
 	float p1x;
 	float p1y;
-	std::string p1anim;
+	int p1anim;
 	float p2x;
 	float p2y;
-	std::string p2anim;
+	int p2anim;
 	float p3x;
 	float p3y;
-	std::string p3anim;
+	int p3anim;
 	float p4x;
 	float p4y;
-	std::string p4anim;
+	int p4anim;
 	std::array<std::array<int, 6>, 6> tilevalues;
 	
 	ServerPositionPacket(){};
-	ServerPositionPacket(float va, float vb, std::string vc, float p1a, float p1b, std::string p1c, float p2a, float p2b, std::string p2c, float p3a, float p3b, std::string p3c, float p4a, float p4b, std::string p4c, std::array<std::array<int, 6>, 6> ma) :
+	ServerPositionPacket(float va, float vb, int vc, float p1a, float p1b, int p1c, float p2a, float p2b, int p2c, float p3a, float p3b, int p3c, float p4a, float p4b, int p4c, std::array<std::array<int, 6>, 6> ma) :
 		vx(va), vy(vb), vanim(vc), p1x(p1a), p1y(p1b), p1anim(p1c), p2x(p2a), p2y(p2b), p2anim(p2c), p3x(p3a), p3y(p3b), p3anim(p3c), p4x(p4a), p4y(p4b), p4anim(p4c), tilevalues(ma)
 	{}
 };

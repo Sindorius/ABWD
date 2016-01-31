@@ -194,8 +194,11 @@ void ServerDemo::update(float dt)
 	villain->setPriority(whichplayertiles);
 	villain->runAI(&players);
 	
-	ServerPositionPacket p(villain->getPositionX(), villain->getPositionY(), villain->getAnim(), player1->getPositionX(), player1->getPositionY(), player1->getAnim(), player2->getPositionX(), player2->getPositionY(), player2->getAnim(), 
-		player3->getPositionX(), player3->getPositionY(), player3->getAnim(), player4->getPositionX(), player4->getPositionY(),player4->getAnim(),tilevalues);
+	ServerPositionPacket p(villain->getPositionX(), villain->getPositionY(), animationmanager.intFromString(villain->getAnim()),
+		player1->getPositionX(), player1->getPositionY(), animationmanager.intFromString(player1->getAnim()),
+		player2->getPositionX(), player2->getPositionY(), animationmanager.intFromString(player2->getAnim()),
+		player3->getPositionX(), player3->getPositionY(), animationmanager.intFromString(player3->getAnim()), 
+		player4->getPositionX(), player4->getPositionY(), animationmanager.intFromString(player4->getAnim()),tilevalues);
 	
 	player1->setZOrder(-player1->getPositionY());
 	player2->setZOrder(-player2->getPositionY());

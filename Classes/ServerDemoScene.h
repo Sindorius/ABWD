@@ -18,6 +18,7 @@
 //#include "UDPServer.hpp"
 #include "TCPServer.hpp"
 #include "PaintTile.h"
+#include "AnimationManager.hpp"
 
 class TCPServer;
 
@@ -141,6 +142,8 @@ public:
 	void space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, float dymove);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	bool checkSolution();
+	AnimationManager animationmanager;
+
 };
 
 #endif // __SERVERDEMO_SCENE_H__

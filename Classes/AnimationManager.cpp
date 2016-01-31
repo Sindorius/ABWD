@@ -414,6 +414,39 @@ AnimationManager::AnimationManager()
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("samright"), samrightanim));
 	
 
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(0, ""));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(1, "p1up"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(2, "p1down"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(3, "p1left"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(4, "p1right"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(5, "p1paint"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(6, "p1hit"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(7, "p2up"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(8, "p2down"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(9, "p2left"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(10, "p2right"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(11, "p2paint"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(12, "p2hit"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(13, "p3up"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(14, "p3down"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(15, "p3left"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(16, "p3right"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(17, "p3paint"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(18, "p3hit"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(19, "p4up"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(20, "p4down"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(21, "p4left"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(22, "p4right"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(23, "p4paint"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(24, "p4hit"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(19, "samup"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(20, "samdown"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(21, "samleft"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(22, "samright"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(23, "samwarp"));
+	intstringmap.insert(boost::bimap<int, std::string>::value_type(24, "samhit"));
+
+
 
 
 }
