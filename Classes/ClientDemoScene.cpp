@@ -167,22 +167,22 @@ bool ClientDemo::init()
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
 	// Player Label Creation
 	p1CLabel = CCLabelTTF::create("p1", "fonts/Marker Felt.ttf", 20);
-	p1CLabel->setPosition(Vec2(p1X, p1Y + 93));
+	p1CLabel->setPosition(Vec2(p1X, p1Y + 46));
 	p1CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(p1CLabel, 100);
 
 	p2CLabel = CCLabelTTF::create("p2", "fonts/Marker Felt.ttf", 20);
-	p2CLabel->setPosition(Vec2(p2X, p2Y + 93));
+	p2CLabel->setPosition(Vec2(p2X, p2Y + 46));
 	p2CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(p2CLabel, 100);
 
 	p3CLabel = CCLabelTTF::create("p3", "fonts/Marker Felt.ttf", 20);
-	p3CLabel->setPosition(Vec2(p3X, p3Y + 93));
+	p3CLabel->setPosition(Vec2(p3X, p3Y + 46));
 	p3CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(p3CLabel, 100);
 
 	p4CLabel = CCLabelTTF::create("p4", "fonts/Marker Felt.ttf", 20);
-	p4CLabel->setPosition(Vec2(p4X, p4Y + 93));
+	p4CLabel->setPosition(Vec2(p4X, p4Y + 46));
 	p4CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(p4CLabel, 100);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -303,10 +303,10 @@ void ClientDemo::update(float dt)
 		tcpsessionptr->writewithstringbuffer(outstringbuffer);
 	}
 
-	player1->setZOrder(-player1->getPositionY());
-	player2->setZOrder(-player2->getPositionY());
-	player3->setZOrder(-player3->getPositionY());
-	player4->setZOrder(-player4->getPositionY());
+	for (Player* p : players)
+	{
+		p->setZOrder(-p->getPositionY());
+	}
 	villain->setZOrder(-villain->getPositionY());
 
 }
@@ -399,27 +399,11 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 // This will convert the players coordinates into tile coordinates
 CCPoint ClientDemo::plyrCoordToTileCoord(int playerNum)
 {
-	if (playerNum == 1) {
-		int newx = player1->getPositionX() / (tileMap->getTileSize().width + xmove);
-		int newy = (360 - player1->getPositionY()) / (tileMap->getTileSize().height + ymove);
+		int newx = players[playerNum -1]->getPositionX() / (tileMap->getTileSize().width + xmove);
+		int newy = (360 - players[playerNum - 1]->getPositionY()) / (tileMap->getTileSize().height + ymove);
 		return(CCPoint(newx, newy));
-	}
-	else if (playerNum == 2) {
-		int newx = player2->getPositionX() / (tileMap->getTileSize().width  + xmove);
-		int newy = (360 - player2->getPositionY()) / (tileMap->getTileSize().height + ymove);
-		return(CCPoint(newx, newy));
-	}
-	else if (playerNum == 3) {
-		int newx = player3->getPositionX() / (tileMap->getTileSize().width + xmove);
-		int newy = (360 - player3->getPositionY()) / (tileMap->getTileSize().height + ymove);
-		return(CCPoint(newx, newy));
-	}
-	else if (playerNum = 4) {
-		int newx = player4->getPositionX() / (tileMap->getTileSize().width + xmove);
-		int newy = (360 - player4->getPositionY()) / (tileMap->getTileSize().height + ymove);
-		return(CCPoint(newx, newy));
-	}
 }
+	
 
 
 
@@ -564,34 +548,11 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 void ClientDemo::space()
 {
 
-	if (playernum == 1) {
-		CCPoint tileCoord = plyrCoordToTileCoord(1);
+		CCPoint tileCoord = plyrCoordToTileCoord(playernum);
 		int bTile = getTileProperties(tileCoord);
-		changeLabelColor(bTile, 1);
-	}
-
-
-	if (playernum == 2) {
-		CCPoint tileCoord = plyrCoordToTileCoord(2);
-		int bTile = getTileProperties(tileCoord);
-		changeLabelColor(bTile, 2);
-	}
-
-
-	if (playernum == 3) {
-		CCPoint tileCoord = plyrCoordToTileCoord(3);
-		int bTile = getTileProperties(tileCoord);
-		changeLabelColor(bTile, 3);
-	}
-
-
-	if (playernum == 4) {
-		CCPoint tileCoord = plyrCoordToTileCoord(4);
-		int bTile = getTileProperties(tileCoord);
-		changeLabelColor(bTile, 4);
-	}
-
+		changeLabelColor(bTile, playernum);
 }
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -612,10 +573,10 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	Vec2 samPosition = villain->getPosition();
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
-	p1CLabel->setPosition(Vec2(p.p1x, p.p1y + 93));
-	p2CLabel->setPosition(Vec2(p.p2x, p.p2y + 93));
-	p3CLabel->setPosition(Vec2(p.p3x, p.p3y + 93));
-	p4CLabel->setPosition(Vec2(p.p4x, p.p4y + 93));
+	p1CLabel->setPosition(Vec2(p.p1x, p.p1y + 46));
+	p2CLabel->setPosition(Vec2(p.p2x, p.p2y + 46));
+	p3CLabel->setPosition(Vec2(p.p3x, p.p3y + 46));
+	p4CLabel->setPosition(Vec2(p.p4x, p.p4y + 46));
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	player1->setPosition(Vec2(p.p1x, p.p1y));
