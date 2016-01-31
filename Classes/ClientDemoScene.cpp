@@ -329,31 +329,35 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
 		
-		players[playernum - 1]->stopAllActions();
-		players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring+"up")));
+		//players[playernum - 1]->stopAllActions();
+		//players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring+"up")));
+		//players[playernum - 1]->setAnim(playerstring + "up");
 		ymove += 2;
 		break;
 
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		players[playernum - 1]->stopAllActions();
-		players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring+"down")));
+		//players[playernum - 1]->stopAllActions();
+		//players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring+"down")));
+		//players[playernum - 1]->setAnim(playerstring + "down");
 		ymove -= 2;
 		
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-		players[playernum - 1]->stopAllActions();
-		players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring + "left")));
+		//players[playernum - 1]->stopAllActions();
+		//players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring + "left")));
+		//players[playernum - 1]->setAnim(playerstring + "left");
 		xmove -= 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-		players[playernum - 1]->stopAllActions();
-		players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring + "right")));
+		//players[playernum - 1]->stopAllActions();
+		//players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring + "right")));
+		//players[playernum - 1]->setAnim(playerstring + "right");
 		xmove += 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
-		players[playernum - 1]->stopAllActions();
-		players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring + "paint")));
-		
+		//players[playernum - 1]->stopAllActions();
+		//players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring + "paint")));
+		//players[playernum - 1]->setAnim(playerstring + "paint");
 		button1 = true;
 		xmove = 0;
 		ymove = 0;
@@ -566,11 +570,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	//CCLOG(std::to_string(p.vx).c_str());
 	CCLOG(std::to_string(tilevalues[0][0]).c_str());
 	CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
-	Vec2 position1 = player1->getPosition();
-	Vec2 position2 = player2->getPosition();
-	Vec2 position3 = player3->getPosition();
-	Vec2 position4 = player4->getPosition();
-	Vec2 samPosition = villain->getPosition();
+	
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
 	p1CLabel->setPosition(Vec2(p.p1x, p.p1y + 46));
@@ -586,209 +586,33 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	villain->setPosition(Vec2(p.vx, p.vy));
 	//tilevalues = p.tilevalues;
 	//player1 animations
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////
-	if (player1->getPosition().y > position1.y && anim1a) {
+	if (player1->getAnim() != p.p1anim && p.p1anim !="") {
 		player1->stopAllActions();
-		player1->runAction(RepeatForever::create(animationmanager.animationmap.at("p1up")));
-		anim1a = false;
-		anim1b = true;
-		anim1c = true;
-		anim1d = true;
+		player1->runAction(RepeatForever::create(animationmanager.animationmap.at(p.p1anim)));
+		player1->setAnim(p.p1anim);
 	}
-	else if (player1->getPosition().y < position1.y && anim1b) {
-		player1->stopAllActions();
-		player1->runAction(RepeatForever::create(animationmanager.animationmap.at("p1down")));
-		anim1a = true;
-		anim1b = false;
-		anim1c = true;
-		anim1d = true;
-	}
-	else if (player1->getPosition().x < position1.x && player1->getPosition().y == position1.y && anim1c) {
-		player1->stopAllActions();
-		player1->runAction(RepeatForever::create(animationmanager.animationmap.at("p1left")));
-		anim1a = true;
-		anim1b = true;
-		anim1c = false;
-		anim1d = true;
-	}
-	else if (player1->getPosition().x > position1.x && player1->getPosition().y == position1.y && anim1d) {
-		player1->stopAllActions();
-		player1->runAction(RepeatForever::create(animationmanager.animationmap.at("p1right")));
-		anim1a = true;
-		anim1b = true;
-		anim1c = true;
-		anim1d = false;
-	}
-	else
-	{
-		//player1->stopAllActions();
-	}
-	//player1->stopAllActions();
-	//tilevalues = p.tilevalues;
-
-
-	//player2 animations
-	//////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////
-	if (player2->getPosition().y > position2.y && anim2a) {
+	if (player2->getAnim() != p.p2anim && p.p2anim != "") {
 		player2->stopAllActions();
-		player2->runAction(RepeatForever::create(animationmanager.animationmap.at("p2up")));
-		anim2a = false;
-		anim2b = true;
-		anim2c = true;
-		anim2d = true;
+		player2->runAction(RepeatForever::create(animationmanager.animationmap.at(p.p2anim)));
+		player2->setAnim(p.p2anim);
 	}
-	else if (player2->getPosition().y < position2.y && anim2b) {
-		player2->stopAllActions();
-		player2->runAction(RepeatForever::create(animationmanager.animationmap.at("p2down")));
-		anim2a = true;
-		anim2b = false;
-		anim2c = true;
-		anim2d = true;
-	}
-	else if (player2->getPosition().x < position2.x && player2->getPosition().y == position2.y && anim2c) {
-		player2->stopAllActions();
-		player2->runAction(RepeatForever::create(animationmanager.animationmap.at("p2left")));
-		anim2a = true;
-		anim2b = true;
-		anim2c = false;
-		anim2d = true;
-	}
-	else if (player2->getPosition().x > position2.x && player2->getPosition().y == position2.y && anim2d) {
-		player2->stopAllActions();
-		player2->runAction(RepeatForever::create(animationmanager.animationmap.at("p2right")));
-		anim2a = true;
-		anim2b = true;
-		anim2c = true;
-		anim2d = false;
-	}
-	else
-	{
-		//player2->stopAllActions();
-	}
-
-
-
-	//player3 animations
-	//////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////
-	if (player3->getPosition().y > position3.y && anim3a) {
+	if (player3->getAnim() != p.p3anim && p.p3anim != "") {
 		player3->stopAllActions();
-		player3->runAction(RepeatForever::create(animationmanager.animationmap.at("p3up")));
-		anim3a = false;
-		anim3b = true;
-		anim3c = true;
-		anim3d = true;
+		player3->runAction(RepeatForever::create(animationmanager.animationmap.at(p.p3anim)));
+		player3->setAnim(p.p3anim);
 	}
-	else if (player3->getPosition().y < position3.y && anim3b) {
-		player3->stopAllActions();
-		player3->runAction(RepeatForever::create(animationmanager.animationmap.at("p3down")));
-		anim3a = true;
-		anim3b = false;
-		anim3c = true;
-		anim3d = true;
-	}
-	else if (player3->getPosition().x < position3.x && player3->getPosition().y == position3.y && anim3c) {
-		player3->stopAllActions();
-		player3->runAction(RepeatForever::create(animationmanager.animationmap.at("p3left")));
-		anim3a = true;
-		anim3b = true;
-		anim3c = false;
-		anim3d = true;
-	}
-	else if (player3->getPosition().x > position3.x && player3->getPosition().y == position3.y && anim3d) {
-		player3->stopAllActions();
-		player3->runAction(RepeatForever::create(animationmanager.animationmap.at("p3right")));
-		anim3a = true;
-		anim3b = true;
-		anim3c = true;
-		anim3d = false;
-	}
-	else
-	{
-		//player3->stopAllActions();
-	}
-	//player3->stopAllActions();
-	//tilevalues = p.tilevalues;
-
-	//player4 animations
-	//////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////
-	if (player4->getPosition().y > position4.y && anim4a) {
+	if (player4->getAnim() != p.p4anim && p.p4anim != "") {
 		player4->stopAllActions();
-		player4->runAction(RepeatForever::create(animationmanager.animationmap.at("p4up")));
-		anim4a = false;
-		anim4b = true;
-		anim4c = true;
-		anim4d = true;
+		player4->runAction(RepeatForever::create(animationmanager.animationmap.at(p.p4anim)));
+		player4->setAnim(p.p4anim);
 	}
-	else if (player4->getPosition().y < position4.y && anim4b) {
-		player4->stopAllActions();
-		player4->runAction(RepeatForever::create(animationmanager.animationmap.at("p4down")));
-		anim4a = true;
-		anim4b = false;
-		anim4c = true;
-		anim4d = true;
-	}
-	else if (player4->getPosition().x < position4.x && player4->getPosition().y == position4.y && anim4c) {
-		player4->stopAllActions();
-		player4->runAction(RepeatForever::create(animationmanager.animationmap.at("p4left")));
-		anim4a = true;
-		anim4b = true;
-		anim4c = false;
-		anim4d = true;
-	}
-	else if (player4->getPosition().x > position4.x && player4->getPosition().y == position4.y && anim4d) {
-		player4->stopAllActions();
-		player4->runAction(RepeatForever::create(animationmanager.animationmap.at("p4right")));
-		anim4a = true;
-		anim4b = true;
-		anim4c = true;
-		anim4d = false;
-	}
-	else
-	{
-		//player4->stopAllActions();
-	}
-	//player4->stopAllActions();
-	//tilevalues = p.tilevalues;
-
-	//sam animations
-	//////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////
-
-	if (villain->getPosition().y < samPosition.y && sam1b) {
+	if (villain->getAnim() != p.vanim && p.vanim != "") {
 		villain->stopAllActions();
-		villain->runAction(RepeatForever::create(animationmanager.animationmap.at("samdown")));
-		sam1a = true;
-		sam1b = false;
-		sam1c = true;
-		sam1d = true;
-	}
-	else if (villain->getPosition().y > samPosition.y && sam1a) {
-		villain->stopAllActions();
-		villain->runAction(RepeatForever::create(animationmanager.animationmap.at("samup")));
-		sam1a = false;
-		sam1b = true;
-		sam1c = true;
-		sam1d = true;
-	}
-	else if (villain->getPosition().x < samPosition.x && villain->getPosition().y == samPosition.y && sam1c) {
-		villain->stopAllActions();
-		villain->runAction(RepeatForever::create(animationmanager.animationmap.at("samleft")));
-		sam1a = true;
-		sam1b = true;
-		sam1c = false;
-		sam1d = true;
-	}
-	else if (villain->getPosition().x > samPosition.x && villain->getPosition().y == samPosition.y && sam1d) {
-		villain->stopAllActions();
-		villain->runAction(RepeatForever::create(animationmanager.animationmap.at("samright")));
-		sam1a = true;
-		sam1b = true;
-		sam1c = true;
-		sam1d = false;
+		villain->runAction(RepeatForever::create(animationmanager.animationmap.at(p.vanim)));
+		villain->setAnim(p.vanim);
 	}
 
 

@@ -19,6 +19,9 @@ public:
 
 	void setColor(std::string c) { color = c; }
 	std::string getColor() { return color; }
+	void setAnim(std::string s) { animstate = s; }
+	std::string getAnim() { return animstate; }
+
 
 
 private:
@@ -28,7 +31,7 @@ private:
 	int speedboost = 1;
 
 	std::string color = "";
-
+	std::string animstate = "";
 };
 
 

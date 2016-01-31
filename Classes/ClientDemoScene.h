@@ -48,33 +48,8 @@ private:
 	Player* player4;
 	std::vector<Player*> players;
 	std::string state1, state2, state3, state4;
-	bool anim1a = true;
-	bool anim1b = true;
-	bool anim1c = true;
-	bool anim1d = true;
-
-	bool anim2a = true;
-	bool anim2b = true;
-	bool anim2c = true;
-	bool anim2d = true;
-
-	bool anim3a = true;
-	bool anim3b = true;
-	bool anim3c = true;
-	bool anim3d = true;
-
-	bool anim4a = true;
-	bool anim4b = true;
-	bool anim4c = true;
-	bool anim4d = true;
-
 	Villain* villain;
-
-	bool sam1a = true;
-	bool sam1b = true;
-	bool sam1c = true;
-	bool sam1d = true;
-
+	
 	std::vector<cocos2d::Sprite*> objects;
 
 	AnimationManager animationmanager;
