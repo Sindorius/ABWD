@@ -147,6 +147,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Classes\AnimationManager.hpp" />
     <ClInclude Include="..\Classes\ClientAppDelegate.h" />
     <ClInclude Include="..\Classes\ClientDemoScene.h" />
     <ClInclude Include="..\Classes\ConfigFileInput.hpp" />
@@ -174,6 +175,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ResourceCompile Include="game.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Classes\AnimationManager.cpp" />
     <ClCompile Include="..\Classes\ClientAppDelegate.cpp" />
     <ClCompile Include="..\Classes\ClientDemoScene.cpp" />
     <ClCompile Include="..\Classes\PaintTile.cpp" />

@@ -19,6 +19,7 @@
 #include "PaintTile.h"
 #include "TCPSplitter.hpp"
 #include "TCPCSession.hpp"
+#include "AnimationManager.hpp"
 
 USING_NS_CC;
 using boost::asio::ip::udp;
@@ -76,35 +77,7 @@ private:
 
 	std::vector<cocos2d::Sprite*> objects;
 
-	//temp//
-	cocos2d::Animate* walkupanim;
-	cocos2d::Animate* walkdownanim;
-	cocos2d::Animate* walkleftanim;
-	cocos2d::Animate* walkrightanim;
-	cocos2d::Animate* paintanim;
-
-	cocos2d::Animate* walkupanim1;
-	cocos2d::Animate* walkdownanim1;
-	cocos2d::Animate* walkleftanim1;
-	cocos2d::Animate* walkrightanim1;
-	cocos2d::Animate* paintanim1;
-
-	cocos2d::Animate* walkupanim2;
-	cocos2d::Animate* walkdownanim2;
-	cocos2d::Animate* walkleftanim2;
-	cocos2d::Animate* walkrightanim2;
-	cocos2d::Animate* paintanim2;
-
-	cocos2d::Animate* walkupanim3;
-	cocos2d::Animate* walkdownanim3;
-	cocos2d::Animate* walkleftanim3;
-	cocos2d::Animate* walkrightanim3;
-	cocos2d::Animate* paintanim3;
-
-	cocos2d::Animate* samupanim;
-	cocos2d::Animate* samdownanim;
-	cocos2d::Animate* samleftanim;
-	cocos2d::Animate* samrightanim;
+	AnimationManager animationmanager;
 
 
 public:
@@ -126,6 +99,7 @@ public:
 	float xmove = 0;
 	float ymove = 0;
 	bool button1 = false;
+	bool needssync = false;
 	int playernum;
 	ConfigFileInput setupdata;
 

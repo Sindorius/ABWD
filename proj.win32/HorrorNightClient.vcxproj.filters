@@ -26,6 +26,12 @@
     <ClInclude Include="..\Classes\PaintTile.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\TCPCSession.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AnimationManager.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
@@ -50,6 +56,12 @@
     </ClCompile>
     <ClCompile Include="main_client.cpp" />
     <ClCompile Include="..\Classes\PaintTile.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TCPCSession.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AnimationManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
