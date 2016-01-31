@@ -267,23 +267,7 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 	auto playerPos = CCPoint(0, 0);
 	std::string newcolor = "none";
 
-	if (p.playernum == 1)
-	{
-		playerPos = player1->getPosition();
-	}
-	else if (p.playernum == 2)
-	{
-		playerPos = player2->getPosition();
-	}
-	else if (p.playernum == 3)
-	{
-		playerPos = player3->getPosition();
-	}
-	else if (p.playernum == 4)
-	{
-		playerPos = player4->getPosition();
-	}
-
+	playerPos = players[p.playernum -1]->getPosition();
 	// Convert the players position into tile coordinates
 	int testx = (playerPos.x + p.dx) / (tileMap->getTileSize().width);
 	int testy = ((tileMap->getMapSize().height * tileMap->getTileSize().height) - playerPos.y - p.dy) / (tileMap->getTileSize().height);
@@ -501,233 +485,37 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 			}
 		}
 	}
+	// end Check to see if their position is where there is a bucket and assign that color
 
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/*	auto playerPos = player1->getPosition();
-	int x = playerPos.x / (tileMap->getTileSize().width * 2);
-	int y = (720 - playerPos.y) / (tileMap->getTileSize().height * 2);
-	CCPoint tileCoord = CCPoint(x, y);
-	int tileBlock = colorTiles->getTileGIDAt(tileCoord);
-
-	if (tileBlock) {
-		auto properties = tileMap->getPropertiesForGID(tileBlock).asValueMap();
-
-		if (!properties.empty()) {
-			auto paint = properties["toPaint"].asString();
-
-			if ("true" == paint) 
-			{
-							
-					PaintTile* tile = PaintTile::create(player1->getColor());
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
-	// Check to see if their position is where there is a bucket and assign that color
-	std::string newcolor = "none";
-	
-	
-	if (tileCoord.x >= 0 && tileCoord.x <= 25 && tileCoord.y >= 0 && tileCoord.y <= 14)
-	{
-		int bTile = bucketlayer->getTileGIDAt(tileCoord);
-
-		if (bTile)
-		{
-			auto tilemapvals = tileMap->getPropertiesForGID(bTile).asValueMap();
-
-			if (!tilemapvals.empty())
-			{
-				auto r = tilemapvals["Red"].asString();
-				auto b = tilemapvals["Blue"].asString();
-				auto y = tilemapvals["Yellow"].asString();
-				auto o = tilemapvals["Orange"].asString();
-
-				if ("true" == r)
-				{
-					dxmove = -dxmove * 2;
-					dymove = -dymove * 2;
-					newcolor = "red";
-				}
-				if ("true" == b)
-				{
-					dxmove = -dxmove * 2;
-					dymove = -dymove * 2;
-					newcolor = "blue";
-				}
-				if ("true" == y) {
-					dxmove = -dxmove * 2;
-					dymove = -dymove * 2;
-					newcolor = "yellow";
-				}
-				if ("true" == o) {
-					dxmove = -dxmove * 2;
-					dymove = -dymove * 2;
-					newcolor = "orange";
-				}
-			}
-		}
-
-		if (playernum == 1)
-		{
-			player1->setPositionX(player1->getPositionX() + dxmove);
-			player1->setPositionY(player1->getPositionY() + dymove);
-			p1pos += cocos2d::ccp(dxmove, dymove);
-			if (newcolor != "none")
-			{
-				player1->setColor(newcolor);
-			}
-
-		}
-		else if (playernum == 2)
-		{
-			player2->setPositionX(player2->getPositionX() + dxmove);
-			player2->setPositionY(player2->getPositionY() + dymove);
-			p2pos += cocos2d::ccp(dxmove, dymove);
-			if (newcolor != "none")
-			{
-				player2->setColor(newcolor);
-			}
-		}
-		else if (playernum == 3)
-		{
-			player3->setPositionX(player3->getPositionX() + dxmove);
-			player3->setPositionY(player3->getPositionY() + dymove);
-			p3pos += cocos2d::ccp(dxmove, dymove);
-			if (newcolor != "none")
-			{
-				player3->setColor(newcolor);
-			}
-		}
-		else if (playernum == 4)
-		{
-			player4->setPositionX(player4->getPositionX() + dxmove);
-			player4->setPositionY(player4->getPositionY() + dymove);
-			p4pos += cocos2d::ccp(dxmove, dymove);
-			if (newcolor != "none")
-			{
-				player4->setColor(newcolor);
-			}
-		}
-		
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////				tile->getTexture()->setAliasTexParameters();
-					tile->setPosition(player1->getPositionX(), player1->getPositionY());
-					tile->setScale(1.0);
-					addChild(tile, 0);
-			}
-
-				
-			
-		}
-	}
-	*/
 
 	for (int i = 0; i <= 5; i++)
 	{
 		for (int j = 0; j <= 5; j++)
 		{
+			if (players[playernum - 1]->getPositionX() > tileptrarray[i][j]->getPositionX() - 12 && players[playernum - 1]->getPositionX() < tileptrarray[i][j]->getPositionX() + 12 && players[playernum - 1]->getPositionY() > tileptrarray[i][j]->getPositionY() - 12 && players[playernum - 1]->getPositionY() < tileptrarray[i][j]->getPositionY() + 12)
+			{
+				tileptrarray[i][j]->setColor(players[playernum - 1]->getColor());
+				tileptrarray[i][j]->refreshColor();
+				if (players[playernum - 1]->getColor() == "red")
+				{
+					tilevalues[i][j] = 2;
+				}
+				if (players[playernum - 1]->getColor() == "blue")
+				{
+					tilevalues[i][j] = 3;
+				}
+				if (players[playernum - 1]->getColor() == "yellow")
+				{
+					tilevalues[i][j] = 4;
+				}
+				if (players[playernum - 1]->getColor() == "orange")
+				{
+					tilevalues[i][j] = 5;
+				}
+				whichplayertiles[i][j] = playernum;
+			}
 			
-			if(playernum == 1)
-			{
-
-				if (player1->getPositionX() > tileptrarray[i][j]->getPositionX() - 12 && player1->getPositionX() < tileptrarray[i][j]->getPositionX() + 12 && player1->getPositionY() > tileptrarray[i][j]->getPositionY() - 12 && player1->getPositionY() < tileptrarray[i][j]->getPositionY() + 12)
-				{
-					tileptrarray[i][j]->setColor(player1->getColor());
-					tileptrarray[i][j]->refreshColor();
-					if (player1->getColor() == "red")
-					{
-						tilevalues[i][j] = 2;
-					}
-					if (player1->getColor() == "blue")
-					{
-						tilevalues[i][j] = 3;
-					}
-					if (player1->getColor() == "yellow")
-					{
-						tilevalues[i][j] = 4;
-					}
-					if (player1->getColor() == "orange")
-					{
-						tilevalues[i][j] = 5;
-					}
-					whichplayertiles[i][j] = 1;
-				}
-			}
-			else if (playernum == 2)
-			{
-
-				if (player2->getPositionX() > tileptrarray[i][j]->getPositionX() - 12 && player2->getPositionX() < tileptrarray[i][j]->getPositionX() + 12 && player2->getPositionY() > tileptrarray[i][j]->getPositionY() - 12 && player2->getPositionY() < tileptrarray[i][j]->getPositionY() + 12)
-				{
-					tileptrarray[i][j]->setColor(player2->getColor());
-					tileptrarray[i][j]->refreshColor();
-					if (player2->getColor() == "red")
-					{
-						tilevalues[i][j] = 2;
-					}
-					if (player2->getColor() == "blue")
-					{
-						tilevalues[i][j] = 3;
-					}
-					if (player2->getColor() == "yellow")
-					{
-						tilevalues[i][j] = 4;
-					}
-					if (player2->getColor() == "orange")
-					{
-						tilevalues[i][j] = 5;
-					}
-					whichplayertiles[i][j] = 2;
-				}
-			}
-			else if (playernum == 3)
-			{
-
-				if (player3->getPositionX() > tileptrarray[i][j]->getPositionX() - 12 && player3->getPositionX() < tileptrarray[i][j]->getPositionX() + 12 && player3->getPositionY() > tileptrarray[i][j]->getPositionY() - 12 && player3->getPositionY() < tileptrarray[i][j]->getPositionY() + 12)
-				{
-					tileptrarray[i][j]->setColor(player3->getColor());
-					tileptrarray[i][j]->refreshColor();
-					if (player3->getColor() == "red")
-					{
-						tilevalues[i][j] = 2;
-					}
-					if (player3->getColor() == "blue")
-					{
-						tilevalues[i][j] = 3;
-					}
-					if (player3->getColor() == "yellow")
-					{
-						tilevalues[i][j] = 4;
-					}
-					if (player3->getColor() == "orange")
-					{
-						tilevalues[i][j] = 5;
-					}
-					whichplayertiles[i][j] = 3;
-				}
-			}
-			if (playernum == 4)
-			{
-
-				if (player4->getPositionX() > tileptrarray[i][j]->getPositionX() - 12 && player4->getPositionX() < tileptrarray[i][j]->getPositionX() + 12 && player4->getPositionY() > tileptrarray[i][j]->getPositionY() - 12 && player4->getPositionY() < tileptrarray[i][j]->getPositionY() + 12)
-				{
-					tileptrarray[i][j]->setColor(player4->getColor());
-					tileptrarray[i][j]->refreshColor();
-					if (player4->getColor() == "red")
-					{
-						tilevalues[i][j] = 2;
-					}
-					if (player4->getColor() == "blue")
-					{
-						tilevalues[i][j] = 3;
-					}
-					if (player4->getColor() == "yellow")
-					{
-						tilevalues[i][j] = 4;
-					}
-					if (player4->getColor() == "orange")
-					{
-						tilevalues[i][j] = 5;
-					}
-					whichplayertiles[i][j] = 4;
-				}
-			}
+		
 		}
 	}
 }
