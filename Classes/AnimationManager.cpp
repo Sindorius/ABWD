@@ -55,7 +55,9 @@ AnimationManager::AnimationManager()
 	walkrightanimFrames.at(3)->getTexture()->setAliasTexParameters();
 
 	paintFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_painting_left0.png", Rect(0, 0, 24, 48)));
+	paintFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_painting_left1.png", Rect(0, 0, 24, 48)));
 	paintFrames.at(0)->getTexture()->setAliasTexParameters();
+	paintFrames.at(1)->getTexture()->setAliasTexParameters();
 
 	// create the animation out of the frames
 	Animation* upanimation = Animation::createWithSpriteFrames(walkupanimFrames, 0.1f);
@@ -146,7 +148,10 @@ AnimationManager::AnimationManager()
 	walkrightanimFrames2.at(3)->getTexture()->setAliasTexParameters();
 
 	paintFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_painting_left0.png", Rect(0, 0, 24, 48)));
+	paintFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_painting_left1.png", Rect(0, 0, 24, 48)));
 	paintFrames2.at(0)->getTexture()->setAliasTexParameters();
+	paintFrames2.at(1)->getTexture()->setAliasTexParameters();
+
 
 	// create the animation out of the frames
 	Animation* upanimation2 = Animation::createWithSpriteFrames(walkupanimFrames2, 0.1f);
@@ -227,7 +232,9 @@ AnimationManager::AnimationManager()
 	walkrightanimFrames3.at(3)->getTexture()->setAliasTexParameters();
 
 	paintFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_painting_left0.png", Rect(0, 0, 24, 48)));
+	paintFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_painting_left1.png", Rect(0, 0, 24, 48)));
 	paintFrames3.at(0)->getTexture()->setAliasTexParameters();
+	paintFrames3.at(1)->getTexture()->setAliasTexParameters();
 
 	// create the animation out of the frames
 	Animation* upanimation3 = Animation::createWithSpriteFrames(walkupanimFrames3, 0.1f);
@@ -307,7 +314,9 @@ AnimationManager::AnimationManager()
 	walkrightanimFrames4.at(3)->getTexture()->setAliasTexParameters();
 
 	paintFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_painting_left0.png", Rect(0, 0, 24, 48)));
+	paintFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_painting_left1.png", Rect(0, 0, 24, 48)));
 	paintFrames4.at(0)->getTexture()->setAliasTexParameters();
+	paintFrames4.at(1)->getTexture()->setAliasTexParameters();
 
 	// create the animation out of the frames
 	Animation* upanimation4 = Animation::createWithSpriteFrames(walkupanimFrames4, 0.1f);
