@@ -71,7 +71,6 @@ int Application::run()
     PVRFrameEnableControlWindow(false);
 
 	UINT TARGET_RESOLUTION = 1;         // 1-millisecond target resolution
-
 	TIMECAPS tc;
 	UINT     wTimerRes;
 
@@ -116,7 +115,7 @@ int Application::run()
         }
         else
         {
-			boost::this_thread::sleep(boost::posix_time::milliseconds(1));
+			boost::this_thread::sleep(boost::posix_time::milliseconds(0));
         }
     }
 
