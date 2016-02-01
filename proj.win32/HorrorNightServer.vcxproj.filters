@@ -2,12 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="main.h" />
-    <ClInclude Include="..\Classes\ClientAppDelegate.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ClientDemoScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ConfigFileInput.hpp">
       <Filter>src</Filter>
     </ClInclude>
@@ -35,6 +29,12 @@
     <ClInclude Include="..\Classes\PaintTile.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\TCPServer.hpp" />
+    <ClInclude Include="..\Classes\TCPSplitter.hpp" />
+    <ClInclude Include="..\Classes\TCPSSession.hpp" />
+    <ClInclude Include="..\Classes\AnimationManager.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
@@ -45,12 +45,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Classes\ClientAppDelegate.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ClientDemoScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Player.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -68,6 +62,11 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\UDPServer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TCPServer.cpp" />
+    <ClCompile Include="..\Classes\TCPSSession.cpp" />
+    <ClCompile Include="..\Classes\AnimationManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
