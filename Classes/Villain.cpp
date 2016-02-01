@@ -21,13 +21,13 @@ Villain* Villain::create()
 	return NULL;
 }
 
-void Villain::setPriority(std::array<std::array<int, 6>, 6> tiles) {
+void Villain::setPriority(std::vector<std::vector<int>> tiles) {
 	for (int i = 0; i < 4; i++) {
 		priority[i] = 0;
 		idle = true;
 	}
-	for (int i = 0; i < 6; i++) {
-		for (int j = 0; j < 6; j++) {
+	for (int i = 0; i < tiles.size(); i++) {
+		for (int j = 0; j < tiles[i].size(); j++) {
 			if (tiles[i][j] == 1) {
 				priority[0]++;
 				idle = false;

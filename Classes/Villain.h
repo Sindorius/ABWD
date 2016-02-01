@@ -16,7 +16,7 @@ public:
 	static Villain* create();
 	//static Villain* create(int playernum);
 	
-	void setPriority(std::array<std::array<int, 6>, 6> tiles);
+	void setPriority(std::vector<std::vector<int>> tiles);
 
 	//gameloop villain function
 	void runAI(std::vector<Player*>* players);

@@ -49,7 +49,7 @@ bool ClientAppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0 / 30);
 
     // Set the design resolution
-    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::FIXED_HEIGHT);
+    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::SHOW_ALL);
 	director->getOpenGLView()->setFrameZoomFactor(1.0f);
 
     register_all_packages();

@@ -19,6 +19,7 @@
 #include "TCPServer.hpp"
 #include "PaintTile.h"
 #include "AnimationManager.hpp"
+#include "Puzzle.hpp"
 
 class TCPServer;
 
@@ -56,7 +57,7 @@ private:
 	Villain* villain;
 
 	std::vector<cocos2d::Sprite*> objects;
-
+	Puzzle puzzle;
 
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -95,35 +96,10 @@ public:
 	cocos2d::CCPoint p4pos;
 	cocos2d::CCPoint vpos;
 
-	PaintTile* tileptrarray[6][6];
-	std::array<std::array<int, 6>, 6> tilevalues = 
-	{{
-		{ 1,1,1,1,1,1 },
-		{ 1,1,1,1,1,1 },
-		{ 1,1,1,1,1,1 },
-		{ 1,1,1,1,1,1 },
-		{ 1,1,1,1,1,1 },
-		{ 1,1,1,1,1,1 }
+	//PaintTile* tileptrarray[6][6];
 
-		} };
-	std::array<std::array<int, 6>, 6> solution = 
-	{{
-			/*
-		{ 2,2,4,1,2,2 },
-		{ 2,1,3,3,4,2 },
-		{ 4,3,3,3,3,1 },
-		{ 1,3,3,3,3,4 },
-		{ 2,4,3,3,1,2 },
-		{ 2,2,1,4,2,2 }
-		*/
-		{ 3,3,5,2,3,3 },
-		{ 3,2,4,4,5,3 },
-		{ 5,4,4,4,4,2 },
-		{ 2,4,4,4,4,5 },
-		{ 3,5,4,4,2,3 },
-		{ 3,3,2,5,3,3 }
-
-	}};
+	std::vector<std::vector<PaintTile*>> tilespritevector;
+	/*
 	std::array<std::array<int, 6>, 6> whichplayertiles =
 	{ {
 		{ 0,0,0,0,0,0 },
@@ -133,7 +109,8 @@ public:
 		{ 0,0,0,0,0,0 },
 		{ 0,0,0,0,0,0 }
 
-		} };
+	} };
+	*/
 
 	// Paint on the floor
 	void space(int playernum);
@@ -141,7 +118,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
 	void space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, float dymove);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	bool checkSolution();
+
 	AnimationManager animationmanager;
 
 };

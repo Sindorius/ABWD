@@ -97,9 +97,22 @@ public:
 	TCPSplitter tcpsplitter;
 	TCPCSession* tcpsessionptr;
 
-	PaintTile* tileptrarray[6][6];
-	std::array<std::array<int, 6>, 6> tilevalues = { 1 };
-
+	//PaintTile* tileptrarray[7][3];
+	
+	std::vector<std::vector<PaintTile*>> tilespritevector;
+	std::vector<std::vector<int>> currenttilevector =
+	{ {
+		{ 1,1,1 },
+		{ 1,1,1 },
+		{ 1,1,1 },
+		{ 1,1,1 },
+		{ 1,1,1 },
+		{ 1,1,1 },
+		{ 1,1,1 }
+	} };
+	
+	//currentarray = keytilevalues;
+	
 	///////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
 	// The labels
 	CCLabelTTF* p1CLabel;

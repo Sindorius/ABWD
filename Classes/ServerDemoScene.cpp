@@ -123,23 +123,29 @@ bool ServerDemo::init()
 	addChild(villain, 0);
 
 	// Should also be part of SpawnObject layer if possible
-	Sprite* wallpainting = Sprite::create("res/sprites/objects/tiny_sun_framed.png");
+	Sprite* wallpainting = Sprite::create("res/sprites/objects/key_framed.png");
 	wallpainting->getTexture()->setAliasTexParameters();
 	wallpainting->setPosition(Vec2(320, 320));
-	wallpainting->setScale(1.5);
+	wallpainting->setScale(1.0f);
 	addChild(wallpainting,-999);
 
 	
 	// Initialize painting area 
-	for (int i = 0; i <= 5; i++)
+	tilespritevector.resize(puzzle.currenttilevector.size());
+	for (int i = 0; i < tilespritevector.size(); i++)
 	{
-		for (int j = 0; j <= 5; j++)
+		tilespritevector[i].resize(puzzle.currenttilevector[i].size());
+	}
+
+	for (int i = 0; i < puzzle.currenttilevector.size(); i++)
+	{
+		for (int j = 0; j < puzzle.currenttilevector[i].size(); j++)
 		{
-			tileptrarray[i][j] = PaintTile::create();
-			tileptrarray[i][j]->setPosition(24 * i + 264, 24 * j + 90);
-			tileptrarray[i][j]->setScale(1);
-			tileptrarray[i][j]->debugDraw(true);
-			addChild(tileptrarray[i][j], -999);
+			tilespritevector[i][j] = PaintTile::create();
+			tilespritevector[i][j]->setPosition(24 * j + 264, 24 * i + 90);
+			tilespritevector[i][j]->setScale(1);
+			tilespritevector[i][j]->debugDraw(true);
+			addChild(tilespritevector[i][j], -999);
 		}
 	}
 
@@ -151,8 +157,7 @@ bool ServerDemo::init()
 
 	CCLOG("port is");
 	CCLOG(std::to_string(setupdata.port).c_str());
-
-
+	
 	try
 	{
 		CCLOG("intry");
@@ -184,21 +189,23 @@ void ServerDemo::menuCloseCallback(Ref* pSender)
 
 void ServerDemo::update(float dt)
 {
-
+	CCLOG("UPDATE DT");
+	CCLOG(std::to_string(dt).c_str());
+	
 	io_service_p->poll();
 	
 	//player1->setPosition(p1pos);
 	//player2->setPosition(p2pos);
 	//player3->setPosition(p3pos);
 	//player4->setPosition(p4pos);
-	villain->setPriority(whichplayertiles);
+	villain->setPriority(puzzle.whichplayertilesvector);
 	villain->runAI(&players);
 	
 	ServerPositionPacket p(villain->getPositionX(), villain->getPositionY(), animationmanager.intFromString(villain->getAnim()),
 		player1->getPositionX(), player1->getPositionY(), animationmanager.intFromString(player1->getAnim()),
 		player2->getPositionX(), player2->getPositionY(), animationmanager.intFromString(player2->getAnim()),
 		player3->getPositionX(), player3->getPositionY(), animationmanager.intFromString(player3->getAnim()), 
-		player4->getPositionX(), player4->getPositionY(), animationmanager.intFromString(player4->getAnim()),tilevalues);
+		player4->getPositionX(), player4->getPositionY(), animationmanager.intFromString(player4->getAnim()),puzzle.currenttilevector);
 	
 	player1->setZOrder(-player1->getPositionY());
 	player2->setZOrder(-player2->getPositionY());
@@ -213,16 +220,16 @@ void ServerDemo::update(float dt)
 	{ 
 		if (abs(villain->getPositionX() - p->getPositionX()) < 5 && abs(villain->getPositionY() - p->getPositionY()) < 5)
 		{
-			for (int i = 0; i <= 5; i++)
+			for (int i = 0; i < puzzle.currenttilevector.size(); i++)
 			{
-				for (int j = 0; j <= 5; j++)
+				for (int j = 0; j < puzzle.currenttilevector[i].size(); j++)
 				{
-					if (whichplayertiles[i][j] == p->getPlayernum())
+					if (puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
 					{
-						whichplayertiles[i][j] = 0;
-						tilevalues[i][j] = 6;
-						tileptrarray[i][j]->setColor("black");
-						tileptrarray[i][j]->refreshColor();
+						puzzle.whichplayertilesvector[i][j] = 0;
+						puzzle.currenttilevector[i][j] = 6;
+						tilespritevector[i][j]->setColor("black");
+						tilespritevector[i][j]->refreshColor();
 					}
 				}
 			}
@@ -231,7 +238,7 @@ void ServerDemo::update(float dt)
 	}
 
 	// Move them all to the top if they've won
-	if (checkSolution())
+	if (puzzle.isSolved())
 	{
 		villain->setPosition(0, 0);
 		//vpos = cocos2d::ccp(0,0);
@@ -411,76 +418,43 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 			}
 		}
 
-		if (playernum == 1)
+		if (newcolor != "none")
 		{
-			player1->setPositionX(player1->getPositionX() + dxmove);
-			player1->setPositionY(player1->getPositionY() + dymove);
-			p1pos += cocos2d::ccp(dxmove, dymove);
-			if (newcolor != "none")
-			{
-				player1->setColor(newcolor);
-			}
+			players[playernum - 1]->setColor(newcolor);
+		}
 
-		}
-		else if (playernum == 2)
-		{
-			player2->setPositionX(player2->getPositionX() + dxmove);
-			player2->setPositionY(player2->getPositionY() + dymove);
-			p2pos += cocos2d::ccp(dxmove, dymove);
-			if (newcolor != "none")
-			{
-				player2->setColor(newcolor);
-			}
-		}
-		else if (playernum == 3)
-		{
-			player3->setPositionX(player3->getPositionX() + dxmove);
-			player3->setPositionY(player3->getPositionY() + dymove);
-			p3pos += cocos2d::ccp(dxmove, dymove);
-			if (newcolor != "none")
-			{
-				player3->setColor(newcolor);
-			}
-		}
-		else if (playernum == 4)
-		{
-			player4->setPositionX(player4->getPositionX() + dxmove);
-			player4->setPositionY(player4->getPositionY() + dymove);
-			p4pos += cocos2d::ccp(dxmove, dymove);
-			if (newcolor != "none")
-			{
-				player4->setColor(newcolor);
-			}
-		}
+	
 	}
 	// end Check to see if their position is where there is a bucket and assign that color
 
-
-	for (int i = 0; i <= 5; i++)
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// optimize this, might not need to go through each tile here.
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	for (int i = 0; i < puzzle.currenttilevector.size(); i++)
 	{
-		for (int j = 0; j <= 5; j++)
+		for (int j = 0; j < puzzle.currenttilevector[i].size(); j++)
 		{
-			if (players[playernum - 1]->getPositionX() > tileptrarray[i][j]->getPositionX() - 12 && players[playernum - 1]->getPositionX() < tileptrarray[i][j]->getPositionX() + 12 && players[playernum - 1]->getPositionY() > tileptrarray[i][j]->getPositionY() - 12 && players[playernum - 1]->getPositionY() < tileptrarray[i][j]->getPositionY() + 12)
+			if (players[playernum - 1]->getPositionX() > tilespritevector[i][j]->getPositionX() - 12 && players[playernum - 1]->getPositionX() < tilespritevector[i][j]->getPositionX() + 12 && players[playernum - 1]->getPositionY() > tilespritevector[i][j]->getPositionY() - 12 && players[playernum - 1]->getPositionY() < tilespritevector[i][j]->getPositionY() + 12)
 			{
-				tileptrarray[i][j]->setColor(players[playernum - 1]->getColor());
-				tileptrarray[i][j]->refreshColor();
+				tilespritevector[i][j]->setColor(players[playernum - 1]->getColor());
+				tilespritevector[i][j]->refreshColor();
 				if (players[playernum - 1]->getColor() == "red")
 				{
-					tilevalues[i][j] = 2;
+					puzzle.currenttilevector[i][j] = 2;
 				}
 				if (players[playernum - 1]->getColor() == "blue")
 				{
-					tilevalues[i][j] = 3;
+					puzzle.currenttilevector[i][j] = 3;
 				}
 				if (players[playernum - 1]->getColor() == "yellow")
 				{
-					tilevalues[i][j] = 4;
+					puzzle.currenttilevector[i][j] = 4;
 				}
 				if (players[playernum - 1]->getColor() == "orange")
 				{
-					tilevalues[i][j] = 5;
+					puzzle.currenttilevector[i][j] = 5;
 				}
-				whichplayertiles[i][j] = playernum;
+				puzzle.whichplayertilesvector[i][j] = playernum;
 			}
 			
 		
@@ -488,26 +462,3 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 	}
 }
 
-bool ServerDemo::checkSolution()
-{
-
-
-	for (int i = 0; i <= 5; i++)
-	{
-		for (int j = 0; j <= 5; j++)
-		{
-			if(tilevalues[i][j] != solution[i][j])
-			{
-				//CCLOG(std::to_string(i).c_str());
-				//CCLOG(std::to_string(j).c_str());
-				//CCLOG("solution not equal");
-				//CCLOG(std::to_string(tilevalues[i][j]).c_str());
-				//CCLOG(std::to_string(solution[i][j]).c_str());
-				return false;
-			}
-		}
-
-	}
-	return true;
-
-}

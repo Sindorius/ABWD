@@ -16,8 +16,7 @@ AnimationManager::AnimationManager()
 	walkrightanimFrames.reserve(4);
 	Vector<SpriteFrame*> paintFrames;
 	paintFrames.reserve(1);
-	//animFrames.reserve(4);
-
+	
 	walkupanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_up0.png", Rect(0, 0, 24, 48)));
 	walkupanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_up1.png", Rect(0, 0, 24, 48)));
 	walkupanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_up2.png", Rect(0, 0, 24, 48)));
@@ -85,18 +84,6 @@ AnimationManager::AnimationManager()
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p1paint"), paintanim));
 
 
-
-
-
-	//walkanim2 = Animate::create(animation);
-	//walkanim3 = Animate::create(animation);
-	//walkanim4 = Animate::create(animation);
-	//player1->runAction(RepeatForever::create(walkupanim));
-	//player2->runAction(RepeatForever::create(walkanim2));
-	//player3->runAction(RepeatForever::create(walkanim3));
-	//player4->runAction(RepeatForever::create(walkanim4));
-
-
 	//player2 animations
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Vector<SpriteFrame*> walkupanimFrames2;
@@ -109,7 +96,7 @@ AnimationManager::AnimationManager()
 	walkrightanimFrames2.reserve(4);
 	Vector<SpriteFrame*> paintFrames2;
 	paintFrames2.reserve(1);
-	//animFrames.reserve(4);
+	
 
 	walkupanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_up0.png", Rect(0, 0, 24, 48)));
 	walkupanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_up1.png", Rect(0, 0, 24, 48)));
@@ -276,7 +263,7 @@ AnimationManager::AnimationManager()
 	walkrightanimFrames4.reserve(4);
 	Vector<SpriteFrame*> paintFrames4;
 	paintFrames4.reserve(1);
-	//animFrames.reserve(4);
+	
 	walkupanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_up0.png", Rect(0, 0, 24, 48)));
 	walkupanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_up1.png", Rect(0, 0, 24, 48)));
 	walkupanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_up2.png", Rect(0, 0, 24, 48)));
@@ -355,8 +342,7 @@ AnimationManager::AnimationManager()
 	samleftanimFrames.reserve(4);
 	Vector<SpriteFrame*> samrightanimFrames;
 	samrightanimFrames.reserve(4);
-	//animFrames.reserve(4);
-
+	
 	samupanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_back_0.png", Rect(0, 0, 24, 48)));
 	samupanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_back_1.png", Rect(0, 0, 24, 48)));
 	samupanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_back_2.png", Rect(0, 0, 24, 48)));

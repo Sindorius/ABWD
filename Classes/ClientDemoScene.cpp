@@ -87,12 +87,12 @@ bool ClientDemo::init()
 	bucketlayer = tileMap->getLayer("Paintbuckets");
 	blockage = tileMap->getLayer("Collision");
 	blockage->setVisible(false);
-
+	/*
 	// Check to see if there is an object layer 
 	spawnObjs = tileMap->objectGroupNamed("SpawnObjects");
 
 	if (spawnObjs == NULL) {
-		CCLOG("TMX map has no Red Bucket object layer");
+		CCLOG("TMX map has no Spawn object layer");
 	}
 
 	// Player one spawn position coordinates 
@@ -112,14 +112,14 @@ bool ClientDemo::init()
 	int p4X = playerFourSP["x"].asInt();
 	int p4Y = playerFourSP["y"].asInt();
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	*/
 	player1 = Player::create(1);
 	player1->setPlayernum(1);
 	player1->getTexture()->setAliasTexParameters();
 	player1->setAnchorPoint(Vec2(0.5, 0.0));
-	//player1->setPosition(Vec2(100, 100));
+	player1->setPosition(Vec2(50, 50));
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
-	player1->setPosition(Vec2(p1X, p1Y));
+	//player1->setPosition(Vec2(p1X, p1Y));
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	addChild(player1, 0);
 
@@ -127,9 +127,9 @@ bool ClientDemo::init()
 	player2->setPlayernum(2);
 	player2->getTexture()->setAliasTexParameters();
 	player2->setAnchorPoint(Vec2(0.5, 0.0));
-	//player2->setPosition(Vec2(200, 200));
+	player2->setPosition(Vec2(50, 100));
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
-	player2->setPosition(Vec2(p2X, p2Y));
+	//player2->setPosition(Vec2(p2X, p2Y));
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	addChild(player2, 0);
 
@@ -137,9 +137,9 @@ bool ClientDemo::init()
 	player3->setPlayernum(3);
 	player3->getTexture()->setAliasTexParameters();
 	player3->setAnchorPoint(Vec2(0.5, 0.0));
-	//player3->setPosition(Vec2(300, 300));
+	player3->setPosition(Vec2(50, 150));
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
-	player3->setPosition(Vec2(p3X, p3Y));
+	//player3->setPosition(Vec2(p3X, p3Y));
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	addChild(player3, 0);
 
@@ -147,9 +147,9 @@ bool ClientDemo::init()
 	player4->setPlayernum(4);
 	player4->getTexture()->setAliasTexParameters();
 	player4->setAnchorPoint(Vec2(0.5, 0.0));
-	//player4->setPosition(Vec2(400, 400));
+	player4->setPosition(Vec2(50, 200));
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
-	player4->setPosition(Vec2(p4X, p4Y));
+	//player4->setPosition(Vec2(p4X, p4Y));
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	addChild(player4, 0);
 
@@ -163,7 +163,7 @@ bool ClientDemo::init()
 	villain->setAnchorPoint(Vec2(0.5, 0.0));
 	villain->setPosition(Vec2(250, 150));
 	addChild(villain, 0);
-
+	/*
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
 	// Player Label Creation
 	p1CLabel = CCLabelTTF::create("p1", "fonts/Marker Felt.ttf", 10);
@@ -186,28 +186,32 @@ bool ClientDemo::init()
 	p4CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(p4CLabel, 100);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	Sprite* wallpainting = Sprite::create("res/sprites/objects/tiny_sun_framed.png");
+	*/
+	Sprite* wallpainting = Sprite::create("res/sprites/objects/key_framed.png");
 	wallpainting->getTexture()->setAliasTexParameters();
 	wallpainting->setPosition(Vec2(320, 320));
-	wallpainting->setScale(1.5);
+	wallpainting->setScale(1);
 	addChild(wallpainting, -999);
 
-	for (int i = 0; i <= 5; i++)
+
+	// Initialize painting area 
+	tilespritevector.resize(currenttilevector.size());
+	for (int i = 0; i < tilespritevector.size(); i++)
 	{
-		for (int j = 0; j <= 5; j++)
+		tilespritevector[i].resize(currenttilevector[i].size());
+	}
+	for (int i = 0; i < currenttilevector.size(); i++)
+	{
+		for (int j = 0; j < currenttilevector[i].size(); j++)
 		{
-			tileptrarray[i][j] = PaintTile::create();
-			tileptrarray[i][j]->setPosition(24 * i + 264, 24 * j + 90);
-			tileptrarray[i][j]->setScale(1);
+			tilespritevector[i][j] = PaintTile::create();
+			tilespritevector[i][j]->setPosition(24 * j + 264, 24 * i + 90);
+			tilespritevector[i][j]->setScale(1);
 			//tileptrarray[i][j]->debugDraw(true);
-			addChild(tileptrarray[i][j], -999);
+			addChild(tilespritevector[i][j], -999);
 		}
 	}
-
-
-
-
+			
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(ClientDemo::KeyDown, this);
 	keyListener->onKeyReleased = CC_CALLBACK_2(ClientDemo::KeyRelease, this);
@@ -231,9 +235,10 @@ void ClientDemo::menuCloseCallback(Ref* pSender)
 
 void ClientDemo::update(float dt)
 {
+	CCLOG("UPDATE DT");
+	CCLOG(std::to_string(dt).c_str());
 
 	io_service_p->poll();
-
 	//CCLOG("POLLING");
 
 
@@ -407,9 +412,6 @@ CCPoint ClientDemo::plyrCoordToTileCoord(int playerNum)
 		int newy = (360 - players[playerNum - 1]->getPositionY()) / (tileMap->getTileSize().height + ymove);
 		return(CCPoint(newx, newy));
 }
-	
-
-
 
 int ClientDemo::getTileProperties(CCPoint tileCoord)
 {
@@ -418,8 +420,6 @@ int ClientDemo::getTileProperties(CCPoint tileCoord)
 		return (bucketlayer->getTileGIDAt(tileCoord));
 	}
 }
-
-
 
 void ClientDemo::changeLabelColor(int bTile, int playerNum)
 {
@@ -554,7 +554,7 @@ void ClientDemo::space()
 
 		CCPoint tileCoord = plyrCoordToTileCoord(playernum);
 		int bTile = getTileProperties(tileCoord);
-		changeLabelColor(bTile, playernum);
+		//changeLabelColor(bTile, playernum);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -568,15 +568,15 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	//CCLOG(std::to_string(p.p3x).c_str());
 	//CCLOG(std::to_string(p.p4x).c_str());
 	//CCLOG(std::to_string(p.vx).c_str());
-	CCLOG(std::to_string(tilevalues[0][0]).c_str());
-	CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
+	//CCLOG(std::to_string(tilevalues[0][0]).c_str());
+	//CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
 	
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
-	p1CLabel->setPosition(Vec2(p.p1x, p.p1y + 46));
-	p2CLabel->setPosition(Vec2(p.p2x, p.p2y + 46));
-	p3CLabel->setPosition(Vec2(p.p3x, p.p3y + 46));
-	p4CLabel->setPosition(Vec2(p.p4x, p.p4y + 46));
+	//p1CLabel->setPosition(Vec2(p.p1x, p.p1y + 46));
+	//p2CLabel->setPosition(Vec2(p.p2x, p.p2y + 46));
+	//p3CLabel->setPosition(Vec2(p.p3x, p.p3y + 46));
+	//p4CLabel->setPosition(Vec2(p.p4x, p.p4y + 46));
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	player1->setPosition(Vec2(p.p1x, p.p1y));
@@ -621,10 +621,10 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 		villain->setAnim(vanims);
 	}
 
-
-	for (int i = 0; i <= 5; i++)
+/*
+	for (int i = 0; i < puzzleheight; i++)
 	{
-		for (int j = 0; j <= 5; j++)
+		for (int j = 0; j < puzzlewidth; j++)
 		{
 			if (tilevalues[i][j] != p.tilevalues[i][j])
 			{
@@ -638,8 +638,8 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 				{
 					tileptrarray[i][j]->setColor("blue");
 					tileptrarray[i][j]->refreshColor();
-					CCLOG(std::to_string(tilevalues[0][0]).c_str());
-					CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
+					//CCLOG(std::to_string(tilevalues[0][0]).c_str());
+				//	CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
 				}
 				if (tilevalues[i][j] == 4)
 				{
@@ -659,6 +659,44 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 			}
 		}
 	}
+	*/
+	for (int i = 0; i < p.tilevector.size(); i++)
+	{
+		for (int j = 0; j < p.tilevector[i].size(); j++)
+		{
+			if (currenttilevector[i][j] != p.tilevector[i][j])
+			{
+				currenttilevector[i][j] = p.tilevector[i][j];
+				if (currenttilevector[i][j] == 2)
+				{
+					tilespritevector[i][j]->setColor("red");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (currenttilevector[i][j] == 3)
+				{
+					tilespritevector[i][j]->setColor("blue");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (currenttilevector[i][j] == 4)
+				{
+					tilespritevector[i][j]->setColor("yellow");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (currenttilevector[i][j] == 5)
+				{
+					tilespritevector[i][j]->setColor("orange");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (currenttilevector[i][j] == 6)
+				{
+					tilespritevector[i][j]->setColor("black");
+					tilespritevector[i][j]->refreshColor();
+				}
+			}
+		}
+	}
+	//CCLOG(std::to_string(currenttilevector[0][0]).c_str());
+	//CCLOG(std::to_string(p.tilevector[0][0]).c_str());
 
 }
 /*
