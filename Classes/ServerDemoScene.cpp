@@ -29,7 +29,7 @@ bool ServerDemo::init()
         return false;
     }
     
-	std::string file = "res//maps//happy_sun_paint.tmx";
+	std::string file = "res//maps//key_room_big.tmx";
 	auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
 	//tileMap = cocos2d::CCTMXTiledMap::createWithXML(str->getCString(), "");
 
@@ -403,6 +403,7 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 				auto b = tilemapvals["Blue"].asString();
 				auto y = tilemapvals["Yellow"].asString();
 				auto o = tilemapvals["Orange"].asString();
+				auto blk = tilemapvals["Black"].asString();
 
 				if ("true" == r)
 				{
@@ -425,6 +426,11 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "orange";
+				}
+				if ("true" == blk) {
+					dxmove = -dxmove * 2;
+					dymove = -dymove * 2;
+					newcolor = "black";
 				}
 			}
 		}

@@ -5,6 +5,7 @@
 #include <cstring>
 #include <boost/multi_array.hpp>
 #include <cereal/types/array.hpp>
+#include "cocos2d.h"
 
 class Puzzle
 {
@@ -92,13 +93,13 @@ public:
 	std::vector<std::vector<int>> keytilevectorsolution =
 	{ {
 		{ 6,6,6,6,6 },
-		{ 6,4,4,5,6 },
-		{ 6,4,6,5,6 },
-		{ 6,5,5,5,6 },
+		{ 6,6,5,5,6 },
 		{ 6,6,4,6,6 },
 		{ 6,6,4,5,6 },
 		{ 6,6,4,6,6 },
-		{ 6,6,5,5,6 },
+		{ 6,5,5,5,6 },
+		{ 6,4,6,5,6 },
+		{ 6,4,4,5,6 },
 		{ 6,6,6,6,6 }
 	} };
 
@@ -163,11 +164,11 @@ public:
 			{
 				if (currenttilevector[i][j] != currenttilevectorsolution[i][j])
 				{
-					//CCLOG(std::to_string(i).c_str());
-					//CCLOG(std::to_string(j).c_str());
-					//CCLOG("solution not equal");
-					//CCLOG(std::to_string(tilevalues[i][j]).c_str());
-					//CCLOG(std::to_string(solution[i][j]).c_str());
+					CCLOG(std::to_string(i).c_str());
+					CCLOG(std::to_string(j).c_str());
+					CCLOG("solution not equal");
+					CCLOG(std::to_string(currenttilevector[i][j]).c_str());
+					CCLOG(std::to_string(currenttilevectorsolution[i][j]).c_str());
 					return false;
 				}
 			}
