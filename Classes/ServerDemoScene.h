@@ -58,6 +58,7 @@ private:
 
 	std::vector<cocos2d::Sprite*> objects;
 	Puzzle puzzle;
+	cocos2d::Sprite* wallpainting;
 
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -124,3 +125,5 @@ public:
 };
 
 #endif // __SERVERDEMO_SCENE_H__
+
+

@@ -123,7 +123,7 @@ bool ServerDemo::init()
 	addChild(villain, 0);
 
 	// Should also be part of SpawnObject layer if possible
-	Sprite* wallpainting = Sprite::create("res/sprites/objects/key_framed.png");
+	wallpainting = Sprite::create("res/sprites/objects/key_framed.png");
 	wallpainting->getTexture()->setAliasTexParameters();
 	wallpainting->setPosition(Vec2(320, 320));
 	wallpainting->setScale(1.0f);
@@ -182,6 +182,12 @@ bool ServerDemo::init()
 	{
 		std::cerr << "Exception: " << e.what() << "\n";
 	}
+
+	auto keyListener = EventListenerKeyboard::create();
+	keyListener->onKeyPressed = CC_CALLBACK_2(ServerDemo::KeyDown, this);
+	
+
+	_eventDispatcher->addEventListenerWithFixedPriority(keyListener, 2);
 
 	this->scheduleUpdate();
     return true;
@@ -483,3 +489,195 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 	}
 }
 
+
+void ServerDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
+{
+	switch (keyCode)
+	{
+
+		case EventKeyboard::KeyCode::KEY_1:
+			Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);
+		break;
+
+		case EventKeyboard::KeyCode::KEY_2:
+			Director::getInstance()->getOpenGLView()->setFrameZoomFactor(2.0f);
+		break;
+		case EventKeyboard::KeyCode::KEY_3:
+			Director::getInstance()->getOpenGLView()->setFrameZoomFactor(3.0f);
+		break;
+	
+		case EventKeyboard::KeyCode::KEY_S:
+		{
+			removeChild(tileMap);
+			std::string file = "res//maps//happy_sun_paint.tmx";
+			auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
+			//tileMap = cocos2d::CCTMXTiledMap::createWithXML(str->getCString(), "");
+
+			//tileMap = cocos2d::experimental::TMXTiledMap::createWithXML(str->getCString(), "");
+			////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
+			tileMap = cocos2d::TMXTiledMap::createWithXML(str->getCString(), "");
+			addChild(tileMap, -1000);
+			blockage = tileMap->getLayer("Collision");
+			blockage->setVisible(true);
+
+			// Check to see if there is an object layer 
+			spawnObjs = tileMap->objectGroupNamed("SpawnObjects");
+
+			if (spawnObjs == NULL) {
+				CCLOG("TMX map has SpawnObjects layer");
+			}
+			// Player spawn coordinates depend on tiled map
+			ValueMap playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
+			int p1X = playerOneSP["x"].asInt();
+			int p1Y = playerOneSP["y"].asInt();
+
+			ValueMap playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
+			int p2X = playerTwoSP["x"].asInt();
+			int p2Y = playerTwoSP["y"].asInt();
+
+			ValueMap playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
+			int p3X = playerThreeSP["x"].asInt();
+			int p3Y = playerThreeSP["y"].asInt();
+
+			ValueMap playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
+			int p4X = playerFourSP["x"].asInt();
+			int p4Y = playerFourSP["y"].asInt();
+
+			player1->setPosition(Vec2(p1X, p1Y));
+			player2->setPosition(Vec2(p2X, p2Y));
+			player3->setPosition(Vec2(p3X, p3Y));
+			player4->setPosition(Vec2(p4X, p4Y));
+
+			removeChild(wallpainting);
+			wallpainting = Sprite::create("res/sprites/objects/tiny_sun_framed.png");
+			wallpainting->getTexture()->setAliasTexParameters();
+			wallpainting->setPosition(Vec2(320, 320));
+			wallpainting->setScale(1.5f);
+			addChild(wallpainting, -999);
+
+			for (int i = 0; i < puzzle.currenttilevector.size(); i++)
+			{
+				for (int j = 0; j < puzzle.currenttilevector[i].size(); j++)
+				{
+					removeChild(tilespritevector[i][j]);
+				}
+			}
+
+			puzzle.currenttilevector = puzzle.suntilevectorvalues;
+			puzzle.currenttilevectorsolution = puzzle.suntilevectorsolution;
+			puzzle.currenttilevectorsolution = puzzle.sunplayertilesvector;
+
+			tilespritevector.resize(puzzle.currenttilevector.size());
+			for (int i = 0; i < tilespritevector.size(); i++)
+			{
+				tilespritevector[i].resize(puzzle.currenttilevector[i].size());
+			}
+			int xoffset = 264;
+			int yoffset = 90;
+			if (tilespritevector.size() == 9)
+			{
+				yoffset = 48;
+			}
+			if (tilespritevector[0].size() == 5)
+			{
+				xoffset = 276;
+			}
+
+			for (int i = 0; i < puzzle.currenttilevector.size(); i++)
+			{
+				for (int j = 0; j < puzzle.currenttilevector[i].size(); j++)
+				{
+					tilespritevector[i][j] = PaintTile::create();
+					tilespritevector[i][j]->setPosition(24 * j + xoffset, 24 * i + yoffset);
+					tilespritevector[i][j]->setScale(1);
+					tilespritevector[i][j]->debugDraw(true);
+					addChild(tilespritevector[i][j], -999);
+				}
+			}
+
+			break;
+		}
+		case EventKeyboard::KeyCode::KEY_K:
+		{
+			removeChild(tileMap);
+			std::string file = "res//maps//key_room_big.tmx";
+			auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
+			//tileMap = cocos2d::CCTMXTiledMap::createWithXML(str->getCString(), "");
+			//tileMap = cocos2d::experimental::TMXTiledMap::createWithXML(str->getCString(), "");
+			////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
+			tileMap = cocos2d::TMXTiledMap::createWithXML(str->getCString(), "");
+			addChild(tileMap, -1000);
+			blockage = tileMap->getLayer("Collision");
+			blockage->setVisible(true);
+			// Check to see if there is an object layer 
+			spawnObjs = tileMap->objectGroupNamed("SpawnObjects");
+			if (spawnObjs == NULL) {
+				CCLOG("TMX map has SpawnObjects layer");
+			}
+			// Player spawn coordinates depend on tiled map
+			ValueMap playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
+			int p1X = playerOneSP["x"].asInt();
+			int p1Y = playerOneSP["y"].asInt();
+			ValueMap playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
+			int p2X = playerTwoSP["x"].asInt();
+			int p2Y = playerTwoSP["y"].asInt();
+			ValueMap playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
+			int p3X = playerThreeSP["x"].asInt();
+			int p3Y = playerThreeSP["y"].asInt();
+			ValueMap playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
+			int p4X = playerFourSP["x"].asInt();
+			int p4Y = playerFourSP["y"].asInt();
+			player1->setPosition(Vec2(p1X, p1Y));
+			player2->setPosition(Vec2(p2X, p2Y));
+			player3->setPosition(Vec2(p3X, p3Y));
+			player4->setPosition(Vec2(p4X, p4Y));
+			removeChild(wallpainting);
+			wallpainting = Sprite::create("res/sprites/objects/key_framed.png");
+			wallpainting->getTexture()->setAliasTexParameters();
+			wallpainting->setPosition(Vec2(320, 320));
+			wallpainting->setScale(1.0f);
+			addChild(wallpainting, -999);
+			for (int i = 0; i < puzzle.currenttilevector.size(); i++)
+			{
+				for (int j = 0; j < puzzle.currenttilevector[i].size(); j++)
+				{
+					removeChild(tilespritevector[i][j]);
+				}
+			}
+			puzzle.currenttilevector = puzzle.keytilevectorvalues;
+			puzzle.currenttilevectorsolution = puzzle.keytilevectorsolution;
+			puzzle.currenttilevectorsolution = puzzle.keyplayertilesvector;
+			tilespritevector.resize(puzzle.currenttilevector.size());
+			
+			for (int i = 0; i < tilespritevector.size(); i++)
+			{
+				tilespritevector[i].resize(puzzle.currenttilevector[i].size());
+			}
+			
+			int xoffset2 = 264;
+			int yoffset2 = 90;
+			if (tilespritevector.size() == 9)
+			{
+				yoffset2 = 48;
+			}
+			if (tilespritevector[0].size() == 5)
+			{
+				xoffset2 = 276;
+			}
+			
+			for (int i = 0; i < puzzle.currenttilevector.size(); i++)
+			{
+				for (int j = 0; j < puzzle.currenttilevector[i].size(); j++)
+				{
+					tilespritevector[i][j] = PaintTile::create();
+					tilespritevector[i][j]->setPosition(24 * j + xoffset2, 24 * i + yoffset2);
+					tilespritevector[i][j]->setScale(1);
+					tilespritevector[i][j]->debugDraw(true);
+					addChild(tilespritevector[i][j], -999);
+				}
+			}
+			break;
+		}
+	}
+	event->stopPropagation();
+}

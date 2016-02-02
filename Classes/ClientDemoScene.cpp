@@ -377,7 +377,7 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 		xmove = 0;
 		ymove = 0;
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
-		space();
+		//space();
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		break;
 	}
@@ -559,13 +559,13 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 
 
 // Will check to see if you are on a bucket and change the color of the player's label
-void ClientDemo::space()
+/*void ClientDemo::space()
 {
 
 		CCPoint tileCoord = plyrCoordToTileCoord(playernum);
 		int bTile = getTileProperties(tileCoord);
 		//changeLabelColor(bTile, playernum);
-}
+}*/
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -631,45 +631,9 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 		villain->setAnim(vanims);
 	}
 
-/*
-	for (int i = 0; i < puzzleheight; i++)
-	{
-		for (int j = 0; j < puzzlewidth; j++)
-		{
-			if (tilevalues[i][j] != p.tilevalues[i][j])
-			{
-				tilevalues[i][j] = p.tilevalues[i][j];
-				if (tilevalues[i][j] == 2)
-				{
-					tileptrarray[i][j]->setColor("red");
-					tileptrarray[i][j]->refreshColor();
-				}
-				if (tilevalues[i][j] == 3)
-				{
-					tileptrarray[i][j]->setColor("blue");
-					tileptrarray[i][j]->refreshColor();
-					//CCLOG(std::to_string(tilevalues[0][0]).c_str());
-				//	CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
-				}
-				if (tilevalues[i][j] == 4)
-				{
-					tileptrarray[i][j]->setColor("yellow");
-					tileptrarray[i][j]->refreshColor();
-				}
-				if (tilevalues[i][j] == 5)
-				{
-					tileptrarray[i][j]->setColor("orange");
-					tileptrarray[i][j]->refreshColor();
-				}
-				if (tilevalues[i][j] == 6)
-				{
-					tileptrarray[i][j]->setColor("black");
-					tileptrarray[i][j]->refreshColor();
-				}
-			}
-		}
-	}
-	*/
+
+
+
 	for (int i = 0; i < p.tilevector.size(); i++)
 	{
 		for (int j = 0; j < p.tilevector[i].size(); j++)
