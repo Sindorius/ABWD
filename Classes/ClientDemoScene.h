@@ -102,13 +102,15 @@ public:
 	std::vector<std::vector<PaintTile*>> tilespritevector;
 	std::vector<std::vector<int>> currenttilevector =
 	{ {
-		{ 1,1,1 },
-		{ 1,1,1 },
-		{ 1,1,1 },
-		{ 1,1,1 },
-		{ 1,1,1 },
-		{ 1,1,1 },
-		{ 1,1,1 }
+		{ 1,1,1,1,1 },
+		{ 1,1,1,1,1 },
+		{ 1,1,1,1,1 },
+		{ 1,1,1,1,1 },
+		{ 1,1,1,1,1 },
+		{ 1,1,1,1,1 },
+		{ 1,1,1,1,1 },
+		{ 1,1,1,1,1 },
+		{ 1,1,1,1,1 }
 	} };
 	
 	//currentarray = keytilevalues;

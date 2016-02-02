@@ -63,11 +63,22 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
+	if (color == "black")
+	{
+		if (pSprite->initWithFile("res//sprites//paint_blk.png"))
+		{
+			pSprite->setColor("black");
+
+			pSprite->autorelease();
+
+			return pSprite;
+		}
+	}
 	else
 	{
-		if (pSprite->initWithFile("res//sprites//paint_r.png"))
+		if (pSprite->initWithFile("res//sprites//paint_overlay_dry.png"))
 		{
-			pSprite->setColor("red");
+			pSprite->setColor("clear");
 
 			pSprite->autorelease();
 
@@ -102,6 +113,11 @@ void PaintTile::refreshColor()
 	}
 
 	if (color == "black")
+	{
+		setTexture("res//sprites//paint_blk.png");
+	}
+	
+	if (color == "clear")
 	{
 		setTexture("res//sprites//paint_overlay_dry.png");
 	}

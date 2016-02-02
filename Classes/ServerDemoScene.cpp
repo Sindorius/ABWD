@@ -136,13 +136,24 @@ bool ServerDemo::init()
 	{
 		tilespritevector[i].resize(puzzle.currenttilevector[i].size());
 	}
+	int xoffset = 264;
+	int yoffset = 90;
+	if(tilespritevector.size() == 9)
+	{
+		yoffset = 48;
+	}
+	if (tilespritevector[0].size() == 5)
+	{
+		xoffset = 276;
+	}
+
 
 	for (int i = 0; i < puzzle.currenttilevector.size(); i++)
 	{
 		for (int j = 0; j < puzzle.currenttilevector[i].size(); j++)
 		{
 			tilespritevector[i][j] = PaintTile::create();
-			tilespritevector[i][j]->setPosition(24 * j + 264, 24 * i + 90);
+			tilespritevector[i][j]->setPosition(24 * j + xoffset, 24 * i + yoffset);
 			tilespritevector[i][j]->setScale(1);
 			tilespritevector[i][j]->debugDraw(true);
 			addChild(tilespritevector[i][j], -999);
@@ -227,8 +238,8 @@ void ServerDemo::update(float dt)
 					if (puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
 					{
 						puzzle.whichplayertilesvector[i][j] = 0;
-						puzzle.currenttilevector[i][j] = 6;
-						tilespritevector[i][j]->setColor("black");
+						puzzle.currenttilevector[i][j] = 1;
+						tilespritevector[i][j]->setColor("clear");
 						tilespritevector[i][j]->refreshColor();
 					}
 				}
@@ -453,6 +464,10 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 				if (players[playernum - 1]->getColor() == "orange")
 				{
 					puzzle.currenttilevector[i][j] = 5;
+				}
+				if (players[playernum - 1]->getColor() == "black")
+				{
+					puzzle.currenttilevector[i][j] = 6;
 				}
 				puzzle.whichplayertilesvector[i][j] = playernum;
 			}

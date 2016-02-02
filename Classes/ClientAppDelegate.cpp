@@ -50,7 +50,8 @@ bool ClientAppDelegate::applicationDidFinishLaunching() {
 
     // Set the design resolution
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::SHOW_ALL);
-	director->getOpenGLView()->setFrameZoomFactor(1.0f);
+	glview->setFrameSize(designResolutionSize.width, designResolutionSize.height);
+	director->getOpenGLView()->setFrameZoomFactor(2.0f);
 
     register_all_packages();
 

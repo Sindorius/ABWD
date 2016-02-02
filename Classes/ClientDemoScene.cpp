@@ -200,12 +200,22 @@ bool ClientDemo::init()
 	{
 		tilespritevector[i].resize(currenttilevector[i].size());
 	}
+	int xoffset = 264;
+	int yoffset = 90;
+	if (tilespritevector.size() == 9)
+	{
+		yoffset = 48;
+	}
+	if (tilespritevector[0].size() == 5)
+	{
+		xoffset = 276;
+	}
 	for (int i = 0; i < currenttilevector.size(); i++)
 	{
 		for (int j = 0; j < currenttilevector[i].size(); j++)
 		{
 			tilespritevector[i][j] = PaintTile::create();
-			tilespritevector[i][j]->setPosition(24 * j + 264, 24 * i + 90);
+			tilespritevector[i][j]->setPosition(24 * j + xoffset, 24 * i + yoffset);
 			tilespritevector[i][j]->setScale(1);
 			//tileptrarray[i][j]->debugDraw(true);
 			addChild(tilespritevector[i][j], -999);
@@ -667,6 +677,11 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 			if (currenttilevector[i][j] != p.tilevector[i][j])
 			{
 				currenttilevector[i][j] = p.tilevector[i][j];
+				if (currenttilevector[i][j] == 1)
+				{
+					tilespritevector[i][j]->setColor("clear");
+					tilespritevector[i][j]->refreshColor();
+				}
 				if (currenttilevector[i][j] == 2)
 				{
 					tilespritevector[i][j]->setColor("red");
