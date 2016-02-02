@@ -51,7 +51,7 @@ private:
 	int target = 0;
 	int behavior = 0;
 	int behavior_timer = 0;
-	float walk_speed = 1.5;
+	float walk_speed = 2;
 	int charge_speed = 4;
 	int x, y;
 	int teleport_cd = 150;

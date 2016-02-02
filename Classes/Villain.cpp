@@ -171,22 +171,27 @@ void Villain::walk() {
 			if (temp == -1) { temp = temp1; target = i; }
 			else if (temp > temp1 && priority[i] > 0) { temp = temp1; target = i; }
 		}
-
+		double playerx, playery, samx, samy;
+		playerx = player_list->at(target)->getPositionX();
+		playery = player_list->at(target)->getPositionY();
+		samx = this->getPositionX();
+		samy = this->getPositionY();
+		double angle = (playery - samy) / (playerx - samx);
+		double theta;
+		if (playerx >= samx) {
+			theta = atan((playery - samy) / (playerx - samx)) * 180 / 3.14159;
+		}
+		else if (playery > samy){
+			theta = 180 + (atan((playery - samy) / (playerx - samx)) * 180 / 3.14159);
+		}
+		else {
+			theta = -180 + atan((playery - samy) / (playerx - samx)) * 180 / 3.14159;
+		}
 		if (priority[target] > 0) {
-			if (this->getPositionX() > player_list->at(target)->getPositionX())
-			{
-				this->setPositionX(this->getPositionX() - walk_speed);
-			}
-			else if (this->getPositionX() < player_list->at(target)->getPositionX()) {
-				this->setPositionX(this->getPositionX() + walk_speed);
-			}
-			if (this->getPositionY() > player_list->at(target)->getPositionY())
-			{
-				this->setPositionY(this->getPositionY() - walk_speed);
-			}
-			else if (this->getPositionY() < player_list->at(target)->getPositionY()) {
-				this->setPositionY(this->getPositionY() + walk_speed);
-			}
+			
+			this->setPositionX(this->getPositionX() + walk_speed*(cos(theta * 3.14159/180)));
+			this->setPositionY(this->getPositionY() + walk_speed*(sin(theta * 3.14159/180)));
+			
 		}
 		else {
 			behavior_timer = 0;
