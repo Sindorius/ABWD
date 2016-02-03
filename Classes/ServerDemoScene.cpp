@@ -29,7 +29,7 @@ bool ServerDemo::init()
         return false;
     }
     
-	levelmanager.changeLevel(2);
+	levelmanager.changeLevel(1);
 
 	//std::string file = "res//maps//key_room_big.tmx";
 	//auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
@@ -254,16 +254,7 @@ void ServerDemo::update(float dt)
 	// Move them all to the top if they've won
 	if (levelmanager.puzzle.isSolved())
 	{
-		villain->setPosition(0, 0);
-		//vpos = cocos2d::ccp(0,0);
-		player1->setPosition(50, 320);
-		//p1pos = cocos2d::ccp(50, 320);
-		player2->setPosition(100, 320);
-		//p2pos = cocos2d::ccp(100, 320);
-		player3->setPosition(150, 320);
-		//p3pos = cocos2d::ccp(150, 320);
-		player4->setPosition(200, 320);
-		//p4pos = cocos2d::ccp(200, 320);
+		loadLevel(2);
 	}
 
 
