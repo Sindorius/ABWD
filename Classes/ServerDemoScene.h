@@ -20,6 +20,7 @@
 #include "PaintTile.h"
 #include "AnimationManager.hpp"
 #include "Puzzle.hpp"
+#include "LevelManager.hpp"
 
 class TCPServer;
 
@@ -32,15 +33,15 @@ private:
 	//cocos2d::experimental::TMXTiledMap* tileMap;
 	//cocos2d::experimental::TMXLayer* bucketlayer;
 	/////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
-	cocos2d::CCTMXTiledMap* tileMap;
+	//cocos2d::CCTMXTiledMap* tileMap;
 	cocos2d::CCTMXLayer* bucketlayer;
 
 	cocos2d::CCTMXLayer* blockage;
 	cocos2d::CCTMXObjectGroup* spawnObjs;
-	cocos2d::Sprite* redBucket;
-	cocos2d::Sprite* blueBucket;
-	cocos2d::Sprite* yellowBucket;
-	cocos2d::Sprite* orangeBucket;
+	//cocos2d::Sprite* redBucket;
+	//cocos2d::Sprite* blueBucket;
+	//cocos2d::Sprite* yellowBucket;
+	//cocos2d::Sprite* orangeBucket;
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//cocos2d::CCTMXLayer* blueBucket;
@@ -57,7 +58,7 @@ private:
 	Villain* villain;
 
 	std::vector<cocos2d::Sprite*> objects;
-	Puzzle puzzle;
+	//Puzzle puzzle;
 
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -120,7 +121,8 @@ public:
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	AnimationManager animationmanager;
-
+	LevelManager levelmanager;
+	void loadLevel(int level);
 };
 
 #endif // __SERVERDEMO_SCENE_H__
