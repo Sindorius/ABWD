@@ -20,6 +20,7 @@
 #include "TCPSplitter.hpp"
 #include "TCPCSession.hpp"
 #include "AnimationManager.hpp"
+#include "LevelManager.hpp"
 
 USING_NS_CC;
 using boost::asio::ip::udp;
@@ -129,7 +130,9 @@ public:
 	void changeLabelColor(int bTile, int playerNum);
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	LevelManager levelmanager;
 
+	void loadLevel(int level);
 	~ClientDemo();
 	
 };

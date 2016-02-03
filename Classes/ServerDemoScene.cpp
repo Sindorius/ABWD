@@ -29,23 +29,24 @@ bool ServerDemo::init()
         return false;
     }
     
-	std::string file = "res//maps//key_room_big.tmx";
-	auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
+	levelmanager.changeLevel(1);
+
+	//std::string file = "res//maps//key_room_big.tmx";
+	//auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
 	//tileMap = cocos2d::CCTMXTiledMap::createWithXML(str->getCString(), "");
 
 	//tileMap = cocos2d::experimental::TMXTiledMap::createWithXML(str->getCString(), "");
 	////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
-	tileMap = cocos2d::TMXTiledMap::createWithXML(str->getCString(), "");
+	//tileMap = cocos2d::TMXTiledMap::createWithXML(str->getCString(), "");
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	addChild(tileMap, -1000);
+	addChild(levelmanager.levelmap, -1000);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
-	blockage = tileMap->getLayer("Collision");
+	blockage = levelmanager.levelmap->getLayer("Collision");
 	blockage->setVisible(false);
 
 	// Check to see if there is an object layer 
-	spawnObjs = tileMap->objectGroupNamed("SpawnObjects");
+	spawnObjs = levelmanager.levelmap->objectGroupNamed("SpawnObjects");
 
 	if (spawnObjs == NULL) {
 		CCLOG("TMX map has SpawnObjects layer");
@@ -53,27 +54,16 @@ bool ServerDemo::init()
 
 	// Player spawn coordinates depend on tiled map
 	ValueMap playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
-	int p1X = playerOneSP["x"].asInt();
-	int p1Y = playerOneSP["y"].asInt();
-
 	ValueMap playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
-	int p2X = playerTwoSP["x"].asInt();
-	int p2Y = playerTwoSP["y"].asInt();
-
 	ValueMap playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
-	int p3X = playerThreeSP["x"].asInt();
-	int p3Y = playerThreeSP["y"].asInt();
-
 	ValueMap playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
-	int p4X = playerFourSP["x"].asInt();
-	int p4Y = playerFourSP["y"].asInt();
-
-	bucketlayer = tileMap->getLayer("Paintbuckets");
+	
+	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
 
 	player1 = Player::create(1);
 	player1->setPlayernum(1);
 	player1->getTexture()->setAliasTexParameters();
-	player1->setPosition(Vec2(p1X, p1Y));
+	player1->setPosition(Vec2(playerOneSP["x"].asInt(), playerOneSP["y"].asInt()));
 	player1->debugDraw(true);
 	player1->setAnchorPoint(Vec2(0.5, 0.0));
 	p1pos = player1->getPosition();
@@ -82,7 +72,7 @@ bool ServerDemo::init()
 	player2 = Player::create(2);
 	player2->setPlayernum(2);
 	player2->getTexture()->setAliasTexParameters();
-	player2->setPosition(Vec2(p2X, p2Y));
+	player2->setPosition(Vec2(playerTwoSP["x"].asInt(), playerTwoSP["y"].asInt()));
 	p2pos = player2->getPosition();
 	player2->debugDraw(true);
 	player2->setAnchorPoint(Vec2(0.5, 0.0));
@@ -93,7 +83,7 @@ bool ServerDemo::init()
 	player3->getTexture()->setAliasTexParameters();
 	//player3->setPosition(Vec2(300, 300));
 	////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
-	player3->setPosition(Vec2(p3X, p3Y));
+	player3->setPosition(Vec2(playerThreeSP["x"].asInt(), playerThreeSP["y"].asInt()));
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	p3pos = player3->getPosition();
 	player3->setAnchorPoint(Vec2(0.5, 0.0));
@@ -104,7 +94,7 @@ bool ServerDemo::init()
 	player4->getTexture()->setAliasTexParameters();
 	//player4->setPosition(Vec2(400, 400));
 	////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
-	player4->setPosition(Vec2(p4X, p4Y));
+	player4->setPosition(Vec2(playerFourSP["x"].asInt(), playerFourSP["y"].asInt()));
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	player4->setAnchorPoint(Vec2(0.5, 0.0));
 	p4pos = player4->getPosition();
@@ -122,19 +112,25 @@ bool ServerDemo::init()
 	vpos = villain->getPosition();
 	addChild(villain, 0);
 
+
+	for(Sprite* s : levelmanager.levelsprites)
+	{
+		addChild(s, -999);
+	}
+
 	// Should also be part of SpawnObject layer if possible
-	Sprite* wallpainting = Sprite::create("res/sprites/objects/key_framed.png");
-	wallpainting->getTexture()->setAliasTexParameters();
-	wallpainting->setPosition(Vec2(320, 320));
-	wallpainting->setScale(1.0f);
-	addChild(wallpainting,-999);
+	//Sprite* wallpainting = Sprite::create("res/sprites/objects/key_framed.png");
+	//wallpainting->getTexture()->setAliasTexParameters();
+	//wallpainting->setPosition(Vec2(320, 320));
+	//wallpainting->setScale(1.0f);
+	//addChild(wallpainting, -999);
 
 	
 	// Initialize painting area 
-	tilespritevector.resize(puzzle.currenttilevector.size());
+	tilespritevector.resize(levelmanager.puzzle.currenttilevector.size());
 	for (int i = 0; i < tilespritevector.size(); i++)
 	{
-		tilespritevector[i].resize(puzzle.currenttilevector[i].size());
+		tilespritevector[i].resize(levelmanager.puzzle.currenttilevector[i].size());
 	}
 	int xoffset = 264;
 	int yoffset = 90;
@@ -148,9 +144,9 @@ bool ServerDemo::init()
 	}
 
 
-	for (int i = 0; i < puzzle.currenttilevector.size(); i++)
+	for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 	{
-		for (int j = 0; j < puzzle.currenttilevector[i].size(); j++)
+		for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 		{
 			tilespritevector[i][j] = PaintTile::create();
 			tilespritevector[i][j]->setPosition(24 * j + xoffset, 24 * i + yoffset);
@@ -183,6 +179,13 @@ bool ServerDemo::init()
 		std::cerr << "Exception: " << e.what() << "\n";
 	}
 
+
+
+	auto keyListener = EventListenerKeyboard::create();
+	keyListener->onKeyPressed = CC_CALLBACK_2(ServerDemo::KeyDown, this);
+	
+	_eventDispatcher->addEventListenerWithFixedPriority(keyListener, 2);
+
 	this->scheduleUpdate();
     return true;
 }
@@ -209,14 +212,14 @@ void ServerDemo::update(float dt)
 	//player2->setPosition(p2pos);
 	//player3->setPosition(p3pos);
 	//player4->setPosition(p4pos);
-	villain->setPriority(puzzle.whichplayertilesvector);
+	villain->setPriority(levelmanager.puzzle.whichplayertilesvector);
 	villain->runAI(&players);
 	
 	ServerPositionPacket p(villain->getPositionX(), villain->getPositionY(), animationmanager.intFromString(villain->getAnim()),
 		player1->getPositionX(), player1->getPositionY(), animationmanager.intFromString(player1->getAnim()),
 		player2->getPositionX(), player2->getPositionY(), animationmanager.intFromString(player2->getAnim()),
 		player3->getPositionX(), player3->getPositionY(), animationmanager.intFromString(player3->getAnim()), 
-		player4->getPositionX(), player4->getPositionY(), animationmanager.intFromString(player4->getAnim()),puzzle.currenttilevector);
+		player4->getPositionX(), player4->getPositionY(), animationmanager.intFromString(player4->getAnim()),levelmanager.puzzle.currenttilevector);
 	
 	player1->setZOrder(-player1->getPositionY());
 	player2->setZOrder(-player2->getPositionY());
@@ -231,14 +234,14 @@ void ServerDemo::update(float dt)
 	{ 
 		if (abs(villain->getPositionX() - p->getPositionX()) < 5 && abs(villain->getPositionY() - p->getPositionY()) < 5)
 		{
-			for (int i = 0; i < puzzle.currenttilevector.size(); i++)
+			for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 			{
-				for (int j = 0; j < puzzle.currenttilevector[i].size(); j++)
+				for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 				{
-					if (puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
+					if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
 					{
-						puzzle.whichplayertilesvector[i][j] = 0;
-						puzzle.currenttilevector[i][j] = 1;
+						levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
+						levelmanager.puzzle.currenttilevector[i][j] = 1;
 						tilespritevector[i][j]->setColor("clear");
 						tilespritevector[i][j]->refreshColor();
 					}
@@ -249,18 +252,9 @@ void ServerDemo::update(float dt)
 	}
 
 	// Move them all to the top if they've won
-	if (puzzle.isSolved())
+	if (levelmanager.puzzle.isSolved())
 	{
-		villain->setPosition(0, 0);
-		//vpos = cocos2d::ccp(0,0);
-		player1->setPosition(50, 320);
-		//p1pos = cocos2d::ccp(50, 320);
-		player2->setPosition(100, 320);
-		//p2pos = cocos2d::ccp(100, 320);
-		player3->setPosition(150, 320);
-		//p3pos = cocos2d::ccp(150, 320);
-		player4->setPosition(200, 320);
-		//p4pos = cocos2d::ccp(200, 320);
+		loadLevel(2);
 	}
 
 
@@ -292,8 +286,8 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 
 	
 	// Convert the players position into tile coordinates
-	int testx = (playerPos.x + p.dx) / (tileMap->getTileSize().width);
-	int testy = ((tileMap->getMapSize().height * tileMap->getTileSize().height) - playerPos.y - p.dy) / (tileMap->getTileSize().height);
+	int testx = (playerPos.x + p.dx) / (levelmanager.levelmap->getTileSize().width);
+	int testy = ((levelmanager.levelmap->getMapSize().height * levelmanager.levelmap->getTileSize().height) - playerPos.y - p.dy) / (levelmanager.levelmap->getTileSize().height);
 	CCPoint tileCoord = CCPoint(testx, testy);
 	// This will check if the player has hit a wall
 	// So far it does not do this correctly 
@@ -307,7 +301,7 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 		if (bkTile) 
 		{
 
-			auto tilemapvals = tileMap->getPropertiesForGID(bkTile).asValueMap();
+			auto tilemapvals = levelmanager.levelmap->getPropertiesForGID(bkTile).asValueMap();
 
 			if (!tilemapvals.empty())
 			{
@@ -395,7 +389,7 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 
 		if (bTile)
 		{
-			auto tilemapvals = tileMap->getPropertiesForGID(bTile).asValueMap();
+			auto tilemapvals = levelmanager.levelmap->getPropertiesForGID(bTile).asValueMap();
 
 			if (!tilemapvals.empty())
 			{
@@ -447,9 +441,9 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// optimize this, might not need to go through each tile here.
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	for (int i = 0; i < puzzle.currenttilevector.size(); i++)
+	for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 	{
-		for (int j = 0; j < puzzle.currenttilevector[i].size(); j++)
+		for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 		{
 			if (players[playernum - 1]->getPositionX() > tilespritevector[i][j]->getPositionX() - 12 && players[playernum - 1]->getPositionX() < tilespritevector[i][j]->getPositionX() + 12 && players[playernum - 1]->getPositionY() > tilespritevector[i][j]->getPositionY() - 12 && players[playernum - 1]->getPositionY() < tilespritevector[i][j]->getPositionY() + 12)
 			{
@@ -457,25 +451,25 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 				tilespritevector[i][j]->refreshColor();
 				if (players[playernum - 1]->getColor() == "red")
 				{
-					puzzle.currenttilevector[i][j] = 2;
+					levelmanager.puzzle.currenttilevector[i][j] = 2;
 				}
 				if (players[playernum - 1]->getColor() == "blue")
 				{
-					puzzle.currenttilevector[i][j] = 3;
+					levelmanager.puzzle.currenttilevector[i][j] = 3;
 				}
 				if (players[playernum - 1]->getColor() == "yellow")
 				{
-					puzzle.currenttilevector[i][j] = 4;
+					levelmanager.puzzle.currenttilevector[i][j] = 4;
 				}
 				if (players[playernum - 1]->getColor() == "orange")
 				{
-					puzzle.currenttilevector[i][j] = 5;
+					levelmanager.puzzle.currenttilevector[i][j] = 5;
 				}
 				if (players[playernum - 1]->getColor() == "black")
 				{
-					puzzle.currenttilevector[i][j] = 6;
+					levelmanager.puzzle.currenttilevector[i][j] = 6;
 				}
-				puzzle.whichplayertilesvector[i][j] = playernum;
+				levelmanager.puzzle.whichplayertilesvector[i][j] = playernum;
 			}
 			
 		
@@ -483,3 +477,109 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 	}
 }
 
+void ServerDemo::loadLevel(int level)
+{
+	for (Sprite* s : levelmanager.levelsprites)
+	{
+		removeChild(s);
+	}
+
+	for (int i = 0; i < tilespritevector.size(); i++)
+	{
+		for (int j = 0; j < tilespritevector[i].size(); j++)
+		{
+			removeChild(tilespritevector[i][j]);
+		}
+	}
+
+	
+	
+	removeChild(levelmanager.levelmap);
+
+
+	levelmanager.changeLevel(level);
+
+	addChild(levelmanager.levelmap,-1000);
+
+	// Check to see if there is an object layer 
+	spawnObjs = levelmanager.levelmap->objectGroupNamed("SpawnObjects");
+
+	blockage = levelmanager.levelmap->getLayer("Collision");
+	blockage->setVisible(false);
+	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
+
+	
+
+	if (spawnObjs == NULL) {
+		CCLOG("TMX map has SpawnObjects layer");
+	}
+
+	for (Sprite* s : levelmanager.levelsprites)
+	{
+		addChild(s,-999);
+	}
+
+	tilespritevector.resize(levelmanager.puzzle.currenttilevector.size());
+	for (int i = 0; i < tilespritevector.size(); i++)
+	{
+		tilespritevector[i].resize(levelmanager.puzzle.currenttilevector[i].size());
+	}
+	int xoffset = 264;
+	int yoffset = 90;
+	if (tilespritevector.size() == 9)
+	{
+		yoffset = 48;
+	}
+	if (tilespritevector[0].size() == 5)
+	{
+		xoffset = 276;
+	}
+
+
+	for (int i = 0; i < tilespritevector.size(); i++)
+	{
+		for (int j = 0; j < tilespritevector[i].size(); j++)
+		{
+			tilespritevector[i][j] = PaintTile::create();
+			tilespritevector[i][j]->setPosition(24 * j + xoffset, 24 * i + yoffset);
+			tilespritevector[i][j]->setScale(1);
+			tilespritevector[i][j]->debugDraw(true);
+			addChild(tilespritevector[i][j], -999);
+		}
+	}
+
+
+
+}
+
+
+void ServerDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
+{
+	switch (keyCode) 
+	{
+	case EventKeyboard::KeyCode::KEY_CAPITAL_S:
+	case EventKeyboard::KeyCode::KEY_S:
+
+		loadLevel(2);
+	break;
+
+	case EventKeyboard::KeyCode::KEY_CAPITAL_K:
+	case EventKeyboard::KeyCode::KEY_K:
+
+		loadLevel(1);
+		break;
+	case EventKeyboard::KeyCode::KEY_1:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);
+		break;
+	case EventKeyboard::KeyCode::KEY_2:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(2.0f);
+		break;
+	case EventKeyboard::KeyCode::KEY_3:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(3.0f);
+		break;
+
+
+	}
+
+	event->stopPropagation();
+}
