@@ -8,6 +8,10 @@ ORDER = ['black',
          'green1', 'green2', 'green3',
          'orange', 'red1', 'yellow1']
 
+ORDER = ['red1',  'blue1', 'orange', 'yellow1', 'black',
+         'blue2', 'blue3',
+         'green1', 'green2', 'green3']
+
 DEFAULT = pygame.Color(255, 0, 0)
 TILE_DIM = 24
 def get_color_key(filename):
