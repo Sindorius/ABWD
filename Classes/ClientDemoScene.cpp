@@ -75,7 +75,6 @@ bool ClientDemo::init()
 	}
 
 
-
 	std::string file = "res//maps//key_room_big.tmx";
 	auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
 	tileMap = cocos2d::CCTMXTiledMap::createWithXML(str->getCString(), "");
