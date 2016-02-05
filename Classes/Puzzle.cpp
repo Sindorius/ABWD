@@ -11,6 +11,7 @@ void Puzzle::changePuzzle(int level)
 		//solutionarray = keysolution;
 		currenttilevector = keytilevectorvalues;
 		currenttilevectorsolution = keytilevectorsolution;
+		whichplayertilesvector = keyplayertilesvector;
 	}
 			
 	if (level == 2)
@@ -21,6 +22,7 @@ void Puzzle::changePuzzle(int level)
 		//solutionarray = sunsolution;
 		currenttilevector = suntilevectorvalues;
 		currenttilevectorsolution = suntilevectorsolution;
+		whichplayertilesvector = sunplayertilesvector;
 	}
 	
 }

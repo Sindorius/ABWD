@@ -75,7 +75,6 @@ bool ClientDemo::init()
 	}
 
 
-
 	std::string file = "res//maps//key_room_big.tmx";
 	auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
 	tileMap = cocos2d::CCTMXTiledMap::createWithXML(str->getCString(), "");
@@ -380,6 +379,17 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 		//space();
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		break;
+
+	case EventKeyboard::KeyCode::KEY_1:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);
+		break;
+	case EventKeyboard::KeyCode::KEY_2:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(2.0f);
+		break;
+	case EventKeyboard::KeyCode::KEY_3:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(3.0f);
+		break;
+
 	}
 	event->stopPropagation();
 }
@@ -572,6 +582,16 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 
 void ClientDemo::processPacket(ServerPositionPacket p)
 {
+	if (p.tilevector.size() == 6 && levelmanager.puzzle.currenttilevector.size() != 6)
+	{
+		CCLOG("loading level 2");
+		loadLevel(2);
+	}
+	else if (p.tilevector.size() == 9 && levelmanager.puzzle.currenttilevector.size() != 9)
+	{
+		loadLevel(1);
+	}
+	
 	CCLOG("updatedserverpacket");
 	//CCLOG(std::to_string(p.p1x).c_str());
 	//CCLOG(std::to_string(p.p2x).c_str());
@@ -638,35 +658,35 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	{
 		for (int j = 0; j < p.tilevector[i].size(); j++)
 		{
-			if (currenttilevector[i][j] != p.tilevector[i][j])
+			if (levelmanager.puzzle.currenttilevector[i][j] != p.tilevector[i][j])
 			{
-				currenttilevector[i][j] = p.tilevector[i][j];
-				if (currenttilevector[i][j] == 1)
+				levelmanager.puzzle.currenttilevector[i][j] = p.tilevector[i][j];
+				if (levelmanager.puzzle.currenttilevector[i][j] == 1)
 				{
 					tilespritevector[i][j]->setColor("clear");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (currenttilevector[i][j] == 2)
+				if (levelmanager.puzzle.currenttilevector[i][j] == 2)
 				{
 					tilespritevector[i][j]->setColor("red");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (currenttilevector[i][j] == 3)
+				if (levelmanager.puzzle.currenttilevector[i][j] == 3)
 				{
 					tilespritevector[i][j]->setColor("blue");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (currenttilevector[i][j] == 4)
+				if (levelmanager.puzzle.currenttilevector[i][j] == 4)
 				{
 					tilespritevector[i][j]->setColor("yellow");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (currenttilevector[i][j] == 5)
+				if (levelmanager.puzzle.currenttilevector[i][j] == 5)
 				{
 					tilespritevector[i][j]->setColor("orange");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (currenttilevector[i][j] == 6)
+				if (levelmanager.puzzle.currenttilevector[i][j] == 6)
 				{
 					tilespritevector[i][j]->setColor("black");
 					tilespritevector[i][j]->refreshColor();
@@ -710,3 +730,59 @@ doReceive();
 }
 });
 }*/
+
+void ClientDemo::loadLevel(int level)
+{
+	for (Sprite* s : levelmanager.levelsprites)
+	{
+		removeChild(s);
+	}
+
+	for (int i = 0; i < tilespritevector.size(); i++)
+	{
+		for (int j = 0; j < tilespritevector[i].size(); j++)
+		{
+			removeChild(tilespritevector[i][j]);
+		}
+	}
+
+	removeChild(levelmanager.levelmap);
+
+	levelmanager.changeLevel(level);
+
+	addChild(levelmanager.levelmap, -1000);
+
+	for (Sprite* s : levelmanager.levelsprites)
+	{
+		addChild(s, -999);
+	}
+
+	tilespritevector.resize(levelmanager.puzzle.currenttilevector.size());
+	for (int i = 0; i < tilespritevector.size(); i++)
+	{
+		tilespritevector[i].resize(levelmanager.puzzle.currenttilevector[i].size());
+	}
+	int xoffset = 264;
+	int yoffset = 90;
+	if (tilespritevector.size() == 9)
+	{
+		yoffset = 48;
+	}
+	if (tilespritevector[0].size() == 5)
+	{
+		xoffset = 276;
+	}
+
+	for (int i = 0; i < tilespritevector.size(); i++)
+	{
+		for (int j = 0; j < tilespritevector[i].size(); j++)
+		{
+			tilespritevector[i][j] = PaintTile::create();
+			tilespritevector[i][j]->setPosition(24 * j + xoffset, 24 * i + yoffset);
+			tilespritevector[i][j]->setScale(1);
+			tilespritevector[i][j]->debugDraw(true);
+			addChild(tilespritevector[i][j], -999);
+		}
+	}
+
+}

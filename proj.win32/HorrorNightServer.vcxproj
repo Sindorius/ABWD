@@ -146,9 +146,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClInclude Include="..\Classes\AnimationManager.hpp" />
     <ClInclude Include="..\Classes\ConfigFileInput.hpp" />
+    <ClInclude Include="..\Classes\LevelManager.hpp" />
     <ClInclude Include="..\Classes\PaintTile.h" />
     <ClInclude Include="..\Classes\Player.h" />
     <ClInclude Include="..\Classes\PlayerInputPacket.hpp" />
+    <ClInclude Include="..\Classes\Puzzle.hpp" />
     <ClInclude Include="..\Classes\ServerAppDelegate.h" />
     <ClInclude Include="..\Classes\ServerDemoScene.h" />
     <ClInclude Include="..\Classes\ServerPositionPacket.hpp" />
@@ -176,8 +178,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AnimationManager.cpp" />
+    <ClCompile Include="..\Classes\LevelManager.cpp" />
     <ClCompile Include="..\Classes\PaintTile.cpp" />
     <ClCompile Include="..\Classes\Player.cpp" />
+    <ClCompile Include="..\Classes\Puzzle.cpp" />
     <ClCompile Include="..\Classes\ServerAppDelegate.cpp" />
     <ClCompile Include="..\Classes\ServerDemoScene.cpp" />
     <ClCompile Include="..\Classes\TCPServer.cpp" />

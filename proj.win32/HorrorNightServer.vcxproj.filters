@@ -14,9 +14,6 @@
     <ClInclude Include="..\Classes\ServerAppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ServerDemoScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ServerPositionPacket.hpp">
       <Filter>src</Filter>
     </ClInclude>
@@ -29,10 +26,25 @@
     <ClInclude Include="..\Classes\PaintTile.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\TCPServer.hpp" />
-    <ClInclude Include="..\Classes\TCPSplitter.hpp" />
-    <ClInclude Include="..\Classes\TCPSSession.hpp" />
     <ClInclude Include="..\Classes\AnimationManager.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Puzzle.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TCPServer.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TCPSplitter.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TCPSSession.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\LevelManager.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ServerDemoScene.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
@@ -51,9 +63,6 @@
     <ClCompile Include="..\Classes\ServerAppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ServerDemoScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Villain.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -64,9 +73,22 @@
     <ClCompile Include="..\Classes\UDPServer.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\TCPServer.cpp" />
-    <ClCompile Include="..\Classes\TCPSSession.cpp" />
     <ClCompile Include="..\Classes\AnimationManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Puzzle.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TCPServer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TCPSSession.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\LevelManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ServerDemoScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
