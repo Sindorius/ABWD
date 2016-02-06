@@ -186,12 +186,16 @@ bool ClientDemo::init()
 	addChild(p4CLabel, 100);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	*/
-	Sprite* wallpainting = Sprite::create("res/sprites/objects/key_framed.png");
-	wallpainting->getTexture()->setAliasTexParameters();
-	wallpainting->setPosition(Vec2(320, 320));
-	wallpainting->setScale(1);
-	addChild(wallpainting, -999);
+	//Sprite* wallpainting = Sprite::create("res/sprites/objects/key_framed.png");
+	//wallpainting->getTexture()->setAliasTexParameters();
+	//wallpainting->setPosition(Vec2(320, 320));
+	//wallpainting->setScale(1);
+	//addChild(wallpainting, -999);
 
+	for (Sprite* s : levelmanager.levelsprites)
+	{
+		addChild(s, -999);
+	}
 
 	// Initialize painting area 
 	setupPaintTiles();
@@ -297,7 +301,7 @@ void ClientDemo::update(float dt)
 		p->setZOrder(-p->getPositionY());
 	}
 	villain->setZOrder(-villain->getPositionY());
-
+	centerCamera();
 }
 
 ClientDemo::~ClientDemo()
@@ -760,7 +764,12 @@ void ClientDemo::setupPaintTiles()
 		}
 	}
 
-
 }
 
 
+void ClientDemo::centerCamera()
+{
+	CCCamera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
+
+
+}

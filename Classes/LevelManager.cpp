@@ -58,7 +58,7 @@ void LevelManager::changeLevel(int level)
 
 		Sprite* wallpainting = Sprite::create("res/sprites/objects/pteradactyl_framed.png");
 		wallpainting->getTexture()->setAliasTexParameters();
-		wallpainting->setPosition(Vec2(370, 460));
+		wallpainting->setPosition(Vec2(370, 464));
 		wallpainting->setScale(1.0f);
 		levelsprites.push_back(wallpainting);
 		puzzle.changePuzzle(level);

@@ -134,6 +134,7 @@ public:
 
 	void loadLevel(int level);
 	void setupPaintTiles();
+	void centerCamera();
 	~ClientDemo();
 	
 };
