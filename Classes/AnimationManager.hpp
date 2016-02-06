@@ -11,16 +11,16 @@ class AnimationManager
 public:
 	std::map<std::string, cocos2d::Animate*> animationmap;
 	
-	boost::bimap<int, std::string> intstringmap;
+	boost::bimap<char, std::string> charstringmap;
 
 	AnimationManager();
-	int intFromString(std::string s)
+	char charFromString(std::string s)
 	{
-		return intstringmap.right.at(s);
+		return charstringmap.right.at(s);
 	}
-	std::string stringFromInt(int i)
+	std::string stringFromChar(char i)
 	{
-		return intstringmap.left.at(i);
+		return charstringmap.left.at(i);
 
 	}
 };

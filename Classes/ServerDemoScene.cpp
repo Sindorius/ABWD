@@ -6,29 +6,29 @@ USING_NS_CC;
 
 Scene* ServerDemo::createScene()
 {
-    // 'scene' is an autorelease object
-    auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
-    auto layer = ServerDemo::create();
+	// 'scene' is an autorelease object
+	auto scene = Scene::create();
 
-    // add layer as a child to scene
-    scene->addChild(layer);
+	// 'layer' is an autorelease object
+	auto layer = ServerDemo::create();
 
-    // return the scene
-    return scene;
+	// add layer as a child to scene
+	scene->addChild(layer);
+
+	// return the scene
+	return scene;
 }
 
 // on "init" you need to initialize your instance
 bool ServerDemo::init()
 {
-    //////////////////////////////
-    // 1. super init first
-    if ( !Layer::init() )
-    {
-        return false;
-    }
-    
+	//////////////////////////////
+	// 1. super init first
+	if (!Layer::init())
+	{
+		return false;
+	}
+
 	levelmanager.changeLevel(1);
 
 	//std::string file = "res//maps//key_room_big.tmx";
@@ -57,7 +57,7 @@ bool ServerDemo::init()
 	ValueMap playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
 	ValueMap playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
 	ValueMap playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
-	
+
 	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
 
 	player1 = Player::create(1);
@@ -67,7 +67,7 @@ bool ServerDemo::init()
 	player1->debugDraw(true);
 	player1->setAnchorPoint(Vec2(0.5, 0.0));
 	p1pos = player1->getPosition();
-	addChild(player1,0);
+	addChild(player1, 0);
 
 	player2 = Player::create(2);
 	player2->setPlayernum(2);
@@ -113,7 +113,7 @@ bool ServerDemo::init()
 	addChild(villain, 0);
 
 
-	for(Sprite* s : levelmanager.levelsprites)
+	for (Sprite* s : levelmanager.levelsprites)
 	{
 		addChild(s, -999);
 	}
@@ -125,36 +125,9 @@ bool ServerDemo::init()
 	//wallpainting->setScale(1.0f);
 	//addChild(wallpainting, -999);
 
-	
+
 	// Initialize painting area 
-	tilespritevector.resize(levelmanager.puzzle.currenttilevector.size());
-	for (int i = 0; i < tilespritevector.size(); i++)
-	{
-		tilespritevector[i].resize(levelmanager.puzzle.currenttilevector[i].size());
-	}
-	int xoffset = 264;
-	int yoffset = 90;
-	if(tilespritevector.size() == 9)
-	{
-		yoffset = 48;
-	}
-	if (tilespritevector[0].size() == 5)
-	{
-		xoffset = 276;
-	}
-
-
-	for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
-	{
-		for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
-		{
-			tilespritevector[i][j] = PaintTile::create();
-			tilespritevector[i][j]->setPosition(24 * j + xoffset, 24 * i + yoffset);
-			tilespritevector[i][j]->setScale(1);
-			tilespritevector[i][j]->debugDraw(true);
-			addChild(tilespritevector[i][j], -999);
-		}
-	}
+	setupPaintTiles();
 
 	std::ifstream is("config.json");
 	cereal::JSONInputArchive configloader(is);
@@ -164,7 +137,7 @@ bool ServerDemo::init()
 
 	CCLOG("port is");
 	CCLOG(std::to_string(setupdata.port).c_str());
-	
+
 	try
 	{
 		CCLOG("intry");
@@ -183,20 +156,20 @@ bool ServerDemo::init()
 
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(ServerDemo::KeyDown, this);
-	
+
 	_eventDispatcher->addEventListenerWithFixedPriority(keyListener, 2);
 
 	this->scheduleUpdate();
-    return true;
+	return true;
 }
 
 
 void ServerDemo::menuCloseCallback(Ref* pSender)
 {
-    Director::getInstance()->end();
+	Director::getInstance()->end();
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
+	exit(0);
 #endif
 }
 
@@ -205,22 +178,22 @@ void ServerDemo::update(float dt)
 {
 	CCLOG("UPDATE DT");
 	CCLOG(std::to_string(dt).c_str());
-	
+
 	io_service_p->poll();
-	
+
 	//player1->setPosition(p1pos);
 	//player2->setPosition(p2pos);
 	//player3->setPosition(p3pos);
 	//player4->setPosition(p4pos);
 	villain->setPriority(levelmanager.puzzle.whichplayertilesvector);
 	villain->runAI(&players);
-	
-	ServerPositionPacket p(villain->getPositionX(), villain->getPositionY(), animationmanager.intFromString(villain->getAnim()),
-		player1->getPositionX(), player1->getPositionY(), animationmanager.intFromString(player1->getAnim()),
-		player2->getPositionX(), player2->getPositionY(), animationmanager.intFromString(player2->getAnim()),
-		player3->getPositionX(), player3->getPositionY(), animationmanager.intFromString(player3->getAnim()), 
-		player4->getPositionX(), player4->getPositionY(), animationmanager.intFromString(player4->getAnim()),levelmanager.puzzle.currenttilevector);
-	
+
+	ServerPositionPacket p(villain->getPositionX(), villain->getPositionY(), animationmanager.charFromString(villain->getAnim()),
+		player1->getPositionX(), player1->getPositionY(), animationmanager.charFromString(player1->getAnim()),
+		player2->getPositionX(), player2->getPositionY(), animationmanager.charFromString(player2->getAnim()),
+		player3->getPositionX(), player3->getPositionY(), animationmanager.charFromString(player3->getAnim()),
+		player4->getPositionX(), player4->getPositionY(), animationmanager.charFromString(player4->getAnim()), levelmanager.puzzle.currenttilevector);
+
 	player1->setZOrder(-player1->getPositionY());
 	player2->setZOrder(-player2->getPositionY());
 	player3->setZOrder(-player3->getPositionY());
@@ -230,8 +203,8 @@ void ServerDemo::update(float dt)
 	mytcpserverp->sendPacket(p);
 
 	// Villain checks if she's on a player, messes everything up if she's on them
-	for(Player* p : players)
-	{ 
+	for (Player* p : players)
+	{
 		if (abs(villain->getPositionX() - p->getPositionX()) < 5 && abs(villain->getPositionY() - p->getPositionY()) < 5)
 		{
 			for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
@@ -247,7 +220,7 @@ void ServerDemo::update(float dt)
 					}
 				}
 			}
-						
+
 		}
 	}
 
@@ -267,7 +240,7 @@ ServerDemo::~ServerDemo()
 	{
 		delete io_service_p;
 	}
-	
+
 	if (mytcpserverp)
 	{
 		delete mytcpserverp;
@@ -284,7 +257,7 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 	auto playerPos = players[p.playernum - 1]->getPosition();
 	std::string newcolor = "none";
 
-	
+
 	// Convert the players position into tile coordinates
 	int testx = (playerPos.x + p.dx) / (levelmanager.levelmap->getTileSize().width);
 	int testy = ((levelmanager.levelmap->getMapSize().height * levelmanager.levelmap->getTileSize().height) - playerPos.y - p.dy) / (levelmanager.levelmap->getTileSize().height);
@@ -295,31 +268,31 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 	//int mapWidth = tileMap->getMapSize().width;
 	//int mapHeight = tileMap->getMapSize().height;
 
-//	if (tileCoord.x >= 0 && tileCoord.x <= 25 && tileCoord.y >= 0 && tileCoord.y <= 14) {
-		int bkTile = blockage->getTileGIDAt(tileCoord);
+	//	if (tileCoord.x >= 0 && tileCoord.x <= 25 && tileCoord.y >= 0 && tileCoord.y <= 14) {
+	int bkTile = blockage->getTileGIDAt(tileCoord);
 
-		if (bkTile) 
+	if (bkTile)
+	{
+
+		auto tilemapvals = levelmanager.levelmap->getPropertiesForGID(bkTile).asValueMap();
+
+		if (!tilemapvals.empty())
 		{
+			auto w = tilemapvals["Collidable"].asString();
 
-			auto tilemapvals = levelmanager.levelmap->getPropertiesForGID(bkTile).asValueMap();
-
-			if (!tilemapvals.empty())
-			{
-				auto w = tilemapvals["Collidable"].asString();
-
-				if ("true" == w) {
-					dxmove = -dxmove/2; //* 2;
-					dymove = -dymove/2; //* 2;
-				}
+			if ("true" == w) {
+				dxmove = -dxmove / 2; //* 2;
+				dymove = -dymove / 2; //* 2;
 			}
 		}
-	
-	
+	}
+
+
 	players[p.playernum - 1]->setPositionX(playerPos.x + dxmove);
 	players[p.playernum - 1]->setPositionY(playerPos.y + dymove);
 	std::string playerstring = "p";
 	playerstring += std::to_string(p.playernum).c_str();
-	if (players[p.playernum -1]->getPosition().y > playerPos.y) {
+	if (players[p.playernum - 1]->getPosition().y > playerPos.y) {
 		players[p.playernum - 1]->setAnim(playerstring + "up");
 	}
 	else if (players[p.playernum - 1]->getPosition().y < playerPos.y) {
@@ -334,25 +307,25 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 
 	//if(p.button1)
 	//{
-		//players[p.playernum - 1]->setAnim(playerstring + "paint");
+	//players[p.playernum - 1]->setAnim(playerstring + "paint");
 	//}
 
 	/*
 	if (p.playernum == 1)
 	{
-		p1pos += cocos2d::ccp(dxmove, dymove);
+	p1pos += cocos2d::ccp(dxmove, dymove);
 	}
 	else if (p.playernum == 2)
 	{
-		p2pos += cocos2d::ccp(dxmove, dymove);
+	p2pos += cocos2d::ccp(dxmove, dymove);
 	}
 	else if (p.playernum == 3)
 	{
-		p3pos += cocos2d::ccp(dxmove, dymove);
+	p3pos += cocos2d::ccp(dxmove, dymove);
 	}
 	else if (p.playernum == 4)
 	{
-		p4pos += cocos2d::ccp(dxmove, dymove);
+	p4pos += cocos2d::ccp(dxmove, dymove);
 	}*/
 
 	//if(p.button1)
@@ -434,7 +407,7 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 			players[playernum - 1]->setColor(newcolor);
 		}
 
-	
+
 	}
 	// end Check to see if their position is where there is a bucket and assign that color
 
@@ -471,8 +444,8 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 				}
 				levelmanager.puzzle.whichplayertilesvector[i][j] = playernum;
 			}
-			
-		
+
+
 		}
 	}
 }
@@ -491,15 +464,12 @@ void ServerDemo::loadLevel(int level)
 			removeChild(tilespritevector[i][j]);
 		}
 	}
-
-	
-	
+		
 	removeChild(levelmanager.levelmap);
-
-
+	
 	levelmanager.changeLevel(level);
 
-	addChild(levelmanager.levelmap,-1000);
+	addChild(levelmanager.levelmap, -1000);
 
 	// Check to see if there is an object layer 
 	spawnObjs = levelmanager.levelmap->objectGroupNamed("SpawnObjects");
@@ -507,7 +477,6 @@ void ServerDemo::loadLevel(int level)
 	blockage = levelmanager.levelmap->getLayer("Collision");
 	blockage->setVisible(false);
 	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
-
 	
 
 	if (spawnObjs == NULL) {
@@ -516,58 +485,40 @@ void ServerDemo::loadLevel(int level)
 
 	for (Sprite* s : levelmanager.levelsprites)
 	{
-		addChild(s,-999);
+		addChild(s, -999);
 	}
 
-	tilespritevector.resize(levelmanager.puzzle.currenttilevector.size());
-	for (int i = 0; i < tilespritevector.size(); i++)
+	setupPaintTiles();
+
+	if (level == 3)
 	{
-		tilespritevector[i].resize(levelmanager.puzzle.currenttilevector[i].size());
+		this->setScale(.6f);
 	}
-	int xoffset = 264;
-	int yoffset = 90;
-	if (tilespritevector.size() == 9)
+	else
 	{
-		yoffset = 48;
+		this->setScale(1.0f);
 	}
-	if (tilespritevector[0].size() == 5)
-	{
-		xoffset = 276;
-	}
-
-
-	for (int i = 0; i < tilespritevector.size(); i++)
-	{
-		for (int j = 0; j < tilespritevector[i].size(); j++)
-		{
-			tilespritevector[i][j] = PaintTile::create();
-			tilespritevector[i][j]->setPosition(24 * j + xoffset, 24 * i + yoffset);
-			tilespritevector[i][j]->setScale(1);
-			tilespritevector[i][j]->debugDraw(true);
-			addChild(tilespritevector[i][j], -999);
-		}
-	}
-
-
-
 }
 
 
 void ServerDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 {
-	switch (keyCode) 
+	switch (keyCode)
 	{
-	case EventKeyboard::KeyCode::KEY_CAPITAL_S:
-	case EventKeyboard::KeyCode::KEY_S:
-
-		loadLevel(2);
-	break;
-
+	
 	case EventKeyboard::KeyCode::KEY_CAPITAL_K:
 	case EventKeyboard::KeyCode::KEY_K:
-
 		loadLevel(1);
-		break;
+	break;
+	case EventKeyboard::KeyCode::KEY_CAPITAL_S:
+	case EventKeyboard::KeyCode::KEY_S:
+		loadLevel(2);
+	break;
+	case EventKeyboard::KeyCode::KEY_CAPITAL_P:
+	case EventKeyboard::KeyCode::KEY_P:
+		loadLevel(3);
+	break;
+
 	case EventKeyboard::KeyCode::KEY_1:
 		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);
 		break;
@@ -578,8 +529,32 @@ void ServerDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(3.0f);
 		break;
 
-
 	}
 
 	event->stopPropagation();
+}
+
+
+
+void ServerDemo::setupPaintTiles()
+{
+
+	tilespritevector.resize(levelmanager.puzzle.currenttilevector.size());
+	for (int i = 0; i < tilespritevector.size(); i++)
+	{
+		tilespritevector[i].resize(levelmanager.puzzle.currenttilevector[i].size());
+	}
+	
+	for (int i = 0; i < tilespritevector.size(); i++)
+	{
+		for (int j = 0; j < tilespritevector[i].size(); j++)
+		{
+			tilespritevector[i][j] = PaintTile::create();
+			tilespritevector[i][j]->setPosition(24 * j + levelmanager.tilestartpoint.x, 24 * i + levelmanager.tilestartpoint.y);
+			//tilespritevector[i][j]->setScale(1);
+			tilespritevector[i][j]->debugDraw(true);
+			addChild(tilespritevector[i][j], -999);
+		}
+	}
+
 }

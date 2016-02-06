@@ -61,24 +61,24 @@ private:
 	//Puzzle puzzle;
 
 public:
-    // there's no 'id' in cpp, so we recommend returning the class instance pointer
-    static cocos2d::Scene* createScene();
+	// there's no 'id' in cpp, so we recommend returning the class instance pointer
+	static cocos2d::Scene* createScene();
 
-    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
-    virtual bool init();
-    
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    
-    // implement the "static create()" method manually
-    CREATE_FUNC(ServerDemo);
+	// Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
+	virtual bool init();
+
+	// a selector callback
+	void menuCloseCallback(cocos2d::Ref* pSender);
+
+	// implement the "static create()" method manually
+	CREATE_FUNC(ServerDemo);
 
 	void KeyDown(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void KeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void update(float dt);
 	float xmove[4] = { 0 };
 	float ymove[4] = { 0 };
-	
+
 
 	ConfigFileInput setupdata;
 
@@ -103,13 +103,12 @@ public:
 	/*
 	std::array<std::array<int, 6>, 6> whichplayertiles =
 	{ {
-		{ 0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0 }
-
+	{ 0,0,0,0,0,0 },
+	{ 0,0,0,0,0,0 },
+	{ 0,0,0,0,0,0 },
+	{ 0,0,0,0,0,0 },
+	{ 0,0,0,0,0,0 },
+	{ 0,0,0,0,0,0 }
 	} };
 	*/
 
@@ -123,6 +122,7 @@ public:
 	AnimationManager animationmanager;
 	LevelManager levelmanager;
 	void loadLevel(int level);
+	void setupPaintTiles();
 };
 
 #endif // __SERVERDEMO_SCENE_H__

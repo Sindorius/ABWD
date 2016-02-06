@@ -23,7 +23,7 @@ void LevelManager::changeLevel(int level)
 		wallpainting->setScale(1.0f);
 		levelsprites.push_back(wallpainting);
 		puzzle.changePuzzle(level);
-
+		tilestartpoint = Vec2(276, 48);
 	}
 	else if (level == 2)
 	{
@@ -42,7 +42,27 @@ void LevelManager::changeLevel(int level)
 		wallpainting->setScale(1.5f);
 		levelsprites.push_back(wallpainting);
 		puzzle.changePuzzle(level);
+		tilestartpoint = Vec2(264, 90);
 
+	}
+	else if (level == 3)
+	{
+		levelsprites.clear();
+		std::string file = "res//maps//pteradactyl_room.tmx";
+		auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
+		//tileMap = cocos2d::CCTMXTiledMap::createWithXML(str->getCString(), "");
+		//tileMap = cocos2d::experimental::TMXTiledMap::createWithXML(str->getCString(), "");
+		////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
+		levelmap = cocos2d::TMXTiledMap::createWithXML(str->getCString(), "");
+
+
+		Sprite* wallpainting = Sprite::create("res/sprites/objects/pteradactyl_framed.png");
+		wallpainting->getTexture()->setAliasTexParameters();
+		wallpainting->setPosition(Vec2(370, 460));
+		wallpainting->setScale(1.0f);
+		levelsprites.push_back(wallpainting);
+		puzzle.changePuzzle(level);
+		tilestartpoint = Vec2(180, 108);
 	}
 	else
 	{ }

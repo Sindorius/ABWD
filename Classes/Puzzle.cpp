@@ -24,5 +24,14 @@ void Puzzle::changePuzzle(int level)
 		currenttilevectorsolution = suntilevectorsolution;
 		whichplayertilesvector = sunplayertilesvector;
 	}
-	
+	if (level == 3)
+	{
+		//boost::multi_array<int, 2>::extent_gen extents;
+		//currentarray.resize(extents[6][6]);
+		//currentarray = suntilevalues;
+		//solutionarray = sunsolution;
+		currenttilevector = ptertilevectorvalues;
+		currenttilevectorsolution = ptertilevectorsolution;
+		whichplayertilesvector = pterplayertilesvector;
+	}
 }

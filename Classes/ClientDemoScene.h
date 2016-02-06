@@ -133,6 +133,7 @@ public:
 	LevelManager levelmanager;
 
 	void loadLevel(int level);
+	void setupPaintTiles();
 	~ClientDemo();
 	
 };

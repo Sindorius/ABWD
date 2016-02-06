@@ -74,7 +74,7 @@ bool ClientDemo::init()
 		CCLOG(e.what());
 	}
 
-
+	levelmanager.changeLevel(1);
 	std::string file = "res//maps//key_room_big.tmx";
 	auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
 	tileMap = cocos2d::CCTMXTiledMap::createWithXML(str->getCString(), "");
@@ -194,33 +194,8 @@ bool ClientDemo::init()
 
 
 	// Initialize painting area 
-	tilespritevector.resize(currenttilevector.size());
-	for (int i = 0; i < tilespritevector.size(); i++)
-	{
-		tilespritevector[i].resize(currenttilevector[i].size());
-	}
-	int xoffset = 264;
-	int yoffset = 90;
-	if (tilespritevector.size() == 9)
-	{
-		yoffset = 48;
-	}
-	if (tilespritevector[0].size() == 5)
-	{
-		xoffset = 276;
-	}
-	for (int i = 0; i < currenttilevector.size(); i++)
-	{
-		for (int j = 0; j < currenttilevector[i].size(); j++)
-		{
-			tilespritevector[i][j] = PaintTile::create();
-			tilespritevector[i][j]->setPosition(24 * j + xoffset, 24 * i + yoffset);
-			tilespritevector[i][j]->setScale(1);
-			//tileptrarray[i][j]->debugDraw(true);
-			addChild(tilespritevector[i][j], -999);
-		}
-	}
-			
+	setupPaintTiles();
+
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(ClientDemo::KeyDown, this);
 	keyListener->onKeyReleased = CC_CALLBACK_2(ClientDemo::KeyRelease, this);
@@ -591,6 +566,10 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	{
 		loadLevel(1);
 	}
+	else if (p.tilevector.size() == 12 && levelmanager.puzzle.currenttilevector.size() != 12)
+	{
+		loadLevel(3);
+	}
 	
 	CCLOG("updatedserverpacket");
 	//CCLOG(std::to_string(p.p1x).c_str());
@@ -617,11 +596,11 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	//tilevalues = p.tilevalues;
 	//player1 animations
 
-	std::string p1anims = animationmanager.stringFromInt(p.p1anim);
-	std::string p2anims = animationmanager.stringFromInt(p.p2anim);
-	std::string p3anims = animationmanager.stringFromInt(p.p3anim);
-	std::string p4anims = animationmanager.stringFromInt(p.p4anim);
-	std::string vanims = animationmanager.stringFromInt(p.vanim);
+	std::string p1anims = animationmanager.stringFromChar(p.p1anim);
+	std::string p2anims = animationmanager.stringFromChar(p.p2anim);
+	std::string p3anims = animationmanager.stringFromChar(p.p3anim);
+	std::string p4anims = animationmanager.stringFromChar(p.p4anim);
+	std::string vanims = animationmanager.stringFromChar(p.vanim);
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -757,20 +736,16 @@ void ClientDemo::loadLevel(int level)
 		addChild(s, -999);
 	}
 
+	setupPaintTiles();
+}
+
+void ClientDemo::setupPaintTiles()
+{
+
 	tilespritevector.resize(levelmanager.puzzle.currenttilevector.size());
 	for (int i = 0; i < tilespritevector.size(); i++)
 	{
 		tilespritevector[i].resize(levelmanager.puzzle.currenttilevector[i].size());
-	}
-	int xoffset = 264;
-	int yoffset = 90;
-	if (tilespritevector.size() == 9)
-	{
-		yoffset = 48;
-	}
-	if (tilespritevector[0].size() == 5)
-	{
-		xoffset = 276;
 	}
 
 	for (int i = 0; i < tilespritevector.size(); i++)
@@ -778,11 +753,14 @@ void ClientDemo::loadLevel(int level)
 		for (int j = 0; j < tilespritevector[i].size(); j++)
 		{
 			tilespritevector[i][j] = PaintTile::create();
-			tilespritevector[i][j]->setPosition(24 * j + xoffset, 24 * i + yoffset);
-			tilespritevector[i][j]->setScale(1);
-			tilespritevector[i][j]->debugDraw(true);
+			tilespritevector[i][j]->setPosition(24 * j + levelmanager.tilestartpoint.x, 24 * i + levelmanager.tilestartpoint.y);
+			//tilespritevector[i][j]->setScale(1);
+			tilespritevector[i][j]->debugDraw(false);
 			addChild(tilespritevector[i][j], -999);
 		}
 	}
 
+
 }
+
+
