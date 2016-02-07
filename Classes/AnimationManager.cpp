@@ -342,6 +342,10 @@ AnimationManager::AnimationManager()
 	samleftanimFrames.reserve(4);
 	Vector<SpriteFrame*> samrightanimFrames;
 	samrightanimFrames.reserve(4);
+	Vector<SpriteFrame*> samTeleportFrames;
+	samTeleportFrames.reserve(11);
+	Vector<SpriteFrame*> samAppearFrames;
+	samAppearFrames.reserve(5);
 	
 	samupanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_back_0.png", Rect(0, 0, 24, 48)));
 	samupanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_back_1.png", Rect(0, 0, 24, 48)));
@@ -379,6 +383,44 @@ AnimationManager::AnimationManager()
 	samrightanimFrames.at(2)->getTexture()->setAliasTexParameters();
 	samrightanimFrames.at(3)->getTexture()->setAliasTexParameters();
 
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport00.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport01.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport02.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport03.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport04.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport05.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport06.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport07.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport08.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport09.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport10.png", Rect(0, 0, 24, 48)));
+
+	samTeleportFrames.at(0)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(1)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(2)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(3)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(4)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(5)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(6)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(7)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(8)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(9)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(10)->getTexture()->setAliasTexParameters();
+
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear00.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear01.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear02.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear03.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear04.png", Rect(0, 0, 24, 48)));
+
+
+	samAppearFrames.at(0)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(1)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(2)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(3)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(4)->getTexture()->setAliasTexParameters();
+
+
 	// create the animation out of the frames
 	Animation* samupanimation = Animation::createWithSpriteFrames(samupanimFrames, 0.1f);
 	cocos2d::Animate* samupanim = Animate::create(samupanimation);
@@ -392,13 +434,21 @@ AnimationManager::AnimationManager()
 	Animation* samrightanimation = Animation::createWithSpriteFrames(samrightanimFrames, 0.1f);
 	cocos2d::Animate* samrightanim = Animate::create(samrightanimation);
 	samrightanim->retain();
+	Animation* samteleportanimation = Animation::createWithSpriteFrames(samTeleportFrames, 0.3f);
+	cocos2d::Animate* samteleportanim = Animate::create(samteleportanimation);
+	samteleportanim->retain();
+	Animation* samappearanimation = Animation::createWithSpriteFrames(samAppearFrames, 0.3f);
+	cocos2d::Animate* samappearanim = Animate::create(samappearanimation);
+	samappearanim->retain();
+
 
 
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("samup"), samupanim));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("samdown"), samdownanim));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("samleft"), samleftanim));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("samright"), samrightanim));
-	
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("samwarp"), samteleportanim));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("samappear"), samappearanim));
 
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(0, ""));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(1, "p1up"));
@@ -425,12 +475,13 @@ AnimationManager::AnimationManager()
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(22, "p4right"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(23, "p4paint"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(24, "p4hit"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(19, "samup"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(20, "samdown"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(21, "samleft"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(22, "samright"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(23, "samwarp"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(24, "samhit"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(25, "samup"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(26, "samdown"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(27, "samleft"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(28, "samright"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(29, "samwarp"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(30, "samappear"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(31, "samhit"));
 
 
 

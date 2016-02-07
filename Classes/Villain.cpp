@@ -164,6 +164,7 @@ void Villain::chooseBehavior() {
 
 void Villain::walk() {
 	if (timeCheck()) {
+		//setAnim("samUp");
 		behavior_timer--;
 		int temp = -1;
 		for (int i = 0; i < distance.size(); i++) {
@@ -191,6 +192,19 @@ void Villain::walk() {
 			
 			this->setPositionX(this->getPositionX() + walk_speed*(cos(theta * 3.14159/180)));
 			this->setPositionY(this->getPositionY() + walk_speed*(sin(theta * 3.14159/180)));
+			
+			if (theta > 45 && theta < 135) {
+				setAnim("samup");
+			}
+			else if (theta >= 135 || theta <= -135) {
+				setAnim("samleft");
+			}
+			else if (theta <= 45 && theta >= -45) {
+				setAnim("samright");
+			}
+			else if (theta < -45 && theta > -135) {
+				setAnim("samdown");
+			}
 			
 		}
 		else {
@@ -226,11 +240,11 @@ void Villain::chargeCharge() {
 
 void Villain::teleport() {
 	if (timeCheck()) {
+		
 		behavior_timer--;
 	}
 	else {
-		this->setPositionX(x);
-		this->setPositionY(y);
+		
 		behavior_unlocked = true;
 		teleport_cd = 150;
 	}
@@ -238,10 +252,14 @@ void Villain::teleport() {
 
 void Villain::chargeTeleport() {
 	if (timeCheck()) {
+		setAnim("samwarp");
 		behavior_timer--;
 	}
 	else {
-		behavior_timer = 1;
+		setAnim("samappear");
+		this->setPositionX(x);
+		this->setPositionY(y);
+		behavior_timer = teleport_arrival_time;
 		behavior = 4;
 	}
 }
