@@ -21,7 +21,7 @@ PaintTile* PaintTile::create(std::string color)
 	PaintTile* pSprite = new PaintTile();
 	if (color == "red")
 	{
-		if (pSprite->initWithFile("res//sprites//paint_r.png"))
+		if (pSprite->initWithFile("res//sprites//objects//tile_red_paint_correct.png"))
 		{
 			pSprite->setColor("red");
 
@@ -32,7 +32,7 @@ PaintTile* PaintTile::create(std::string color)
 	}
 	if (color == "blue")
 	{
-		if (pSprite->initWithFile("res//sprites//paint_b.png"))
+		if (pSprite->initWithFile("res//sprites//objects//tile_blue1_paint_correct.png"))
 		{
 			pSprite->setColor("blue");
 
@@ -43,7 +43,7 @@ PaintTile* PaintTile::create(std::string color)
 	}
 	if (color == "yellow")
 	{
-		if (pSprite->initWithFile("res//sprites//paint_y.png"))
+		if (pSprite->initWithFile("res//sprites//objects//tile_yellow1_paint_correct.png"))
 		{
 			pSprite->setColor("yellow");
 
@@ -54,7 +54,7 @@ PaintTile* PaintTile::create(std::string color)
 	}
 	if (color == "orange")
 	{
-		if (pSprite->initWithFile("res//sprites//paint_o.png"))
+		if (pSprite->initWithFile("res//sprites//objects//tile_orange_paint_correct.png"))
 		{
 			pSprite->setColor("orange");
 
@@ -65,9 +65,64 @@ PaintTile* PaintTile::create(std::string color)
 	}
 	if (color == "black")
 	{
-		if (pSprite->initWithFile("res//sprites//paint_blk.png"))
+		if (pSprite->initWithFile("res//sprites//objects//tile_black_paint_correct.png"))
 		{
 			pSprite->setColor("black");
+
+			pSprite->autorelease();
+
+			return pSprite;
+		}
+	}
+	if (color == "Xred")
+	{
+		if (pSprite->initWithFile("res//sprites//objects//tile_red_paint_incorrect.png"))
+		{
+			pSprite->setColor("Xred");
+
+			pSprite->autorelease();
+
+			return pSprite;
+		}
+	}
+	if (color == "Xblue")
+	{
+		if (pSprite->initWithFile("res//sprites//objects//tile_blue1_paint_incorrect.png"))
+		{
+			pSprite->setColor("Xblue");
+
+			pSprite->autorelease();
+
+			return pSprite;
+		}
+	}
+	if (color == "Xyellow")
+	{
+		if (pSprite->initWithFile("res//sprites//objects//tile_yellow1_paint_incorrect.png"))
+		{
+			pSprite->setColor("Xyellow");
+
+			pSprite->autorelease();
+
+			return pSprite;
+		}
+	}
+	if (color == "Xorange")
+	{
+		if (pSprite->initWithFile("res//sprites//objects//tile_orange_paint_incorrect.png"))
+		{
+			pSprite->setColor("Xorange");
+
+			pSprite->autorelease();
+
+			return pSprite;
+		}
+	}
+	if (color == "Xblack")
+	{
+		if (pSprite->initWithFile("res//sprites//objects//tile_black_paint_incorrect.png"))
+		{
+			pSprite->setColor("Xblack");
 
 			pSprite->autorelease();
 
@@ -95,33 +150,56 @@ void PaintTile::refreshColor()
 {
 	if(color == "red")
 	{
-		setTexture("res//sprites//paint_r.png");
+		setTexture("res//sprites//objects//tile_red_paint_correct.png");
 	}
 	if (color == "blue")
 	{
-		setTexture("res//sprites//paint_b.png");
+		setTexture("res//sprites//objects//tile_blue1_paint_correct.png");
 	}
 
 	if (color == "yellow")
 	{
-		setTexture("res//sprites//paint_y.png");
+		setTexture("res//sprites//objects//tile_yellow1_paint_correct.png");
 	}
 
 	if (color == "orange")
 	{
-		setTexture("res//sprites//paint_o.png");
+		setTexture("res//sprites//objects//tile_orange_paint_correct.png");
 	}
 
 	if (color == "black")
 	{
-		setTexture("res//sprites//paint_blk.png");
+		setTexture("res//sprites//objects//tile_black_paint_correct.png");
 	}
-	
+
+	if (color == "Xred")
+	{
+		setTexture("res//sprites//objects//tile_red_paint_incorrect.png");
+	}
+
+	if (color == "Xblue")
+	{
+		setTexture("res//sprites//objects//tile_blue1_paint_incorrect.png");
+	}
+
+	if (color == "Xyellow")
+	{
+		setTexture("res//sprites//objects//tile_yellow1_paint_incorrect.png");
+	}
+
+	if (color == "Xorange")
+	{
+		setTexture("res//sprites//objects//tile_orange_paint_incorrect.png");
+	}
+
+	if (color == "Xblack")
+	{
+		setTexture("res//sprites//objects//tile_black_paint_incorrect.png");
+	}
+
 	if (color == "clear")
 	{
 		setTexture("res//sprites//paint_overlay_dry.png");
 	}
-
-
-
 }
+

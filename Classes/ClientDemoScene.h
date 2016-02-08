@@ -32,7 +32,6 @@ class ClientDemo : public cocos2d::Layer
 {
 private:
 	cocos2d::CCTMXTiledMap* tileMap;
-	//////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
 	cocos2d::CCTMXLayer* bucketlayer;
 	cocos2d::CCTMXLayer* blockage;
 
@@ -41,7 +40,9 @@ private:
 	Sprite* blueBucket;
 	Sprite* yellowBucket;
 	Sprite* orangeBucket;
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	Sprite* tileHighlight;
+	
 
 	Player* player1;
 	Player* player2;

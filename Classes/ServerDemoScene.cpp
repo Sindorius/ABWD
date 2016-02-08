@@ -30,18 +30,8 @@ bool ServerDemo::init()
 	}
 
 	levelmanager.changeLevel(1);
-
-	//std::string file = "res//maps//key_room_big.tmx";
-	//auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
-	//tileMap = cocos2d::CCTMXTiledMap::createWithXML(str->getCString(), "");
-
-	//tileMap = cocos2d::experimental::TMXTiledMap::createWithXML(str->getCString(), "");
-	////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
-	//tileMap = cocos2d::TMXTiledMap::createWithXML(str->getCString(), "");
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	addChild(levelmanager.levelmap, -1000);
 
-	////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
 	blockage = levelmanager.levelmap->getLayer("Collision");
 	blockage->setVisible(false);
 
@@ -81,10 +71,7 @@ bool ServerDemo::init()
 	player3 = Player::create(3);
 	player3->setPlayernum(3);
 	player3->getTexture()->setAliasTexParameters();
-	//player3->setPosition(Vec2(300, 300));
-	////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
 	player3->setPosition(Vec2(playerThreeSP["x"].asInt(), playerThreeSP["y"].asInt()));
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	p3pos = player3->getPosition();
 	player3->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(player3, 0);
@@ -92,10 +79,7 @@ bool ServerDemo::init()
 	player4 = Player::create(4);
 	player4->setPlayernum(4);
 	player4->getTexture()->setAliasTexParameters();
-	//player4->setPosition(Vec2(400, 400));
-	////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
 	player4->setPosition(Vec2(playerFourSP["x"].asInt(), playerFourSP["y"].asInt()));
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	player4->setAnchorPoint(Vec2(0.5, 0.0));
 	p4pos = player4->getPosition();
 	addChild(player4, 0);
@@ -262,13 +246,7 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 	int testx = (playerPos.x + p.dx) / (levelmanager.levelmap->getTileSize().width);
 	int testy = ((levelmanager.levelmap->getMapSize().height * levelmanager.levelmap->getTileSize().height) - playerPos.y - p.dy) / (levelmanager.levelmap->getTileSize().height);
 	CCPoint tileCoord = CCPoint(testx, testy);
-	// This will check if the player has hit a wall
-	// So far it does not do this correctly 
-	//auto winSize = CCDirector::getInstance()->getWinSize();
-	//int mapWidth = tileMap->getMapSize().width;
-	//int mapHeight = tileMap->getMapSize().height;
-
-	//	if (tileCoord.x >= 0 && tileCoord.x <= 25 && tileCoord.y >= 0 && tileCoord.y <= 14) {
+	
 	int bkTile = blockage->getTileGIDAt(tileCoord);
 
 	if (bkTile)
@@ -281,8 +259,8 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 			auto w = tilemapvals["Collidable"].asString();
 
 			if ("true" == w) {
-				dxmove = -dxmove / 2; //* 2;
-				dymove = -dymove / 2; //* 2;
+				dxmove = -dxmove* 2;
+				dymove = -dymove* 2;
 			}
 		}
 	}
@@ -305,42 +283,13 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 		players[p.playernum - 1]->setAnim(playerstring + "left");
 	}
 
-	//if(p.button1)
-	//{
-	//players[p.playernum - 1]->setAnim(playerstring + "paint");
-	//}
 
-	/*
-	if (p.playernum == 1)
-	{
-	p1pos += cocos2d::ccp(dxmove, dymove);
-	}
-	else if (p.playernum == 2)
-	{
-	p2pos += cocos2d::ccp(dxmove, dymove);
-	}
-	else if (p.playernum == 3)
-	{
-	p3pos += cocos2d::ccp(dxmove, dymove);
-	}
-	else if (p.playernum == 4)
-	{
-	p4pos += cocos2d::ccp(dxmove, dymove);
-	}*/
-
-	//if(p.button1)
-	//{
-	//	space(p.playernum);
-	//}
-	// So button1 is true only if the player has pressed the space button
-	/////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
 	if (p.button1)
 	{
 
 		players[p.playernum - 1]->setAnim(playerstring + "paint");
 		space(p.playernum, tileCoord, dxmove, dymove);
 	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 }
@@ -424,28 +373,57 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 				tilespritevector[i][j]->refreshColor();
 				if (players[playernum - 1]->getColor() == "red")
 				{
-					levelmanager.puzzle.currenttilevector[i][j] = 2;
+					if (levelmanager.puzzle.compareTile(i, j, 2))
+					{
+						levelmanager.puzzle.currenttilevector[i][j] = 2;
+					}
+					else {
+						levelmanager.puzzle.currenttilevector[i][j] = 20;
+					}
 				}
 				if (players[playernum - 1]->getColor() == "blue")
 				{
-					levelmanager.puzzle.currenttilevector[i][j] = 3;
+					if (levelmanager.puzzle.compareTile(i, j, 3))
+					{
+						levelmanager.puzzle.currenttilevector[i][j] = 3;
+					}
+					else {
+						levelmanager.puzzle.currenttilevector[i][j] = 30;
+					}
 				}
 				if (players[playernum - 1]->getColor() == "yellow")
 				{
-					levelmanager.puzzle.currenttilevector[i][j] = 4;
+					if (levelmanager.puzzle.compareTile(i, j, 4))
+					{
+						levelmanager.puzzle.currenttilevector[i][j] = 4;
+					}
+					else {
+						levelmanager.puzzle.currenttilevector[i][j] = 40;
+					}
 				}
 				if (players[playernum - 1]->getColor() == "orange")
 				{
-					levelmanager.puzzle.currenttilevector[i][j] = 5;
+					if (levelmanager.puzzle.compareTile(i, j, 5))
+					{
+						levelmanager.puzzle.currenttilevector[i][j] = 5;
+					}
+					else {
+						levelmanager.puzzle.currenttilevector[i][j] = 50;
+					}
 				}
 				if (players[playernum - 1]->getColor() == "black")
 				{
-					levelmanager.puzzle.currenttilevector[i][j] = 6;
+					if (levelmanager.puzzle.compareTile(i, j, 6))
+					{
+						levelmanager.puzzle.currenttilevector[i][j] = 6;
+					}
+					else {
+						levelmanager.puzzle.currenttilevector[i][j] = 60;
+					}
 				}
+
 				levelmanager.puzzle.whichplayertilesvector[i][j] = playernum;
 			}
-
-
 		}
 	}
 }

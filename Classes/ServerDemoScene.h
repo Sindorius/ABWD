@@ -28,27 +28,12 @@ class TCPServer;
 class ServerDemo : public cocos2d::Layer
 {
 private:
-	//cocos2d::CCTMXTiledMap* tileMap;
 
-	//cocos2d::experimental::TMXTiledMap* tileMap;
-	//cocos2d::experimental::TMXLayer* bucketlayer;
-	/////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
 	//cocos2d::CCTMXTiledMap* tileMap;
 	cocos2d::CCTMXLayer* bucketlayer;
 
 	cocos2d::CCTMXLayer* blockage;
 	cocos2d::CCTMXObjectGroup* spawnObjs;
-	//cocos2d::Sprite* redBucket;
-	//cocos2d::Sprite* blueBucket;
-	//cocos2d::Sprite* yellowBucket;
-	//cocos2d::Sprite* orangeBucket;
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	//cocos2d::CCTMXLayer* blueBucket;
-	//cocos2d::CCTMXLayer* redBucket;
-	//cocos2d::CCTMXLayer* yellowBucket;
-	//cocos2d::CCTMXLayer* orangeBucket;
-	//cocos2d::CCTMXLayer* colorTiles;
 
 	Player* player1;
 	Player* player2;
@@ -113,11 +98,7 @@ public:
 	*/
 
 	// Paint on the floor
-	void space(int playernum);
-	// Paint on the floor
-	////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
 	void space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, float dymove);
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	AnimationManager animationmanager;
 	LevelManager levelmanager;

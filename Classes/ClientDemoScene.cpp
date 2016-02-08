@@ -81,45 +81,16 @@ bool ClientDemo::init()
 
 	addChild(tileMap, -1000);
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE HERE
 	// Load the paint bucket layer
 	bucketlayer = tileMap->getLayer("Paintbuckets");
 	blockage = tileMap->getLayer("Collision");
 	blockage->setVisible(false);
-	/*
-	// Check to see if there is an object layer 
-	spawnObjs = tileMap->objectGroupNamed("SpawnObjects");
 
-	if (spawnObjs == NULL) {
-		CCLOG("TMX map has no Spawn object layer");
-	}
-
-	// Player one spawn position coordinates 
-	ValueMap playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
-	int p1X = playerOneSP["x"].asInt();
-	int p1Y = playerOneSP["y"].asInt();
-
-	ValueMap playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
-	int p2X = playerTwoSP["x"].asInt();
-	int p2Y = playerTwoSP["y"].asInt();
-
-	ValueMap playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
-	int p3X = playerThreeSP["x"].asInt();
-	int p3Y = playerThreeSP["y"].asInt();
-
-	ValueMap playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
-	int p4X = playerFourSP["x"].asInt();
-	int p4Y = playerFourSP["y"].asInt();
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	*/
 	player1 = Player::create(1);
 	player1->setPlayernum(1);
 	player1->getTexture()->setAliasTexParameters();
 	player1->setAnchorPoint(Vec2(0.5, 0.0));
 	player1->setPosition(Vec2(50, 50));
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
-	//player1->setPosition(Vec2(p1X, p1Y));
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	addChild(player1, 0);
 
 	player2 = Player::create(2);
@@ -127,9 +98,6 @@ bool ClientDemo::init()
 	player2->getTexture()->setAliasTexParameters();
 	player2->setAnchorPoint(Vec2(0.5, 0.0));
 	player2->setPosition(Vec2(50, 100));
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
-	//player2->setPosition(Vec2(p2X, p2Y));
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	addChild(player2, 0);
 
 	player3 = Player::create(3);
@@ -137,9 +105,6 @@ bool ClientDemo::init()
 	player3->getTexture()->setAliasTexParameters();
 	player3->setAnchorPoint(Vec2(0.5, 0.0));
 	player3->setPosition(Vec2(50, 150));
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
-	//player3->setPosition(Vec2(p3X, p3Y));
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	addChild(player3, 0);
 
 	player4 = Player::create(4);
@@ -147,9 +112,6 @@ bool ClientDemo::init()
 	player4->getTexture()->setAliasTexParameters();
 	player4->setAnchorPoint(Vec2(0.5, 0.0));
 	player4->setPosition(Vec2(50, 200));
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
-	//player4->setPosition(Vec2(p4X, p4Y));
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	addChild(player4, 0);
 
 	players.push_back(player1);
@@ -162,35 +124,41 @@ bool ClientDemo::init()
 	villain->setAnchorPoint(Vec2(0.5, 0.0));
 	villain->setPosition(Vec2(250, 150));
 	addChild(villain, 0);
-	/*
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
+
 	// Player Label Creation
-	p1CLabel = CCLabelTTF::create("p1", "fonts/Marker Felt.ttf", 10);
-	p1CLabel->setPosition(Vec2(p1X, p1Y + 46));
-	p1CLabel->setAnchorPoint(Vec2(0.5, 0.0));
-	addChild(p1CLabel, 100);
+	p1CLabel = CCLabelTTF::create("P1", "fonts/Marker Felt.ttf", 9);
+	//p1CLabel->enableStroke(ccColor3B(255,0,0),20.0, true);
+	p1CLabel->enableShadow(CCSize(1,0), 50.0, 0.0, true);
+	p1CLabel->setPosition(Vec2(player1->getPositionX()-38, player1->getPositionY()+1));
+	player1->addChild(p1CLabel,100);
 
-	p2CLabel = CCLabelTTF::create("p2", "fonts/Marker Felt.ttf", 10);
-	p2CLabel->setPosition(Vec2(p2X, p2Y + 46));
-	p2CLabel->setAnchorPoint(Vec2(0.5, 0.0));
-	addChild(p2CLabel, 100);
+	p2CLabel = CCLabelTTF::create("P2", "fonts/Marker Felt.ttf", 9);
+	p2CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
+	p2CLabel->setPosition(Vec2(player2->getPositionX()-38, player2->getPositionY()-48));
+	player2->addChild(p2CLabel, 100);
 
-	p3CLabel = CCLabelTTF::create("p3", "fonts/Marker Felt.ttf", 10);
-	p3CLabel->setPosition(Vec2(p3X, p3Y + 46));
+	p3CLabel = CCLabelTTF::create("P3", "fonts/Marker Felt.ttf", 9);
+	p3CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
+	p3CLabel->setPosition(Vec2(player3->getPositionX()-38, player3->getPositionY()-104));
 	p3CLabel->setAnchorPoint(Vec2(0.5, 0.0));
-	addChild(p3CLabel, 100);
+	player3->addChild(p3CLabel, 100);
 
-	p4CLabel = CCLabelTTF::create("p4", "fonts/Marker Felt.ttf", 10);
-	p4CLabel->setPosition(Vec2(p4X, p4Y + 46));
+	p4CLabel = CCLabelTTF::create("P4", "fonts/Marker Felt.ttf", 9);
+	p4CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
+	p4CLabel->setPosition(Vec2(player4->getPositionX()-38, player4->getPositionY()-154));
 	p4CLabel->setAnchorPoint(Vec2(0.5, 0.0));
-	addChild(p4CLabel, 100);
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	*/
+	player4->addChild(p4CLabel, 100);
+
+
 	//Sprite* wallpainting = Sprite::create("res/sprites/objects/key_framed.png");
 	//wallpainting->getTexture()->setAliasTexParameters();
 	//wallpainting->setPosition(Vec2(320, 320));
 	//wallpainting->setScale(1);
 	//addChild(wallpainting, -999);
+
+	tileHighlight = Sprite::create("res//sprites//select_tile.png");
+	tileHighlight->setPosition(0, 0);
+	addChild(tileHighlight, -900);
 
 	for (Sprite* s : levelmanager.levelsprites)
 	{
@@ -296,6 +264,22 @@ void ClientDemo::update(float dt)
 		tcpsessionptr->writewithstringbuffer(outstringbuffer);
 	}
 
+
+	tileHighlight->setOpacity(0);
+
+	for (int i = 0; i < tilespritevector.size(); i++)
+	{
+		for (int j = 0; j < tilespritevector[i].size(); j++)
+		{
+			if (players[playernum - 1]->getPositionX() > tilespritevector[i][j]->getPositionX() - 12 && players[playernum - 1]->getPositionX() < tilespritevector[i][j]->getPositionX() + 12 && players[playernum - 1]->getPositionY() > tilespritevector[i][j]->getPositionY() - 12 && players[playernum - 1]->getPositionY() < tilespritevector[i][j]->getPositionY() + 12)
+			{
+				tileHighlight->setOpacity(255);
+				tileHighlight->setPosition(tilespritevector[i][j]->getPositionX(), tilespritevector[i][j]->getPositionY());
+			}
+		}
+	}
+
+
 	for (Player* p : players)
 	{
 		p->setZOrder(-p->getPositionY());
@@ -321,42 +305,24 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 	playerstring += std::to_string(playernum).c_str();
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
-		
-		//players[playernum - 1]->stopAllActions();
-		//players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring+"up")));
-		//players[playernum - 1]->setAnim(playerstring + "up");
 		ymove += 2;
 		break;
 
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		//players[playernum - 1]->stopAllActions();
-		//players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring+"down")));
-		//players[playernum - 1]->setAnim(playerstring + "down");
 		ymove -= 2;
 		
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-		//players[playernum - 1]->stopAllActions();
-		//players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring + "left")));
-		//players[playernum - 1]->setAnim(playerstring + "left");
 		xmove -= 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-		//players[playernum - 1]->stopAllActions();
-		//players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring + "right")));
-		//players[playernum - 1]->setAnim(playerstring + "right");
 		xmove += 2;
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
-		//players[playernum - 1]->stopAllActions();
-		//players[playernum - 1]->runAction(RepeatForever::create(animationmanager.animationmap.at(playerstring + "paint")));
-		//players[playernum - 1]->setAnim(playerstring + "paint");
 		button1 = true;
 		xmove = 0;
 		ymove = 0;
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
-		//space();
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		space();
 		break;
 
 	case EventKeyboard::KeyCode::KEY_1:
@@ -378,23 +344,18 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
-		//	player1->stopAllActions();
 		ymove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		//player1->stopAllActions();
 		ymove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-		//player1->stopAllActions();
 		xmove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-		//player1->stopAllActions();
 		xmove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
-		//player1->stopAllActions();
 		button1 = false;
 		break;
 	}
@@ -403,7 +364,6 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
 // This will convert the players coordinates into tile coordinates
 CCPoint ClientDemo::plyrCoordToTileCoord(int playerNum)
 {
@@ -433,6 +393,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				auto b = tilemapvals["Blue"].asString();
 				auto y = tilemapvals["Yellow"].asString();
 				auto o = tilemapvals["Orange"].asString();
+				auto blk = tilemapvals["Black"].asString();
 
 				if ("true" == r)
 				{
@@ -452,6 +413,9 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 					//p1CLabel->setString("Orange");
 					p1CLabel->setFontFillColor(ccc3(234, 152, 46));
 				}
+				if ("true" == blk) {
+					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
+				}
 			}
 		}
 	}
@@ -466,6 +430,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				auto b = tilemapvals["Blue"].asString();
 				auto y = tilemapvals["Yellow"].asString();
 				auto o = tilemapvals["Orange"].asString();
+				auto blk = tilemapvals["Black"].asString();
 
 				if ("true" == r)
 				{
@@ -481,6 +446,9 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == o) {
 					p2CLabel->setFontFillColor(ccc3(234, 152, 46));
 				}
+				if ("true" == blk) {
+					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
+				}
 			}
 		}
 	}
@@ -495,6 +463,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				auto b = tilemapvals["Blue"].asString();
 				auto y = tilemapvals["Yellow"].asString();
 				auto o = tilemapvals["Orange"].asString();
+				auto blk = tilemapvals["Black"].asString();
 
 				if ("true" == r)
 				{
@@ -509,6 +478,9 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				}
 				if ("true" == o) {
 					p3CLabel->setFontFillColor(ccc3(234, 152, 46));
+				}
+				if ("true" == blk) {
+					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
 				}
 			}
 		}
@@ -525,6 +497,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				auto b = tilemapvals["Blue"].asString();
 				auto y = tilemapvals["Yellow"].asString();
 				auto o = tilemapvals["Orange"].asString();
+				auto blk = tilemapvals["Black"].asString();
 
 				if ("true" == r)
 				{
@@ -540,23 +513,23 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == o) {
 					p4CLabel->setFontFillColor(ccc3(234, 152, 46));
 				}
+				if ("true" == blk) {
+					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
+				}
 			}
 		}
 	}
-
 }
 
 
 // Will check to see if you are on a bucket and change the color of the player's label
-/*void ClientDemo::space()
+void ClientDemo::space()
 {
-
 		CCPoint tileCoord = plyrCoordToTileCoord(playernum);
 		int bTile = getTileProperties(tileCoord);
-		//changeLabelColor(bTile, playernum);
-}*/
+		changeLabelColor(bTile, playernum);
+}
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 void ClientDemo::processPacket(ServerPositionPacket p)
@@ -583,14 +556,6 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	//CCLOG(std::to_string(p.vx).c_str());
 	//CCLOG(std::to_string(tilevalues[0][0]).c_str());
 	//CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
-	
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
-	//p1CLabel->setPosition(Vec2(p.p1x, p.p1y + 46));
-	//p2CLabel->setPosition(Vec2(p.p2x, p.p2y + 46));
-	//p3CLabel->setPosition(Vec2(p.p3x, p.p3y + 46));
-	//p4CLabel->setPosition(Vec2(p.p4x, p.p4y + 46));
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	player1->setPosition(Vec2(p.p1x, p.p1y));
 	player2->setPosition(Vec2(p.p2x, p.p2y));
@@ -635,8 +600,6 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	}
 
 
-
-
 	for (int i = 0; i < p.tilevector.size(); i++)
 	{
 		for (int j = 0; j < p.tilevector[i].size(); j++)
@@ -672,6 +635,31 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 				if (levelmanager.puzzle.currenttilevector[i][j] == 6)
 				{
 					tilespritevector[i][j]->setColor("black");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 20)
+				{
+					tilespritevector[i][j]->setColor("Xred");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 30)
+				{
+					tilespritevector[i][j]->setColor("Xblue");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 40)
+				{
+					tilespritevector[i][j]->setColor("Xyellow");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 50)
+				{
+					tilespritevector[i][j]->setColor("Xorange");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 60)
+				{
+					tilespritevector[i][j]->setColor("Xblack");
 					tilespritevector[i][j]->refreshColor();
 				}
 			}
@@ -770,6 +758,4 @@ void ClientDemo::setupPaintTiles()
 void ClientDemo::centerCamera()
 {
 	CCCamera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
-
-
 }

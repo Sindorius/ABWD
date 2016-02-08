@@ -156,8 +156,18 @@ public:
 
 		}
 		return true;
-
 	}
+
+
+	bool compareTile(int x, int y, int num)
+	{
+		if (currenttilevectorsolution[x][y] == num) {
+			return true;
+		}
+		return false;
+	}
+
+
 	void changePuzzle(int level);
 
 };
