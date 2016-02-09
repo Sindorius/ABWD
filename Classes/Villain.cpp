@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "cocos2d.h"
 #include <iostream>
+#include "Pterodactyl.h"
 
 Villain* Villain::create()
 {

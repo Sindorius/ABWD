@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Player.h"
 #include "Villain.h"
+#include "Pterodactyl.h"
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
@@ -51,6 +52,7 @@ private:
 	std::vector<Player*> players;
 	std::string state1, state2, state3, state4;
 	Villain* villain;
+	Pterodactyl* pterodactyl;
 	
 	std::vector<cocos2d::Sprite*> objects;
 

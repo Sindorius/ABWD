@@ -125,6 +125,12 @@ bool ClientDemo::init()
 	villain->setPosition(Vec2(250, 150));
 	addChild(villain, 0);
 
+	pterodactyl = Pterodactyl::create();
+	pterodactyl->getTexture()->setAliasTexParameters();
+	pterodactyl->setAnchorPoint(Vec2(0.5, 0.0));
+	pterodactyl->setPosition(Vec2(50, 50));
+	addChild(pterodactyl, 0);
+
 	// Player Label Creation
 	p1CLabel = CCLabelTTF::create("P1", "fonts/Marker Felt.ttf", 9);
 	//p1CLabel->enableStroke(ccColor3B(255,0,0),20.0, true);
@@ -285,6 +291,7 @@ void ClientDemo::update(float dt)
 		p->setZOrder(-p->getPositionY());
 	}
 	villain->setZOrder(-villain->getPositionY());
+	pterodactyl->setZOrder(-pterodactyl->getPositionY());
 	centerCamera();
 }
 
@@ -562,6 +569,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	player3->setPosition(Vec2(p.p3x, p.p3y));
 	player4->setPosition(Vec2(p.p4x, p.p4y));
 	villain->setPosition(Vec2(p.vx, p.vy));
+	pterodactyl->setPosition(Vec2(p.ptx, p.pty));
 	//tilevalues = p.tilevalues;
 	//player1 animations
 
@@ -570,6 +578,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	std::string p3anims = animationmanager.stringFromChar(p.p3anim);
 	std::string p4anims = animationmanager.stringFromChar(p.p4anim);
 	std::string vanims = animationmanager.stringFromChar(p.vanim);
+	std::string ptanims = animationmanager.stringFromChar(p.ptanim);
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -597,6 +606,11 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 		villain->stopAllActions();
 		villain->runAction(RepeatForever::create(animationmanager.animationmap.at(vanims)));
 		villain->setAnim(vanims);
+	}
+	if (p.ptanim != 0 && pterodactyl->getAnim() != ptanims) {
+		pterodactyl->stopAllActions();
+		pterodactyl->runAction(RepeatForever::create(animationmanager.animationmap.at(ptanims)));
+		pterodactyl->setAnim(ptanims);
 	}
 
 

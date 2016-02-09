@@ -1,3 +1,4 @@
+
 #ifndef _VILLAIN_HPP_
 #define _VILLAIN_HPP_
 
@@ -44,6 +45,7 @@ public:
 	bool timeCheck();
 	void setAnim(std::string s) { animstate = s; }
 	std::string getAnim() { return animstate; }
+
 
 private:
 

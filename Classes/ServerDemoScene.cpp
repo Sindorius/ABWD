@@ -98,7 +98,7 @@ bool ServerDemo::init()
 
 	pterodactyl = Pterodactyl::create();
 	pterodactyl->getTexture()->setAliasTexParameters();
-	pterodactyl->setPosition(Vec2(-50, -50));
+	pterodactyl->setPosition(Vec2(50, 50));
 	pterodactyl->setAnchorPoint(Vec2(0.5, 0.0));
 	ppos = pterodactyl->getPosition();
 	addChild(pterodactyl, 0);
@@ -177,8 +177,12 @@ void ServerDemo::update(float dt)
 	//player4->setPosition(p4pos);
 	villain->setPriority(levelmanager.puzzle.whichplayertilesvector);
 	villain->runAI(&players);
+	pterodactyl->on();
+	pterodactyl->run(villain->getPositionX(), villain->getPositionY());
 
-	ServerPositionPacket p(villain->getPositionX(), villain->getPositionY(), animationmanager.charFromString(villain->getAnim()),
+	ServerPositionPacket p(
+		pterodactyl->getPositionX(), pterodactyl->getPositionY(), animationmanager.charFromString(pterodactyl->getAnim()),
+		villain->getPositionX(), villain->getPositionY(), animationmanager.charFromString(villain->getAnim()),
 		player1->getPositionX(), player1->getPositionY(), animationmanager.charFromString(player1->getAnim()),
 		player2->getPositionX(), player2->getPositionY(), animationmanager.charFromString(player2->getAnim()),
 		player3->getPositionX(), player3->getPositionY(), animationmanager.charFromString(player3->getAnim()),
