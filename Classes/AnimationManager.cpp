@@ -450,6 +450,61 @@ AnimationManager::AnimationManager()
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("samwarp"), samteleportanim));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("samappear"), samappearanim));
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Pteradactyl animations
+	Vector<SpriteFrame*> pteraLeft;
+	samupanimFrames.reserve(7);
+	Vector<SpriteFrame*> pteraRight;
+	samdownanimFrames.reserve(7);
+
+	pteraLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_left0.png", Rect(0, 0, 25, 22)));
+	pteraLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_left1.png", Rect(0, 0, 25, 22)));
+	pteraLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_left2.png", Rect(0, 0, 25, 22)));
+	pteraLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_left3.png", Rect(0, 0, 25, 22)));
+	pteraLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_left4.png", Rect(0, 0, 25, 22)));
+	pteraLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_left5.png", Rect(0, 0, 25, 22)));
+	pteraLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_left6.png", Rect(0, 0, 25, 22)));
+
+	pteraLeft.at(0)->getTexture()->setAliasTexParameters();
+	pteraLeft.at(1)->getTexture()->setAliasTexParameters();
+	pteraLeft.at(2)->getTexture()->setAliasTexParameters();
+	pteraLeft.at(3)->getTexture()->setAliasTexParameters();
+	pteraLeft.at(4)->getTexture()->setAliasTexParameters();
+	pteraLeft.at(5)->getTexture()->setAliasTexParameters();
+	pteraLeft.at(6)->getTexture()->setAliasTexParameters();
+
+	pteraRight.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_right0.png", Rect(0, 0, 25, 22)));
+	pteraRight.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_right1.png", Rect(0, 0, 25, 22)));
+	pteraRight.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_right2.png", Rect(0, 0, 25, 22)));
+	pteraRight.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_right3.png", Rect(0, 0, 25, 22)));
+	pteraRight.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_right4.png", Rect(0, 0, 25, 22)));
+	pteraRight.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_right5.png", Rect(0, 0, 25, 22)));
+	pteraRight.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_right6.png", Rect(0, 0, 25, 22)));
+
+	pteraRight.at(0)->getTexture()->setAliasTexParameters();
+	pteraRight.at(1)->getTexture()->setAliasTexParameters();
+	pteraRight.at(2)->getTexture()->setAliasTexParameters();
+	pteraRight.at(3)->getTexture()->setAliasTexParameters();
+	pteraRight.at(4)->getTexture()->setAliasTexParameters();
+	pteraRight.at(5)->getTexture()->setAliasTexParameters();
+	pteraRight.at(6)->getTexture()->setAliasTexParameters();
+
+	Animation* pteraleftanim = Animation::createWithSpriteFrames(pteraLeft, 0.1f);
+	cocos2d::Animate* pteraleftanimation = Animate::create(pteraleftanim);
+	pteraleftanimation->retain();
+	Animation* pterarightanim = Animation::createWithSpriteFrames(pteraRight, 0.1f);
+	cocos2d::Animate* pterarightanimation = Animate::create(pterarightanim);
+	pterarightanimation->retain();
+
+
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("pteraleft"), pteraleftanimation));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("pteraright"), pterarightanimation));
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//altogether now
+
+
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(0, ""));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(1, "p1up"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(2, "p1down"));
@@ -482,6 +537,8 @@ AnimationManager::AnimationManager()
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(29, "samwarp"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(30, "samappear"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(31, "samhit"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(32, "pteraleft"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(33, "pteraright"));
 
 
 

@@ -150,6 +150,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\PaintTile.h" />
     <ClInclude Include="..\Classes\Player.h" />
     <ClInclude Include="..\Classes\PlayerInputPacket.hpp" />
+    <ClInclude Include="..\Classes\Pterodactyl.h" />
     <ClInclude Include="..\Classes\Puzzle.hpp" />
     <ClInclude Include="..\Classes\ServerAppDelegate.h" />
     <ClInclude Include="..\Classes\ServerDemoScene.h" />
@@ -181,6 +182,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\LevelManager.cpp" />
     <ClCompile Include="..\Classes\PaintTile.cpp" />
     <ClCompile Include="..\Classes\Player.cpp" />
+    <ClCompile Include="..\Classes\Pterodactyl.cpp" />
     <ClCompile Include="..\Classes\Puzzle.cpp" />
     <ClCompile Include="..\Classes\ServerAppDelegate.cpp" />
     <ClCompile Include="..\Classes\ServerDemoScene.cpp" />

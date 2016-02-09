@@ -96,6 +96,12 @@ bool ServerDemo::init()
 	vpos = villain->getPosition();
 	addChild(villain, 0);
 
+	pterodactyl = Pterodactyl::create();
+	pterodactyl->getTexture()->setAliasTexParameters();
+	pterodactyl->setPosition(Vec2(-50, -50));
+	pterodactyl->setAnchorPoint(Vec2(0.5, 0.0));
+	ppos = pterodactyl->getPosition();
+	addChild(pterodactyl, 0);
 
 	for (Sprite* s : levelmanager.levelsprites)
 	{

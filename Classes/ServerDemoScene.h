@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Player.h"
 #include "Villain.h"
+#include "Pterodactyl.h"
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
@@ -41,6 +42,7 @@ private:
 	Player* player4;
 	std::vector<Player*> players;
 	Villain* villain;
+	Pterodactyl* pterodactyl;
 
 	std::vector<cocos2d::Sprite*> objects;
 	//Puzzle puzzle;
@@ -81,6 +83,7 @@ public:
 	cocos2d::CCPoint p3pos;
 	cocos2d::CCPoint p4pos;
 	cocos2d::CCPoint vpos;
+	cocos2d::CCPoint ppos;
 
 	//PaintTile* tileptrarray[6][6];
 

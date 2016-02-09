@@ -177,7 +177,6 @@ void Villain::walk() {
 		playery = player_list->at(target)->getPositionY();
 		samx = this->getPositionX();
 		samy = this->getPositionY();
-		double angle = (playery - samy) / (playerx - samx);
 		double theta;
 		if (playerx >= samx) {
 			theta = atan((playery - samy) / (playerx - samx)) * 180 / 3.14159;

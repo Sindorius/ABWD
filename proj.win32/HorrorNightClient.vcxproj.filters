@@ -38,6 +38,9 @@
     <ClInclude Include="..\Classes\Puzzle.hpp">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Pterodactyl.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
@@ -74,6 +77,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Puzzle.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Pterodactyl.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
