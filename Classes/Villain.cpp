@@ -1,11 +1,9 @@
 
 #include "Villain.h"
-#include "Player.h"
 #include <math.h>
 #include <stdlib.h>
 #include "cocos2d.h"
 #include <iostream>
-#include "Pterodactyl.h"
 
 Villain* Villain::create()
 {
@@ -51,7 +49,7 @@ void Villain::setPriority(std::vector<std::vector<char>> tiles) {
 
 void Villain::runAI(std::vector<Player*>* players)
 {
-	std::cout << target << std::endl;
+
 	player_list = players;
 	calculations();
 	teleport_cd--;
@@ -64,7 +62,7 @@ void Villain::runAI(std::vector<Player*>* players)
 		walk();
 		break;
 	case 1:
-		chargeCharge();
+		pteraSummon();
 		break;
 	case 2:
 		charge();
@@ -78,8 +76,13 @@ void Villain::runAI(std::vector<Player*>* players)
 	case 5:
 		wait();
 		break;
+	case 6:
+		munch();
+		break;
 	}
-
+	if (behavior != 1) {
+		ptera->run(this->getPositionX(), this->getPositionY());
+	}
 }
 
 void Villain::calculations() {
@@ -99,7 +102,7 @@ void Villain::chooseBehavior() {
 		choose = 0;
 	}
 	else {
-		choose = (rand() % 3) + 1;
+		choose = (rand() % 4) + 1;
 	}
 	switch (choose) {
 	case 0:
@@ -110,14 +113,15 @@ void Villain::chooseBehavior() {
 		behavior_timer = walk_time;
 		behavior = 0;
 		break;
-		/*
-		case 2:
-		behavior_timer = 30;
+		
+	case 2:
+		behavior_timer = 400;
+		secondary_time = 30;
 		behavior = 1;
-		break;*/
+		break;
+
 	case 3:
 		if (teleport_cd <= 0) {
-			//target = rand() % player_list->size();
 			int total = priority[0] + priority[1] + priority[2] + priority[3];
 			int guess = rand() % (total + 1);
 			int guess1 = rand() % (total - priority[0] + 1);
@@ -158,6 +162,12 @@ void Villain::chooseBehavior() {
 			}
 		}
 		break;
+
+	case 4:
+		behavior = 6;
+		behavior_timer = 120;
+		secondary_time = 30;
+		break;
 	}
 	behavior_unlocked = false;
 }
@@ -165,7 +175,6 @@ void Villain::chooseBehavior() {
 
 void Villain::walk() {
 	if (timeCheck()) {
-		//setAnim("samUp");
 		behavior_timer--;
 		int temp = -1;
 		for (int i = 0; i < distance.size(); i++) {
@@ -213,6 +222,7 @@ void Villain::walk() {
 	}
 	else {
 		behavior_unlocked = true;
+		walk_speed = 2;
 	}
 }
 
@@ -245,7 +255,8 @@ void Villain::teleport() {
 	}
 	else {
 		
-		behavior_unlocked = true;
+		behavior = 0;
+		behavior_timer = 150;
 		teleport_cd = 150;
 	}
 }
@@ -274,6 +285,40 @@ void Villain::wait() {
 	}
 }
 
+void Villain::pteraSummon() {
+	if (timeCheck()) {
+		animstate = "samwhistle";
+		if (secondary_time <= 0) {
+			ptera->attack();
+		}
+		else {
+			secondary_time--;
+		}
+		int temp = -1;
+		for (int i = 0; i < distance.size(); i++) {
+			int temp1 = distance[i];
+			if (temp < temp1 && priority[i] > 0) { temp = temp1; target = i; }
+		}
+		ptera->run(player_list->at(target)->getPositionX(), player_list->at(target)->getPositionY());
+		behavior_timer--;
+	}
+	else {
+		behavior_unlocked = true;
+		ptera->peace();
+	}
+}
+
+void Villain::munch() {
+	if (timeCheck()) {
+		behavior_timer--;
+	}
+	else {
+		walk_speed = 4;
+		behavior = 0;
+		behavior_timer = 30;
+	}
+}
+
 int Villain::getTarget() {
 	return target;
 }
@@ -284,4 +329,9 @@ int Villain::getBehavior() {
 
 bool Villain::timeCheck() {
 	return behavior_timer > 0;
+}
+
+void Villain::linkPtera(Pterodactyl* pterodactyl) {
+	ptera = pterodactyl;
+	ptera->on();
 }

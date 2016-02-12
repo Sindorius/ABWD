@@ -103,6 +103,8 @@ bool ServerDemo::init()
 	ppos = pterodactyl->getPosition();
 	addChild(pterodactyl, 0);
 
+	villain->linkPtera(pterodactyl);
+
 	for (Sprite* s : levelmanager.levelsprites)
 	{
 		addChild(s, -999);
@@ -177,8 +179,7 @@ void ServerDemo::update(float dt)
 	//player4->setPosition(p4pos);
 	villain->setPriority(levelmanager.puzzle.whichplayertilesvector);
 	villain->runAI(&players);
-	pterodactyl->on();
-	pterodactyl->run(villain->getPositionX(), villain->getPositionY());
+	
 
 	ServerPositionPacket p(
 		pterodactyl->getPositionX(), pterodactyl->getPositionY(), animationmanager.charFromString(pterodactyl->getAnim()),
@@ -200,6 +201,24 @@ void ServerDemo::update(float dt)
 	for (Player* p : players)
 	{
 		if (abs(villain->getPositionX() - p->getPositionX()) < 5 && abs(villain->getPositionY() - p->getPositionY()) < 5)
+		{
+			for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
+			{
+				for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
+				{
+					if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
+					{
+						levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
+						levelmanager.puzzle.currenttilevector[i][j] = 1;
+						tilespritevector[i][j]->setColor("clear");
+						tilespritevector[i][j]->refreshColor();
+					}
+				}
+			}
+
+		}
+
+		if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() - p->getPositionX()) < 5 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 5)
 		{
 			for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 			{

@@ -18,18 +18,18 @@ Pterodactyl* Pterodactyl::create()
 void Pterodactyl::run(int x, int y) {
 
 	
-	if (this->getPositionX() > x && Xvelocity < 3) {
+	if (this->getPositionX() > x && Xvelocity < cap) {
 		Xvelocity += acceleration;
 		setAnim("pteraleft");
 	}
-	else if (this->getPositionX() < x && Xvelocity > -3) {
+	else if (this->getPositionX() < x && Xvelocity > -cap) {
 		Xvelocity -= acceleration;
 		setAnim("pteraright");
 	}
-	if (this->getPositionY() > y && Yvelocity < 3) {
+	if (this->getPositionY() > y && Yvelocity < cap) {
 		Yvelocity += acceleration;
 	}
-	else if (this->getPositionY() < y && Yvelocity > -3) {
+	else if (this->getPositionY() < y && Yvelocity > -cap) {
 		Yvelocity -= acceleration;
 	}
 

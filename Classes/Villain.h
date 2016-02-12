@@ -5,6 +5,7 @@
 #include "cocos2d.h"
 #include "Player.h"
 #include <array>
+#include <Pterodactyl.h>
 
 class Villain : public cocos2d::Sprite
 {
@@ -37,15 +38,21 @@ public:
 	void chargeTeleport();
 	//idle
 	void wait();
+	// CAW CAW CAW
+	void pteraSummon();
+
+	void munch();
 	//the index of the ai's current target
 	int getTarget();
 	//the current action type the villain uses, use to determine animations and whatnot
+	
+
 	//number key located at the end of file
 	int getBehavior();
 	bool timeCheck();
 	void setAnim(std::string s) { animstate = s; }
 	std::string getAnim() { return animstate; }
-
+	void linkPtera(Pterodactyl* pterodactyl);
 
 private:
 
@@ -63,7 +70,9 @@ private:
 	int priority[4];
 	bool idle = false;
 
+	bool pteraphase = 0;
 
+	int secondary_time = 0;
 	int idle_time = 50;
 	int walk_time = 100;
 	int charge_teleport_time = 100;
@@ -71,6 +80,10 @@ private:
 	int teleport_fail_timer = 50;
 
 	std::string animstate = "";
+
+
+	//links
+	Pterodactyl* ptera;
 
 };
 /*

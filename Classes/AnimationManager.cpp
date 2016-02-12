@@ -346,6 +346,8 @@ AnimationManager::AnimationManager()
 	samTeleportFrames.reserve(11);
 	Vector<SpriteFrame*> samAppearFrames;
 	samAppearFrames.reserve(5);
+	Vector<SpriteFrame*> samWhistleFrames;
+	samWhistleFrames.reserve(2);
 	
 	samupanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_back_0.png", Rect(0, 0, 24, 48)));
 	samupanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_back_1.png", Rect(0, 0, 24, 48)));
@@ -421,6 +423,12 @@ AnimationManager::AnimationManager()
 	samAppearFrames.at(4)->getTexture()->setAliasTexParameters();
 
 
+	samWhistleFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_whistle0.png", Rect(0, 0, 24, 48)));
+	samWhistleFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_whistle1.png", Rect(0, 0, 24, 48)));
+
+	samWhistleFrames.at(0)->getTexture()->setAliasTexParameters();
+	samWhistleFrames.at(1)->getTexture()->setAliasTexParameters();
+
 	// create the animation out of the frames
 	Animation* samupanimation = Animation::createWithSpriteFrames(samupanimFrames, 0.1f);
 	cocos2d::Animate* samupanim = Animate::create(samupanimation);
@@ -440,6 +448,9 @@ AnimationManager::AnimationManager()
 	Animation* samappearanimation = Animation::createWithSpriteFrames(samAppearFrames, 0.3f);
 	cocos2d::Animate* samappearanim = Animate::create(samappearanimation);
 	samappearanim->retain();
+	Animation* samwhistleanimation = Animation::createWithSpriteFrames(samWhistleFrames, 0.3f);
+	cocos2d::Animate* samwhistleanim = Animate::create(samwhistleanimation);
+	samwhistleanim->retain();
 
 
 
@@ -449,6 +460,7 @@ AnimationManager::AnimationManager()
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("samright"), samrightanim));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("samwarp"), samteleportanim));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("samappear"), samappearanim));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("samwhistle"), samwhistleanim));
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//Pteradactyl animations
@@ -536,9 +548,10 @@ AnimationManager::AnimationManager()
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(28, "samright"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(29, "samwarp"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(30, "samappear"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(31, "samhit"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(32, "pteraleft"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(33, "pteraright"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(31, "samwhistle"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(32, "samhit"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(33, "pteraleft"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(34, "pteraright"));
 
 
 
