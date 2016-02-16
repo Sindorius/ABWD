@@ -34,7 +34,8 @@ if __name__ == "__main__":
     key = get_color_key("key.json")
     names = list(key)
     files = os.listdir(inv_dir)
-    files = ["char_default_idle0.png", "char_default_idle1.png"]
+    files = ["char_default_idle_front0.png", "char_default_idle_front1.png",
+             "char_default_idle_front2.png", "char_default_idle_front3.png"]
     for file in files:
         for name in names:
             new_name = file.replace("default", name)

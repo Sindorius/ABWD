@@ -114,9 +114,6 @@
   <tile id="26">
    <image width="24" height="24" source="./res/sprites/objects/tile_yellow3_paint_incorrect.png"/>
   </tile>
-  <tile id="27">
-   <image width="24" height="24" source="./res/sprites/unimplemented trying/select_tile.png"/>
-  </tile>
  </tileset>
  <layer name="Floor" width="13" height="19">
   <data encoding="base64" compression="zlib">
