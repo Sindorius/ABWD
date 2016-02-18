@@ -303,7 +303,8 @@ void Villain::pteraSummon() {
 		behavior_timer--;
 	}
 	else {
-		behavior_unlocked = true;
+		behavior = 0;
+		behavior_timer = 300;
 		ptera->peace();
 	}
 }

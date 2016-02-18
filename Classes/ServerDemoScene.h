@@ -107,6 +107,7 @@ public:
 	LevelManager levelmanager;
 	void loadLevel(int level);
 	void setupPaintTiles();
+	int idle1, idle2, idle3, idle4;
 };
 
 #endif // __SERVERDEMO_SCENE_H__

@@ -172,7 +172,26 @@ void ServerDemo::update(float dt)
 	CCLOG(std::to_string(dt).c_str());
 
 	io_service_p->poll();
-
+	idle1--;
+	idle2--;
+	idle3--;
+	idle4--;
+	if (idle1 < 0) {
+		players[0]->setAnim("p1idle");
+		idle1++;
+	}
+	if (idle2 < 0) {
+		idle2++;
+		players[1]->setAnim("p2idle");
+	}
+	if (idle3 < 0) {
+		players[2]->setAnim("p3idle");
+		idle3++;
+	}
+	if (idle4 < 0) {
+		players[3]->setAnim("p4idle");
+		idle4++;
+	}
 	//player1->setPosition(p1pos);
 	//player2->setPosition(p2pos);
 	//player3->setPosition(p3pos);
@@ -275,7 +294,7 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 	int testx = (playerPos.x + p.dx) / (levelmanager.levelmap->getTileSize().width);
 	int testy = ((levelmanager.levelmap->getMapSize().height * levelmanager.levelmap->getTileSize().height) - playerPos.y - p.dy) / (levelmanager.levelmap->getTileSize().height);
 	CCPoint tileCoord = CCPoint(testx, testy);
-	
+
 	int bkTile = blockage->getTileGIDAt(tileCoord);
 
 	if (bkTile)
@@ -288,8 +307,8 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 			auto w = tilemapvals["Collidable"].asString();
 
 			if ("true" == w) {
-				dxmove = -dxmove* 2;
-				dymove = -dymove* 2;
+				dxmove = -dxmove * 2;
+				dymove = -dymove * 2;
 			}
 		}
 	}
@@ -299,17 +318,34 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 	players[p.playernum - 1]->setPositionY(playerPos.y + dymove);
 	std::string playerstring = "p";
 	playerstring += std::to_string(p.playernum).c_str();
+	if (p.playernum == 1){
+		idle1 = 3;
+	}
+	else if (p.playernum == 2) {
+		idle2 = 3;
+	}
+	else if (p.playernum == 3) {
+		idle3 = 3;
+	}
+	else if (p.playernum == 4) {
+		idle4 = 3;
+	}
+	//players[p.playernum - 1]->setAnim(playerstring + "idle");
 	if (players[p.playernum - 1]->getPosition().y > playerPos.y) {
 		players[p.playernum - 1]->setAnim(playerstring + "up");
+		
 	}
 	else if (players[p.playernum - 1]->getPosition().y < playerPos.y) {
 		players[p.playernum - 1]->setAnim(playerstring + "down");
+		
 	}
-	if (players[p.playernum - 1]->getPosition().x > playerPos.x) {
+	else if (players[p.playernum - 1]->getPosition().x > playerPos.x) {
 		players[p.playernum - 1]->setAnim(playerstring + "right");
+		;
 	}
 	else if (players[p.playernum - 1]->getPosition().x < playerPos.x) {
 		players[p.playernum - 1]->setAnim(playerstring + "left");
+		
 	}
 
 

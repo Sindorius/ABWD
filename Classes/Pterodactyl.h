@@ -31,7 +31,7 @@ private:
 	std::string animstate = "";
 	bool running = false;
 	bool hostile = false;
-	int cap = 5;
+	int cap = 3;
 };
 
 #endif //_PTERODACTYL_HPP_

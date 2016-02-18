@@ -16,6 +16,8 @@ AnimationManager::AnimationManager()
 	walkrightanimFrames.reserve(4);
 	Vector<SpriteFrame*> paintFrames;
 	paintFrames.reserve(1);
+	Vector<SpriteFrame*> idleanimFrames;
+	idleanimFrames.reserve(4);
 	
 	walkupanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_up0.png", Rect(0, 0, 24, 48)));
 	walkupanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_up1.png", Rect(0, 0, 24, 48)));
@@ -58,6 +60,16 @@ AnimationManager::AnimationManager()
 	paintFrames.at(0)->getTexture()->setAliasTexParameters();
 	paintFrames.at(1)->getTexture()->setAliasTexParameters();
 
+	idleanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_idle_front0.png", Rect(0, 0, 24, 48)));
+	idleanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_idle_front1.png", Rect(0, 0, 24, 48)));
+	idleanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_idle_front2.png", Rect(0, 0, 24, 48)));
+	idleanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_idle_front3.png", Rect(0, 0, 24, 48)));
+	idleanimFrames.at(0)->getTexture()->setAliasTexParameters();
+	idleanimFrames.at(1)->getTexture()->setAliasTexParameters();
+	idleanimFrames.at(2)->getTexture()->setAliasTexParameters();
+	idleanimFrames.at(3)->getTexture()->setAliasTexParameters();
+
+
 	// create the animation out of the frames
 	Animation* upanimation = Animation::createWithSpriteFrames(walkupanimFrames, 0.1f);
 	cocos2d::Animate* walkupanim = Animate::create(upanimation);
@@ -72,16 +84,21 @@ AnimationManager::AnimationManager()
 	cocos2d::Animate* walkrightanim = Animate::create(rightanimation);
 	walkrightanim->retain();
 
-
 	Animation* paintanimation = Animation::createWithSpriteFrames(paintFrames, 0.1f);
 	cocos2d::Animate* paintanim = Animate::create(paintanimation);
 	paintanim->retain();
+
+	Animation* idleanimation = Animation::createWithSpriteFrames(idleanimFrames, 0.2f);
+	cocos2d::Animate* idleanim = Animate::create(idleanimation);
+	idleanim->retain();
 
 	animationmap.insert(std::pair<std::string,Animate*>(std::string("p1up"), walkupanim));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p1down"), walkdownanim));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p1left"), walkleftanim));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p1right"), walkrightanim));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p1paint"), paintanim));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("p1idle"), idleanim));
+
 
 
 	//player2 animations
@@ -96,6 +113,8 @@ AnimationManager::AnimationManager()
 	walkrightanimFrames2.reserve(4);
 	Vector<SpriteFrame*> paintFrames2;
 	paintFrames2.reserve(1);
+	Vector<SpriteFrame*> idleanimFrames2;
+	idleanimFrames2.reserve(4);
 	
 
 	walkupanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_up0.png", Rect(0, 0, 24, 48)));
@@ -139,6 +158,15 @@ AnimationManager::AnimationManager()
 	paintFrames2.at(0)->getTexture()->setAliasTexParameters();
 	paintFrames2.at(1)->getTexture()->setAliasTexParameters();
 
+	idleanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_idle_front0.png", Rect(0, 0, 24, 48)));
+	idleanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_idle_front1.png", Rect(0, 0, 24, 48)));
+	idleanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_idle_front2.png", Rect(0, 0, 24, 48)));
+	idleanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_idle_front3.png", Rect(0, 0, 24, 48)));
+	idleanimFrames2.at(0)->getTexture()->setAliasTexParameters();
+	idleanimFrames2.at(1)->getTexture()->setAliasTexParameters();
+	idleanimFrames2.at(2)->getTexture()->setAliasTexParameters();
+	idleanimFrames2.at(3)->getTexture()->setAliasTexParameters();
+
 
 	// create the animation out of the frames
 	Animation* upanimation2 = Animation::createWithSpriteFrames(walkupanimFrames2, 0.1f);
@@ -159,12 +187,18 @@ AnimationManager::AnimationManager()
 	cocos2d::Animate* paintanim2 = Animate::create(paintanimation2);
 	paintanim2->retain();
 
+	Animation* idleanimation2 = Animation::createWithSpriteFrames(idleanimFrames2, 0.2f);
+	cocos2d::Animate* idleanim2 = Animate::create(idleanimation2);
+	idleanim2->retain();
+
 
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p2up"), walkupanim2));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p2down"), walkdownanim2));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p2left"), walkleftanim2));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p2right"), walkrightanim2));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p2paint"), paintanim2));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("p2idle"), idleanim2));
+
 
 
 
@@ -180,7 +214,8 @@ AnimationManager::AnimationManager()
 	walkrightanimFrames3.reserve(4);
 	Vector<SpriteFrame*> paintFrames3;
 	paintFrames3.reserve(1);
-	//animFrames.reserve(4);
+	Vector<SpriteFrame*> idleanimFrames3;
+	idleanimFrames3.reserve(4);
 
 	walkupanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_up0.png", Rect(0, 0, 24, 48)));
 	walkupanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_up1.png", Rect(0, 0, 24, 48)));
@@ -223,6 +258,17 @@ AnimationManager::AnimationManager()
 	paintFrames3.at(0)->getTexture()->setAliasTexParameters();
 	paintFrames3.at(1)->getTexture()->setAliasTexParameters();
 
+	idleanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_idle_front0.png", Rect(0, 0, 24, 48)));
+	idleanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_idle_front1.png", Rect(0, 0, 24, 48)));
+	idleanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_idle_front2.png", Rect(0, 0, 24, 48)));
+	idleanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_idle_front3.png", Rect(0, 0, 24, 48)));
+	idleanimFrames3.at(0)->getTexture()->setAliasTexParameters();
+	idleanimFrames3.at(1)->getTexture()->setAliasTexParameters();
+	idleanimFrames3.at(2)->getTexture()->setAliasTexParameters();
+	idleanimFrames3.at(3)->getTexture()->setAliasTexParameters();
+
+
+
 	// create the animation out of the frames
 	Animation* upanimation3 = Animation::createWithSpriteFrames(walkupanimFrames3, 0.1f);
 	cocos2d::Animate* walkupanim3 = Animate::create(upanimation3);
@@ -242,12 +288,18 @@ AnimationManager::AnimationManager()
 	Animate* paintanim3 = Animate::create(paintanimation3);
 	paintanim3->retain();
 
+	Animation* idleanimation3 = Animation::createWithSpriteFrames(idleanimFrames3, 0.2f);
+	cocos2d::Animate* idleanim3 = Animate::create(idleanimation3);
+	idleanim3->retain();
+
 
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p3up"), walkupanim3));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p3down"), walkdownanim3));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p3left"), walkleftanim3));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p3right"), walkrightanim3));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p3paint"), paintanim3));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("p3idle"), idleanim3));
+
 
 
 
@@ -263,6 +315,8 @@ AnimationManager::AnimationManager()
 	walkrightanimFrames4.reserve(4);
 	Vector<SpriteFrame*> paintFrames4;
 	paintFrames4.reserve(1);
+	Vector<SpriteFrame*> idleanimFrames4;
+	idleanimFrames4.reserve(4);
 	
 	walkupanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_up0.png", Rect(0, 0, 24, 48)));
 	walkupanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_up1.png", Rect(0, 0, 24, 48)));
@@ -305,6 +359,15 @@ AnimationManager::AnimationManager()
 	paintFrames4.at(0)->getTexture()->setAliasTexParameters();
 	paintFrames4.at(1)->getTexture()->setAliasTexParameters();
 
+	idleanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_idle_front0.png", Rect(0, 0, 24, 48)));
+	idleanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_idle_front1.png", Rect(0, 0, 24, 48)));
+	idleanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_idle_front2.png", Rect(0, 0, 24, 48)));
+	idleanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_idle_front3.png", Rect(0, 0, 24, 48)));
+	idleanimFrames4.at(0)->getTexture()->setAliasTexParameters();
+	idleanimFrames4.at(1)->getTexture()->setAliasTexParameters();
+	idleanimFrames4.at(2)->getTexture()->setAliasTexParameters();
+	idleanimFrames4.at(3)->getTexture()->setAliasTexParameters();
+
 	// create the animation out of the frames
 	Animation* upanimation4 = Animation::createWithSpriteFrames(walkupanimFrames4, 0.1f);
 	cocos2d::Animate* walkupanim4 = Animate::create(upanimation4);
@@ -324,12 +387,18 @@ AnimationManager::AnimationManager()
 	Animate* paintanim4 = Animate::create(paintanimation4);
 	paintanim4->retain();
 
+	Animation* idleanimation4 = Animation::createWithSpriteFrames(idleanimFrames4, 0.2f);
+	cocos2d::Animate* idleanim4 = Animate::create(idleanimation4);
+	idleanim4->retain();
+
 
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p4up"), walkupanim4));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p4down"), walkdownanim4));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p4left"), walkleftanim4));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p4right"), walkrightanim4));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p4paint"), paintanim4));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("p4idle"), idleanim4));
+
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -358,10 +427,10 @@ AnimationManager::AnimationManager()
 	samupanimFrames.at(2)->getTexture()->setAliasTexParameters();
 	samupanimFrames.at(3)->getTexture()->setAliasTexParameters();
 
-	samdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_front_0.png", Rect(0, 0, 24, 48)));
-	samdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_front_1.png", Rect(0, 0, 24, 48)));
-	samdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_front_2.png", Rect(0, 0, 24, 48)));
-	samdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_front_3.png", Rect(0, 0, 24, 48)));
+	samdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_walk_front0.png", Rect(0, 0, 24, 48)));
+	samdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_walk_front1.png", Rect(0, 0, 24, 48)));
+	samdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_walk_front2.png", Rect(0, 0, 24, 48)));
+	samdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_walk_front3.png", Rect(0, 0, 24, 48)));
 	samdownanimFrames.at(0)->getTexture()->setAliasTexParameters();
 	samdownanimFrames.at(1)->getTexture()->setAliasTexParameters();
 	samdownanimFrames.at(2)->getTexture()->setAliasTexParameters();
@@ -445,10 +514,10 @@ AnimationManager::AnimationManager()
 	Animation* samteleportanimation = Animation::createWithSpriteFrames(samTeleportFrames, 0.3f);
 	cocos2d::Animate* samteleportanim = Animate::create(samteleportanimation);
 	samteleportanim->retain();
-	Animation* samappearanimation = Animation::createWithSpriteFrames(samAppearFrames, 0.3f);
+	Animation* samappearanimation = Animation::createWithSpriteFrames(samAppearFrames, 0.2f);
 	cocos2d::Animate* samappearanim = Animate::create(samappearanimation);
 	samappearanim->retain();
-	Animation* samwhistleanimation = Animation::createWithSpriteFrames(samWhistleFrames, 0.3f);
+	Animation* samwhistleanimation = Animation::createWithSpriteFrames(samWhistleFrames, 0.2f);
 	cocos2d::Animate* samwhistleanim = Animate::create(samwhistleanimation);
 	samwhistleanim->retain();
 
@@ -463,7 +532,7 @@ AnimationManager::AnimationManager()
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("samwhistle"), samwhistleanim));
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//Pteradactyl animations
+	//Pterodactyl animations
 	Vector<SpriteFrame*> pteraLeft;
 	samupanimFrames.reserve(7);
 	Vector<SpriteFrame*> pteraRight;
@@ -552,6 +621,11 @@ AnimationManager::AnimationManager()
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(32, "samhit"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(33, "pteraleft"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(34, "pteraright"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(35, "p1idle"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(36, "p2idle"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(37, "p3idle"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(38, "p4idle"));
+
 
 
 
