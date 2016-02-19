@@ -4,6 +4,8 @@ USING_NS_CC;
 //using boost::asio::ip::udp;
 using boost::asio::ip::tcp;
 
+#define AUDIO_ON 1 //toggles sfx on/off
+
 
 Scene* ClientDemo::createScene()
 {
@@ -173,6 +175,18 @@ bool ClientDemo::init()
 
 	// Initialize painting area 
 	setupPaintTiles();
+	
+	if (AUDIO_ON)
+	{
+		audio = CocosDenshion::SimpleAudioEngine::getInstance();
+		audio->preloadEffect("\\res\\sound\\sfx\\paint.aiff");
+		audio->preloadEffect("\\res\\sound\\sfx\\player_hit.wav");
+		audio->preloadEffect("\\res\\sound\\sfx\\sam_teleport.aiff");
+		audio->preloadEffect("\\res\\sound\\sfx\\sam_reappear.aiff");
+		audio->preloadEffect("\\res\\sound\\sfx\\sam_whistle_delay.aiff");
+		audio->preloadEffect("\\res\\sound\\sfx\\sam_hit.wav");
+		audio->preloadEffect("\\res\\sound\\sfx\\ptero_swoop.wav");
+	}
 
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(ClientDemo::KeyDown, this);
@@ -682,6 +696,10 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	//CCLOG(std::to_string(currenttilevector[0][0]).c_str());
 	//CCLOG(std::to_string(p.tilevector[0][0]).c_str());
 
+	if (AUDIO_ON)
+	{
+		processSound(p);
+	}
 }
 /*
 void ClientDemo::doReceive()
@@ -772,4 +790,110 @@ void ClientDemo::setupPaintTiles()
 void ClientDemo::centerCamera()
 {
 	CCCamera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
+}
+
+void ClientDemo::processSound(ServerPositionPacket &p) {
+
+	//	PROBLEM CASES
+	//
+	//  1. animation for getting paint and painting are the same. sfx will be the same
+	//     for both for now, but if animations could be seperated (using same sprites though)
+	//	   a seperate sfx could be used for each, if desired.
+	//
+	//	2. isEffectPlaying() has to use hash function every time, whats the overhead?
+	//	3. extend iseffectplaying() to check if ANY effect is playing, if possible!
+	//	4. BIGGEST ISSUE - SLIGHT STUTTERING WHEN AUDIO PLAYS
+
+	/* SOUND FILES
+"\\res\\sound\\sfx\\paint.aiff"
+"\\res\\sound\\sfx\\player_hit.wav"
+"\\res\\sound\\sfx\\sam_teleport.aiff"
+"\\res\\sound\\sfx\\sam_reappear.aiff"
+"\\res\\sound\\sfx\\sam_whistle_delay.aiff"
+"\\res\\sound\\sfx\\sam_hit.wav"
+"\\res\\sound\\sfx\\ptero_swoop.wav" */
+
+	switch (p.p1anim) {
+	case 5: //p1paint
+		if (audio->isEffectPlaying("\\res\\sound\\sfx\\paint.aiff") == false)
+			audio->playEffect("\\res\\sound\\sfx\\paint.aiff");
+		break;
+	case 6: //p1hit
+		if (audio->isEffectPlaying("\\res\\sound\\sfx\\player_hit.wav") == false)
+			audio->playEffect("\\res\\sound\\sfx\\player_hit.wav");
+		break;
+	default: break;
+	}
+	switch (p.p2anim) {
+	case 11: //p1paint
+		if (audio->isEffectPlaying("\\res\\sound\\sfx\\paint.aiff") == false)
+			audio->playEffect("\\res\\sound\\sfx\\paint.aiff");
+		break;
+	case 12: //p1hit
+		if (audio->isEffectPlaying("\\res\\sound\\sfx\\player_hit.wav") == false)
+			audio->playEffect("\\res\\sound\\sfx\\player_hit.wav");
+		break;
+	default: break;
+	}
+	switch (p.p3anim) {
+	case 17: //p1paint
+		if (audio->isEffectPlaying("\\res\\sound\\sfx\\paint.aiff") == false)
+			audio->playEffect("\\res\\sound\\sfx\\paint.aiff");
+		break;
+	case 18: //p1hit
+		if (audio->isEffectPlaying("\\res\\sound\\sfx\\player_hit.wav") == false)
+			audio->playEffect("\\res\\sound\\sfx\\player_hit.wav");
+		break;
+	default: break;
+	}
+	switch (p.p4anim) {
+	case 23: //p1paint
+		if (audio->isEffectPlaying("\\res\\sound\\sfx\\paint.aiff") == false)
+			audio->playEffect("\\res\\sound\\sfx\\paint.aiff");
+		break;
+	case 24: //p1hit
+		if (audio->isEffectPlaying("\\res\\sound\\sfx\\player_hit.wav") == false)
+			audio->playEffect("\\res\\sound\\sfx\\player_hit.wav");
+		break;
+	default: break;
+	}
+	switch (p.vanim) {
+	case 29: //samwarp
+		if (audio->isEffectPlaying("\\res\\sound\\sfx\\sam_teleport.aiff") == false)
+			audio->playEffect("\\res\\sound\\sfx\\sam_teleport.aiff");
+		break;
+	case 30: //samappear
+		if (audio->isEffectPlaying("\\res\\sound\\sfx\\sam_reappear.aiff") == false)
+			{
+				audio->playEffect("\\res\\sound\\sfx\\sam_reappear.aiff");
+			}
+		break;
+	case 31: //samwhistle
+		if (audio->isEffectPlaying("\\res\\sound\\sfx\\sam_whistle_delay.aiff") == false)
+			audio->playEffect("\\res\\sound\\sfx\\sam_whistle_delay.aiff");
+		break;
+	case 32: //samhit?? is this different than player hit?
+		if (audio->isEffectPlaying("\\res\\sound\\sfx\\sam_hit.wav") == false)
+			audio->playEffect("\\res\\sound\\sfx\\sam_hit.wav");
+		break;
+	default: break;
+	}
+	//have two different swoop sounds for left and right?
+	switch (p.ptanim) {
+	case 33: //pteraleft
+		if (audio->isEffectPlaying("\\res\\sound\\sfx\\sam_whistle_delay.aiff") == true)
+		{
+			if (audio->isEffectPlaying("\\res\\sound\\sfx\\ptero_swoop_softer.wav") == false)
+			{
+				audio->playEffect("\\res\\sound\\sfx\\ptero_swoop_softer.wav", true);
+			}
+		}
+		if (audio->isEffectPlaying("\\res\\sound\\sfx\\sam_whistle_delay.aiff") == false)
+		{
+			audio->stopEffect("\\res\\sound\\sfx\\ptero_swoop_softer.wav");
+		}
+		break;
+	default: break;
+	}
+
 }
