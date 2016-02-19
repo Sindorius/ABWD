@@ -140,6 +140,17 @@ bool SimpleAudioEngine::isBackgroundMusicPlaying()
     return sharedMusic().IsPlaying();
 }
 
+bool SimpleAudioEngine::isEffectPlaying(const char* pszFilePath)
+{
+	EffectList::iterator p = sharedList().find(_Hash(pszFilePath));
+	if (p != sharedList().end())
+	{
+		return p->second->IsPlaying();
+	}
+
+	return false;
+}
+
 //////////////////////////////////////////////////////////////////////////
 // effect function
 //////////////////////////////////////////////////////////////////////////
@@ -167,6 +178,15 @@ void SimpleAudioEngine::stopEffect(unsigned int nSoundId)
     {
         p->second->Stop();
     }
+}
+
+void SimpleAudioEngine::stopEffect(const char* pszFilePath)
+{
+	EffectList::iterator p = sharedList().find(_Hash(pszFilePath));
+	if (p != sharedList().end())
+	{
+		p->second->Stop();
+	}
 }
 
 void SimpleAudioEngine::preloadEffect(const char* pszFilePath)
