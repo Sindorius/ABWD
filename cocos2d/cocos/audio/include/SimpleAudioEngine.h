@@ -147,6 +147,8 @@ public:
     // 
     // properties
     //
+    
+    virtual bool isEffectPlaying(const char* pszFilePath);
 
     /**
      * The volume of the background music within the range of 0.0 as the minimum and 1.0 as the maximum.
@@ -226,6 +228,8 @@ public:
      * @param soundId The return value of function playEffect.
      */
     virtual void stopEffect(unsigned int soundId);
+    
+    virtual void stopEffect(const char* pszFilePath);
 
     /**
      * Stop all playing sound effects.
