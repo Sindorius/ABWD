@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Villain.h"
 #include "Pterodactyl.h"
+#include "SimpleAudioEngine.h"
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
@@ -116,6 +117,9 @@ public:
 		{ 1,1,1,1,1 },
 		{ 1,1,1,1,1 }
 	} };
+	
+	CocosDenshion::SimpleAudioEngine* audio;
+	void processSound(ServerPositionPacket &p);
 	
 	//currentarray = keytilevalues;
 	
