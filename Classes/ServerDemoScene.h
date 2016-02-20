@@ -108,6 +108,9 @@ public:
 	void loadLevel(int level);
 	void setupPaintTiles();
 	int idle1, idle2, idle3, idle4;
+	std::vector<std::vector<char>> blankvector;
+	bool sendmap = false;
+	ServerPositionPacket createPacket();
 };
 
 #endif // __SERVERDEMO_SCENE_H__

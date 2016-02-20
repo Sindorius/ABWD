@@ -200,27 +200,20 @@ void ServerDemo::update(float dt)
 	villain->runAI(&players);
 	
 
-	ServerPositionPacket p(
-		pterodactyl->getPositionX(), pterodactyl->getPositionY(), animationmanager.charFromString(pterodactyl->getAnim()),
-		villain->getPositionX(), villain->getPositionY(), animationmanager.charFromString(villain->getAnim()),
-		player1->getPositionX(), player1->getPositionY(), animationmanager.charFromString(player1->getAnim()),
-		player2->getPositionX(), player2->getPositionY(), animationmanager.charFromString(player2->getAnim()),
-		player3->getPositionX(), player3->getPositionY(), animationmanager.charFromString(player3->getAnim()),
-		player4->getPositionX(), player4->getPositionY(), animationmanager.charFromString(player4->getAnim()), levelmanager.puzzle.currenttilevector);
-
 	player1->setZOrder(-player1->getPositionY());
 	player2->setZOrder(-player2->getPositionY());
 	player3->setZOrder(-player3->getPositionY());
 	player4->setZOrder(-player4->getPositionY());
 	villain->setZOrder(-villain->getPositionY());
 
-	mytcpserverp->sendPacket(p);
+
 
 	// Villain checks if she's on a player, messes everything up if she's on them
 	for (Player* p : players)
 	{
 		if (abs(villain->getPositionX() - p->getPositionX()) < 5 && abs(villain->getPositionY() - p->getPositionY()) < 5)
 		{
+			sendmap = true;
 			for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 			{
 				for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
@@ -231,6 +224,7 @@ void ServerDemo::update(float dt)
 						levelmanager.puzzle.currenttilevector[i][j] = 1;
 						tilespritevector[i][j]->setColor("clear");
 						tilespritevector[i][j]->refreshColor();
+						
 					}
 				}
 			}
@@ -239,6 +233,7 @@ void ServerDemo::update(float dt)
 
 		if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() - p->getPositionX()) < 5 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 5)
 		{
+			sendmap = true;
 			for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 			{
 				for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
@@ -249,6 +244,7 @@ void ServerDemo::update(float dt)
 						levelmanager.puzzle.currenttilevector[i][j] = 1;
 						tilespritevector[i][j]->setColor("clear");
 						tilespritevector[i][j]->refreshColor();
+						
 					}
 				}
 			}
@@ -260,8 +256,12 @@ void ServerDemo::update(float dt)
 	if (levelmanager.puzzle.isSolved())
 	{
 		loadLevel(2);
+		sendmap = true;
 	}
 
+	mytcpserverp->sendPacket(createPacket());
+
+	io_service_p->poll();
 
 }
 
@@ -486,7 +486,7 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 						levelmanager.puzzle.currenttilevector[i][j] = 60;
 					}
 				}
-
+				sendmap = true;
 				levelmanager.puzzle.whichplayertilesvector[i][j] = playernum;
 			}
 		}
@@ -600,4 +600,37 @@ void ServerDemo::setupPaintTiles()
 		}
 	}
 
+}
+
+
+ServerPositionPacket ServerDemo::createPacket()
+{
+
+	if (sendmap)
+	{
+		ServerPositionPacket p(
+			pterodactyl->getPositionX(), pterodactyl->getPositionY(), animationmanager.charFromString(pterodactyl->getAnim()),
+			villain->getPositionX(), villain->getPositionY(), animationmanager.charFromString(villain->getAnim()),
+			player1->getPositionX(), player1->getPositionY(), animationmanager.charFromString(player1->getAnim()),
+			player2->getPositionX(), player2->getPositionY(), animationmanager.charFromString(player2->getAnim()),
+			player3->getPositionX(), player3->getPositionY(), animationmanager.charFromString(player3->getAnim()),
+			player4->getPositionX(), player4->getPositionY(), animationmanager.charFromString(player4->getAnim()), levelmanager.puzzle.currenttilevector, std::vector<ServerMessage>());
+		//		player4->getPositionX(), player4->getPositionY(), animationmanager.charFromString(player4->getAnim()), std::vector<std::vector<char>>());
+		sendmap = false;
+		return p;
+	}
+	else
+	{
+		ServerPositionPacket p(
+			pterodactyl->getPositionX(), pterodactyl->getPositionY(), animationmanager.charFromString(pterodactyl->getAnim()),
+			villain->getPositionX(), villain->getPositionY(), animationmanager.charFromString(villain->getAnim()),
+			player1->getPositionX(), player1->getPositionY(), animationmanager.charFromString(player1->getAnim()),
+			player2->getPositionX(), player2->getPositionY(), animationmanager.charFromString(player2->getAnim()),
+			player3->getPositionX(), player3->getPositionY(), animationmanager.charFromString(player3->getAnim()),
+			player4->getPositionX(), player4->getPositionY(), animationmanager.charFromString(player4->getAnim()), blankvector, std::vector<ServerMessage>());
+		//		player4->getPositionX(), player4->getPositionY(), animationmanager.charFromString(player4->getAnim()), std::vector<std::vector<char>>());
+		return p;
+		//mytcpserverp->sendPacket(p);
+	}
+		
 }

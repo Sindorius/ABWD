@@ -115,6 +115,15 @@ public:
     /** Exchanges the front and back buffers, subclass must implement this method. */
     virtual void swapBuffers() = 0;
 
+	/** Sets the number of frames to wait before swapping buffers.  0 = no vsync 1 = 1 vsync */
+	/*EXPERIMENTAL*/
+	virtual void setSwapInterval(int interval) = 0;
+
+	/** gets the current refresh rate of the monitor */
+	/*EXPERIMENTAL*/
+	virtual int getRunningRefreshRate() = 0;
+
+	
     /** Open or close IME keyboard , subclass must implement this method. 
      *
      * @param open Open or close IME keyboard.

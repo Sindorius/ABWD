@@ -463,6 +463,18 @@ void GLViewImpl::swapBuffers()
         glfwSwapBuffers(_mainWindow);
 }
 
+void GLViewImpl::setSwapInterval(int interval)
+{
+	if (_mainWindow)
+		glfwSwapInterval(interval);
+}
+
+int GLViewImpl::getRunningRefreshRate()
+{
+	return glfwGetVideoMode(glfwGetPrimaryMonitor())->refreshRate;
+}
+
+
 bool GLViewImpl::windowShouldClose()
 {
     if(_mainWindow)

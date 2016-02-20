@@ -11,13 +11,15 @@
 #include <cereal/types/vector.hpp>
 #include <cereal/types/string.hpp>
 
+#include "ServerMessage.hpp"
+
 class ServerPositionPacket
 {
 private:
 	friend class cereal::access;
 	template<class Archive>
 	void serialize(Archive & ar, const unsigned char version)
-	{	
+	{
 		ar & ptx;
 		ar & pty;
 		ar & ptanim;
@@ -38,6 +40,7 @@ private:
 		ar & p4anim;
 		//ar & tilevalues;
 		ar & tilevector;
+		ar & messagevector;
 	}
 
 public:
@@ -62,11 +65,14 @@ public:
 	//std::array<std::array<char, 6>, 6> tilevalues;
 	std::vector<std::vector<char>> tilevector;
 	//boost::multi_array<char, 2> currenttilevalues;
-
-	ServerPositionPacket(){};
-	ServerPositionPacket(float pta, float ptb, char ptc, float va, float vb, char vc, float p1a, float p1b, char p1c, float p2a, float p2b, char p2c, float p3a, float p3b, char p3c, float p4a, float p4b, char p4c, std::vector<std::vector<char>> veca) :
-		ptx(pta), pty(ptb), ptanim(ptc), vx(va), vy(vb), vanim(vc), p1x(p1a), p1y(p1b), p1anim(p1c), p2x(p2a), p2y(p2b), p2anim(p2c), p3x(p3a), p3y(p3b), p3anim(p3c), p4x(p4a), p4y(p4b), p4anim(p4c), tilevector(veca)
+	std::vector<ServerMessage> messagevector;
+	ServerPositionPacket() {};
+	ServerPositionPacket(float pta, float ptb, char ptc, float va, float vb, char vc, float p1a, float p1b, char p1c, float p2a, float p2b, char p2c, float p3a, float p3b, char p3c, float p4a, float p4b, char p4c, std::vector<std::vector<char>> veca, std::vector<ServerMessage> vecm) :
+		ptx(pta), pty(ptb), ptanim(ptc), vx(va), vy(vb), vanim(vc), p1x(p1a), p1y(p1b), p1anim(p1c), p2x(p2a), p2y(p2b), p2anim(p2c), p3x(p3a), p3y(p3b), p3anim(p3c), p4x(p4a), p4y(p4b), p4anim(p4c), tilevector(veca), messagevector(vecm)
 	{}
+	//ServerPositionPacket(float pta, float ptb, char ptc, float va, float vb, char vc, float p1a, float p1b, char p1c, float p2a, float p2b, char p2c, float p3a, float p3b, char p3c, float p4a, float p4b, char p4c, std::vector<std::vector<char>> veca) :
+	//	ptx(pta), pty(ptb), ptanim(ptc), vx(va), vy(vb), vanim(vc), p1x(p1a), p1y(p1b), p1anim(p1c), p2x(p2a), p2y(p2b), p2anim(p2c), p3x(p3a), p3y(p3b), p3anim(p3c), p4x(p4a), p4y(p4b), p4anim(p4c), tilevector(veca)
+	//{}
 };
 
 #endif //  __SERVERPOSITIONPACKET_H__

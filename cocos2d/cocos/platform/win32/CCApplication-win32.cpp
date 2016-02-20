@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include <algorithm>
 #include "platform/CCFileUtils.h"
 #include <shellapi.h>
-#include <boost/thread.hpp>
+#include <boost\thread.hpp>
 #include <iostream>
 
 /**
@@ -57,19 +57,22 @@ Application::Application()
 
 Application::~Application()
 {
-    CC_ASSERT(this == sm_pSharedApplication);
+  /*
+	CC_ASSERT(this == sm_pSharedApplication);
     sm_pSharedApplication = nullptr;
 	UINT TARGET_RESOLUTION = 1;         // 1-millisecond target resolution
 	TIMECAPS tc;
 	UINT     wTimerRes;
 	wTimerRes = std::min(std::max(tc.wPeriodMin, TARGET_RESOLUTION), tc.wPeriodMax);
 	timeEndPeriod(wTimerRes);
+	*/
 }
 
 int Application::run()
 {
     PVRFrameEnableControlWindow(false);
 
+	/*
 	UINT TARGET_RESOLUTION = 1;         // 1-millisecond target resolution
 	TIMECAPS tc;
 	UINT     wTimerRes;
@@ -81,7 +84,7 @@ int Application::run()
 
 	wTimerRes = std::min(std::max(tc.wPeriodMin, TARGET_RESOLUTION), tc.wPeriodMax);
 	timeBeginPeriod(wTimerRes);
-
+	*/
 
     // Main message loop:
     LARGE_INTEGER nLast;
@@ -102,10 +105,22 @@ int Application::run()
 
     // Retain glview to avoid glview being released in the while loop
     glview->retain();
+	
+	float animint = director->getAnimationInterval();
+	CCLOG("from animint");
+	CCLOG(std::to_string(animint).c_str());
+	int refreshrate = glview->getRunningRefreshRate();
+	CCLOG("from get refresh rate");
+	CCLOG(std::to_string(refreshrate).c_str());
+	int newswapinterval = refreshrate*animint;
+	CCLOG("from newswapinterval");
+	CCLOG(std::to_string(newswapinterval).c_str());
+	glview->setSwapInterval(1);
 
     while(!glview->windowShouldClose())
     {
-        QueryPerformanceCounter(&nNow);
+        
+		QueryPerformanceCounter(&nNow);
         if (nNow.QuadPart - nLast.QuadPart > _animationInterval.QuadPart)
         {
             nLast.QuadPart = nNow.QuadPart - (nNow.QuadPart % _animationInterval.QuadPart);
@@ -115,8 +130,14 @@ int Application::run()
         }
         else
         {
-			boost::this_thread::sleep(boost::posix_time::milliseconds(0));
+			//director->getRunningScene()->render(director->getRenderer());
+			//glview->pollEvents();
+			//boost::this_thread::sleep(boost::posix_time::milliseconds(0));
         }
+		
+		//director->mainLoop();
+		//glview->pollEvents();
+
     }
 
     // Director should still do a cleanup if the window was closed manually.
