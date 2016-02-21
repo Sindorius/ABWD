@@ -151,6 +151,17 @@ bool SimpleAudioEngine::isEffectPlaying(const char* pszFilePath)
 	return false;
 }
 
+bool SimpleAudioEngine::isEffectPlaying(unsigned int nSoundId)
+{
+	EffectList::iterator p = sharedList().find(nSoundId);
+	if (p != sharedList().end())
+	{
+		return p->second->IsPlaying();
+	}
+
+	return false;
+}
+
 //////////////////////////////////////////////////////////////////////////
 // effect function
 //////////////////////////////////////////////////////////////////////////
@@ -189,7 +200,7 @@ void SimpleAudioEngine::stopEffect(const char* pszFilePath)
 	}
 }
 
-void SimpleAudioEngine::preloadEffect(const char* pszFilePath)
+unsigned int SimpleAudioEngine::preloadEffect(const char* pszFilePath)
 {
     int nRet = 0;
     do 
@@ -210,6 +221,8 @@ void SimpleAudioEngine::preloadEffect(const char* pszFilePath)
         sharedList().erase(nRet);
         nRet = 0;
     } while (0);
+    
+    return nRet;
 }
 
 void SimpleAudioEngine::pauseEffect(unsigned int nSoundId)
