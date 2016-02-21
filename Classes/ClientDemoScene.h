@@ -118,7 +118,6 @@ public:
 		{ 1,1,1,1,1 }
 	} };
 	
-	CocosDenshion::SimpleAudioEngine* audio;
 	void processSound(ServerPositionPacket &p);
 	
 	//currentarray = keytilevalues;
