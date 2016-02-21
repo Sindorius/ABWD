@@ -178,14 +178,13 @@ bool ClientDemo::init()
 	
 	if (AUDIO_ON)
 	{
-		audio = CocosDenshion::SimpleAudioEngine::getInstance();
-		audio->preloadEffect("\\res\\sound\\sfx\\paint.aiff");
-		audio->preloadEffect("\\res\\sound\\sfx\\player_hit.wav");
-		audio->preloadEffect("\\res\\sound\\sfx\\sam_teleport.aiff");
-		audio->preloadEffect("\\res\\sound\\sfx\\sam_reappear.aiff");
-		audio->preloadEffect("\\res\\sound\\sfx\\sam_whistle_delay.aiff");
-		audio->preloadEffect("\\res\\sound\\sfx\\sam_hit.wav");
-		audio->preloadEffect("\\res\\sound\\sfx\\ptero_swoop.wav");
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\paint.aiff");
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\player_hit.wav");
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\sam_teleport.aiff");
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\sam_reappear.aiff");
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\sam_whistle_delay.aiff");
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\sam_hit.wav");
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\ptero_swoop.wav");
 	}
 
 	auto keyListener = EventListenerKeyboard::create();
@@ -815,82 +814,82 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 	switch (p.p1anim) {
 	case 5: //p1paint
-		if (audio->isEffectPlaying("\\res\\sound\\sfx\\paint.aiff") == false)
-			audio->playEffect("\\res\\sound\\sfx\\paint.aiff");
+		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\paint.aiff") == false)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\paint.aiff");
 		break;
 	case 6: //p1hit
-		if (audio->isEffectPlaying("\\res\\sound\\sfx\\player_hit.wav") == false)
-			audio->playEffect("\\res\\sound\\sfx\\player_hit.wav");
+		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\player_hit.wav") == false)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\player_hit.wav");
 		break;
 	default: break;
 	}
 	switch (p.p2anim) {
 	case 11: //p1paint
-		if (audio->isEffectPlaying("\\res\\sound\\sfx\\paint.aiff") == false)
-			audio->playEffect("\\res\\sound\\sfx\\paint.aiff");
+		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\paint.aiff") == false)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\paint.aiff");
 		break;
 	case 12: //p1hit
-		if (audio->isEffectPlaying("\\res\\sound\\sfx\\player_hit.wav") == false)
-			audio->playEffect("\\res\\sound\\sfx\\player_hit.wav");
+		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\player_hit.wav") == false)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\player_hit.wav");
 		break;
 	default: break;
 	}
 	switch (p.p3anim) {
 	case 17: //p1paint
-		if (audio->isEffectPlaying("\\res\\sound\\sfx\\paint.aiff") == false)
-			audio->playEffect("\\res\\sound\\sfx\\paint.aiff");
+		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\paint.aiff") == false)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\paint.aiff");
 		break;
 	case 18: //p1hit
-		if (audio->isEffectPlaying("\\res\\sound\\sfx\\player_hit.wav") == false)
-			audio->playEffect("\\res\\sound\\sfx\\player_hit.wav");
+		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\player_hit.wav") == false)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\player_hit.wav");
 		break;
 	default: break;
 	}
 	switch (p.p4anim) {
 	case 23: //p1paint
-		if (audio->isEffectPlaying("\\res\\sound\\sfx\\paint.aiff") == false)
-			audio->playEffect("\\res\\sound\\sfx\\paint.aiff");
+		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\paint.aiff") == false)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\paint.aiff");
 		break;
 	case 24: //p1hit
-		if (audio->isEffectPlaying("\\res\\sound\\sfx\\player_hit.wav") == false)
-			audio->playEffect("\\res\\sound\\sfx\\player_hit.wav");
+		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\player_hit.wav") == false)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\player_hit.wav");
 		break;
 	default: break;
 	}
 	switch (p.vanim) {
 	case 29: //samwarp
-		if (audio->isEffectPlaying("\\res\\sound\\sfx\\sam_teleport.aiff") == false)
-			audio->playEffect("\\res\\sound\\sfx\\sam_teleport.aiff");
+		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\sam_teleport.aiff") == false)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\sam_teleport.aiff");
 		break;
 	case 30: //samappear
-		if (audio->isEffectPlaying("\\res\\sound\\sfx\\sam_reappear.aiff") == false)
+		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\sam_reappear.aiff") == false)
 			{
-				audio->playEffect("\\res\\sound\\sfx\\sam_reappear.aiff");
+				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\sam_reappear.aiff");
 			}
 		break;
 	case 31: //samwhistle
-		if (audio->isEffectPlaying("\\res\\sound\\sfx\\sam_whistle_delay.aiff") == false)
-			audio->playEffect("\\res\\sound\\sfx\\sam_whistle_delay.aiff");
+		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\sam_whistle_delay.aiff") == false)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\sam_whistle_delay.aiff");
 		break;
 	case 32: //samhit?? is this different than player hit?
-		if (audio->isEffectPlaying("\\res\\sound\\sfx\\sam_hit.wav") == false)
-			audio->playEffect("\\res\\sound\\sfx\\sam_hit.wav");
+		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\sam_hit.wav") == false)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\sam_hit.wav");
 		break;
 	default: break;
 	}
 	//have two different swoop sounds for left and right?
 	switch (p.ptanim) {
 	case 33: //pteraleft
-		if (audio->isEffectPlaying("\\res\\sound\\sfx\\sam_whistle_delay.aiff") == true)
+		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\sam_whistle_delay.aiff") == true)
 		{
-			if (audio->isEffectPlaying("\\res\\sound\\sfx\\ptero_swoop_softer.wav") == false)
+			if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\ptero_swoop_softer.wav") == false)
 			{
-				audio->playEffect("\\res\\sound\\sfx\\ptero_swoop_softer.wav", true);
+				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\ptero_swoop_softer.wav", true);
 			}
 		}
-		if (audio->isEffectPlaying("\\res\\sound\\sfx\\sam_whistle_delay.aiff") == false)
+		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying("\\res\\sound\\sfx\\sam_whistle_delay.aiff") == false)
 		{
-			audio->stopEffect("\\res\\sound\\sfx\\ptero_swoop_softer.wav");
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->stopEffect("\\res\\sound\\sfx\\ptero_swoop_softer.wav");
 		}
 		break;
 	default: break;
