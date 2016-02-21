@@ -5,6 +5,7 @@ USING_NS_CC;
 using boost::asio::ip::tcp;
 
 #define AUDIO_ON 1 //toggles sfx on/off
+#define MUSIC_ON 1 //toggles whether background music is on/off
 
 
 Scene* ClientDemo::createScene()
@@ -178,6 +179,7 @@ bool ClientDemo::init()
 	
 	if (AUDIO_ON)
 	{
+		//preload audio assets
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\paint.aiff");
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\player_hit.wav");
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\sam_teleport.aiff");
@@ -185,6 +187,13 @@ bool ClientDemo::init()
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\sam_whistle_delay.aiff");
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\sam_hit.wav");
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\ptero_swoop.wav");
+		
+		if (MUSIC_ON)
+		{
+			//run background music
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("\\res\\sound\\music\\music_1.mp3", true);
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.2);
+		}
 	}
 
 	auto keyListener = EventListenerKeyboard::create();
