@@ -197,7 +197,7 @@ bool ClientDemo::init()
 		if (MUSIC_ON)
 		{
 			//run background music
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("\\res\\sound\\music\\music_1.wav", true);
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("\\res\\sound\\music\\music_1.mp3", true);
 			CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.2);
 		}
 	}
