@@ -118,6 +118,7 @@ public:
 		{ 1,1,1,1,1 }
 	} };
 	
+	std::vector<unsigned int> soundIDList; //keeps list of unique sound IDs
 	void processSound(ServerPositionPacket &p);
 	
 	//currentarray = keytilevalues;
