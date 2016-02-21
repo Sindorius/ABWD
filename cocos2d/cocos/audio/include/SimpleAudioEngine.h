@@ -149,6 +149,8 @@ public:
     //
     
     virtual bool isEffectPlaying(const char* pszFilePath);
+    
+    virtual bool isEffectPlaying(unsigned int nSoundId);
 
     /**
      * The volume of the background music within the range of 0.0 as the minimum and 1.0 as the maximum.
@@ -244,7 +246,7 @@ public:
      * @param filePath The path of the effect file.
      * @js NA
      */
-    virtual void preloadEffect(const char* filePath);
+    virtual unsigned int preloadEffect(const char* filePath);
 
     /**
      * Unload the preloaded effect from internal buffer.
