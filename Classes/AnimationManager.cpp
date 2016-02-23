@@ -28,28 +28,28 @@ AnimationManager::AnimationManager()
 	walkupanimFrames.at(2)->getTexture()->setAliasTexParameters();
 	walkupanimFrames.at(3)->getTexture()->setAliasTexParameters();
 
-	walkdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_down0.png", Rect(0, 0, 24, 48)));
-	walkdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_down1.png", Rect(0, 0, 24, 48)));
-	walkdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_down2.png", Rect(0, 0, 24, 48)));
-	walkdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_down3.png", Rect(0, 0, 24, 48)));
+	walkdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_down0.png", Rect(0, 0, 24, 46)));
+	walkdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_down1.png", Rect(0, 0, 24, 46)));
+	walkdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_down2.png", Rect(0, 0, 24, 46)));
+	walkdownanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_down3.png", Rect(0, 0, 24, 46)));
 	walkdownanimFrames.at(0)->getTexture()->setAliasTexParameters();
 	walkdownanimFrames.at(1)->getTexture()->setAliasTexParameters();
 	walkdownanimFrames.at(2)->getTexture()->setAliasTexParameters();
 	walkdownanimFrames.at(3)->getTexture()->setAliasTexParameters();
 
-	walkleftanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_left0.png", Rect(0, 0, 24, 48)));
-	walkleftanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_left1.png", Rect(0, 0, 24, 48)));
-	walkleftanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_left2.png", Rect(0, 0, 24, 48)));
-	walkleftanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_left3.png", Rect(0, 0, 24, 48)));
+	walkleftanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_left0.png", Rect(0, 0, 22, 47)));
+	walkleftanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_left1.png", Rect(0, 0, 22, 47)));
+	walkleftanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_left2.png", Rect(0, 0, 22, 47)));
+	walkleftanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_left3.png", Rect(0, 0, 22, 47)));
 	walkleftanimFrames.at(0)->getTexture()->setAliasTexParameters();
 	walkleftanimFrames.at(1)->getTexture()->setAliasTexParameters();
 	walkleftanimFrames.at(2)->getTexture()->setAliasTexParameters();
 	walkleftanimFrames.at(3)->getTexture()->setAliasTexParameters();
 
-	walkrightanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_right0.png", Rect(0, 0, 24, 48)));
-	walkrightanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_right1.png", Rect(0, 0, 24, 48)));
-	walkrightanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_right2.png", Rect(0, 0, 24, 48)));
-	walkrightanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_right3.png", Rect(0, 0, 24, 48)));
+	walkrightanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_right0.png", Rect(0, 0, 22, 47)));
+	walkrightanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_right1.png", Rect(0, 0, 22, 47)));
+	walkrightanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_right2.png", Rect(0, 0, 22, 47)));
+	walkrightanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_walking_right3.png", Rect(0, 0, 22, 47)));
 	walkrightanimFrames.at(0)->getTexture()->setAliasTexParameters();
 	walkrightanimFrames.at(1)->getTexture()->setAliasTexParameters();
 	walkrightanimFrames.at(2)->getTexture()->setAliasTexParameters();
@@ -60,10 +60,10 @@ AnimationManager::AnimationManager()
 	paintFrames.at(0)->getTexture()->setAliasTexParameters();
 	paintFrames.at(1)->getTexture()->setAliasTexParameters();
 
-	idleanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_idle_front0.png", Rect(0, 0, 24, 48)));
-	idleanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_idle_front1.png", Rect(0, 0, 24, 48)));
-	idleanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_idle_front2.png", Rect(0, 0, 24, 48)));
-	idleanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_idle_front3.png", Rect(0, 0, 24, 48)));
+	idleanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_idle_front0.png", Rect(0, 0, 25, 47)));
+	idleanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_idle_front1.png", Rect(0, 0, 25, 47)));
+	idleanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_idle_front2.png", Rect(0, 0, 25, 47)));
+	idleanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_red_idle_front3.png", Rect(0, 0, 25, 47)));
 	idleanimFrames.at(0)->getTexture()->setAliasTexParameters();
 	idleanimFrames.at(1)->getTexture()->setAliasTexParameters();
 	idleanimFrames.at(2)->getTexture()->setAliasTexParameters();
@@ -126,28 +126,28 @@ AnimationManager::AnimationManager()
 	walkupanimFrames2.at(2)->getTexture()->setAliasTexParameters();
 	walkupanimFrames2.at(3)->getTexture()->setAliasTexParameters();
 
-	walkdownanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_down0.png", Rect(0, 0, 24, 48)));
-	walkdownanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_down1.png", Rect(0, 0, 24, 48)));
-	walkdownanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_down2.png", Rect(0, 0, 24, 48)));
-	walkdownanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_down3.png", Rect(0, 0, 24, 48)));
+	walkdownanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_down0.png", Rect(0, 0, 24, 46)));
+	walkdownanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_down1.png", Rect(0, 0, 24, 46)));
+	walkdownanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_down2.png", Rect(0, 0, 24, 46)));
+	walkdownanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_down3.png", Rect(0, 0, 24, 46)));
 	walkdownanimFrames2.at(0)->getTexture()->setAliasTexParameters();
 	walkdownanimFrames2.at(1)->getTexture()->setAliasTexParameters();
 	walkdownanimFrames2.at(2)->getTexture()->setAliasTexParameters();
 	walkdownanimFrames2.at(3)->getTexture()->setAliasTexParameters();
 
-	walkleftanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_left0.png", Rect(0, 0, 24, 48)));
-	walkleftanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_left1.png", Rect(0, 0, 24, 48)));
-	walkleftanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_left2.png", Rect(0, 0, 24, 48)));
-	walkleftanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_left3.png", Rect(0, 0, 24, 48)));
+	walkleftanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_left0.png", Rect(0, 0, 22, 47)));
+	walkleftanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_left1.png", Rect(0, 0, 22, 47)));
+	walkleftanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_left2.png", Rect(0, 0, 22, 47)));
+	walkleftanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_left3.png", Rect(0, 0, 22, 47)));
 	walkleftanimFrames2.at(0)->getTexture()->setAliasTexParameters();
 	walkleftanimFrames2.at(1)->getTexture()->setAliasTexParameters();
 	walkleftanimFrames2.at(2)->getTexture()->setAliasTexParameters();
 	walkleftanimFrames2.at(3)->getTexture()->setAliasTexParameters();
 
-	walkrightanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_right0.png", Rect(0, 0, 24, 48)));
-	walkrightanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_right1.png", Rect(0, 0, 24, 48)));
-	walkrightanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_right2.png", Rect(0, 0, 24, 48)));
-	walkrightanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_right3.png", Rect(0, 0, 24, 48)));
+	walkrightanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_right0.png", Rect(0, 0, 22, 47)));
+	walkrightanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_right1.png", Rect(0, 0, 22, 47)));
+	walkrightanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_right2.png", Rect(0, 0, 22, 47)));
+	walkrightanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_walking_right3.png", Rect(0, 0, 22, 47)));
 	walkrightanimFrames2.at(0)->getTexture()->setAliasTexParameters();
 	walkrightanimFrames2.at(1)->getTexture()->setAliasTexParameters();
 	walkrightanimFrames2.at(2)->getTexture()->setAliasTexParameters();
@@ -158,10 +158,10 @@ AnimationManager::AnimationManager()
 	paintFrames2.at(0)->getTexture()->setAliasTexParameters();
 	paintFrames2.at(1)->getTexture()->setAliasTexParameters();
 
-	idleanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_idle_front0.png", Rect(0, 0, 24, 48)));
-	idleanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_idle_front1.png", Rect(0, 0, 24, 48)));
-	idleanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_idle_front2.png", Rect(0, 0, 24, 48)));
-	idleanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_idle_front3.png", Rect(0, 0, 24, 48)));
+	idleanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_idle_front0.png", Rect(0, 0, 25, 47)));
+	idleanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_idle_front1.png", Rect(0, 0, 25, 47)));
+	idleanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_idle_front2.png", Rect(0, 0, 25, 47)));
+	idleanimFrames2.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_blue_idle_front3.png", Rect(0, 0, 25, 47)));
 	idleanimFrames2.at(0)->getTexture()->setAliasTexParameters();
 	idleanimFrames2.at(1)->getTexture()->setAliasTexParameters();
 	idleanimFrames2.at(2)->getTexture()->setAliasTexParameters();
@@ -226,28 +226,28 @@ AnimationManager::AnimationManager()
 	walkupanimFrames3.at(2)->getTexture()->setAliasTexParameters();
 	walkupanimFrames3.at(3)->getTexture()->setAliasTexParameters();
 
-	walkdownanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_down0.png", Rect(0, 0, 24, 48)));
-	walkdownanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_down1.png", Rect(0, 0, 24, 48)));
-	walkdownanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_down2.png", Rect(0, 0, 24, 48)));
-	walkdownanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_down3.png", Rect(0, 0, 24, 48)));
+	walkdownanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_down0.png", Rect(0, 0, 24, 46)));
+	walkdownanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_down1.png", Rect(0, 0, 24, 46)));
+	walkdownanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_down2.png", Rect(0, 0, 24, 46)));
+	walkdownanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_down3.png", Rect(0, 0, 24, 46)));
 	walkdownanimFrames3.at(0)->getTexture()->setAliasTexParameters();
 	walkdownanimFrames3.at(1)->getTexture()->setAliasTexParameters();
 	walkdownanimFrames3.at(2)->getTexture()->setAliasTexParameters();
 	walkdownanimFrames3.at(3)->getTexture()->setAliasTexParameters();
 
-	walkleftanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_left0.png", Rect(0, 0, 24, 48)));
-	walkleftanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_left1.png", Rect(0, 0, 24, 48)));
-	walkleftanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_left2.png", Rect(0, 0, 24, 48)));
-	walkleftanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_left3.png", Rect(0, 0, 24, 48)));
+	walkleftanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_left0.png", Rect(0, 0, 22, 47)));
+	walkleftanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_left1.png", Rect(0, 0, 22, 47)));
+	walkleftanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_left2.png", Rect(0, 0, 22, 47)));
+	walkleftanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_left3.png", Rect(0, 0, 22, 47)));
 	walkleftanimFrames3.at(0)->getTexture()->setAliasTexParameters();
 	walkleftanimFrames3.at(1)->getTexture()->setAliasTexParameters();
 	walkleftanimFrames3.at(2)->getTexture()->setAliasTexParameters();
 	walkleftanimFrames3.at(3)->getTexture()->setAliasTexParameters();
 
-	walkrightanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_right0.png", Rect(0, 0, 24, 48)));
-	walkrightanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_right1.png", Rect(0, 0, 24, 48)));
-	walkrightanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_right2.png", Rect(0, 0, 24, 48)));
-	walkrightanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_right3.png", Rect(0, 0, 24, 48)));
+	walkrightanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_right0.png", Rect(0, 0, 22, 47)));
+	walkrightanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_right1.png", Rect(0, 0, 22, 47)));
+	walkrightanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_right2.png", Rect(0, 0, 22, 47)));
+	walkrightanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_walking_right3.png", Rect(0, 0, 22, 47)));
 	walkrightanimFrames3.at(0)->getTexture()->setAliasTexParameters();
 	walkrightanimFrames3.at(1)->getTexture()->setAliasTexParameters();
 	walkrightanimFrames3.at(2)->getTexture()->setAliasTexParameters();
@@ -258,10 +258,10 @@ AnimationManager::AnimationManager()
 	paintFrames3.at(0)->getTexture()->setAliasTexParameters();
 	paintFrames3.at(1)->getTexture()->setAliasTexParameters();
 
-	idleanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_idle_front0.png", Rect(0, 0, 24, 48)));
-	idleanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_idle_front1.png", Rect(0, 0, 24, 48)));
-	idleanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_idle_front2.png", Rect(0, 0, 24, 48)));
-	idleanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_idle_front3.png", Rect(0, 0, 24, 48)));
+	idleanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_idle_front0.png", Rect(0, 0, 25, 47)));
+	idleanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_idle_front1.png", Rect(0, 0, 25, 47)));
+	idleanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_idle_front2.png", Rect(0, 0, 25, 47)));
+	idleanimFrames3.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_green_idle_front3.png", Rect(0, 0, 25, 47)));
 	idleanimFrames3.at(0)->getTexture()->setAliasTexParameters();
 	idleanimFrames3.at(1)->getTexture()->setAliasTexParameters();
 	idleanimFrames3.at(2)->getTexture()->setAliasTexParameters();
@@ -327,28 +327,28 @@ AnimationManager::AnimationManager()
 	walkupanimFrames4.at(2)->getTexture()->setAliasTexParameters();
 	walkupanimFrames4.at(3)->getTexture()->setAliasTexParameters();
 
-	walkdownanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_down0.png", Rect(0, 0, 24, 48)));
-	walkdownanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_down1.png", Rect(0, 0, 24, 48)));
-	walkdownanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_down2.png", Rect(0, 0, 24, 48)));
-	walkdownanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_down3.png", Rect(0, 0, 24, 48)));
+	walkdownanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_down0.png", Rect(0, 0, 24, 46)));
+	walkdownanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_down1.png", Rect(0, 0, 24, 46)));
+	walkdownanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_down2.png", Rect(0, 0, 24, 46)));
+	walkdownanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_down3.png", Rect(0, 0, 24, 46)));
 	walkdownanimFrames4.at(0)->getTexture()->setAliasTexParameters();
 	walkdownanimFrames4.at(1)->getTexture()->setAliasTexParameters();
 	walkdownanimFrames4.at(2)->getTexture()->setAliasTexParameters();
 	walkdownanimFrames4.at(3)->getTexture()->setAliasTexParameters();
 
-	walkleftanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_left0.png", Rect(0, 0, 24, 48)));
-	walkleftanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_left1.png", Rect(0, 0, 24, 48)));
-	walkleftanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_left2.png", Rect(0, 0, 24, 48)));
-	walkleftanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_left3.png", Rect(0, 0, 24, 48)));
+	walkleftanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_left0.png", Rect(0, 0, 22, 47)));
+	walkleftanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_left1.png", Rect(0, 0, 22, 47)));
+	walkleftanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_left2.png", Rect(0, 0, 22, 47)));
+	walkleftanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_left3.png", Rect(0, 0, 22, 47)));
 	walkleftanimFrames4.at(0)->getTexture()->setAliasTexParameters();
 	walkleftanimFrames4.at(1)->getTexture()->setAliasTexParameters();
 	walkleftanimFrames4.at(2)->getTexture()->setAliasTexParameters();
 	walkleftanimFrames4.at(3)->getTexture()->setAliasTexParameters();
 
-	walkrightanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_right0.png", Rect(0, 0, 24, 48)));
-	walkrightanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_right1.png", Rect(0, 0, 24, 48)));
-	walkrightanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_right2.png", Rect(0, 0, 24, 48)));
-	walkrightanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_right3.png", Rect(0, 0, 24, 48)));
+	walkrightanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_right0.png", Rect(0, 0, 22, 47)));
+	walkrightanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_right1.png", Rect(0, 0, 22, 47)));
+	walkrightanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_right2.png", Rect(0, 0, 22, 47)));
+	walkrightanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_walking_right3.png", Rect(0, 0, 22, 47)));
 	walkrightanimFrames4.at(0)->getTexture()->setAliasTexParameters();
 	walkrightanimFrames4.at(1)->getTexture()->setAliasTexParameters();
 	walkrightanimFrames4.at(2)->getTexture()->setAliasTexParameters();
@@ -359,10 +359,10 @@ AnimationManager::AnimationManager()
 	paintFrames4.at(0)->getTexture()->setAliasTexParameters();
 	paintFrames4.at(1)->getTexture()->setAliasTexParameters();
 
-	idleanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_idle_front0.png", Rect(0, 0, 24, 48)));
-	idleanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_idle_front1.png", Rect(0, 0, 24, 48)));
-	idleanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_idle_front2.png", Rect(0, 0, 24, 48)));
-	idleanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_idle_front3.png", Rect(0, 0, 24, 48)));
+	idleanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_idle_front0.png", Rect(0, 0, 25, 47)));
+	idleanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_idle_front1.png", Rect(0, 0, 25, 47)));
+	idleanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_idle_front2.png", Rect(0, 0, 25, 47)));
+	idleanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\char_yellow_idle_front3.png", Rect(0, 0, 25, 47)));
 	idleanimFrames4.at(0)->getTexture()->setAliasTexParameters();
 	idleanimFrames4.at(1)->getTexture()->setAliasTexParameters();
 	idleanimFrames4.at(2)->getTexture()->setAliasTexParameters();
