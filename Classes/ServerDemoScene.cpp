@@ -84,10 +84,15 @@ bool ServerDemo::init()
 	p4pos = player4->getPosition();
 	addChild(player4, 0);
 
-	players.push_back(player1);
-	players.push_back(player2);
-	players.push_back(player3);
-	players.push_back(player4);
+	//players.push_back(player1);
+	//players.push_back(player2);
+	//players.push_back(player3);
+	//players.push_back(player4);
+
+	player1->setVisible(false);
+	player2->setVisible(false);
+	player3->setVisible(false);
+	player4->setVisible(false);
 
 	villain = Villain::create();
 	villain->getTexture()->setAliasTexParameters();
@@ -177,19 +182,19 @@ void ServerDemo::update(float dt)
 	idle3--;
 	idle4--;
 	if (idle1 < 0) {
-		players[0]->setAnim("p1idle");
+		player1->setAnim("p1idle");
 		idle1++;
 	}
 	if (idle2 < 0) {
 		idle2++;
-		players[1]->setAnim("p2idle");
+		player2->setAnim("p2idle");
 	}
 	if (idle3 < 0) {
-		players[2]->setAnim("p3idle");
+		player3->setAnim("p3idle");
 		idle3++;
 	}
 	if (idle4 < 0) {
-		players[3]->setAnim("p4idle");
+		player4->setAnim("p4idle");
 		idle4++;
 	}
 	//player1->setPosition(p1pos);
@@ -268,14 +273,15 @@ void ServerDemo::update(float dt)
 ServerDemo::~ServerDemo()
 {
 	CCLOG("ServerDemoDeconstructor");
-	if (io_service_p)
-	{
-		delete io_service_p;
-	}
 
 	if (mytcpserverp)
 	{
 		delete mytcpserverp;
+	}
+
+	if (io_service_p)
+	{
+		delete io_service_p;
 	}
 
 }
@@ -633,4 +639,32 @@ ServerPositionPacket ServerDemo::createPacket()
 		//mytcpserverp->sendPacket(p);
 	}
 		
+}
+
+void ServerDemo::addPlayerToGame(int playernum)
+{
+	if (playernum == 1)
+	{
+		player1->setVisible(true);
+		players.push_back(player1);
+	}
+	else if (playernum == 2) 
+	{
+		player2->setVisible(true);
+		players.push_back(player2);
+	}
+	else if (playernum == 3)
+	{
+		player3->setVisible(true);
+		players.push_back(player3);
+	}
+	else if (playernum == 4)
+	{
+		player4->setVisible(true);
+		players.push_back(player4);
+	}
+}
+void ServerDemo::removePlayerFromGame(int playernum)
+{
+
 }

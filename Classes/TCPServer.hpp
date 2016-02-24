@@ -26,7 +26,7 @@ private:
 	tcp::socket socket_;
 	tcp::acceptor acceptor_;
 	std::vector<TCPSSession*> sessionvector;
-	std::map<int, TCPSSession> clientsessionmap;
+	std::map<int, TCPSSession*> clientsessionmap;
 	std::vector<std::shared_ptr<tcp::socket>> socketvector;
 	
 	enum { max_length = 1024 };
@@ -52,6 +52,11 @@ public:
 	void do_accept();
 	void sendPacket(ServerPositionPacket p);
 	void handle_accept(	const boost::system::error_code& error);
+	
+	void addPlayer(int playernum);
+	void removePlayer(int playernum);
+	
+	
 	/*UDPServer::UDPServer(boost::asio::io_service& io_service, short port, NetworkManager* mptr)
 	: socket_(io_service, udp::endpoint(udp::v4(), port))
 	{
@@ -88,4 +93,4 @@ public:
 
 };
 
-#endif // __UDPSERVER_H__
+#endif // __TCPSERVER_H__

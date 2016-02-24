@@ -34,9 +34,16 @@ void TCPSSession::do_read_body()
 {
 	CCLOG("inreadbody");
 	boost::asio::async_read(*socketptr,
-		boost::asio::buffer(tcpsplitterin.body(), tcpsplitterin.body_length()),
+	boost::asio::buffer(tcpsplitterin.body(), tcpsplitterin.body_length()),
 		boost::bind(&TCPSSession::handle_read_body, this,
 			boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+// make this non async
+//	boost::system::error_code ec;
+//	boost::asio::streambuf buff;
+//	boost::asio::read_until(*socketptr, buff, boost::asio::transfer_exactly());
+	
+
+
 }
 
 void TCPSSession::handle_read_body(boost::system::error_code ec, std::size_t bytes_recvd)	

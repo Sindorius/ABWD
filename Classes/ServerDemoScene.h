@@ -111,6 +111,8 @@ public:
 	std::vector<std::vector<char>> blankvector;
 	bool sendmap = false;
 	ServerPositionPacket createPacket();
+	void addPlayerToGame(int playernum);
+	void removePlayerFromGame(int playernum);
 };
 
 #endif // __SERVERDEMO_SCENE_H__
