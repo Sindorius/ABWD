@@ -145,6 +145,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AnimationManager.hpp" />
+    <ClInclude Include="..\Classes\Candy.h" />
     <ClInclude Include="..\Classes\ConfigFileInput.hpp" />
     <ClInclude Include="..\Classes\LevelManager.hpp" />
     <ClInclude Include="..\Classes\PaintTile.h" />
@@ -179,6 +180,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AnimationManager.cpp" />
+    <ClCompile Include="..\Classes\Candy.cpp" />
     <ClCompile Include="..\Classes\LevelManager.cpp" />
     <ClCompile Include="..\Classes\PaintTile.cpp" />
     <ClCompile Include="..\Classes\Player.cpp" />

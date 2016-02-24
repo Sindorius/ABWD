@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Villain.h"
 #include "Pterodactyl.h"
+#include "Candy.h"
 #include "SimpleAudioEngine.h"
 #include <cstdlib>
 #include <cstring>
@@ -54,6 +55,7 @@ private:
 	std::string state1, state2, state3, state4;
 	Villain* villain;
 	Pterodactyl* pterodactyl;
+	Candy* candy;
 	
 	std::vector<cocos2d::Sprite*> objects;
 

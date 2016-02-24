@@ -24,6 +24,7 @@ void Villain::setPriority(std::vector<std::vector<char>> tiles) {
 	for (int i = 0; i < 4; i++) {
 		priority[i] = 0;
 		idle = true;
+		setAnim("samdown");
 	}
 	for (int i = 0; i < tiles.size(); i++) {
 		for (int j = 0; j < tiles[i].size(); j++) {
@@ -53,10 +54,13 @@ void Villain::runAI(std::vector<Player*>* players)
 	player_list = players;
 	calculations();
 	teleport_cd--;
+	candy->run();
+	if (!(candy->active())) {
+		candy->setOwner(-1);
+	}
 	if (behavior_unlocked) {
 		chooseBehavior();
 	}
-
 	switch (behavior) {
 	case 0:
 		walk();
@@ -77,6 +81,7 @@ void Villain::runAI(std::vector<Player*>* players)
 		wait();
 		break;
 	case 6:
+
 		munch();
 		break;
 	}
@@ -310,14 +315,50 @@ void Villain::pteraSummon() {
 }
 
 void Villain::munch() {
-	if (timeCheck()) {
-		behavior_timer--;
+	if (flag) {
+		int temp = -1;
+		for (int i = 0; i < distance.size(); i++) {
+			int temp1 = distance[i];
+			if (temp < temp1 && priority[i] > 0) { temp = temp1; target = i; }
+		}
+		flag = false;
+		candy->setPosition(this->getPositionX() - (this->getPositionX() - player_list->at(target)->getPositionX()) / 2, this->getPositionY() - (this->getPositionY() - player_list->at(target)->getPositionY()) / 2);
+
+	}
+
+	double theta;
+	if (candy->getPositionX() >= this->getPositionX()) {
+		theta = atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159;
+	}
+	else if (candy->getPositionX() > this->getPositionY()) {
+		theta = 180 + (atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159);
 	}
 	else {
-		walk_speed = 4;
-		behavior = 0;
-		behavior_timer = 30;
+		theta = -180 + atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159;
 	}
+
+	this->setPositionX(this->getPositionX() + walk_speed*(cos(theta * 3.14159 / 180)));
+	this->setPositionY(this->getPositionY() + walk_speed*(sin(theta * 3.14159 / 180)));
+
+	for (int i = 0; i < player_list->size(); i++) {
+		if (abs(player_list->at(i)->getPositionX() - candy->getPositionX()) < 10 && abs(player_list->at(i)->getPositionY() - candy->getPositionY()) < 10 && candy->notCollected()) {
+			candy->setStatus(false);
+			candy->setOwner(target);
+			candy->start();
+			candy->setPosition(-1000, -1000);
+			flag = true;
+			behavior_unlocked = true;
+		}
+	}
+	if (abs(this->getPositionX() - candy->getPositionX()) < 10 && abs(this->getPositionY() - candy->getPositionY()) < 10 && candy->notCollected()) {
+		candy->setStatus(false);
+		candy->setPosition(-1000, -1000);
+		behavior = 0;
+		behavior_timer = 150;
+		flag = true;
+		walk_speed = 2.5;
+	}
+
 }
 
 int Villain::getTarget() {
@@ -335,4 +376,8 @@ bool Villain::timeCheck() {
 void Villain::linkPtera(Pterodactyl* pterodactyl) {
 	ptera = pterodactyl;
 	ptera->on();
+}
+
+void Villain::linkCandy(Candy* candies) {
+	candy = candies;
 }

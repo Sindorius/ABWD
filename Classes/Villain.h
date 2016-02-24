@@ -5,7 +5,8 @@
 #include "cocos2d.h"
 #include "Player.h"
 #include <array>
-#include <Pterodactyl.h>
+#include "Pterodactyl.h"
+#include "Candy.h"
 
 class Villain : public cocos2d::Sprite
 {
@@ -53,6 +54,7 @@ public:
 	void setAnim(std::string s) { animstate = s; }
 	std::string getAnim() { return animstate; }
 	void linkPtera(Pterodactyl* pterodactyl);
+	void linkCandy(Candy* candies);
 
 private:
 
@@ -62,14 +64,14 @@ private:
 	int behavior_timer = 0;
 	float walk_speed = 2;
 	int charge_speed = 4;
-	int x, y;
+	int x = 0, y = 0;
 	int teleport_cd = 150;
 	std::vector<Player*>* player_list;
 	std::vector<int> distance;
 	bool behavior_unlocked = true;
 	int priority[4];
 	bool idle = false;
-
+	bool flag = true;
 	bool pteraphase = 0;
 
 	int secondary_time = 0;
@@ -84,6 +86,7 @@ private:
 
 	//links
 	Pterodactyl* ptera;
+	Candy* candy;
 
 };
 /*

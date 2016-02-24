@@ -108,7 +108,18 @@ bool ServerDemo::init()
 	ppos = pterodactyl->getPosition();
 	addChild(pterodactyl, 0);
 
+	candy = Candy::create();
+	candy->getTexture()->setAliasTexParameters();
+	candy->setPosition(Vec2(-50, -50));
+	candy->setAnchorPoint(Vec2(0.5, 0.0));
+	cpos = candy->getPosition();
+	addChild(candy, 0);
+
+
 	villain->linkPtera(pterodactyl);
+	villain->linkCandy(candy);
+
+
 
 	for (Sprite* s : levelmanager.levelsprites)
 	{
@@ -236,7 +247,7 @@ void ServerDemo::update(float dt)
 
 		}
 
-		if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() - p->getPositionX()) < 5 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 5)
+		if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p->getPositionX()) < 10 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 10)
 		{
 			sendmap = true;
 			for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
@@ -292,6 +303,11 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p)
 {
 	float dxmove = p.dx;
 	float dymove = p.dy;
+	if (candy->active() && p.playernum-1 == candy->getOwner()) {
+		dxmove = dxmove * 2;
+		dymove = dymove * 2;
+		
+	}
 	auto playerPos = players[p.playernum - 1]->getPosition();
 	std::string newcolor = "none";
 
@@ -615,6 +631,7 @@ ServerPositionPacket ServerDemo::createPacket()
 	if (sendmap)
 	{
 		ServerPositionPacket p(
+			candy->getPositionX(), candy->getPositionY(),
 			pterodactyl->getPositionX(), pterodactyl->getPositionY(), animationmanager.charFromString(pterodactyl->getAnim()),
 			villain->getPositionX(), villain->getPositionY(), animationmanager.charFromString(villain->getAnim()),
 			player1->getPositionX(), player1->getPositionY(), animationmanager.charFromString(player1->getAnim()),
@@ -628,6 +645,7 @@ ServerPositionPacket ServerDemo::createPacket()
 	else
 	{
 		ServerPositionPacket p(
+			candy->getPositionX(), candy->getPositionY(),
 			pterodactyl->getPositionX(), pterodactyl->getPositionY(), animationmanager.charFromString(pterodactyl->getAnim()),
 			villain->getPositionX(), villain->getPositionY(), animationmanager.charFromString(villain->getAnim()),
 			player1->getPositionX(), player1->getPositionY(), animationmanager.charFromString(player1->getAnim()),
