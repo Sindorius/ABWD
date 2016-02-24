@@ -501,8 +501,8 @@ AnimationManager::AnimationManager()
 	samWhistleFrames.at(1)->getTexture()->setAliasTexParameters();
 
 
-	samMunchFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_eating0.png", Rect(0, 0, 24, 48)));
-	samMunchFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_eating1.png", Rect(0, 0, 24, 48)));
+	samMunchFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_eating0.png", Rect(0, 0, 17, 36)));
+	samMunchFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_eating1.png", Rect(0, 0, 17, 36)));
 
 	samMunchFrames.at(0)->getTexture()->setAliasTexParameters();
 	samMunchFrames.at(1)->getTexture()->setAliasTexParameters();
