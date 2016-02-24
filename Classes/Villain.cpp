@@ -24,7 +24,6 @@ void Villain::setPriority(std::vector<std::vector<char>> tiles) {
 	for (int i = 0; i < 4; i++) {
 		priority[i] = 0;
 		idle = true;
-		setAnim("samdown");
 	}
 	for (int i = 0; i < tiles.size(); i++) {
 		for (int j = 0; j < tiles[i].size(); j++) {
@@ -81,8 +80,10 @@ void Villain::runAI(std::vector<Player*>* players)
 		wait();
 		break;
 	case 6:
-
 		munch();
+		break;
+	case 7:
+		munching();
 		break;
 	}
 	if (behavior != 1) {
@@ -323,7 +324,7 @@ void Villain::munch() {
 		}
 		flag = false;
 		candy->setPosition(this->getPositionX() - (this->getPositionX() - player_list->at(target)->getPositionX()) / 2, this->getPositionY() - (this->getPositionY() - player_list->at(target)->getPositionY()) / 2);
-
+		candy->setStatus(true);
 	}
 
 	double theta;
@@ -353,12 +354,23 @@ void Villain::munch() {
 	if (abs(this->getPositionX() - candy->getPositionX()) < 10 && abs(this->getPositionY() - candy->getPositionY()) < 10 && candy->notCollected()) {
 		candy->setStatus(false);
 		candy->setPosition(-1000, -1000);
-		behavior = 0;
+		behavior = 7;
 		behavior_timer = 150;
 		flag = true;
 		walk_speed = 2.5;
 	}
 
+}
+
+void Villain::munching() {
+	if (timeCheck()) {
+		behavior_timer--;
+		setAnim("sammunch");
+	}
+	else {
+		behavior_timer = 150;
+		behavior = 0;
+	}
 }
 
 int Villain::getTarget() {

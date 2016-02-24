@@ -136,7 +136,7 @@ bool ClientDemo::init()
 
 	candy = Candy::create();
 	candy->getTexture()->setAliasTexParameters();
-	candy->setPosition(Vec2(-50, -50));
+	candy->setPosition(Vec2(-1000, -1000));
 	candy->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(candy, 0);
 

@@ -417,6 +417,8 @@ AnimationManager::AnimationManager()
 	samAppearFrames.reserve(5);
 	Vector<SpriteFrame*> samWhistleFrames;
 	samWhistleFrames.reserve(2);
+	Vector<SpriteFrame*> samMunchFrames;
+	samMunchFrames.reserve(2);
 	
 	samupanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_back_0.png", Rect(0, 0, 24, 48)));
 	samupanimFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_back_1.png", Rect(0, 0, 24, 48)));
@@ -498,6 +500,13 @@ AnimationManager::AnimationManager()
 	samWhistleFrames.at(0)->getTexture()->setAliasTexParameters();
 	samWhistleFrames.at(1)->getTexture()->setAliasTexParameters();
 
+
+	samMunchFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_eating0.png", Rect(0, 0, 24, 48)));
+	samMunchFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_eating1.png", Rect(0, 0, 24, 48)));
+
+	samMunchFrames.at(0)->getTexture()->setAliasTexParameters();
+	samMunchFrames.at(1)->getTexture()->setAliasTexParameters();
+
 	// create the animation out of the frames
 	Animation* samupanimation = Animation::createWithSpriteFrames(samupanimFrames, 0.1f);
 	cocos2d::Animate* samupanim = Animate::create(samupanimation);
@@ -514,12 +523,15 @@ AnimationManager::AnimationManager()
 	Animation* samteleportanimation = Animation::createWithSpriteFrames(samTeleportFrames, 0.3f);
 	cocos2d::Animate* samteleportanim = Animate::create(samteleportanimation);
 	samteleportanim->retain();
-	Animation* samappearanimation = Animation::createWithSpriteFrames(samAppearFrames, 0.2f);
+	Animation* samappearanimation = Animation::createWithSpriteFrames(samAppearFrames, 0.4f);
 	cocos2d::Animate* samappearanim = Animate::create(samappearanimation);
 	samappearanim->retain();
 	Animation* samwhistleanimation = Animation::createWithSpriteFrames(samWhistleFrames, 0.2f);
 	cocos2d::Animate* samwhistleanim = Animate::create(samwhistleanimation);
 	samwhistleanim->retain();
+	Animation* sammunchanimation = Animation::createWithSpriteFrames(samMunchFrames, 0.2f);
+	cocos2d::Animate* sammunchanim = Animate::create(sammunchanimation);
+	sammunchanim->retain();
 
 
 
@@ -530,6 +542,7 @@ AnimationManager::AnimationManager()
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("samwarp"), samteleportanim));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("samappear"), samappearanim));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("samwhistle"), samwhistleanim));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("sammunch"), sammunchanim));
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//Pterodactyl animations
@@ -625,6 +638,8 @@ AnimationManager::AnimationManager()
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(36, "p2idle"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(37, "p3idle"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(38, "p4idle"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(39, "sammunch"));
+
 
 
 

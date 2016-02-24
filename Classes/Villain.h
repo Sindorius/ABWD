@@ -43,6 +43,8 @@ public:
 	void pteraSummon();
 
 	void munch();
+
+	void munching();
 	//the index of the ai's current target
 	int getTarget();
 	//the current action type the villain uses, use to determine animations and whatnot
@@ -80,6 +82,7 @@ private:
 	int charge_teleport_time = 100;
 	int teleport_arrival_time = 50;
 	int teleport_fail_timer = 50;
+	int munch_time = 100;
 
 	std::string animstate = "";
 
