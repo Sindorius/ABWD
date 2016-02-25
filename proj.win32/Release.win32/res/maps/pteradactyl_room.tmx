@@ -28,6 +28,31 @@
     <property name="Orange" value="true"/>
    </properties>
   </tile>
+  <tile id="5">
+   <properties>
+    <property name="Blue2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Blue3" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Green1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Green2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="Green3" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="117" name="meta_tiles" tilewidth="24" tileheight="24" tilecount="2">
   <image source="./res/sprites/tiles/meta_tiles.png" width="67" height="34"/>
@@ -49,7 +74,7 @@
  </layer>
  <layer name="Paintbuckets" width="31" height="22">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowA7yKZQfhSMglEwckHuEDN3FIwCWoPROpM8AAAonQIc
+   eJxjYBgFowATFBChppDmrhgFo2AUDFVQQiNzi2hk7igYBbQGxQPtgCEKAMM5Ajs=
   </data>
  </layer>
  <layer name="Canvas" width="31" height="22" visible="0">

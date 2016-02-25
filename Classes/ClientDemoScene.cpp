@@ -4,8 +4,8 @@ USING_NS_CC;
 //using boost::asio::ip::udp;
 using boost::asio::ip::tcp;
 
-#define AUDIO_ON 1 //toggles sfx on/off
-#define MUSIC_ON 1 //toggles whether background music is on/off
+#define AUDIO_ON 0 //toggles sfx on/off
+#define MUSIC_ON 0 //toggles whether background music is on/off
 
 
 Scene* ClientDemo::createScene()
@@ -232,9 +232,7 @@ void ClientDemo::update(float dt)
 
 	io_service_p->poll();
 	//CCLOG("POLLING");
-
-
-
+	
 
 	if (xmove || ymove || button1)
 	{
@@ -298,6 +296,7 @@ void ClientDemo::update(float dt)
 
 		CCLOG("sending packet");
 		tcpsessionptr->writewithstringbuffer(outstringbuffer);
+		//io_service_p->poll();
 	}
 
 

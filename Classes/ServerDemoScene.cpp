@@ -271,7 +271,15 @@ void ServerDemo::update(float dt)
 	// Move them all to the top if they've won
 	if (levelmanager.puzzle.isSolved())
 	{
-		loadLevel(2);
+		if (levelmanager.currentlevel == 1)
+		{
+			loadLevel(2);
+		}
+		else if (levelmanager.currentlevel == 2)
+		{
+			loadLevel(3);
+		}
+
 		sendmap = true;
 	}
 
@@ -281,21 +289,7 @@ void ServerDemo::update(float dt)
 
 }
 
-ServerDemo::~ServerDemo()
-{
-	CCLOG("ServerDemoDeconstructor");
 
-	if (mytcpserverp)
-	{
-		delete mytcpserverp;
-	}
-
-	if (io_service_p)
-	{
-		delete io_service_p;
-	}
-
-}
 
 
 
@@ -767,5 +761,23 @@ void ServerDemo::addPlayerToGame(int playernum)
 }
 void ServerDemo::removePlayerFromGame(int playernum)
 {
+
+}
+
+
+
+ServerDemo::~ServerDemo()
+{
+	CCLOG("ServerDemoDeconstructor");
+
+	if (mytcpserverp)
+	{
+		delete mytcpserverp;
+	}
+
+	if (io_service_p)
+	{
+		delete io_service_p;
+	}
 
 }

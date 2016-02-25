@@ -106,15 +106,15 @@ int Application::run()
     // Retain glview to avoid glview being released in the while loop
     glview->retain();
 	
-	float animint = director->getAnimationInterval();
-	CCLOG("from animint");
-	CCLOG(std::to_string(animint).c_str());
-	int refreshrate = glview->getRunningRefreshRate();
-	CCLOG("from get refresh rate");
-	CCLOG(std::to_string(refreshrate).c_str());
-	int newswapinterval = refreshrate*animint;
-	CCLOG("from newswapinterval");
-	CCLOG(std::to_string(newswapinterval).c_str());
+	//float animint = director->getAnimationInterval();
+	//CCLOG("from animint");
+	//CCLOG(std::to_string(animint).c_str());
+	//int refreshrate = glview->getRunningRefreshRate();
+	//CCLOG("from get refresh rate");
+	//CCLOG(std::to_string(refreshrate).c_str());
+	//int newswapinterval = refreshrate*animint;
+	//CCLOG("from newswapinterval");
+	//CCLOG(std::to_string(newswapinterval).c_str());
 	glview->setSwapInterval(1);
 
     while(!glview->windowShouldClose())
