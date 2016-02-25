@@ -923,6 +923,7 @@ ClientDemo::~ClientDemo()
 
 	if (io_service_p)
 	{
+		// this causes a crash need to investigate
 		//delete io_service_p;
 		io_service_p = nullptr;
 	}
