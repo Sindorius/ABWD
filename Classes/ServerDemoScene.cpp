@@ -407,6 +407,12 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 				auto y = tilemapvals["Yellow"].asString();
 				auto o = tilemapvals["Orange"].asString();
 				auto blk = tilemapvals["Black"].asString();
+				
+				auto b2 = tilemapvals["Blue2"].asString();
+				auto b3 = tilemapvals["Blue3"].asString();
+				auto g1 = tilemapvals["Green1"].asString();
+				auto g2 = tilemapvals["Green2"].asString();
+				auto g3 = tilemapvals["Green3"].asString();
 
 				if ("true" == r)
 				{
@@ -434,6 +440,32 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "black";
+				}
+
+				if ("true" == b2) {
+					dxmove = -dxmove * 2;
+					dymove = -dymove * 2;
+					newcolor = "blue2";
+				}
+				if ("true" == b3) {
+					dxmove = -dxmove * 2;
+					dymove = -dymove * 2;
+					newcolor = "blue3";
+				}
+				if ("true" == g1) {
+					dxmove = -dxmove * 2;
+					dymove = -dymove * 2;
+					newcolor = "green1";
+				}
+				if ("true" == g2) {
+					dxmove = -dxmove * 2;
+					dymove = -dymove * 2;
+					newcolor = "green2";
+				}
+				if ("true" == g3) {
+					dxmove = -dxmove * 2;
+					dymove = -dymove * 2;
+					newcolor = "green3";
 				}
 			}
 		}
@@ -506,6 +538,57 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 					}
 					else {
 						levelmanager.puzzle.currenttilevector[i][j] = 60;
+					}
+				}
+				////////////////////////////// NEW CODE HERE
+				if (players[playernum - 1]->getColor() == "blue2")
+				{
+					if (levelmanager.puzzle.compareTile(i, j, 7))
+					{
+						levelmanager.puzzle.currenttilevector[i][j] = 7;
+					}
+					else {
+						levelmanager.puzzle.currenttilevector[i][j] = 70;
+					}
+				}
+				if (players[playernum - 1]->getColor() == "blue3")
+				{
+					if (levelmanager.puzzle.compareTile(i, j, 8))
+					{
+						levelmanager.puzzle.currenttilevector[i][j] = 8;
+					}
+					else {
+						levelmanager.puzzle.currenttilevector[i][j] = 71;
+					}
+				}
+				if (players[playernum - 1]->getColor() == "green1")
+				{
+					if (levelmanager.puzzle.compareTile(i, j, 9))
+					{
+						levelmanager.puzzle.currenttilevector[i][j] = 9;
+					}
+					else {
+						levelmanager.puzzle.currenttilevector[i][j] = 72;
+					}
+				}
+				if (players[playernum - 1]->getColor() == "green2")
+				{
+					if (levelmanager.puzzle.compareTile(i, j, 10))
+					{
+						levelmanager.puzzle.currenttilevector[i][j] = 10;
+					}
+					else {
+						levelmanager.puzzle.currenttilevector[i][j] = 73;
+					}
+				}
+				if (players[playernum - 1]->getColor() == "green3")
+				{
+					if (levelmanager.puzzle.compareTile(i, j, 11))
+					{
+						levelmanager.puzzle.currenttilevector[i][j] = 11;
+					}
+					else {
+						levelmanager.puzzle.currenttilevector[i][j] = 74;
 					}
 				}
 				sendmap = true;

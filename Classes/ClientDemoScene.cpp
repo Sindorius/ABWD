@@ -427,6 +427,13 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				auto o = tilemapvals["Orange"].asString();
 				auto blk = tilemapvals["Black"].asString();
 
+				auto b2 = tilemapvals["Blue2"].asString();
+				auto b3 = tilemapvals["Blue3"].asString();
+				auto g1 = tilemapvals["Green1"].asString();
+				auto g2 = tilemapvals["Green2"].asString();
+				auto g3 = tilemapvals["Green3"].asString();
+				
+				
 				if ("true" == r)
 				{
 					//p1CLabel->setString("Red");
@@ -448,6 +455,22 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
 				}
+				
+				if ("true" == b2) {
+					p1CLabel->setFontFillColor(ccc3(4, 31, 131));
+				}
+				if ("true" == b3) {
+					p1CLabel->setFontFillColor(ccc3(1, 16, 73));
+				}
+				if ("true" == g1) {
+					p1CLabel->setFontFillColor(ccc3(2, 123, 36));
+				}
+				if ("true" == g2) {
+					p1CLabel->setFontFillColor(ccc3(11, 187, 60));
+				}
+				if ("true" == g3) {
+					p1CLabel->setFontFillColor(ccc3(47, 247, 145));
+				}
 			}
 		}
 	}
@@ -463,6 +486,12 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				auto y = tilemapvals["Yellow"].asString();
 				auto o = tilemapvals["Orange"].asString();
 				auto blk = tilemapvals["Black"].asString();
+				
+				auto b2 = tilemapvals["Blue2"].asString();
+				auto b3 = tilemapvals["Blue3"].asString();
+				auto g1 = tilemapvals["Green1"].asString();
+				auto g2 = tilemapvals["Green2"].asString();
+				auto g3 = tilemapvals["Green3"].asString();
 
 				if ("true" == r)
 				{
@@ -481,6 +510,22 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
 				}
+				
+				if ("true" == b2) {
+					p2CLabel->setFontFillColor(ccc3(4, 31, 131));
+				}
+				if ("true" == b3) {
+					p2CLabel->setFontFillColor(ccc3(1, 16, 73));
+				}
+				if ("true" == g1) {
+					p2CLabel->setFontFillColor(ccc3(2, 123, 36));
+				}
+				if ("true" == g2) {
+					p2CLabel->setFontFillColor(ccc3(11, 187, 60));
+				}
+				if ("true" == g3) {
+					p2CLabel->setFontFillColor(ccc3(47, 247, 145));
+				}
 			}
 		}
 	}
@@ -496,6 +541,12 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				auto y = tilemapvals["Yellow"].asString();
 				auto o = tilemapvals["Orange"].asString();
 				auto blk = tilemapvals["Black"].asString();
+				
+				auto b2 = tilemapvals["Blue2"].asString();
+				auto b3 = tilemapvals["Blue3"].asString();
+				auto g1 = tilemapvals["Green1"].asString();
+				auto g2 = tilemapvals["Green2"].asString();
+				auto g3 = tilemapvals["Green3"].asString();
 
 				if ("true" == r)
 				{
@@ -514,6 +565,22 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
 				}
+				
+				if ("true" == b2) {
+					p3CLabel->setFontFillColor(ccc3(4, 31, 131));
+				}
+				if ("true" == b3) {
+					p3CLabel->setFontFillColor(ccc3(1, 16, 73));
+				}
+				if ("true" == g1) {
+					p3CLabel->setFontFillColor(ccc3(2, 123, 36));
+				}
+				if ("true" == g2) {
+					p3CLabel->setFontFillColor(ccc3(11, 187, 60));
+				}
+				if ("true" == g3) {
+					p3CLabel->setFontFillColor(ccc3(47, 247, 145));
+				}
 			}
 		}
 
@@ -531,6 +598,12 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				auto o = tilemapvals["Orange"].asString();
 				auto blk = tilemapvals["Black"].asString();
 
+				auto b2 = tilemapvals["Blue2"].asString();
+				auto b3 = tilemapvals["Blue3"].asString();
+				auto g1 = tilemapvals["Green1"].asString();
+				auto g2 = tilemapvals["Green2"].asString();
+				auto g3 = tilemapvals["Green3"].asString();
+				
 				if ("true" == r)
 				{
 					p4CLabel->setFontFillColor(ccc3(247, 52, 47));
@@ -548,6 +621,23 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
 				}
+
+				if ("true" == b2) {
+					p4CLabel->setFontFillColor(ccc3(4, 31, 131));
+				}
+				if ("true" == b3) {
+					p4CLabel->setFontFillColor(ccc3(1, 16, 73));
+				}
+				if ("true" == g1) {
+					p4CLabel->setFontFillColor(ccc3(2, 123, 36));
+				}
+				if ("true" == g2) {
+					p4CLabel->setFontFillColor(ccc3(11, 187, 60));
+				}
+				if ("true" == g3) {
+					p4CLabel->setFontFillColor(ccc3(47, 247, 145));
+				}
+				
 			}
 		}
 	}
@@ -640,7 +730,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	}
 
 
-	for (int i = 0; i < p.tilevector.size(); i++)
+for (int i = 0; i < p.tilevector.size(); i++)
 	{
 		for (int j = 0; j < p.tilevector[i].size(); j++)
 		{
@@ -677,6 +767,33 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 					tilespritevector[i][j]->setColor("black");
 					tilespritevector[i][j]->refreshColor();
 				}
+
+				if (levelmanager.puzzle.currenttilevector[i][j] == 7)
+				{
+					tilespritevector[i][j]->setColor("blue2");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 8)
+				{
+					tilespritevector[i][j]->setColor("blue3");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 9)
+				{
+					tilespritevector[i][j]->setColor("green1");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 10)
+				{
+					tilespritevector[i][j]->setColor("green2");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 11)
+				{
+					tilespritevector[i][j]->setColor("green3");
+					tilespritevector[i][j]->refreshColor();
+				}
+
 				if (levelmanager.puzzle.currenttilevector[i][j] == 20)
 				{
 					tilespritevector[i][j]->setColor("Xred");
@@ -700,6 +817,32 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 				if (levelmanager.puzzle.currenttilevector[i][j] == 60)
 				{
 					tilespritevector[i][j]->setColor("Xblack");
+					tilespritevector[i][j]->refreshColor();
+				}
+
+				if (levelmanager.puzzle.currenttilevector[i][j] == 70)
+				{
+					tilespritevector[i][j]->setColor("Xblue2");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 71)
+				{
+					tilespritevector[i][j]->setColor("Xblue3");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 72)
+				{
+					tilespritevector[i][j]->setColor("Xgreen1");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 73)
+				{
+					tilespritevector[i][j]->setColor("Xgreen2");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 74)
+				{
+					tilespritevector[i][j]->setColor("Xgreen3");
 					tilespritevector[i][j]->refreshColor();
 				}
 			}
