@@ -122,13 +122,16 @@ bool ClientDemo::init()
 	villain = Villain::create();
 	villain->getTexture()->setAliasTexParameters();
 	villain->setAnchorPoint(Vec2(0.5, 0.0));
-	villain->setPosition(Vec2(250, 150));
+	villain->setPosition(Vec2(-250, -150));
+
+	villain->setOpacity(0); ///////////////// NEW CODE
 	addChild(villain, 0);
 
 	pterodactyl = Pterodactyl::create();
 	pterodactyl->getTexture()->setAliasTexParameters();
 	pterodactyl->setAnchorPoint(Vec2(0.5, 0.0));
 	pterodactyl->setPosition(Vec2(50, 50));
+	pterodactyl->setOpacity(0);
 	addChild(pterodactyl, 0);
 
 	candy = Candy::create();
@@ -320,8 +323,14 @@ void ClientDemo::update(float dt)
 	{
 		p->setZOrder(-p->getPositionY());
 	}
-	villain->setZOrder(-villain->getPositionY());
-	pterodactyl->setZOrder(-pterodactyl->getPositionY());
+
+	if (levelmanager.currentlevel != 1) {
+		villain->setOpacity(255);
+		villain->setZOrder(-villain->getPositionY());
+		pterodactyl->setOpacity(255);
+		pterodactyl->setZOrder(-pterodactyl->getPositionY());
+	}
+
 	centerCamera();
 }
 
@@ -911,6 +920,7 @@ void ClientDemo::loadLevel(int level)
 
 	blockage = levelmanager.levelmap->getLayer("Collision");
 	blockage->setVisible(false);
+	villain->setPosition(Vec2(250, 150));
 	
 	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
 

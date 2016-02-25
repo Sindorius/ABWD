@@ -96,7 +96,7 @@ bool ServerDemo::init()
 
 	villain = Villain::create();
 	villain->getTexture()->setAliasTexParameters();
-	villain->setPosition(Vec2(250, 150));
+	villain->setPosition(Vec2(-250, -150));
 	villain->setAnchorPoint(Vec2(0.5, 0.0));
 	vpos = villain->getPosition();
 	addChild(villain, 0);
@@ -212,9 +212,12 @@ void ServerDemo::update(float dt)
 	//player2->setPosition(p2pos);
 	//player3->setPosition(p3pos);
 	//player4->setPosition(p4pos);
-	villain->setPriority(levelmanager.puzzle.whichplayertilesvector);
-	villain->runAI(&players);
-	
+
+	if (levelmanager.currentlevel != 1) 
+	{
+		villain->setPriority(levelmanager.puzzle.whichplayertilesvector);
+		villain->runAI(&players);
+	}
 
 	player1->setZOrder(-player1->getPositionY());
 	player2->setZOrder(-player2->getPositionY());
@@ -223,7 +226,52 @@ void ServerDemo::update(float dt)
 	villain->setZOrder(-villain->getPositionY());
 
 
+	if (levelmanager.currentlevel != 1) {
+		for (Player* p : players)
+		{
+			if (abs(villain->getPositionX() - p->getPositionX()) < 5 && abs(villain->getPositionY() - p->getPositionY()) < 5)
+			{
+				sendmap = true;
+				for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
+				{
+					for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
+					{
+						if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
+						{
+							levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
+							levelmanager.puzzle.currenttilevector[i][j] = 1;
+							tilespritevector[i][j]->setColor("clear");
+							tilespritevector[i][j]->refreshColor();
 
+						}
+					}
+				}
+
+			}
+
+			if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p->getPositionX()) < 10 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 10)
+			{
+				sendmap = true;
+				for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
+				{
+					for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
+					{
+						if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
+						{
+							levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
+							levelmanager.puzzle.currenttilevector[i][j] = 1;
+							tilespritevector[i][j]->setColor("clear");
+							tilespritevector[i][j]->refreshColor();
+
+						}
+					}
+				}
+
+			}
+		}
+	}
+
+	/*
 	// Villain checks if she's on a player, messes everything up if she's on them
 	for (Player* p : players)
 	{
@@ -267,6 +315,7 @@ void ServerDemo::update(float dt)
 
 		}
 	}
+	*/
 
 	// Move them all to the top if they've won
 	if (levelmanager.puzzle.isSolved())
@@ -386,7 +435,7 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 	std::string newcolor = "none";
 
 
-	if (tileCoord.x >= 0 && tileCoord.x <= levelmanager.levelmap->getMapSize().width && tileCoord.y >= 0 && tileCoord.y <= levelmanager.levelmap->getMapSize().height)
+	if (tileCoord.x >= 0 && tileCoord.x <= 25 && tileCoord.y >= 0 && tileCoord.y <= 14)
 	{
 		int bTile = bucketlayer->getTileGIDAt(tileCoord);
 
@@ -619,6 +668,7 @@ void ServerDemo::loadLevel(int level)
 	blockage = levelmanager.levelmap->getLayer("Collision");
 	blockage->setVisible(false);
 	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
+	villain->setPosition(Vec2(250, 150));
 	
 
 	if (spawnObjs == NULL) {
