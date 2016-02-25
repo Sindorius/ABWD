@@ -767,6 +767,9 @@ void ClientDemo::loadLevel(int level)
 
 	addChild(levelmanager.levelmap, -1000);
 
+	blockage = levelmanager.levelmap->getLayer("Collision");
+	blockage->setVisible(false);
+
 	for (Sprite* s : levelmanager.levelsprites)
 	{
 		addChild(s, -999);
