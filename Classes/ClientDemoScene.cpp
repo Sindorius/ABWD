@@ -329,15 +329,6 @@ void ClientDemo::update(float dt)
 	centerCamera();
 }
 
-ClientDemo::~ClientDemo()
-{
-	if (io_service_p)
-		delete io_service_p;
-
-	//if (myudpinterfacep)
-	//	delete myudpinterfacep;
-
-}
 
 
 void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
@@ -920,5 +911,23 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		break;
 	default: break;
 	} */
+
+}
+
+
+ClientDemo::~ClientDemo()
+{
+
+	if (tcpsessionptr)
+		delete tcpsessionptr;
+
+	if (io_service_p)
+	{
+		//delete io_service_p;
+		io_service_p = nullptr;
+	}
+
+	//if (myudpinterfacep)
+	//	delete myudpinterfacep;
 
 }

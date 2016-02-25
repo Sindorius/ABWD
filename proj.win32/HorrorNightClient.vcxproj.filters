@@ -41,7 +41,9 @@
     <ClInclude Include="..\Classes\Pterodactyl.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Candy.h" />
+    <ClInclude Include="..\Classes\Candy.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
@@ -83,6 +85,8 @@
     <ClCompile Include="..\Classes\Pterodactyl.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Candy.cpp" />
+    <ClCompile Include="..\Classes\Candy.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
