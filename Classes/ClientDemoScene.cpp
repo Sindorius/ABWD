@@ -64,6 +64,7 @@ bool ClientDemo::init()
 
 		mytcpsocketp = std::make_shared<tcp::socket>(*io_service_p);
 		boost::asio::connect(*mytcpsocketp, endpoint_iterator);
+		mytcpsocketp->set_option(tcp::no_delay(true));
 		tcpsessionptr = new TCPCSession(mytcpsocketp, this);
 		tcpsessionptr->do_read_header();
 		//myudpinterfacep = new UDPInterface(*io_service_p, endpoint);
@@ -296,7 +297,7 @@ void ClientDemo::update(float dt)
 
 		CCLOG("sending packet");
 		tcpsessionptr->writewithstringbuffer(outstringbuffer);
-		//io_service_p->poll();
+		io_service_p->poll();
 	}
 
 

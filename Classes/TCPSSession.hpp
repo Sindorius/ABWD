@@ -34,7 +34,9 @@ public:
 	};
 
 	TCPSSession(std::shared_ptr<tcp::socket> sptr, ServerDemo* sdptr) : socketptr(sptr), serverptr(sdptr)
-	{};
+	{
+	socketptr->set_option(tcp::no_delay(true));
+	};
 	~TCPSSession()
 	{
 		CCLOG("deconstructor - should not happen");

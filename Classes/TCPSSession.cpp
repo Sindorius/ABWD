@@ -104,9 +104,9 @@ void TCPSSession::writewithstringbuffer(std::string s)
 	std::string bodystring = std::string(tcpsplitterout.body());
 	CCLOG(bodystring.c_str());
 	CCLOG("Sending packet");
-	OutputDebugStringW(L"My output string.");
-	OutputDebugStringA(bodystring.c_str());
-	OutputDebugStringA(s.c_str());
+	//OutputDebugStringW(L"My output string.");
+	//OutputDebugStringA(bodystring.c_str());
+	//OutputDebugStringA(s.c_str());
 
 	//std::stringstream is2;
 	//cereal::BinaryInputArchive inar(is2);
