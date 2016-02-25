@@ -140,24 +140,24 @@ bool ClientDemo::init()
 	// Player Label Creation
 	p1CLabel = CCLabelTTF::create("P1", "fonts/Marker Felt.ttf", 9);
 	//p1CLabel->enableStroke(ccColor3B(255,0,0),20.0, true);
-	p1CLabel->enableShadow(CCSize(1,0), 50.0, 0.0, true);
-	p1CLabel->setPosition(Vec2(player1->getPositionX()-38, player1->getPositionY()+1));
+	//p1CLabel->enableShadow(CCSize(1,0), 50.0, 0.0, true);
+	p1CLabel->setPosition(Vec2(player1->getPositionX()+64, player1->getPositionY()+1));
 	player1->addChild(p1CLabel,100);
 
 	p2CLabel = CCLabelTTF::create("P2", "fonts/Marker Felt.ttf", 9);
-	p2CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
-	p2CLabel->setPosition(Vec2(player2->getPositionX()-38, player2->getPositionY()-48));
+	//p2CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
+	p2CLabel->setPosition(Vec2(player2->getPositionX()+64, player2->getPositionY()-48));
 	player2->addChild(p2CLabel, 100);
 
 	p3CLabel = CCLabelTTF::create("P3", "fonts/Marker Felt.ttf", 9);
-	p3CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
-	p3CLabel->setPosition(Vec2(player3->getPositionX()-38, player3->getPositionY()-104));
+	//p3CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
+	p3CLabel->setPosition(Vec2(player3->getPositionX()+64, player3->getPositionY()-104));
 	p3CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	player3->addChild(p3CLabel, 100);
 
 	p4CLabel = CCLabelTTF::create("P4", "fonts/Marker Felt.ttf", 9);
-	p4CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
-	p4CLabel->setPosition(Vec2(player4->getPositionX()-38, player4->getPositionY()-154));
+	//p4CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
+	p4CLabel->setPosition(Vec2(player4->getPositionX()+64, player4->getPositionY()-154));
 	p4CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	player4->addChild(p4CLabel, 100);
 
@@ -329,8 +329,8 @@ void ClientDemo::update(float dt)
 
 void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 {
-	std::string playerstring = "p";
-	playerstring += std::to_string(playernum).c_str();
+	//std::string playerstring = "p";
+	//playerstring += std::to_string(playernum).c_str();
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
 		ymove += 2;

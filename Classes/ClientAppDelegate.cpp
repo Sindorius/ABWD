@@ -52,7 +52,7 @@ bool ClientAppDelegate::applicationDidFinishLaunching() {
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::SHOW_ALL);
 	glview->setFrameSize(designResolutionSize.width, designResolutionSize.height);
 	director->getOpenGLView()->setFrameZoomFactor(2.0f);
-
+	//director->setProjection(cocos2d::Director::Projection::_2D);
     register_all_packages();
 
     // create a scene. it's an autorelease object
