@@ -11,7 +11,7 @@ USING_NS_CC;
 class LevelManager
 {
 public:
-	int level;
+	int currentlevel;
 	cocos2d::Vec2 tilestartpoint;
 	CCTMXTiledMap* levelmap;
 	std::vector<Sprite*> levelsprites;

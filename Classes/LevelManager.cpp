@@ -7,6 +7,7 @@ void LevelManager::changeLevel(int level)
 {
 	if (level == 1)
 	{
+		currentlevel = 1;
 		levelsprites.clear();
 		std::string file = "res//maps//key_room_big.tmx";
 		auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
@@ -27,6 +28,7 @@ void LevelManager::changeLevel(int level)
 	}
 	else if (level == 2)
 	{
+		currentlevel = 2;
 		levelsprites.clear();
 		std::string file = "res//maps//happy_sun_paint.tmx";
 		auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
@@ -47,6 +49,7 @@ void LevelManager::changeLevel(int level)
 	}
 	else if (level == 3)
 	{
+		currentlevel = 3;
 		levelsprites.clear();
 		std::string file = "res//maps//pteradactyl_room.tmx";
 		auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
