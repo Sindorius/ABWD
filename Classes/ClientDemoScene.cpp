@@ -77,44 +77,40 @@ bool ClientDemo::init()
 		CCLOG(e.what());
 	}
 
+	
 	levelmanager.changeLevel(1);
-	std::string file = "res//maps//key_room_big.tmx";
-	auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
-	tileMap = cocos2d::CCTMXTiledMap::createWithXML(str->getCString(), "");
-
-	addChild(tileMap, -1000);
-
-	// Load the paint bucket layer
-	bucketlayer = tileMap->getLayer("Paintbuckets");
-	blockage = tileMap->getLayer("Collision");
+	addChild(levelmanager.levelmap, -1000);
+	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
+	blockage = levelmanager.levelmap->getLayer("Collision");
 	blockage->setVisible(false);
+	
 
 	player1 = Player::create(1);
 	player1->setPlayernum(1);
 	player1->getTexture()->setAliasTexParameters();
 	player1->setAnchorPoint(Vec2(0.5, 0.0));
-	player1->setPosition(Vec2(50, 50));
+	player1->setPosition(Vec2(-50, 50));
 	addChild(player1, 0);
 
 	player2 = Player::create(2);
 	player2->setPlayernum(2);
 	player2->getTexture()->setAliasTexParameters();
 	player2->setAnchorPoint(Vec2(0.5, 0.0));
-	player2->setPosition(Vec2(50, 100));
+	player2->setPosition(Vec2(-50, 100));
 	addChild(player2, 0);
 
 	player3 = Player::create(3);
 	player3->setPlayernum(3);
 	player3->getTexture()->setAliasTexParameters();
 	player3->setAnchorPoint(Vec2(0.5, 0.0));
-	player3->setPosition(Vec2(50, 150));
+	player3->setPosition(Vec2(-50, 150));
 	addChild(player3, 0);
 
 	player4 = Player::create(4);
 	player4->setPlayernum(4);
 	player4->getTexture()->setAliasTexParameters();
 	player4->setAnchorPoint(Vec2(0.5, 0.0));
-	player4->setPosition(Vec2(50, 200));
+	player4->setPosition(Vec2(-50, 200));
 	addChild(player4, 0);
 
 	players.push_back(player1);
@@ -399,14 +395,16 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 // This will convert the players coordinates into tile coordinates
 CCPoint ClientDemo::plyrCoordToTileCoord(int playerNum)
 {
-		int newx = players[playerNum -1]->getPositionX() / (tileMap->getTileSize().width + xmove);
-		int newy = (360 - players[playerNum - 1]->getPositionY()) / (tileMap->getTileSize().height + ymove);
-		return(CCPoint(newx, newy));
+	int newx = players[playerNum - 1]->getPositionX() + xmove;
+	int newy = (levelmanager.levelmap->getMapSize().height*levelmanager.levelmap->getTileSize().height) - (players[playerNum - 1]->getPositionY() + ymove);
+  	int tilex = newx / (levelmanager.levelmap->getTileSize().width);
+	int tiley = newy / (levelmanager.levelmap->getTileSize().height);
+	return(CCPoint(tilex,tiley));
 }
 
 int ClientDemo::getTileProperties(CCPoint tileCoord)
 {
-	if (tileCoord.x >= 0 && tileCoord.x <= 25 && tileCoord.y >= 0 && tileCoord.y <= 14)
+	if (tileCoord.x >= 0 && tileCoord.x <= levelmanager.levelmap->getMapSize().width && tileCoord.y >= 0 && tileCoord.y <= levelmanager.levelmap->getMapSize().height)
 	{
 		return (bucketlayer->getTileGIDAt(tileCoord));
 	}
@@ -417,7 +415,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 	if (playerNum == 1) {
 		if (bTile)
 		{
-			auto tilemapvals = tileMap->getPropertiesForGID(bTile).asValueMap();
+			auto tilemapvals = levelmanager.levelmap->getPropertiesForGID(bTile).asValueMap();
 
 			if (!tilemapvals.empty())
 			{
@@ -477,7 +475,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 	else if (playerNum == 2) {
 		if (bTile)
 		{
-			auto tilemapvals = tileMap->getPropertiesForGID(bTile).asValueMap();
+			auto tilemapvals = levelmanager.levelmap->getPropertiesForGID(bTile).asValueMap();
 
 			if (!tilemapvals.empty())
 			{
@@ -532,7 +530,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 	else if (playerNum == 3) {
 		if (bTile)
 		{
-			auto tilemapvals = tileMap->getPropertiesForGID(bTile).asValueMap();
+			auto tilemapvals = levelmanager.levelmap->getPropertiesForGID(bTile).asValueMap();
 
 			if (!tilemapvals.empty())
 			{
@@ -588,7 +586,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 	else if (playerNum == 4) {
 		if (bTile)
 		{
-			auto tilemapvals = tileMap->getPropertiesForGID(bTile).asValueMap();
+			auto tilemapvals = levelmanager.levelmap->getPropertiesForGID(bTile).asValueMap();
 
 			if (!tilemapvals.empty())
 			{
@@ -647,6 +645,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 // Will check to see if you are on a bucket and change the color of the player's label
 void ClientDemo::space()
 {
+		
 		CCPoint tileCoord = plyrCoordToTileCoord(playernum);
 		int bTile = getTileProperties(tileCoord);
 		changeLabelColor(bTile, playernum);
@@ -912,6 +911,8 @@ void ClientDemo::loadLevel(int level)
 
 	blockage = levelmanager.levelmap->getLayer("Collision");
 	blockage->setVisible(false);
+	
+	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
 
 	for (Sprite* s : levelmanager.levelsprites)
 	{

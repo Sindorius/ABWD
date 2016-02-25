@@ -31,7 +31,7 @@ bool ServerDemo::init()
 
 	levelmanager.changeLevel(1);
 	addChild(levelmanager.levelmap, -1000);
-
+	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
 	blockage = levelmanager.levelmap->getLayer("Collision");
 	blockage->setVisible(false);
 
@@ -48,7 +48,7 @@ bool ServerDemo::init()
 	ValueMap playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
 	ValueMap playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
 
-	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
+	
 
 	player1 = Player::create(1);
 	player1->setPlayernum(1);

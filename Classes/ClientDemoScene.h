@@ -34,7 +34,8 @@ class TCPCSession;
 class ClientDemo : public cocos2d::Layer
 {
 private:
-	cocos2d::CCTMXTiledMap* tileMap;
+
+	CCTMXTiledMap* levelmap; 
 	cocos2d::CCTMXLayer* bucketlayer;
 	cocos2d::CCTMXLayer* blockage;
 
