@@ -15,12 +15,12 @@
   <image source="../sprites/buckets.png" width="360" height="24"/>
   <tile id="0">
    <properties>
-    <property name="Red" value="true"/>
+    <property name="Red1" value="true"/>
    </properties>
   </tile>
   <tile id="1">
    <properties>
-    <property name="Blue" value="true"/>
+    <property name="Blue1" value="true"/>
    </properties>
   </tile>
   <tile id="2">
@@ -30,12 +30,62 @@
   </tile>
   <tile id="3">
    <properties>
-    <property name="Yellow" value="true"/>
+    <property name="Yellow1" value="true"/>
    </properties>
   </tile>
   <tile id="4">
    <properties>
     <property name="Black" value="true"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Blue2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Blue3" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Green1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Green2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="Green3" value="true"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="White" value="true"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="Red2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="Grey1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="Grey2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="Purple1" value="true"/>
    </properties>
   </tile>
  </tileset>
@@ -50,6 +100,9 @@
  <tileset firstgid="124" name="instructions" tilewidth="24" tileheight="24" tilecount="18">
   <image source="../sprites/objects/instructions.png" width="144" height="72"/>
  </tileset>
+ <tileset firstgid="142" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
+  <image source="../sprites/tiles/paintings as tiles.png" width="120" height="168"/>
+ </tileset>
  <layer name="Floor" width="26" height="15">
   <data encoding="base64" compression="zlib">
    eJxzZGBgcBzFZGEPIPYkgiZGDTYaZo8/EAcQQXuSoBaZHvUP9f3jMcj9g00dKfHjT6R/PCn0DznxQq5/SI2XgfIPPTAASSVt3g==
@@ -62,12 +115,7 @@
  </layer>
  <layer name="Paintbuckets" width="26" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFtAb5UDoPSucOlENGwSgYBaOACAAADDoBSw==
-  </data>
- </layer>
- <layer name="Boards" width="26" height="15">
-  <data encoding="base64" compression="zlib">
-   eJztzTsOgCAQRdHZD1gRK2Rn/lDRbXuN9ZBoSeYmp3x5Im8OXtGJ3tddwIgJMxasyOgrP89uw44DBScuZRcxKFLl5+/OsiyrlW4ddw1j
+   eJxjYBgFtACFQFwJxNlAnAfEpUBcBMTFQFwygO4aBaNgFIwCQgAAxbQDkg==
   </data>
  </layer>
  <objectgroup name="SpawnObjects">
@@ -76,9 +124,14 @@
   <object id="87" name="P3spawnPoint" x="471" y="123" width="43" height="46"/>
   <object id="88" name="P4spawnPoint" x="470" y="250" width="45" height="47"/>
  </objectgroup>
- <layer name="Collision" width="26" height="15">
+ <layer name="Collision" width="26" height="15" visible="0">
   <data encoding="base64" compression="zlib">
    eJyrYmBgqBrFZGFag1F7Ru0ZtWfUHnR76IEBnPY8DQ==
+  </data>
+ </layer>
+ <layer name="Painting" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztzbkNACAQA0H6L4P/hxLZEo6AAOlWmtCyMbIsHDwConB3W0JGQUV79NMxMLGwH/1omqb91gFq+gno
   </data>
  </layer>
 </map>

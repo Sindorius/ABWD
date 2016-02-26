@@ -10,7 +10,8 @@ ORDER = ['black',
 
 ORDER = ['red1',  'blue1', 'orange', 'yellow1', 'black',
          'blue2', 'blue3',
-         'green1', 'green2', 'green3']
+         'green1', 'green2', 'green3',
+         'white', 'red2', 'grey1', 'grey2', 'purple1']
 
 DEFAULT = pygame.Color(255, 0, 0)
 TILE_DIM = 24
