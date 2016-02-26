@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="26" height="15" tilewidth="24" tileheight="24" nextobjectid="90">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="27" tilewidth="24" tileheight="24" nextobjectid="98">
  <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
   <image source="../sprites/tiles/walls.png" width="192" height="192"/>
  </tileset>
@@ -103,35 +103,40 @@
  <tileset firstgid="142" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
   <image source="../sprites/tiles/paintings as tiles.png" width="120" height="168"/>
  </tileset>
- <layer name="Floor" width="26" height="15">
+ <layer name="Floor" width="34" height="27">
   <data encoding="base64" compression="zlib">
-   eJxzZGBgcBzFZGEPIPYkgiZGDTYaZo8/EAcQQXuSoBaZHvUP9f3jMcj9g00dKfHjT6R/PCn0DznxQq5/SI2XgfIPPTAASSVt3g==
+   eJyFlkEOwyAMBHmeOcH/X9NWKtJmMk4OiELA2Ov1unOMMb9j/ef8/ZvrOzbW67+Xd3acO2dWrHPv2JlhZ8X6zIX9Glef0gfaTvtb3pzNusYdg4mR72SMZ/+8mX5u2EtcGfe5W+MZvz2uuSj5nr5teZd36BtjIE+qsZlxMG7ibtyrcfex8I3zG/7JtbzD/JDvW37nzDOWo/R1YdB32rB8sH6IPTlruWNcc3ges/4YB22YXjCXFm+JDfKEtWAcIy60bbrBPau9Le/SH7NnvlOTiAU5kOcKdrk2PLn39h7fznipm8yvaXGX07y/5S5znxgyNuMefep6DrlKrKzfdPGYzhfeJC+Ib3KHPLK42Ie72u36pNWD1fhTXKa/xMd08qnuiAV1rIuL+bGaYy0QW9NtxvQWV2Jo/LX+QH1m7+s07Sku6pLpgvXHDqOuB9Bed5a5Mx+IL+vXas60zuIy3SC2ybHklPUt4zx52PVfcjx9YU2xf5ousyaJE7U1dYVazr5GTbb6sBqifpGDpp2ml+QCMTE8aaerefKUGJGD1FvyM/2z/zCmH11/ZbydbmYO+HbizTsLd9m3WTesHeb0Z/8D9DkQnw==
   </data>
  </layer>
- <layer name="Walls" width="26" height="15">
+ <layer name="Walls" width="34" height="27">
   <data encoding="base64" compression="zlib">
-   eJxjYWBgEKIxZgVibiCWojHmhNqjRGMMs4fWYNSeUXtG7Rm1B9keNiBmojFmB2IA9soImw==
+   eJzNlrEOgDAIRDs7OjL2/z/SiYQQSoGEk5cQG1G5KIddawbvoCAjvFw1brW2EV6uGrdaFuTkqrAO6/yp1nZySB1Ipul4jOhE1/K83El0dlCzDmt+nLzeSWZ+IJmmA+kVJuIXBBHPIIh4BoHlmb/p+LdXiPSlviazz5P3eN878j5072b2gfIeT0ekP3TvZvaB0TqTdKDmhccU37IO7iM51+hw5LW+VsZWz9PPlGvOfVK/Hhk=
   </data>
  </layer>
- <layer name="Paintbuckets" width="26" height="15">
+ <layer name="Paintbuckets" width="34" height="27">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFtACFQFwJxNlAnAfEpUBcBMTFQFwygO4aBaNgFIwCQgAAxbQDkg==
+   eJztzksKACAMQ8HeVxD8Lby9RXqFWIQ3ELILMQM0WvSOLllHAFxVtLtEuwD+0z3DM7OPAHjuAKbEA5I=
   </data>
  </layer>
- <objectgroup name="SpawnObjects">
+ <objectgroup name="SpawnObjects" visible="0">
   <object id="84" name="P1spawnPoint" x="104" y="125" width="42" height="44"/>
   <object id="85" name="P2spawnPoint" x="108" y="250" width="44" height="45"/>
   <object id="87" name="P3spawnPoint" x="471" y="123" width="43" height="46"/>
   <object id="88" name="P4spawnPoint" x="470" y="250" width="45" height="47"/>
  </objectgroup>
- <layer name="Collision" width="26" height="15" visible="0">
+ <layer name="Collision" width="34" height="27" visible="0">
   <data encoding="base64" compression="zlib">
-   eJyrYmBgqBrFZGFag1F7Ru0ZtWfUHnR76IEBnPY8DQ==
+   eJzt1bEJAAAIA8HM7fSOIEEMCH9gJ/idJakCM0k0fOu4Rod/gw5/Z4sO/wYd/s7Wp/8CAMCFBlKbPA0=
   </data>
  </layer>
- <layer name="Painting" width="26" height="15">
+ <layer name="Painting" width="34" height="27">
   <data encoding="base64" compression="zlib">
-   eJztzbkNACAQA0H6L4P/hxLZEo6AAOlWmtCyMbIsHDwConB3W0JGQUV79NMxMLGwH/1omqb91gFq+gno
+   eJztlkEOgCAMBPn/MxQVFNQnOhw5kHBqE7OTzK1J97RtCHMsk3MetGwrRtxwd8pxYMKMJ15OOQpWvPHB1ymHEJZY98Bon3UPjPZZ94B6RwghevSf9uhO/J8P2LooPw==
+  </data>
+ </layer>
+ <layer name="paint_tiles" width="34" height="27">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUUAsUIuFsKF0JZeOjC5BoGKbUHflUwsPBHZWDxB2DJTyKR92BAopG3YECRuNlcLpjFIyCUTAKBjsAAHlFYzk=
   </data>
  </layer>
 </map>

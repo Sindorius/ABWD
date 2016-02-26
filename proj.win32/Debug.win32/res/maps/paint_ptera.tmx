@@ -134,4 +134,9 @@
    eJxjYCAeTAXiaUA8nQQ95IBZQDwbiOfQ2J75QLwAiBfS2J5RMApGwSgYSgAA9AMFdA==
   </data>
  </layer>
+ <layer name="paint_tiles" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFowA/KMCCi6AYxi9GwgUU2FNIIh7M9hTTyZ7hFm6k2kEve0YSAACD7S12
+  </data>
+ </layer>
 </map>
