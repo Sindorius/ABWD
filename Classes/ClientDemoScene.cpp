@@ -4,8 +4,8 @@ USING_NS_CC;
 //using boost::asio::ip::udp;
 using boost::asio::ip::tcp;
 
-#define AUDIO_ON 0 //toggles sfx on/off
-#define MUSIC_ON 0 //toggles whether background music is on/off
+#define AUDIO_ON 1 //toggles all audio on/off
+#define MUSIC_ON 1 //toggles whether background music is on/off
 
 
 Scene* ClientDemo::createScene()
@@ -185,26 +185,54 @@ bool ClientDemo::init()
 	
 	if (AUDIO_ON)
 	{
-		//preload audio assets
 		//soundIDList index values are significant:
 		// soundIDList[0] = paint
 		// soundIDList[1] = player_hit
 		// soundIDList[2] = sam_teleport
 		// soundIDList[3] = sam_reappear
-		// soundIDList[4] = sam_whistle_delay
-		// soundIDList[5] = ptero_swoop_softer
-		soundIDList.push_back(CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\paint.aiff"));
-		soundIDList.push_back(CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\player_hit.wav"));
-		soundIDList.push_back(CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\sam_teleport.aiff"));
-		soundIDList.push_back(CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\sam_reappear.aiff"));
-		soundIDList.push_back(CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\sam_whistle_delay.aiff"));
-		soundIDList.push_back(CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("\\res\\sound\\sfx\\ptero_swoop_softer.aiff"));
-		
+		// soundIDList[4] = sam_whistle
+		// soundIDList[5] = ptero_swoop
+		// soundIDList[6] = get_paint
+		// soundIDList[7] = player candy pickup
+
+		for (int i = 0; i < 3; i++)
+		{
+			pSFXTrigs[i].onBucket = false;
+			pSFXTrigs[i].onGrid = false; //no grid-detection, yet.
+		}
+
+		experimental::AudioEngine::preload("\\res\\sound\\sfx\\paint.mp3");
+		experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_hit.mp3");
+		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_teleport.mp3");
+		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_reappear.mp3");
+		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_whistle.mp3");
+		experimental::AudioEngine::preload("\\res\\sound\\sfx\\ptero_swoop.mp3");
+		experimental::AudioEngine::preload("\\res\\sound\\sfx\\get_paint.mp3");
+		experimental::AudioEngine::preload("\\res\\sound\\sfx\\player candy pickup.mp3");
+
+
+		//can probably remove code chunk below by initialzing soundIDList to AudioEngine::INVALID_AUDIO_ID
+		//then checking for that in audio sound checks in processSound()
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3", false, 0.0));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_hit.mp3", false, 0.0));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_teleport.mp3", false, 0.0));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_reappear.mp3", false, 0.0));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_whistle.mp3", false, 0.0));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop.mp3", false, 0.0));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\get_paint.mp3", false, 0.0));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player candy pickup.mp3", false, 0.0));
+
+		for (int i = 0; i < soundIDList.size(); i++)
+		{
+			isSFXPlaying.push_back(false);
+		}
+
 		if (MUSIC_ON)
 		{
 			//run background music
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("\\res\\sound\\music\\music_1.mp3", true);
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.2);
+			experimental::AudioEngine::preload("\\res\\sound\\music\\music_1.mp3");
+			experimental::AudioEngine::play2d("\\res\\sound\\music\\music_1.mp3", true, 0.5);
+
 		}
 	}
 
@@ -445,38 +473,48 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				{
 					//p1CLabel->setString("Red");
 					p1CLabel->setFontFillColor(ccc3(247, 52, 47));
+					pSFXTrigs[0].onBucket = true; //0=p1, 1=p2, 2=p3, 3=p4
 				}
 				if ("true" == b)
 				{
 					//p1CLabel->setString("Blue");
 					p1CLabel->setFontFillColor(ccc3(49, 58, 197));
+					pSFXTrigs[0].onBucket = true;
 				}
 				if ("true" == y) {
 					//p1CLabel->setString("Yellow");
 					p1CLabel->setFontFillColor(ccc3(222, 244, 69));
+					pSFXTrigs[0].onBucket = true;
 				}
 				if ("true" == o) {
 					//p1CLabel->setString("Orange");
 					p1CLabel->setFontFillColor(ccc3(234, 152, 46));
+					pSFXTrigs[0].onBucket = true;
 				}
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
+					pSFXTrigs[0].onBucket = true;
 				}
 				
 				if ("true" == b2) {
 					p1CLabel->setFontFillColor(ccc3(4, 31, 131));
+					pSFXTrigs[0].onBucket = true;
 				}
 				if ("true" == b3) {
 					p1CLabel->setFontFillColor(ccc3(1, 16, 73));
+					pSFXTrigs[0].onBucket = true;
 				}
 				if ("true" == g1) {
 					p1CLabel->setFontFillColor(ccc3(2, 123, 36));
+					pSFXTrigs[0].onBucket = true;
 				}
 				if ("true" == g2) {
 					p1CLabel->setFontFillColor(ccc3(11, 187, 60));
+					pSFXTrigs[0].onBucket = true;
 				}
 				if ("true" == g3) {
 					p1CLabel->setFontFillColor(ccc3(47, 247, 145));
+					pSFXTrigs[0].onBucket = true;
 				}
 			}
 		}
@@ -503,35 +541,45 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == r)
 				{
 					p2CLabel->setFontFillColor(ccc3(247, 52, 47));
+					pSFXTrigs[1].onBucket = true;
 				}
 				if ("true" == b)
 				{
 					p2CLabel->setFontFillColor(ccc3(49, 58, 197));
+					pSFXTrigs[1].onBucket = true;
 				}
 				if ("true" == y) {
 					p2CLabel->setFontFillColor(ccc3(222, 244, 69));
+					pSFXTrigs[1].onBucket = true;
 				}
 				if ("true" == o) {
 					p2CLabel->setFontFillColor(ccc3(234, 152, 46));
+					pSFXTrigs[1].onBucket = true;
 				}
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
+					pSFXTrigs[1].onBucket = true;
 				}
 				
 				if ("true" == b2) {
 					p2CLabel->setFontFillColor(ccc3(4, 31, 131));
+					pSFXTrigs[1].onBucket = true;
 				}
 				if ("true" == b3) {
 					p2CLabel->setFontFillColor(ccc3(1, 16, 73));
+					pSFXTrigs[1].onBucket = true;
 				}
 				if ("true" == g1) {
 					p2CLabel->setFontFillColor(ccc3(2, 123, 36));
+					pSFXTrigs[1].onBucket = true;
 				}
 				if ("true" == g2) {
 					p2CLabel->setFontFillColor(ccc3(11, 187, 60));
+					pSFXTrigs[1].onBucket = true;
 				}
 				if ("true" == g3) {
 					p2CLabel->setFontFillColor(ccc3(47, 247, 145));
+					pSFXTrigs[1].onBucket = true;
 				}
 			}
 		}
@@ -558,35 +606,45 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == r)
 				{
 					p3CLabel->setFontFillColor(ccc3(247, 52, 47));
+					pSFXTrigs[2].onBucket = true;
 				}
 				if ("true" == b)
 				{
 					p3CLabel->setFontFillColor(ccc3(49, 58, 197));
+					pSFXTrigs[2].onBucket = true;
 				}
 				if ("true" == y) {
 					p3CLabel->setFontFillColor(ccc3(222, 244, 69));
+					pSFXTrigs[2].onBucket = true;
 				}
 				if ("true" == o) {
 					p3CLabel->setFontFillColor(ccc3(234, 152, 46));
+					pSFXTrigs[2].onBucket = true;
 				}
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
+					pSFXTrigs[2].onBucket = true;
 				}
 				
 				if ("true" == b2) {
 					p3CLabel->setFontFillColor(ccc3(4, 31, 131));
+					pSFXTrigs[2].onBucket = true;
 				}
 				if ("true" == b3) {
 					p3CLabel->setFontFillColor(ccc3(1, 16, 73));
+					pSFXTrigs[2].onBucket = true;
 				}
 				if ("true" == g1) {
 					p3CLabel->setFontFillColor(ccc3(2, 123, 36));
+					pSFXTrigs[2].onBucket = true;
 				}
 				if ("true" == g2) {
 					p3CLabel->setFontFillColor(ccc3(11, 187, 60));
+					pSFXTrigs[2].onBucket = true;
 				}
 				if ("true" == g3) {
 					p3CLabel->setFontFillColor(ccc3(47, 247, 145));
+					pSFXTrigs[2].onBucket = true;
 				}
 			}
 		}
@@ -614,35 +672,45 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == r)
 				{
 					p4CLabel->setFontFillColor(ccc3(247, 52, 47));
+					pSFXTrigs[3].onBucket = true;
 				}
 				if ("true" == b)
 				{
 					p4CLabel->setFontFillColor(ccc3(49, 58, 197));
+					pSFXTrigs[3].onBucket = true;
 				}
 				if ("true" == y) {
 					p4CLabel->setFontFillColor(ccc3(222, 244, 69));
+					pSFXTrigs[3].onBucket = true;
 				}
 				if ("true" == o) {
 					p4CLabel->setFontFillColor(ccc3(234, 152, 46));
+					pSFXTrigs[3].onBucket = true;
 				}
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
+					pSFXTrigs[3].onBucket = true;
 				}
 
 				if ("true" == b2) {
 					p4CLabel->setFontFillColor(ccc3(4, 31, 131));
+					pSFXTrigs[3].onBucket = true;
 				}
 				if ("true" == b3) {
 					p4CLabel->setFontFillColor(ccc3(1, 16, 73));
+					pSFXTrigs[3].onBucket = true;
 				}
 				if ("true" == g1) {
 					p4CLabel->setFontFillColor(ccc3(2, 123, 36));
+					pSFXTrigs[3].onBucket = true;
 				}
 				if ("true" == g2) {
 					p4CLabel->setFontFillColor(ccc3(11, 187, 60));
+					pSFXTrigs[3].onBucket = true;
 				}
 				if ("true" == g3) {
 					p4CLabel->setFontFillColor(ccc3(47, 247, 145));
+					pSFXTrigs[3].onBucket = true;
 				}
 				
 			}
@@ -963,112 +1031,324 @@ void ClientDemo::centerCamera()
 
 void ClientDemo::processSound(ServerPositionPacket &p) {
 
-	//	ISSUES/BUGS
+	//===========================================================
+	//					ISSUES AND BUGS
+	//===========================================================
+	//	1. Still need to check if player is on paint grid before 
+	//	playing paint sound.
 	//
-	//  1. animation for getting paint and painting are the same. sfx will be the same
-	//     for both for now, but if animations could be seperated (using same sprites though)
-	//	   a seperate sfx could be used for each, if desired.
-	//  2. Slight stutter when some audio plays
-	//  3. Detect when levels change to apply SFX
+	//	2. Volume of various SFX need a little more adjustment.
 	//
+	//	3. Pterodactyl swooping is still not QUITE there yet.
+	//	Sound and pacing need a little work.
 	//
+	//	4. Candy-related SFX is not implemented yet.
+	//
+	//	5. Need to add level-changing SFX. Will do when Jocelyn
+	//	adds menus, screens and such.
+	//
+	//	6. Paint SFX needs to be a little shorter, and only sound
+	//	like one stroke instead of two.
+	//
+	//	7. Sam hitting a player triggers sfx even if they're idle
+	//	or have no tiles painted. Will look into solutions, but not
+	//	a priority.
+	//============================================================
 
-	//if villain touches a player
-	if (abs(p.vx - p.p1x) < 5 && abs(p.vy - p.p1y) < 5)
+	// GOOD REFERENCES FOR AUDIO CODING
+	// http://dan.clarke.name/2011/07/cocos2d-sound-in-android-tutorial/
+	// https://searchcode.com/codesearch/view/95985619/
+
+	//===========================================================
+	//        NON-ANIMATION BASED AUDIO CODE
+	//===========================================================
+
+	//If Sam touches a player
+	if (pIFrames[0] == 0)
 	{
-		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying(soundIDList[1]) == false)
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\player_hit.wav");
+		if (abs(p.vx - p.p1x) < 5 && abs(p.vy - p.p1y) < 5)
+		{
+			if (false == isSFXPlaying[1])
+			{
+				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_hit.mp3");
+				isSFXPlaying[1] = true;
+				experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
+				{
+					isSFXPlaying[1] = false;
+				});
+				pIFrames[0] = 3 * 30; //3 seconds of iframes at 30 fps
+			}
+		}
 	}
-	if (abs(p.vx - p.p2x) < 5 && abs(p.vy - p.p2y) < 5)
+	if (pIFrames[1] == 0)
 	{
-		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying(soundIDList[1]) == false)
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\player_hit.wav");
+		if (abs(p.vx - p.p2x) < 5 && abs(p.vy - p.p2y) < 5)
+		{
+			if (false == isSFXPlaying[1])
+			{
+				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_hit.mp3");
+				isSFXPlaying[1] = true;
+				experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
+				{
+					isSFXPlaying[1] = false;
+				});
+				pIFrames[1] = 3 * 30; //3 seconds of iframes at 30 fps
+			}
+		}
 	}
-	if (abs(p.vx - p.p3x) < 5 && abs(p.vy - p.p3y) < 5)
+
+	if (pIFrames[2] == 0)
 	{
-		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying(soundIDList[1]) == false)
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\player_hit.wav");
+		if (abs(p.vx - p.p3x) < 5 && abs(p.vy - p.p3y) < 5)
+		{
+			if (false == isSFXPlaying[1])
+			{
+				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_hit.mp3");
+				isSFXPlaying[1] = true;
+				experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
+				{
+					isSFXPlaying[1] = false;
+				});
+				pIFrames[2] = 3 * 30; //3 seconds of iframes at 30 fps
+			}
+		}
 	}
-	if (abs(p.vx - p.p4x) < 5 && abs(p.vy - p.p4y) < 5)
+
+	if (pIFrames[3] == 0)
 	{
-		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying(soundIDList[1]) == false)
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\player_hit.wav");
+		if (abs(p.vx - p.p4x) < 5 && abs(p.vy - p.p4y) < 5)
+		{
+			if (false == isSFXPlaying[1])
+			{
+				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_hit.mp3");
+				isSFXPlaying[1] = true;
+				experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
+				{
+					isSFXPlaying[1] = false;
+				});
+				pIFrames[3] = 3 * 30; //3 seconds of iframes at 30 fps
+			}
+		}
 	}
-	
+	//If Sam touches a player - end
+
+	//===========================================================
+	//    END OF NON-ANIMATION BASED AUDIO CODE
+	//===========================================================
+
+
+
+
+
+	//===========================================================
+	//        ANIMATION-BASED AUDIO CODE
+	//===========================================================
+
 	// soundIDList[0] = paint
 	// soundIDList[1] = player_hit
 	// soundIDList[2] = sam_teleport
 	// soundIDList[3] = sam_reappear
-	// soundIDList[4] = sam_whistle_delay
-	// soundIDList[5] = ptero_swoop_softer
+	// soundIDList[4] = sam_whistle
+	// soundIDList[5] = ptero_swoop
+	// soundIDList[6] = get_paintc
+	// soundIDList[7] = player candy pickup
 
-	//animation-based audio here
+
 	//switch used here in case further animation states are created. modular switch-cases superior.
-
-	switch(p.p1anim) {
+	switch (p.p1anim) {
 	case 5: //p1paint
-		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying(soundIDList[0]) == false)
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\paint.aiff");
+
+		if (pSFXTrigs[0].onBucket == true) //if the player is on a bucket
+		{
+			if (isSFXPlaying[6] == false)
+			{
+				soundIDList[6] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\get_paint.mp3", false, 0.5);
+				isSFXPlaying[6] = true;
+				experimental::AudioEngine::setFinishCallback(soundIDList[6], [&](int id, const std::string& filePath)
+				{
+					isSFXPlaying[6] = false;
+				});
+			}
+			pSFXTrigs[0].onBucket = false; //need better way to check if theyre onbucket
+		}
+		else
+		{
+			if (false == isSFXPlaying[0])
+			{
+				if (isSFXPlaying[6] == false)
+				{
+					soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
+					isSFXPlaying[0] = true;
+					experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
+					{
+						isSFXPlaying[0] = false;
+					});
+				}
+			}
+		}
 		break;
 	default: break;
 	}
 	switch (p.p2anim) {
 	case 11: //p1paint
-		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying(soundIDList[0]) == false)
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\paint.aiff");
+		if (pSFXTrigs[1].onBucket == true) //if the player is on a bucket
+		{
+			if (isSFXPlaying[6] == false)
+			{
+				soundIDList[6] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\get_paint.mp3", false, 0.5);
+				isSFXPlaying[6] = true;
+				experimental::AudioEngine::setFinishCallback(soundIDList[6], [&](int id, const std::string& filePath)
+				{
+					isSFXPlaying[6] = false;
+				});
+			}
+			pSFXTrigs[1].onBucket = false; 
+		}
+		else
+		{
+			if (false == isSFXPlaying[0])
+			{
+				if (isSFXPlaying[6] == false)
+				{
+					soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
+					isSFXPlaying[0] = true;
+					experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
+					{
+						isSFXPlaying[0] = false;
+					});
+				}
+			}
+		}
 		break;
 	default: break;
 	}
 	switch (p.p3anim) {
 	case 17: //p1paint
-		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying(soundIDList[0]) == false)
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\paint.aiff");
+		if (pSFXTrigs[2].onBucket == true) //if the player is on a bucket
+		{
+			if (isSFXPlaying[6] == false)
+			{
+				soundIDList[6] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\get_paint.mp3", false, 0.5);
+				isSFXPlaying[6] = true;
+				experimental::AudioEngine::setFinishCallback(soundIDList[6], [&](int id, const std::string& filePath)
+				{
+					isSFXPlaying[6] = false;
+				});
+			}
+			pSFXTrigs[2].onBucket = false; 
+		}
+		else
+		{
+			if (false == isSFXPlaying[0])
+			{
+				if (isSFXPlaying[6] == false)
+				{
+					soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
+					isSFXPlaying[0] = true;
+					experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
+					{
+						isSFXPlaying[0] = false;
+					});
+				}
+			}
+		}
 		break;
 	default: break;
 	}
 	switch (p.p4anim) {
 	case 23: //p1paint
-		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying(soundIDList[0]) == false)
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\paint.aiff");
+		if (pSFXTrigs[3].onBucket == true) //if the player is on a bucket
+		{
+			if (isSFXPlaying[6] == false)
+			{
+				soundIDList[6] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\get_paint.mp3", false, 0.5);
+				isSFXPlaying[6] = true;
+				experimental::AudioEngine::setFinishCallback(soundIDList[6], [&](int id, const std::string& filePath)
+				{
+					isSFXPlaying[6] = false;
+				});
+			}
+			pSFXTrigs[3].onBucket = false;
+		}
+		else
+		{
+			if (false == isSFXPlaying[0])
+			{
+				if (isSFXPlaying[6] == false)
+				{
+					soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
+					isSFXPlaying[0] = true;
+					experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
+					{
+						isSFXPlaying[0] = false;
+					});
+				}
+			}
+		}
 		break;
 	default: break;
 	}
 	switch (p.vanim) {
 	case 29: //samwarp
-		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying(soundIDList[2]) == false)
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\sam_teleport.aiff");
+		if (false == isSFXPlaying[2])
+		{
+			soundIDList[2] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_teleport.mp3");
+			isSFXPlaying[2] = true;
+			experimental::AudioEngine::setFinishCallback(soundIDList[2], [&](int id, const std::string& filePath)
+			{
+				isSFXPlaying[2] = false;
+			});
+		}
 		break;
 	case 30: //samappear
-		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying(soundIDList[3]) == false)
+		if (false == isSFXPlaying[3])
+		{
+			soundIDList[3] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_reappear.mp3");
+			isSFXPlaying[3] = true;
+			experimental::AudioEngine::setFinishCallback(soundIDList[3], [&](int id, const std::string& filePath)
 			{
-				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\sam_reappear.aiff");
-			}
+				isSFXPlaying[3] = false;
+			});
+		}
 		break;
 	case 31: //samwhistle
-		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying(soundIDList[4]) == false)
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\sam_whistle_delay.aiff");
+		if (false == isSFXPlaying[4])
+		{
+			soundIDList[4] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_whistle.mp3");
+			isSFXPlaying[4] = true;
+			experimental::AudioEngine::setFinishCallback(soundIDList[4], [&](int id, const std::string& filePath)
+			{
+				isSFXPlaying[4] = false;
+			});
+		}
 		break;
 	default: break;
 	}
-	//I don't like swoop sound right now so pterodactyl sfx is disabled until I find a good one
-	/*
+
 	switch (p.ptanim) {
 	case 33: //pteraleft
-		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying(soundIDList[4]) == true)
+		if (false == isSFXPlaying[5])
 		{
-			if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying(soundIDList[5]) == false)
-			{
-				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("\\res\\sound\\sfx\\ptero_swoop_softer.aiff", true);
-			}
-		}
-		if (CocosDenshion::SimpleAudioEngine::sharedEngine()->isEffectPlaying(soundIDList[4]) == false)
-		{
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->stopEffect(soundIDList[5]);
+			//change ptero_swoop to have 2 second silence after it plays
+			soundIDList[5] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop.mp3", true, 0.1);
+			isSFXPlaying[5] = true;
+			//experimental::AudioEngine::setFinishCallback(soundIDList[5], [&](int id, const std::string& filePath)
+			//{
+			//	isSFXPlaying[5] = false;
+			//});
 		}
 		break;
 	default: break;
-	} */
+	}
 
+	//===========================================================
+	//     END OF ANIMATION-BASED AUDIO CODE
+	//===========================================================
+	for (int i = 0; i < 3; i++)
+	{
+		if (pIFrames[i] > 0)
+			pIFrames[i]--;
+	}
 }
 
 

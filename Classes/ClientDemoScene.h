@@ -6,7 +6,7 @@
 #include "Villain.h"
 #include "Pterodactyl.h"
 #include "Candy.h"
-#include "SimpleAudioEngine.h"
+#include "AudioEngine.h"
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
@@ -122,6 +122,17 @@ public:
 	} };
 	
 	std::vector<unsigned int> soundIDList; //keeps list of unique sound IDs
+	std::vector<bool> isSFXPlaying; //bools that check whether a certain sfx is playing
+	//isSFXPlaying indexes correspond to soundIDList indexes, 
+	//i.e. isSFXPlaying[0] corresponds to the sound whose sound ID is in soundIDList[0].
+
+	//struct of bool checks for whether player is on paint grid/bucket or not
+	struct playerTriggers {
+		bool onGrid;
+		bool onBucket;
+	};
+	playerTriggers pSFXTrigs[4];
+	unsigned int pIFrames[4] = { 0,0,0,0 }; //temporary iframes fix for sfx until real iframes implemented
 	void processSound(ServerPositionPacket &p);
 	
 	//currentarray = keytilevalues;
