@@ -1,6 +1,8 @@
 #ifndef __CLIENTDEMO_SCENE_H__
 #define __CLIENTDEMO_SCENE_H__
 
+#pragma warning(disable : 4996)
+
 #include "cocos2d.h"
 #include "Player.h"
 #include "Villain.h"

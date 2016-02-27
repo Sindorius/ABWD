@@ -27,7 +27,7 @@ private:
 	int posy;
 	float Xvelocity = 0;
 	float Yvelocity = 0;
-	float acceleration = .1;
+	float acceleration = .1f;
 	std::string animstate = "";
 	bool running = false;
 	bool hostile = false;

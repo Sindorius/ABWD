@@ -222,7 +222,7 @@ bool ClientDemo::init()
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\get_paint.mp3", false, 0.0));
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_pickup.mp3", false, 0.0));
 
-		for (int i = 0; i < soundIDList.size(); i++)
+		for (unsigned int i = 0; i < soundIDList.size(); i++)
 		{
 			isSFXPlaying.push_back(false);
 		}
@@ -334,9 +334,9 @@ void ClientDemo::update(float dt)
 
 	tileHighlight->setOpacity(0);
 
-	for (int i = 0; i < tilespritevector.size(); i++)
+	for (unsigned int i = 0; i < tilespritevector.size(); i++)
 	{
-		for (int j = 0; j < tilespritevector[i].size(); j++)
+		for (unsigned int j = 0; j < tilespritevector[i].size(); j++)
 		{
 			if (players[playernum - 1]->getPositionX() > tilespritevector[i][j]->getPositionX() - 12 && players[playernum - 1]->getPositionX() < tilespritevector[i][j]->getPositionX() + 12 && players[playernum - 1]->getPositionY() > tilespritevector[i][j]->getPositionY() - 12 && players[playernum - 1]->getPositionY() < tilespritevector[i][j]->getPositionY() + 12)
 			{
@@ -806,9 +806,9 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	}
 
 
-for (int i = 0; i < p.tilevector.size(); i++)
+for (unsigned int i = 0; i < p.tilevector.size(); i++)
 	{
-		for (int j = 0; j < p.tilevector[i].size(); j++)
+		for (unsigned int j = 0; j < p.tilevector[i].size(); j++)
 		{
 			if (levelmanager.puzzle.currenttilevector[i][j] != p.tilevector[i][j])
 			{
@@ -972,9 +972,9 @@ void ClientDemo::loadLevel(int level)
 		removeChild(s);
 	}
 
-	for (int i = 0; i < tilespritevector.size(); i++)
+	for (unsigned int i = 0; i < tilespritevector.size(); i++)
 	{
-		for (int j = 0; j < tilespritevector[i].size(); j++)
+		for (unsigned int j = 0; j < tilespritevector[i].size(); j++)
 		{
 			removeChild(tilespritevector[i][j]);
 		}
@@ -1004,14 +1004,14 @@ void ClientDemo::setupPaintTiles()
 {
 
 	tilespritevector.resize(levelmanager.puzzle.currenttilevector.size());
-	for (int i = 0; i < tilespritevector.size(); i++)
+	for (unsigned int i = 0; i < tilespritevector.size(); i++)
 	{
 		tilespritevector[i].resize(levelmanager.puzzle.currenttilevector[i].size());
 	}
 
-	for (int i = 0; i < tilespritevector.size(); i++)
+	for (unsigned int i = 0; i < tilespritevector.size(); i++)
 	{
-		for (int j = 0; j < tilespritevector[i].size(); j++)
+		for (unsigned int j = 0; j < tilespritevector[i].size(); j++)
 		{
 			tilespritevector[i][j] = PaintTile::create();
 			tilespritevector[i][j]->setPosition(24 * j + levelmanager.tilestartpoint.x, 24 * i + levelmanager.tilestartpoint.y);
@@ -1330,7 +1330,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		if (false == isSFXPlaying[5])
 		{
 			//change ptero_swoop to have 2 second silence after it plays
-			soundIDList[5] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop.mp3", true, 0.1);
+			soundIDList[5] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop.mp3", true, 0.1f);
 			isSFXPlaying[5] = true;
 			//experimental::AudioEngine::setFinishCallback(soundIDList[5], [&](int id, const std::string& filePath)
 			//{

@@ -139,9 +139,9 @@ public:
 
 	bool isSolved()
 	{
-		for (int i = 0; i < currenttilevector.size(); i++)
+		for (unsigned int i = 0; i < currenttilevector.size(); i++)
 		{
-			for (int j = 0; j < currenttilevector[i].size(); j++)
+			for (unsigned int j = 0; j < currenttilevector[i].size(); j++)
 			{
 				if (currenttilevector[i][j] != currenttilevectorsolution[i][j])
 				{
