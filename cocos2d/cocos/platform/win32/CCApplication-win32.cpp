@@ -56,22 +56,14 @@ Application::Application()
 
 Application::~Application()
 {
-  /*
-	CC_ASSERT(this == sm_pSharedApplication);
-    sm_pSharedApplication = nullptr;
-	UINT TARGET_RESOLUTION = 1;         // 1-millisecond target resolution
-	TIMECAPS tc;
-	UINT     wTimerRes;
-	wTimerRes = std::min(std::max(tc.wPeriodMin, TARGET_RESOLUTION), tc.wPeriodMax);
-	timeEndPeriod(wTimerRes);
-	*/
+	
 }
 
 int Application::run()
 {
     PVRFrameEnableControlWindow(false);
-
-	/*
+#if CC_WIN_TIMER1 == 1
+	
 	UINT TARGET_RESOLUTION = 1;         // 1-millisecond target resolution
 	TIMECAPS tc;
 	UINT     wTimerRes;
@@ -83,7 +75,7 @@ int Application::run()
 
 	wTimerRes = std::min(std::max(tc.wPeriodMin, TARGET_RESOLUTION), tc.wPeriodMax);
 	timeBeginPeriod(wTimerRes);
-	*/
+#endif
 
     // Main message loop:
     LARGE_INTEGER nLast;
@@ -108,34 +100,26 @@ int Application::run()
 	
 #if CC_USE_VSYNC == 1
 	glview->setSwapInterval(1);
-#else
-	glview->setSwapInterval(0);
 #endif
-
-
-	
+		
 
     while(!glview->windowShouldClose())
     {
-        
-		#if CC_USE_VSYNC == 1
-		director->mainLoop();
-		#else
-		
+       
 		QueryPerformanceCounter(&nNow);
         if (nNow.QuadPart - nLast.QuadPart > _animationInterval.QuadPart)
         {
            nLast.QuadPart = nNow.QuadPart - (nNow.QuadPart % _animationInterval.QuadPart);
-            
 		   director->mainLoop();
-           glview->pollEvents();
-		
+           //glview->pollEvents();
+
         }
         else
         {
+#if CC_SLEEP_1_MSEC == 1
 			Sleep(1);
+#endif
 		}
-		#endif
 	}
 
     // Director should still do a cleanup if the window was closed manually.
@@ -146,6 +130,12 @@ int Application::run()
         director = nullptr;
     }
     glview->release();
+#if CC_WIN_TIMER1 == 1
+	CC_ASSERT(this == sm_pSharedApplication);
+	sm_pSharedApplication = nullptr;
+	wTimerRes = std::min(std::max(tc.wPeriodMin, TARGET_RESOLUTION), tc.wPeriodMax);
+	timeEndPeriod(wTimerRes);
+#endif
     return 0;
 }
 

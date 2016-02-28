@@ -32,7 +32,7 @@ bool ClientDemo::init()
 	{
 		return false;
 	}
-
+	/*
 	auto director = Director::getInstance();
 	auto glview = director->getOpenGLView();
 	float animint = director->getAnimationInterval();
@@ -59,7 +59,7 @@ bool ClientDemo::init()
 
 	CCLOG("from newswapinterval");
 	CCLOG(std::to_string(newswapinterval).c_str());
-
+	*/
 
 	std::ifstream is("config.json");
 	cereal::JSONInputArchive configloader(is);
@@ -280,6 +280,7 @@ void ClientDemo::update(float dt)
 	{
 		alternate = false;
 	}*/
+	/*
 	if (--swapframecounter <= 0)
 	{
 		swapframecounter = swapframes;
@@ -288,7 +289,7 @@ void ClientDemo::update(float dt)
 	{
 		return;
 	}
-
+	*/
 	players[playernum - 1]->setPositionX(players[playernum - 1]->getPositionX() + xmove);
 	players[playernum - 1]->setPositionY(players[playernum - 1]->getPositionY() + ymove);
 

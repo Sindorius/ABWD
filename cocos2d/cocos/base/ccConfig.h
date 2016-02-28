@@ -381,6 +381,17 @@ THE SOFTWARE.
 #define CC_USE_VSYNC 1
 #endif
 
+ /** Change Windows timer resolution to 1 ms** */
+#ifndef CC_WIN_TIMER1 
+#define CC_WIN_TIMER1 1
+#endif
+
+ /** Sleep for 1 millisecond when waiting to draw frame.  
+ *   If not enabled game loop will busy wait full CPU usage **WARNING** */
+
+#ifndef CC_SLEEP_1_MSEC
+#define CC_SLEEP_1_MSEC 1
+#endif
 
 
 #endif // __CCCONFIG_H__

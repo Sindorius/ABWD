@@ -28,7 +28,7 @@ bool ServerDemo::init()
 	{
 		return false;
 	}
-
+	/*
 	auto director = Director::getInstance();
 	auto glview = director->getOpenGLView();
 	float animint = director->getAnimationInterval();
@@ -55,7 +55,7 @@ bool ServerDemo::init()
 
 	CCLOG("from newswapinterval");
 	CCLOG(std::to_string(newswapinterval).c_str());
-
+	*/
 
 
 	levelmanager.changeLevel(1);
