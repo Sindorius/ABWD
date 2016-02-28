@@ -30,7 +30,9 @@ class TCPServer;
 class ServerDemo : public cocos2d::Layer
 {
 private:
-
+	bool alternate = false;
+	int swapframes = 1;
+	int swapframecounter = 1;
 	//cocos2d::CCTMXTiledMap* tileMap;
 	cocos2d::CCTMXLayer* bucketlayer;
 
@@ -55,9 +57,6 @@ public:
 
 	// Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
 	virtual bool init();
-
-	// a selector callback
-	void menuCloseCallback(cocos2d::Ref* pSender);
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(ServerDemo);
@@ -91,17 +90,6 @@ public:
 	//PaintTile* tileptrarray[6][6];
 
 	std::vector<std::vector<PaintTile*>> tilespritevector;
-	/*
-	std::array<std::array<int, 6>, 6> whichplayertiles =
-	{ {
-	{ 0,0,0,0,0,0 },
-	{ 0,0,0,0,0,0 },
-	{ 0,0,0,0,0,0 },
-	{ 0,0,0,0,0,0 },
-	{ 0,0,0,0,0,0 },
-	{ 0,0,0,0,0,0 }
-	} };
-	*/
 
 	// Paint on the floor
 	void space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, float dymove);
@@ -110,7 +98,7 @@ public:
 	LevelManager levelmanager;
 	void loadLevel(int level);
 	void setupPaintTiles();
-	int idle1, idle2, idle3, idle4;
+	int idle1 = 0, idle2 = 0, idle3 = 0, idle4 = 0;
 	std::vector<std::vector<char>> blankvector;
 	bool sendmap = false;
 	ServerPositionPacket createPacket();

@@ -31,7 +31,6 @@ THE SOFTWARE.
 #include <algorithm>
 #include "platform/CCFileUtils.h"
 #include <shellapi.h>
-#include <boost\thread.hpp>
 #include <iostream>
 
 /**
@@ -106,39 +105,38 @@ int Application::run()
     // Retain glview to avoid glview being released in the while loop
     glview->retain();
 	
-	//float animint = director->getAnimationInterval();
-	//CCLOG("from animint");
-	//CCLOG(std::to_string(animint).c_str());
-	//int refreshrate = glview->getRunningRefreshRate();
-	//CCLOG("from get refresh rate");
-	//CCLOG(std::to_string(refreshrate).c_str());
-	//int newswapinterval = refreshrate*animint;
-	//CCLOG("from newswapinterval");
-	//CCLOG(std::to_string(newswapinterval).c_str());
+	
+#if CC_USE_VSYNC == 1
 	glview->setSwapInterval(1);
+#else
+	glview->setSwapInterval(0);
+#endif
+
+
+	
 
     while(!glview->windowShouldClose())
     {
         
+		#if CC_USE_VSYNC == 1
+		director->mainLoop();
+		#else
+		
 		QueryPerformanceCounter(&nNow);
         if (nNow.QuadPart - nLast.QuadPart > _animationInterval.QuadPart)
         {
-            nLast.QuadPart = nNow.QuadPart - (nNow.QuadPart % _animationInterval.QuadPart);
+           nLast.QuadPart = nNow.QuadPart - (nNow.QuadPart % _animationInterval.QuadPart);
             
-            director->mainLoop();
-            glview->pollEvents();
+		   director->mainLoop();
+           glview->pollEvents();
+		
         }
         else
         {
-			//director->getRunningScene()->render(director->getRenderer());
-			//glview->pollEvents();
-			//boost::this_thread::sleep(boost::posix_time::milliseconds(0));
-        }
-		
-		//director->mainLoop();
-		//glview->pollEvents();
-
-    }
+			Sleep(1);
+		}
+		#endif
+	}
 
     // Director should still do a cleanup if the window was closed manually.
     if (glview->isOpenGLReady())

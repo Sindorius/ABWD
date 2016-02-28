@@ -376,4 +376,11 @@ THE SOFTWARE.
 # define CC_ALLOCATOR_GLOBAL_NEW_DELETE cocos2d::allocator::AllocatorStrategyGlobalSmallBlock
 #endif
 
+ /** Use VSYNC **EXPERIMENTAL FOR WIN32** */
+#ifndef CC_USE_VSYNC
+#define CC_USE_VSYNC 1
+#endif
+
+
+
 #endif // __CCCONFIG_H__

@@ -36,7 +36,9 @@ class TCPCSession;
 class ClientDemo : public cocos2d::Layer
 {
 private:
-
+	bool alternate = false;
+	int swapframes = 1;
+	int swapframecounter = 1;
 	CCTMXTiledMap* levelmap; 
 	cocos2d::CCTMXLayer* bucketlayer;
 	cocos2d::CCTMXLayer* blockage;
@@ -71,9 +73,6 @@ public:
 
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();
-    
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
     
     // implement the "static create()" method manually
     CREATE_FUNC(ClientDemo);

@@ -33,6 +33,34 @@ bool ClientDemo::init()
 		return false;
 	}
 
+	auto director = Director::getInstance();
+	auto glview = director->getOpenGLView();
+	float animint = director->getAnimationInterval();
+	CCLOG("from animint");
+	CCLOG(std::to_string(animint).c_str());
+	int refreshrate = glview->getRunningRefreshRate();
+	if (refreshrate == 59)
+	{
+		refreshrate = 60;
+	}
+	if (refreshrate == 119)
+	{
+		refreshrate = 120;
+	}
+	CCLOG("from get refresh rate");
+	CCLOG(std::to_string(refreshrate).c_str());
+	int newswapinterval = refreshrate*animint;
+	if (newswapinterval < 1)
+	{
+		newswapinterval = 1;
+	}
+	swapframes = newswapinterval;
+	swapframecounter = newswapinterval;
+
+	CCLOG("from newswapinterval");
+	CCLOG(std::to_string(newswapinterval).c_str());
+
+
 	std::ifstream is("config.json");
 	cereal::JSONInputArchive configloader(is);
 	setupdata = ConfigFileInput();
@@ -163,14 +191,7 @@ bool ClientDemo::init()
 	p4CLabel->setPosition(Vec2(player4->getPositionX()+64, player4->getPositionY()-154));
 	p4CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	player4->addChild(p4CLabel, 100);
-
-
-	//Sprite* wallpainting = Sprite::create("res/sprites/objects/key_framed.png");
-	//wallpainting->getTexture()->setAliasTexParameters();
-	//wallpainting->setPosition(Vec2(320, 320));
-	//wallpainting->setScale(1);
-	//addChild(wallpainting, -999);
-
+	
 	tileHighlight = Sprite::create("res//sprites//select_tile.png");
 	tileHighlight->setPosition(0, 0);
 	addChild(tileHighlight, -900);
@@ -246,19 +267,29 @@ bool ClientDemo::init()
 	return true;
 }
 
-
-void ClientDemo::menuCloseCallback(Ref* pSender)
-{
-	Director::getInstance()->end();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	exit(0);
-#endif
-}
-
-
 void ClientDemo::update(float dt)
 {
+	
+	/*if(!alternate)
+	{
+		alternate = true;
+		io_service_p->poll();
+		return;
+	}
+	else
+	{
+		alternate = false;
+	}*/
+	if (--swapframecounter <= 0)
+	{
+		swapframecounter = swapframes;
+	}
+	else
+	{
+		return;
+	}
+
+
 	CCLOG("UPDATE DT");
 	CCLOG(std::to_string(dt).c_str());
 
@@ -274,61 +305,13 @@ void ClientDemo::update(float dt)
 		cereal::BinaryOutputArchive outar(os2);
 		outar(p2);
 		outstringbuffer = os2.str();
+	
 		CCLOG("outstringbuffer length");
 		CCLOG(std::to_string(outstringbuffer.length()).c_str());
-		/*
-		std::memcpy(tcpsplitter.body(), outstringbuffer.c_str(), outstringbuffer.length());
-		tcpsplitter.body_length(outstringbuffer.length());
-		//tcpsplitter.decode_header();
-		CCLOG("splitterlength");
-		CCLOG(std::to_string(tcpsplitter.length()).c_str());
-		CCLOG("outstringbuvver");
-		CCLOG(outstringbuffer.c_str());
-		CCLOG("bodylength");
-		CCLOG(std::to_string(tcpsplitter.body_length()).c_str());
-		CCLOG("body");
-		CCLOG(tcpsplitter.body());
-		std::string bodystring = std::string(tcpsplitter.body());
-		CCLOG(bodystring.c_str());
-		CCLOG("Sending packet");
-		OutputDebugStringW(L"My output string.");
-		OutputDebugStringA(bodystring.c_str());
-		OutputDebugStringA(outstringbuffer.c_str());
-
-		std::ofstream file("out.json");
-		cereal::JSONOutputArchive archive(file);
-		archive(p2);
-		std::stringstream is2;
-		cereal::BinaryInputArchive inar(is2);
-		for (size_t i = 0; i < tcpsplitter.body_length(); i++)
-		{
-		// there has to be a better way vectorized? than using for loop!!!
-		is2 << tcpsplitter.body()[i];
-		}
-		PlayerInputPacket inpacket(0, 0.0f, 0.0f, false);
-		inar(inpacket);
-		std::ofstream file2("out2.json");
-		cereal::JSONOutputArchive archive2(file2);
-		archive2(inpacket);
-
-		////myudpsocketp->async_send_to(boost::asio::buffer(outstringbuffer), myendpoint, [this](boost::system::error_code /*ec*/
-		//, std::size_t /*bytes_sent*/)
-		//{
-		//CCLOG("Sent packet");
-
-		//});
-		//mytcpsocketp->async_write_some(boost::asio::buffer(tcpsplitter.data(),tcpsplitter.length()), [this](boost::system::error_code /*ec*/, std::size_t /*bytes_sent*/)
-		//	{
-		//		CCLOG("Sent packet");
-
-		//});
-		//CCLOG("sentplayerpacket");
-		//CCLOG(std::to_string(xmove).c_str());
-		//CCLOG(std::to_string(ymove).c_str());
-
+	
 		CCLOG("sending packet");
 		tcpsessionptr->writewithstringbuffer(outstringbuffer);
-		io_service_p->poll();
+		io_service_p->poll_one();
 	}
 
 
@@ -932,38 +915,6 @@ for (unsigned int i = 0; i < p.tilevector.size(); i++)
 		processSound(p);
 	}
 }
-/*
-void ClientDemo::doReceive()
-{
-mytcpsocketp->async_read_some(
-boost::asio::buffer(indata, max_length), [this](boost::system::error_code ec, std::size_t bytes_recvd)
-{
-if (!ec && bytes_recvd > 0)
-{
-CCLOG("received data");
-std::stringstream is2;
-cereal::BinaryInputArchive inar(is2);
-for (size_t i = 0; i < bytes_recvd; i++)
-{
-// there has to be a better way vectorized? than using for loop!!!
-is2 << indata[i];
-}
-//
-ServerPositionPacket inpack;
-inar(inpack);
-CCLOG(is2.str().c_str());
-CCLOG("input from server");
-CCLOG(std::to_string(inpack.vx).c_str());
-processPacket(inpack);
-//s.send_to(boost::asio::buffer(os2.str()), endpoint);
-doReceive();
-}
-else
-{
-doReceive();
-}
-});
-}*/
 
 void ClientDemo::loadLevel(int level)
 {

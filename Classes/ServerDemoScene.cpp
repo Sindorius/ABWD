@@ -29,6 +29,35 @@ bool ServerDemo::init()
 		return false;
 	}
 
+	auto director = Director::getInstance();
+	auto glview = director->getOpenGLView();
+	float animint = director->getAnimationInterval();
+	CCLOG("from animint");
+	CCLOG(std::to_string(animint).c_str());
+	int refreshrate = glview->getRunningRefreshRate();
+	if(refreshrate == 59)
+	{
+		refreshrate = 60;
+	}
+	if (refreshrate == 119)
+	{
+		refreshrate = 120;
+	}
+	CCLOG("from get refresh rate");
+	CCLOG(std::to_string(refreshrate).c_str());
+	int newswapinterval = refreshrate*animint;
+	if(newswapinterval < 1)
+	{
+		newswapinterval = 1;
+	}
+	swapframes = newswapinterval;
+	swapframecounter = newswapinterval;
+
+	CCLOG("from newswapinterval");
+	CCLOG(std::to_string(newswapinterval).c_str());
+
+
+
 	levelmanager.changeLevel(1);
 	addChild(levelmanager.levelmap, -1000);
 	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
@@ -172,22 +201,33 @@ bool ServerDemo::init()
 }
 
 
-void ServerDemo::menuCloseCallback(Ref* pSender)
-{
-	Director::getInstance()->end();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	exit(0);
-#endif
-}
-
-
 void ServerDemo::update(float dt)
 {
+	/*if (!alternate)
+	{
+		alternate = true;
+		io_service_p->poll();
+		return;
+	}
+	else
+	{
+		alternate = false;
+	}*/
+
+	if (--swapframecounter <= 0)
+	{
+		swapframecounter = swapframes;
+	}
+	else 
+	{
+		io_service_p->poll();
+		return; 
+	}
+
 	CCLOG("UPDATE DT");
 	CCLOG(std::to_string(dt).c_str());
-
 	io_service_p->poll();
+	
 	idle1--;
 	idle2--;
 	idle3--;
@@ -317,7 +357,7 @@ void ServerDemo::update(float dt)
 	}
 	*/
 
-	// Move them all to the top if they've won
+
 	if (levelmanager.puzzle.isSolved())
 	{
 		if (levelmanager.currentlevel == 1)
@@ -327,6 +367,14 @@ void ServerDemo::update(float dt)
 		else if (levelmanager.currentlevel == 2)
 		{
 			loadLevel(3);
+		}
+		else if (levelmanager.currentlevel == 3)
+		{
+			loadLevel(4);
+		}
+		else if (levelmanager.currentlevel == 4)
+		{
+			loadLevel(5);
 		}
 
 		sendmap = true;
