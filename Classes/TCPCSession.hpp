@@ -34,7 +34,9 @@ public:
 	};
 
 	TCPCSession(std::shared_ptr<tcp::socket> sptr, ClientDemo* cptr) : socketptr(sptr), clientptr(cptr)
-	{};
+	{
+		socketptr->set_option(tcp::no_delay(true));
+	};
 
 	std::string readString();
 	void setClientPtr(ClientDemo* cptr);

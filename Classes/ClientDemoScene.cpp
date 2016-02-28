@@ -289,6 +289,8 @@ void ClientDemo::update(float dt)
 		return;
 	}
 
+	players[playernum - 1]->setPositionX(players[playernum - 1]->getPositionX() + xmove);
+	players[playernum - 1]->setPositionY(players[playernum - 1]->getPositionY() + ymove);
 
 	CCLOG("UPDATE DT");
 	CCLOG(std::to_string(dt).c_str());
@@ -347,6 +349,240 @@ void ClientDemo::update(float dt)
 
 
 
+void ClientDemo::processPacket(ServerPositionPacket p)
+{
+	if (p.tilevector.size() == 6 && levelmanager.puzzle.currenttilevector.size() != 6)
+	{
+		CCLOG("loading level 2");
+		loadLevel(2);
+	}
+	else if (p.tilevector.size() == 9 && levelmanager.puzzle.currenttilevector.size() != 9)
+	{
+		loadLevel(1);
+	}
+	else if (p.tilevector.size() == 12 && levelmanager.puzzle.currenttilevector.size() != 12)
+	{
+		loadLevel(3);
+	}
+
+	CCLOG("updatedserverpacket");
+	//CCLOG(std::to_string(p.p1x).c_str());
+	//CCLOG(std::to_string(p.p2x).c_str());
+	//CCLOG(std::to_string(p.p3x).c_str());
+	//CCLOG(std::to_string(p.p4x).c_str());
+	//CCLOG(std::to_string(p.vx).c_str());
+	//CCLOG(std::to_string(tilevalues[0][0]).c_str());
+	//CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
+
+	if (playernum == 1)
+	{
+		if (abs(p.p1x - players[0]->getPositionX()) > 6 || abs(p.p1y - players[0]->getPositionY()) > 6)
+		{
+			player1->setPosition(Vec2(p.p1x, p.p1y));
+		}
+	}
+	else{ player1->setPosition(Vec2(p.p1x, p.p1y)); }
+	if (playernum == 2)
+	{
+		if (abs(p.p2x - players[playernum - 1]->getPositionX()) > 6 || abs(p.p2y - players[playernum - 1]->getPositionY()) > 6)
+		{
+			player2->setPosition(Vec2(p.p2x, p.p2y));
+		}
+	}
+	else { player2->setPosition(Vec2(p.p2x, p.p2y)); }
+	if (playernum == 3)
+	{
+		if (abs(p.p3x - players[2]->getPositionX()) > 6 || abs(p.p3y - players[2]->getPositionY()) > 6)
+		{
+			player3->setPosition(Vec2(p.p3x, p.p3y));
+		}
+	}
+	else { player3->setPosition(Vec2(p.p3x, p.p3y)); }
+	if (playernum == 4)
+	{
+		if (abs(p.p4x - players[3]->getPositionX()) > 6 || abs(p.p4y - players[3]->getPositionY()) > 6)
+		{
+			player4->setPosition(Vec2(p.p4x, p.p4y));
+		}
+	}
+	else { player4->setPosition(Vec2(p.p4x, p.p4y)); }
+
+
+	villain->setPosition(Vec2(p.vx, p.vy));
+	pterodactyl->setPosition(Vec2(p.ptx, p.pty));
+	candy->setPosition(Vec2(p.candyx, p.candyy));
+	//tilevalues = p.tilevalues;
+	//player1 animations
+
+	std::string p1anims = animationmanager.stringFromChar(p.p1anim);
+	std::string p2anims = animationmanager.stringFromChar(p.p2anim);
+	std::string p3anims = animationmanager.stringFromChar(p.p3anim);
+	std::string p4anims = animationmanager.stringFromChar(p.p4anim);
+	std::string vanims = animationmanager.stringFromChar(p.vanim);
+	std::string ptanims = animationmanager.stringFromChar(p.ptanim);
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
+	if (p.p1anim != 0 && player1->getAnim() != p1anims) {
+		player1->stopAllActions();
+		player1->runAction(RepeatForever::create(animationmanager.animationmap.at(p1anims)));
+		player1->setAnim(p1anims);
+	}
+	if (p.p2anim != 0 && player2->getAnim() != p2anims) {
+		player2->stopAllActions();
+		player2->runAction(RepeatForever::create(animationmanager.animationmap.at(p2anims)));
+		player2->setAnim(p2anims);
+	}
+	if (p.p3anim != 0 && player3->getAnim() != p3anims) {
+		player3->stopAllActions();
+		player3->runAction(RepeatForever::create(animationmanager.animationmap.at(p3anims)));
+		player3->setAnim(p3anims);
+	}
+	if (p.p4anim != 0 && player4->getAnim() != p4anims) {
+		player4->stopAllActions();
+		player4->runAction(RepeatForever::create(animationmanager.animationmap.at(p4anims)));
+		player4->setAnim(p4anims);
+	}
+	if (p.vanim != 0 && villain->getAnim() != vanims) {
+		villain->stopAllActions();
+		villain->runAction(RepeatForever::create(animationmanager.animationmap.at(vanims)));
+		villain->setAnim(vanims);
+	}
+	if (p.ptanim != 0 && pterodactyl->getAnim() != ptanims) {
+		pterodactyl->stopAllActions();
+		pterodactyl->runAction(RepeatForever::create(animationmanager.animationmap.at(ptanims)));
+		pterodactyl->setAnim(ptanims);
+	}
+
+
+	for (unsigned int i = 0; i < p.tilevector.size(); i++)
+	{
+		for (unsigned int j = 0; j < p.tilevector[i].size(); j++)
+		{
+			if (levelmanager.puzzle.currenttilevector[i][j] != p.tilevector[i][j])
+			{
+				levelmanager.puzzle.currenttilevector[i][j] = p.tilevector[i][j];
+				if (levelmanager.puzzle.currenttilevector[i][j] == 1)
+				{
+					tilespritevector[i][j]->setColor("clear");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 2)
+				{
+					tilespritevector[i][j]->setColor("red");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 3)
+				{
+					tilespritevector[i][j]->setColor("blue");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 4)
+				{
+					tilespritevector[i][j]->setColor("yellow");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 5)
+				{
+					tilespritevector[i][j]->setColor("orange");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 6)
+				{
+					tilespritevector[i][j]->setColor("black");
+					tilespritevector[i][j]->refreshColor();
+				}
+
+				if (levelmanager.puzzle.currenttilevector[i][j] == 7)
+				{
+					tilespritevector[i][j]->setColor("blue2");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 8)
+				{
+					tilespritevector[i][j]->setColor("blue3");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 9)
+				{
+					tilespritevector[i][j]->setColor("green1");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 10)
+				{
+					tilespritevector[i][j]->setColor("green2");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 11)
+				{
+					tilespritevector[i][j]->setColor("green3");
+					tilespritevector[i][j]->refreshColor();
+				}
+
+				if (levelmanager.puzzle.currenttilevector[i][j] == 20)
+				{
+					tilespritevector[i][j]->setColor("Xred");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 30)
+				{
+					tilespritevector[i][j]->setColor("Xblue");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 40)
+				{
+					tilespritevector[i][j]->setColor("Xyellow");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 50)
+				{
+					tilespritevector[i][j]->setColor("Xorange");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 60)
+				{
+					tilespritevector[i][j]->setColor("Xblack");
+					tilespritevector[i][j]->refreshColor();
+				}
+
+				if (levelmanager.puzzle.currenttilevector[i][j] == 70)
+				{
+					tilespritevector[i][j]->setColor("Xblue2");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 71)
+				{
+					tilespritevector[i][j]->setColor("Xblue3");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 72)
+				{
+					tilespritevector[i][j]->setColor("Xgreen1");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 73)
+				{
+					tilespritevector[i][j]->setColor("Xgreen2");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 74)
+				{
+					tilespritevector[i][j]->setColor("Xgreen3");
+					tilespritevector[i][j]->refreshColor();
+				}
+			}
+		}
+	}
+	//CCLOG(std::to_string(currenttilevector[0][0]).c_str());
+	//CCLOG(std::to_string(p.tilevector[0][0]).c_str());
+
+	if (AUDIO_ON)
+	{
+		processSound(p);
+	}
+}
+
+
 void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	//std::string playerstring = "p";
@@ -355,10 +591,8 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
 		ymove += 2;
 		break;
-
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
 		ymove -= 2;
-		
 		break;
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 		xmove -= 2;
@@ -368,8 +602,6 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
 		button1 = true;
-		xmove = 0;
-		ymove = 0;
 		space();
 		break;
 
@@ -711,210 +943,6 @@ void ClientDemo::space()
 		changeLabelColor(bTile, playernum);
 }
 
-
-
-void ClientDemo::processPacket(ServerPositionPacket p)
-{
-	if (p.tilevector.size() == 6 && levelmanager.puzzle.currenttilevector.size() != 6)
-	{
-		CCLOG("loading level 2");
-		loadLevel(2);
-	}
-	else if (p.tilevector.size() == 9 && levelmanager.puzzle.currenttilevector.size() != 9)
-	{
-		loadLevel(1);
-	}
-	else if (p.tilevector.size() == 12 && levelmanager.puzzle.currenttilevector.size() != 12)
-	{
-		loadLevel(3);
-	}
-	
-	CCLOG("updatedserverpacket");
-	//CCLOG(std::to_string(p.p1x).c_str());
-	//CCLOG(std::to_string(p.p2x).c_str());
-	//CCLOG(std::to_string(p.p3x).c_str());
-	//CCLOG(std::to_string(p.p4x).c_str());
-	//CCLOG(std::to_string(p.vx).c_str());
-	//CCLOG(std::to_string(tilevalues[0][0]).c_str());
-	//CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
-
-	player1->setPosition(Vec2(p.p1x, p.p1y));
-	player2->setPosition(Vec2(p.p2x, p.p2y));
-	player3->setPosition(Vec2(p.p3x, p.p3y));
-	player4->setPosition(Vec2(p.p4x, p.p4y));
-	villain->setPosition(Vec2(p.vx, p.vy));
-	pterodactyl->setPosition(Vec2(p.ptx, p.pty));
-	candy->setPosition(Vec2(p.candyx, p.candyy));
-	//tilevalues = p.tilevalues;
-	//player1 animations
-
-	std::string p1anims = animationmanager.stringFromChar(p.p1anim);
-	std::string p2anims = animationmanager.stringFromChar(p.p2anim);
-	std::string p3anims = animationmanager.stringFromChar(p.p3anim);
-	std::string p4anims = animationmanager.stringFromChar(p.p4anim);
-	std::string vanims = animationmanager.stringFromChar(p.vanim);
-	std::string ptanims = animationmanager.stringFromChar(p.ptanim);
-
-	//////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////
-	if (p.p1anim != 0 && player1->getAnim() != p1anims) {
-		player1->stopAllActions();
-		player1->runAction(RepeatForever::create(animationmanager.animationmap.at(p1anims)));
-		player1->setAnim(p1anims);
-	}
-	if (p.p2anim != 0 && player2->getAnim() != p2anims) {
-		player2->stopAllActions();
-		player2->runAction(RepeatForever::create(animationmanager.animationmap.at(p2anims)));
-		player2->setAnim(p2anims);
-	}
-	if (p.p3anim != 0 && player3->getAnim() != p3anims) {
-		player3->stopAllActions();
-		player3->runAction(RepeatForever::create(animationmanager.animationmap.at(p3anims)));
-		player3->setAnim(p3anims);
-	}
-	if (p.p4anim != 0 && player4->getAnim() != p4anims) {
-		player4->stopAllActions();
-		player4->runAction(RepeatForever::create(animationmanager.animationmap.at(p4anims)));
-		player4->setAnim(p4anims);
-	}
-	if (p.vanim != 0 && villain->getAnim() != vanims) {
-		villain->stopAllActions();
-		villain->runAction(RepeatForever::create(animationmanager.animationmap.at(vanims)));
-		villain->setAnim(vanims);
-	}
-	if (p.ptanim != 0 && pterodactyl->getAnim() != ptanims) {
-		pterodactyl->stopAllActions();
-		pterodactyl->runAction(RepeatForever::create(animationmanager.animationmap.at(ptanims)));
-		pterodactyl->setAnim(ptanims);
-	}
-
-
-for (unsigned int i = 0; i < p.tilevector.size(); i++)
-	{
-		for (unsigned int j = 0; j < p.tilevector[i].size(); j++)
-		{
-			if (levelmanager.puzzle.currenttilevector[i][j] != p.tilevector[i][j])
-			{
-				levelmanager.puzzle.currenttilevector[i][j] = p.tilevector[i][j];
-				if (levelmanager.puzzle.currenttilevector[i][j] == 1)
-				{
-					tilespritevector[i][j]->setColor("clear");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 2)
-				{
-					tilespritevector[i][j]->setColor("red");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 3)
-				{
-					tilespritevector[i][j]->setColor("blue");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 4)
-				{
-					tilespritevector[i][j]->setColor("yellow");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 5)
-				{
-					tilespritevector[i][j]->setColor("orange");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 6)
-				{
-					tilespritevector[i][j]->setColor("black");
-					tilespritevector[i][j]->refreshColor();
-				}
-
-				if (levelmanager.puzzle.currenttilevector[i][j] == 7)
-				{
-					tilespritevector[i][j]->setColor("blue2");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 8)
-				{
-					tilespritevector[i][j]->setColor("blue3");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 9)
-				{
-					tilespritevector[i][j]->setColor("green1");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 10)
-				{
-					tilespritevector[i][j]->setColor("green2");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 11)
-				{
-					tilespritevector[i][j]->setColor("green3");
-					tilespritevector[i][j]->refreshColor();
-				}
-
-				if (levelmanager.puzzle.currenttilevector[i][j] == 20)
-				{
-					tilespritevector[i][j]->setColor("Xred");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 30)
-				{
-					tilespritevector[i][j]->setColor("Xblue");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 40)
-				{
-					tilespritevector[i][j]->setColor("Xyellow");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 50)
-				{
-					tilespritevector[i][j]->setColor("Xorange");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 60)
-				{
-					tilespritevector[i][j]->setColor("Xblack");
-					tilespritevector[i][j]->refreshColor();
-				}
-
-				if (levelmanager.puzzle.currenttilevector[i][j] == 70)
-				{
-					tilespritevector[i][j]->setColor("Xblue2");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 71)
-				{
-					tilespritevector[i][j]->setColor("Xblue3");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 72)
-				{
-					tilespritevector[i][j]->setColor("Xgreen1");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 73)
-				{
-					tilespritevector[i][j]->setColor("Xgreen2");
-					tilespritevector[i][j]->refreshColor();
-				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 74)
-				{
-					tilespritevector[i][j]->setColor("Xgreen3");
-					tilespritevector[i][j]->refreshColor();
-				}
-			}
-		}
-	}
-	//CCLOG(std::to_string(currenttilevector[0][0]).c_str());
-	//CCLOG(std::to_string(p.tilevector[0][0]).c_str());
-
-	if (AUDIO_ON)
-	{
-		processSound(p);
-	}
-}
 
 void ClientDemo::loadLevel(int level)
 {
