@@ -56,7 +56,8 @@ Application::Application()
 
 Application::~Application()
 {
-	
+	CC_ASSERT(this == sm_pSharedApplication);
+	sm_pSharedApplication = nullptr;
 }
 
 int Application::run()
@@ -131,8 +132,7 @@ int Application::run()
     }
     glview->release();
 #if CC_WIN_TIMER1 == 1
-	CC_ASSERT(this == sm_pSharedApplication);
-	sm_pSharedApplication = nullptr;
+
 	wTimerRes = std::min(std::max(tc.wPeriodMin, TARGET_RESOLUTION), tc.wPeriodMax);
 	timeEndPeriod(wTimerRes);
 #endif
