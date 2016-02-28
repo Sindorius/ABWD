@@ -17,6 +17,7 @@
 #include <boost/thread/thread.hpp>
 #include "ConfigFileInput.hpp"
 #include "ServerPositionPacket.hpp"
+#include "ServerMessage.hpp"
 //#include "UDPServer.hpp"
 #include "TCPServer.hpp"
 #include "PaintTile.h"
@@ -34,8 +35,8 @@ private:
 	int swapframes = 1;
 	int swapframecounter = 1;
 	//cocos2d::CCTMXTiledMap* tileMap;
+	
 	cocos2d::CCTMXLayer* bucketlayer;
-
 	cocos2d::CCTMXLayer* blockage;
 	cocos2d::CCTMXObjectGroup* spawnObjs;
 
@@ -49,6 +50,8 @@ private:
 	Candy* candy;
 
 	std::vector<cocos2d::Sprite*> objects;
+	std::vector<ServerMessage> servermessagequeue;
+
 	//Puzzle puzzle;
 
 public:

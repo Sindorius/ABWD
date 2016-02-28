@@ -159,6 +159,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\PlayerInputPacket.hpp" />
     <ClInclude Include="..\Classes\Pterodactyl.h" />
     <ClInclude Include="..\Classes\Puzzle.hpp" />
+    <ClInclude Include="..\Classes\ServerMessage.hpp" />
     <ClInclude Include="..\Classes\ServerPositionPacket.hpp" />
     <ClInclude Include="..\Classes\TCPCSession.hpp" />
     <ClInclude Include="..\Classes\Villain.h" />

@@ -76,9 +76,7 @@ bool ServerDemo::init()
 	ValueMap playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
 	ValueMap playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
 	ValueMap playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
-
-	
-
+		
 	player1 = Player::create(1);
 	player1->setPlayernum(1);
 	player1->getTexture()->setAliasTexParameters();
@@ -213,7 +211,7 @@ void ServerDemo::update(float dt)
 	{
 		alternate = false;
 	}*/
-
+	/*
 	if (--swapframecounter <= 0)
 	{
 		swapframecounter = swapframes;
@@ -223,7 +221,7 @@ void ServerDemo::update(float dt)
 		io_service_p->poll();
 		return; 
 	}
-
+	*/
 	CCLOG("UPDATE DT");
 	CCLOG(std::to_string(dt).c_str());
 	io_service_p->poll();
@@ -483,7 +481,7 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 	std::string newcolor = "none";
 
 
-	if (tileCoord.x >= 0 && tileCoord.x <= 25 && tileCoord.y >= 0 && tileCoord.y <= 14)
+	if (tileCoord.x >= 0 && tileCoord.x <= levelmanager.levelmap->getMapSize().width && tileCoord.y >= 0 && tileCoord.y <= levelmanager.levelmap->getMapSize().height)
 	{
 		int bTile = bucketlayer->getTileGIDAt(tileCoord);
 
@@ -691,6 +689,8 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 
 void ServerDemo::loadLevel(int level)
 {
+	servermessagequeue.emplace_back(ServerMessage(10, 0, 0, level));
+
 	for (Sprite* s : levelmanager.levelsprites)
 	{
 		removeChild(s);
@@ -812,9 +812,10 @@ ServerPositionPacket ServerDemo::createPacket()
 			player1->getPositionX(), player1->getPositionY(), animationmanager.charFromString(player1->getAnim()),
 			player2->getPositionX(), player2->getPositionY(), animationmanager.charFromString(player2->getAnim()),
 			player3->getPositionX(), player3->getPositionY(), animationmanager.charFromString(player3->getAnim()),
-			player4->getPositionX(), player4->getPositionY(), animationmanager.charFromString(player4->getAnim()), levelmanager.puzzle.currenttilevector, std::vector<ServerMessage>());
+			player4->getPositionX(), player4->getPositionY(), animationmanager.charFromString(player4->getAnim()), levelmanager.puzzle.currenttilevector, servermessagequeue);
 		//		player4->getPositionX(), player4->getPositionY(), animationmanager.charFromString(player4->getAnim()), std::vector<std::vector<char>>());
 		sendmap = false;
+		servermessagequeue.clear();
 		return p;
 	}
 	else
@@ -826,8 +827,9 @@ ServerPositionPacket ServerDemo::createPacket()
 			player1->getPositionX(), player1->getPositionY(), animationmanager.charFromString(player1->getAnim()),
 			player2->getPositionX(), player2->getPositionY(), animationmanager.charFromString(player2->getAnim()),
 			player3->getPositionX(), player3->getPositionY(), animationmanager.charFromString(player3->getAnim()),
-			player4->getPositionX(), player4->getPositionY(), animationmanager.charFromString(player4->getAnim()), blankvector, std::vector<ServerMessage>());
+			player4->getPositionX(), player4->getPositionY(), animationmanager.charFromString(player4->getAnim()), blankvector, servermessagequeue);
 		//		player4->getPositionX(), player4->getPositionY(), animationmanager.charFromString(player4->getAnim()), std::vector<std::vector<char>>());
+		servermessagequeue.clear();
 		return p;
 		//mytcpserverp->sendPacket(p);
 	}

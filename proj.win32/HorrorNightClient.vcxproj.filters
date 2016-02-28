@@ -44,6 +44,9 @@
     <ClInclude Include="..\Classes\Candy.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\ServerMessage.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />

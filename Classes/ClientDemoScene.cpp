@@ -352,21 +352,13 @@ void ClientDemo::update(float dt)
 
 void ClientDemo::processPacket(ServerPositionPacket p)
 {
-	if (p.tilevector.size() == 6 && levelmanager.puzzle.currenttilevector.size() != 6)
+	
+	for (ServerMessage msg : p.messagevector)
 	{
-		CCLOG("loading level 2");
-		loadLevel(2);
+		processServerMessage(msg);
 	}
-	else if (p.tilevector.size() == 9 && levelmanager.puzzle.currenttilevector.size() != 9)
-	{
-		loadLevel(1);
-	}
-	else if (p.tilevector.size() == 12 && levelmanager.puzzle.currenttilevector.size() != 12)
-	{
-		loadLevel(3);
-	}
-
-	CCLOG("updatedserverpacket");
+	
+	//CCLOG("updatedserverpacket");
 	//CCLOG(std::to_string(p.p1x).c_str());
 	//CCLOG(std::to_string(p.p2x).c_str());
 	//CCLOG(std::to_string(p.p3x).c_str());
@@ -375,6 +367,8 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	//CCLOG(std::to_string(tilevalues[0][0]).c_str());
 	//CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
 
+
+	/* move players, with some client side prediction of your own character*/
 	if (playernum == 1)
 	{
 		if (abs(p.p1x - players[0]->getPositionX()) > 6 || abs(p.p1y - players[0]->getPositionY()) > 6)
@@ -581,6 +575,20 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	{
 		processSound(p);
 	}
+}
+
+void ClientDemo::processServerMessage(ServerMessage msg)
+{
+
+	if(msg.messagechar == 0)
+	{
+		playernum = msg.status;
+	}
+	else if (msg.messagechar == 10)
+	{
+		loadLevel(msg.status);
+	}
+	
 }
 
 

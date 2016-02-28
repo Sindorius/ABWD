@@ -97,6 +97,7 @@ public:
 	tcp::endpoint myendpoint;
 
 	void processPacket(ServerPositionPacket p);
+	void processServerMessage(ServerMessage msg);
 	//void doReceive();
 
 	enum { max_length = 1024 };
