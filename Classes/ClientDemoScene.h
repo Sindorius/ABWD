@@ -137,6 +137,11 @@ public:
 		bool lostCandy;
 	};
 	playerTriggers pSFXTrigs[4];
+
+	struct gameTriggers {
+		bool levelChange;
+	};
+	gameTriggers gSFXTrigs;
 	unsigned int pIFrames[4] = { 0,0,0,0 }; //temporary iframes fix for sfx until real iframes implemented
 	void processSound(ServerPositionPacket &p);
 	

@@ -217,12 +217,15 @@ bool ClientDemo::init()
 		// soundIDList[7] = player_candy_pickup
 		// soundIDList[8] = sam_munch
 		// soundIDList[9] = player_candy_lost
+		// soundIDList[10] = puzzle_solved
 
+		//initalize player sfx triggers to false
 		for (int i = 0; i < 3; i++)
 		{
 			pSFXTrigs[i].onBucket = false;
 			pSFXTrigs[i].onGrid = false; //no grid-detection, yet.
 		}
+		gSFXTrigs.levelChange = false;
 
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\paint.mp3");
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_hit.mp3");
@@ -234,6 +237,7 @@ bool ClientDemo::init()
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_candy_pickup.mp3");
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_munch.mp3");
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_candy_lost.mp3");
+		experimental::AudioEngine::preload("\\res\\sound\\sfx\\puzzle_solved.mp3");
 
 
 		//can probably remove code chunk below by initialzing soundIDList to AudioEngine::INVALID_AUDIO_ID
@@ -248,6 +252,7 @@ bool ClientDemo::init()
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_pickup.mp3", false, 0.0));
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_munch.mp3", false, 0.0));
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_lost.mp3", false, 0.0));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\puzzle_solved.mp3", false, 0.0));
 
 		for (unsigned int i = 0; i < soundIDList.size(); i++)
 		{
@@ -1003,6 +1008,7 @@ void ClientDemo::loadLevel(int level)
 
 	removeChild(levelmanager.levelmap);
 
+	gSFXTrigs.levelChange = true;
 	levelmanager.changeLevel(level);
 
 	addChild(levelmanager.levelmap, -1000);
@@ -1063,12 +1069,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	//	3. Pterodactyl swooping is still not QUITE there yet.
 	//	Sound and pacing need a little work.
 	//
-	//	4. Candy-related SFX is not implemented yet.
-	//
-	//	5. Need to add level-changing SFX. Will do when Jocelyn
-	//	adds menus, screens and such.
-	//
-	//	7. Sam hitting a player triggers sfx even if they're idle
+	//	4. Sam hitting a player triggers sfx even if they're idle
 	//	or have no tiles painted. Will look into solutions, but not
 	//	a priority.
 	//============================================================
@@ -1185,6 +1186,22 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	}
 	//If player gets/loses candy buff - end
 
+	//If level solved
+	if (gSFXTrigs.levelChange == true) //may need to set bool on changelevel() instead if this has trouble triggering sfx
+	{
+		if (isSFXPlaying[10] == false)
+		{
+			soundIDList[10] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\puzzle_solved.mp3");
+			isSFXPlaying[10] = true;
+			experimental::AudioEngine::setFinishCallback(soundIDList[10], [&](int id, const std::string& filePath)
+			{
+				isSFXPlaying[10] = false;
+			});
+			gSFXTrigs.levelChange = false;
+		}
+	}
+	//If level solved - end
+
 	//===========================================================
 	//    END OF NON-ANIMATION BASED AUDIO CODE
 	//===========================================================
@@ -1207,6 +1224,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	// soundIDList[7] = player_candy_pickup
 	// soundIDList[8] = sam munch
 	// soundIDList[9] = player_candy_lost
+	// soundIDList[10] = puzzle_solved
 
 
 	//switch used here in case further animation states are created. modular switch-cases superior.
