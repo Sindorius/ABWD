@@ -550,6 +550,10 @@ AnimationManager::AnimationManager()
 	samupanimFrames.reserve(7);
 	Vector<SpriteFrame*> pteraRight;
 	samdownanimFrames.reserve(7);
+	Vector<SpriteFrame*> pteraANGRYLeft;
+	samupanimFrames.reserve(7);
+	Vector<SpriteFrame*> pteraANGRYRight;
+	samdownanimFrames.reserve(7);
 
 	pteraLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_left0.png", Rect(0, 0, 25, 22)));
 	pteraLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_left1.png", Rect(0, 0, 25, 22)));
@@ -583,16 +587,56 @@ AnimationManager::AnimationManager()
 	pteraRight.at(5)->getTexture()->setAliasTexParameters();
 	pteraRight.at(6)->getTexture()->setAliasTexParameters();
 
+	pteraANGRYLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\angry_pteradactyl_left0.png", Rect(0, 0, 25, 22)));
+	pteraANGRYLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\angry_pteradactyl_left1.png", Rect(0, 0, 25, 22)));
+	pteraANGRYLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\angry_pteradactyl_left2.png", Rect(0, 0, 25, 22)));
+	pteraANGRYLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\angry_pteradactyl_left3.png", Rect(0, 0, 25, 22)));
+	pteraANGRYLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\angry_pteradactyl_left4.png", Rect(0, 0, 25, 22)));
+	pteraANGRYLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\angry_pteradactyl_left5.png", Rect(0, 0, 25, 22)));
+	pteraANGRYLeft.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\angry_pteradactyl_left6.png", Rect(0, 0, 25, 22)));
+
+	pteraANGRYLeft.at(0)->getTexture()->setAliasTexParameters();
+	pteraANGRYLeft.at(1)->getTexture()->setAliasTexParameters();
+	pteraANGRYLeft.at(2)->getTexture()->setAliasTexParameters();
+	pteraANGRYLeft.at(3)->getTexture()->setAliasTexParameters();
+	pteraANGRYLeft.at(4)->getTexture()->setAliasTexParameters();
+	pteraANGRYLeft.at(5)->getTexture()->setAliasTexParameters();
+	pteraANGRYLeft.at(6)->getTexture()->setAliasTexParameters();
+
+	pteraANGRYRight.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\angry_pteradactyl_right0.png", Rect(0, 0, 25, 22)));
+	pteraANGRYRight.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\angry_pteradactyl_right1.png", Rect(0, 0, 25, 22)));
+	pteraANGRYRight.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\angry_pteradactyl_right2.png", Rect(0, 0, 25, 22)));
+	pteraANGRYRight.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\angry_pteradactyl_right3.png", Rect(0, 0, 25, 22)));
+	pteraANGRYRight.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\angry_pteradactyl_right4.png", Rect(0, 0, 25, 22)));
+	pteraANGRYRight.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\angry_pteradactyl_right5.png", Rect(0, 0, 25, 22)));
+	pteraANGRYRight.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\pteradactyl\\angry_pteradactyl_right6.png", Rect(0, 0, 25, 22)));
+
+	pteraANGRYRight.at(0)->getTexture()->setAliasTexParameters();
+	pteraANGRYRight.at(1)->getTexture()->setAliasTexParameters();
+	pteraANGRYRight.at(2)->getTexture()->setAliasTexParameters();
+	pteraANGRYRight.at(3)->getTexture()->setAliasTexParameters();
+	pteraANGRYRight.at(4)->getTexture()->setAliasTexParameters();
+	pteraANGRYRight.at(5)->getTexture()->setAliasTexParameters();
+	pteraANGRYRight.at(6)->getTexture()->setAliasTexParameters();
+
 	Animation* pteraleftanim = Animation::createWithSpriteFrames(pteraLeft, 0.1f);
 	cocos2d::Animate* pteraleftanimation = Animate::create(pteraleftanim);
 	pteraleftanimation->retain();
 	Animation* pterarightanim = Animation::createWithSpriteFrames(pteraRight, 0.1f);
 	cocos2d::Animate* pterarightanimation = Animate::create(pterarightanim);
 	pterarightanimation->retain();
+	Animation* pteraANGRYleftanim = Animation::createWithSpriteFrames(pteraANGRYLeft, 0.1f);
+	cocos2d::Animate* pteraANGRYleftanimation = Animate::create(pteraANGRYleftanim);
+	pteraANGRYleftanimation->retain();
+	Animation* pteraANGRYrightanim = Animation::createWithSpriteFrames(pteraANGRYRight, 0.1f);
+	cocos2d::Animate* pteraANGRYrightanimation = Animate::create(pteraANGRYrightanim);
+	pteraANGRYrightanimation->retain();
 
 
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("pteraleft"), pteraleftanimation));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("pteraright"), pterarightanimation));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("pteraANGRYleft"), pteraANGRYleftanimation));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("pteraANGRYright"), pteraANGRYrightanimation));
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -639,6 +683,8 @@ AnimationManager::AnimationManager()
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(37, "p3idle"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(38, "p4idle"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(39, "sammunch"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(40, "pteraANGRYleft"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(41, "pteraANGRYright"));
 
 
 

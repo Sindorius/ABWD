@@ -132,6 +132,7 @@ void ServerSam::chooseBehavior() {
 	case 0:
 		behavior_timer = idle_time;
 		behavior = 5;
+		setAnim("samdown");
 		break;
 	case 1:
 		behavior_timer = walk_time;

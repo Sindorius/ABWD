@@ -20,11 +20,21 @@ void Pterodactyl::run(int x, int y) {
 	
 	if (this->getPositionX() > x && Xvelocity < cap) {
 		Xvelocity += acceleration;
-		setAnim("pteraleft");
+		if (isHostile()) {
+			setAnim("pteraANGRYleft");
+		}
+		else {
+			setAnim("pteraleft");
+		}
 	}
 	else if (this->getPositionX() < x && Xvelocity > -cap) {
 		Xvelocity -= acceleration;
-		setAnim("pteraright");
+		if (isHostile()) {
+			setAnim("pteraANGRYright");
+		}
+		else {
+			setAnim("pteraright");
+		}
 	}
 	if (this->getPositionY() > y && Yvelocity < cap) {
 		Yvelocity += acceleration;
