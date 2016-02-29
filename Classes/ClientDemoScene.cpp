@@ -216,6 +216,7 @@ bool ClientDemo::init()
 		// soundIDList[6] = get_paint
 		// soundIDList[7] = player_candy_pickup
 		// soundIDList[8] = sam_munch
+		// soundIDList[9] = player_candy_lost
 
 		for (int i = 0; i < 3; i++)
 		{
@@ -232,6 +233,7 @@ bool ClientDemo::init()
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\get_paint.mp3");
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_candy_pickup.mp3");
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_munch.mp3");
+		experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_candy_lost.mp3");
 
 
 		//can probably remove code chunk below by initialzing soundIDList to AudioEngine::INVALID_AUDIO_ID
@@ -245,6 +247,7 @@ bool ClientDemo::init()
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\get_paint.mp3", false, 0.0));
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_pickup.mp3", false, 0.0));
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_munch.mp3", false, 0.0));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_lost.mp3", false, 0.0));
 
 		for (unsigned int i = 0; i < soundIDList.size(); i++)
 		{
@@ -1203,6 +1206,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	// soundIDList[6] = get_paintc
 	// soundIDList[7] = player_candy_pickup
 	// soundIDList[8] = sam munch
+	// soundIDList[9] = player_candy_lost
 
 
 	//switch used here in case further animation states are created. modular switch-cases superior.
