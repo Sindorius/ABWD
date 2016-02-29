@@ -38,26 +38,26 @@ ServerSam* ServerSam::create(ServerDemo* ptr)
 }
 
 
-void ServerSam::setPriority(std::vector<std::vector<char>> tiles) {
+void ServerSam::setPriority(std::vector<std::vector<char>> tiles, std::vector<std::vector<char>> dry) {
 	for (int i = 0; i < 4; i++) {
 		priority[i] = 0;
 		idle = true;
 	}
 	for (int i = 0; i < tiles.size(); i++) {
-		for (int j = 0; j < tiles[i].size(); j++) {
-			if (tiles[i][j] == 1) {
+		for (int j = 0; j < tiles[i].size(); j++ ) {
+			if (tiles[i][j] == 1 && dry[i][j] != 1) {
 				priority[0]++;
 				idle = false;
 			}
-			else if (tiles[i][j] == 2) {
+			else if (tiles[i][j] == 2 && dry[i][j] != 1) {
 				priority[1]++;
 				idle = false;
 			}
-			else if (tiles[i][j] == 3) {
+			else if (tiles[i][j] == 3 && dry[i][j] != 1) {
 				priority[2]++;
 				idle = false;
 			}
-			else if (tiles[i][j] == 4) {
+			else if (tiles[i][j] == 4 && dry[i][j] != 1) {
 				priority[3]++;
 				idle = false;
 			}
@@ -132,6 +132,7 @@ void ServerSam::chooseBehavior() {
 	case 0:
 		behavior_timer = idle_time;
 		behavior = 5;
+		setAnim("samdown");
 		break;
 	case 1:
 		behavior_timer = walk_time;
@@ -341,7 +342,7 @@ void ServerSam::munch() {
 			if (temp < temp1 && priority[i] > 0) { temp = temp1; target = i; }
 		}
 		flag = false;
-		candy->setPosition(this->getPositionX() - (this->getPositionX() - player_list->at(target)->getPositionX()) / 2, this->getPositionY() - (this->getPositionY() - player_list->at(target)->getPositionY()) / 2);
+		candy->setPosition(this->getPositionX() - (this->getPositionX() - player_list->at(target)->getPositionX()) / 1.2, this->getPositionY() - (this->getPositionY() - player_list->at(target)->getPositionY()) / 1.2);
 		candy->setStatus(true);
 	}
 
@@ -359,15 +360,29 @@ void ServerSam::munch() {
 	this->setPositionX(this->getPositionX() + walk_speed*(cos(theta * 3.14159 / 180)));
 	this->setPositionY(this->getPositionY() + walk_speed*(sin(theta * 3.14159 / 180)));
 
+	if (theta > 45 && theta < 135) {
+		setAnim("samup");
+	}
+	else if (theta >= 135 || theta <= -135) {
+		setAnim("samleft");
+	}
+	else if (theta <= 45 && theta >= -45) {
+		setAnim("samright");
+	}
+	else if (theta < -45 && theta > -135) {
+		setAnim("samdown");
+	}
+
+
 	for (int i = 0; i < player_list->size(); i++) {
 		if (abs(player_list->at(i)->getPositionX() - candy->getPositionX()) < 10 && abs(player_list->at(i)->getPositionY() - candy->getPositionY()) < 10 && candy->notCollected()) {
 			candy->setStatus(false);
-			candy->setOwner(target);
+			candy->setOwner(i);
 			candy->start();
 			candy->setPosition(-1000, -1000);
 			flag = true;
 			behavior_unlocked = true;
-			serverptr->enqueueMessage(ServerMessage(8, 0, 0, target + 1));
+			serverptr->enqueueMessage(ServerMessage(8, 0, 0, i + 1));
 		}
 	}
 	if (abs(this->getPositionX() - candy->getPositionX()) < 10 && abs(this->getPositionY() - candy->getPositionY()) < 10 && candy->notCollected()) {

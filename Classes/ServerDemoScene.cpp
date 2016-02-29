@@ -253,7 +253,7 @@ void ServerDemo::update(float dt)
 
 	if (levelmanager.currentlevel != 1) 
 	{
-		serversam->setPriority(levelmanager.puzzle.whichplayertilesvector);
+		serversam->setPriority(levelmanager.puzzle.whichplayertilesvector, levelmanager.puzzle.drytilevector);
 		serversam->runAI(&players);
 	}
 
@@ -265,6 +265,15 @@ void ServerDemo::update(float dt)
 	pterodactyl->setZOrder(-pterodactyl->getPositionY());
 
 	if (levelmanager.currentlevel != 1) {
+		if (dry_time < 15) {
+			dry_time++;
+		}
+		else {
+			int a = (rand() % levelmanager.puzzle.drytilevector.size());
+			int b = (rand() % levelmanager.puzzle.drytilevector[0].size());
+			levelmanager.puzzle.drytilevector[a][b] = 1;
+			dry_time = 0;
+		}
 		for (Player* p : players)
 		{
 			if (abs(serversam->getPositionX() - p->getPositionX()) < 5 && abs(serversam->getPositionY() - p->getPositionY()) < 5)
@@ -274,12 +283,13 @@ void ServerDemo::update(float dt)
 				{
 					for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 					{
-						if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
+						if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != 1)
 						{
 							levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
 							levelmanager.puzzle.currenttilevector[i][j] = 1;
 							tilespritevector[i][j]->setColor("clear");
 							tilespritevector[i][j]->refreshColor();
+							levelmanager.puzzle.drytilevector[i][j] = 0;
 
 						}
 					}
@@ -696,6 +706,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 			{
 				tilespritevector[i][j]->setColor(players[playernum - 1]->getColor());
 				tilespritevector[i][j]->refreshColor();
+				levelmanager.puzzle.drytilevector[i][j] = 0;
 				if (players[playernum - 1]->getColor() == "red")
 				{
 					if (levelmanager.puzzle.compareTile(i, j, 2))
