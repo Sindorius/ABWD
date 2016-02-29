@@ -28,16 +28,17 @@ def get_colors(json_key):
         for item in items[group]:
             result[item] = items[group][item]
     return result
-    
+
 if __name__ == "__main__":
-    inv_dir = "./inv/"
     key = get_color_key("key.json")
-    names = list(key)
-    files = os.listdir(inv_dir)
-    files = ["char_default_walking_up" + str(i) + ".png" for i in range(4)]
-    print(files)
+    files = ['pteradactyl_left0.png', 'pteradactyl_left1.png',
+         'pteradactyl_left2.png', 'pteradactyl_left3.png',
+         'pteradactyl_left4.png', 'pteradactyl_left5.png',
+         'pteradactyl_left6.png', 'pteradactyl_right0.png',
+         'pteradactyl_right1.png', 'pteradactyl_right2.png',
+         'pteradactyl_right3.png', 'pteradactyl_right4.png',
+         'pteradactyl_right5.png', 'pteradactyl_right6.png']
     for file in files:
-        for name in names:
-            new_name = file.replace("default", name)
-            new_image(inv_dir + file, new_name, get_colors(key[name]))
+        new_name = "angry_" + file
+        new_image(file, new_name, key)
     print("it's done")
