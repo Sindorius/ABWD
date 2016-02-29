@@ -12,6 +12,7 @@ void Puzzle::changePuzzle(int level)
 		currenttilevector = keytilevectorvalues;
 		currenttilevectorsolution = keytilevectorsolution;
 		whichplayertilesvector = keyplayertilesvector;
+		drytilevector = keydrytilesvector;
 	}
 			
 	if (level == 2)
@@ -23,6 +24,8 @@ void Puzzle::changePuzzle(int level)
 		currenttilevector = suntilevectorvalues;
 		currenttilevectorsolution = suntilevectorsolution;
 		whichplayertilesvector = sunplayertilesvector;
+		drytilevector = sundrytilesvector;
+
 	}
 	if (level == 3)
 	{
@@ -33,5 +36,7 @@ void Puzzle::changePuzzle(int level)
 		currenttilevector = ptertilevectorvalues;
 		currenttilevectorsolution = ptertilevectorsolution;
 		whichplayertilesvector = pterplayertilesvector;
+		drytilevector = pterdrytilesvector;
+
 	}
 }

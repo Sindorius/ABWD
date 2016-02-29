@@ -51,6 +51,20 @@ public:
 
 	} };
 
+	std::vector<std::vector<char>> keydrytilesvector =
+	{ {
+		{ 0,0,0,0,0 },
+		{ 0,0,0,0,0 },
+		{ 0,0,0,0,0 },
+		{ 0,0,0,0,0 },
+		{ 0,0,0,0,0 },
+		{ 0,0,0,0,0 },
+		{ 0,0,0,0,0 },
+		{ 0,0,0,0,0 },
+		{ 0,0,0,0,0 }
+
+		} };
+
 	std::vector<std::vector<char>> suntilevectorvalues =
 	{ {
 		{ 1,1,1,1,1,1 },
@@ -79,6 +93,16 @@ public:
 		{ 0,0,0,0,0,0 },
 		{ 0,0,0,0,0,0 }
 	} };
+
+	std::vector<std::vector<char>> sundrytilesvector =
+	{ {
+		{ 0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0 }
+		} };
 	
 	std::vector<std::vector<char>> ptertilevectorvalues =
 	{ {
@@ -108,7 +132,7 @@ public:
 		{ 7, 7,10,10, 9,10, 7,10,11,11,11,11, 7, 7,10, 7, 7},
 		{ 7, 7, 7,10,10,10, 7, 7,10,11,11,11, 7, 7,10, 7, 7},
 		{ 7, 7, 7, 7, 7,10,10, 7, 7,10,11,11,11, 7, 7, 7, 7},
-		{ 7, 7, 7, 7, 7, 7, 7,10, 7, 7,10,10,10,10, 7, 7, 7},
+		{ 7, 7, 7, 7, 7, 7, 7,10, 7, 7,10,10,10,10, 7, 7,	 7},
 		{ 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7}
 		
 	} };
@@ -129,10 +153,28 @@ public:
 		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
 	} };
 
+	std::vector<std::vector<char>> pterdrytilesvector =
+	{ {
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+		} };
+
 
 	std::vector<std::vector<char>> currenttilevector = keytilevectorvalues;
 	std::vector<std::vector<char>> currenttilevectorsolution = keytilevectorsolution;
 	std::vector<std::vector<char>> whichplayertilesvector = keyplayertilesvector;
+	std::vector<std::vector<char>> drytilevector = keydrytilesvector;
+
 
 	//boost::multi_array<int, 2> currentarray;
 	//boost::multi_array<int, 2> solutionarray;

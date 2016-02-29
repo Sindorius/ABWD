@@ -34,6 +34,7 @@ private:
 	bool alternate = false;
 	int swapframes = 1;
 	int swapframecounter = 1;
+	int dry_time = 0;
 	//cocos2d::CCTMXTiledMap* tileMap;
 	
 	cocos2d::CCTMXLayer* bucketlayer;
