@@ -72,6 +72,10 @@ void ServerSam::runAI(std::vector<Player*>* players)
 	calculations();
 	teleport_cd--;
 	candy->run();
+	if(candy->getTime() == 1)
+	{
+		serverptr->enqueueMessage(ServerMessage(9, 0, 0, candy->getOwner()+1));
+	}
 	if (!(candy->active())) {
 		candy->setOwner(-1);
 	}

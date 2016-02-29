@@ -15,7 +15,7 @@ public:
 	void setOwner(int target) { owner = target; }
 	int getOwner() { return owner; }
 	void start() { time = 300; }
-
+	int getTime() { return time; }
 
 private:
 	bool not_collected = true;
