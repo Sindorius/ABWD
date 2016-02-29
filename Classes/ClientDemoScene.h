@@ -133,6 +133,8 @@ public:
 	struct playerTriggers {
 		bool onGrid;
 		bool onBucket;
+		bool gotCandy;
+		bool lostCandy;
 	};
 	playerTriggers pSFXTrigs[4];
 	unsigned int pIFrames[4] = { 0,0,0,0 }; //temporary iframes fix for sfx until real iframes implemented
