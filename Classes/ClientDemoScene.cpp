@@ -290,8 +290,8 @@ void ClientDemo::update(float dt)
 		return;
 	}
 	*/
-	players[playernum - 1]->setPositionX(players[playernum - 1]->getPositionX() + xmove);
-	players[playernum - 1]->setPositionY(players[playernum - 1]->getPositionY() + ymove);
+	players[playernum - 1]->setPositionX(players[playernum - 1]->getPositionX() + xmove * players[playernum - 1]->speedboost);
+	players[playernum - 1]->setPositionY(players[playernum - 1]->getPositionY() + ymove * players[playernum - 1]->speedboost);
 
 	CCLOG("UPDATE DT");
 	CCLOG(std::to_string(dt).c_str());
@@ -579,10 +579,35 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 
 void ClientDemo::processServerMessage(ServerMessage msg)
 {
-
+	/*character messagechar, float xpos, float ypos, char status
+		0. Assign Player Number, unused, unused, new player number
+		1. Player 1 pos, xpos, ypos, animation #
+		2. Player 2 pos, xpos, ypos, animation #
+		3. Player 3 pos, xpos, ypos, animation #
+		4. Player 4 pos, xpos, ypos, animation #
+		5. Sam pos, xpos, ypos, animation #
+		6. Ptera pos, xpos, ypos, animmation #
+		7. Candy pos, xpos, ypos, unused
+		8. Got candy, unused, unused, player #
+		9. Candy wore off, unused, unused, player #
+		10. Change Level, unused, unused, new level #*/
 	if(msg.messagechar == 0)
 	{
 		playernum = msg.status;
+	}
+	else if (msg.messagechar == 8)
+	{
+		if (playernum == msg.status)
+		{
+			players[playernum - 1]->speedboost = 2;
+		}
+	}
+	else if (msg.messagechar == 9)
+	{
+		if (playernum == msg.status)
+		{
+			players[playernum - 1]->speedboost = 1;
+		}
 	}
 	else if (msg.messagechar == 10)
 	{

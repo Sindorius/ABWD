@@ -22,9 +22,6 @@ public:
 	void setAnim(std::string s) { animstate = s; }
 	std::string getAnim() { return animstate; }
 
-
-
-private:
 	int playernumber = 0;
 	int inventoryitem = 0;
 	int hitpoints = 1;

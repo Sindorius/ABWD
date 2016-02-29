@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "Player.h"
-#include "Villain.h"
+#include "ServerSam.h"
 #include "Pterodactyl.h"
 #include "Candy.h"
 #include <cstdlib>
@@ -26,7 +26,7 @@
 #include "LevelManager.hpp"
 
 class TCPServer;
-
+class ServerSam;
 
 class ServerDemo : public cocos2d::Layer
 {
@@ -45,7 +45,7 @@ private:
 	Player* player3;
 	Player* player4;
 	std::vector<Player*> players;
-	Villain* villain;
+	ServerSam* serversam;
 	Pterodactyl* pterodactyl;
 	Candy* candy;
 
@@ -101,12 +101,15 @@ public:
 	LevelManager levelmanager;
 	void loadLevel(int level);
 	void setupPaintTiles();
+	void updatePaintTiles(int playernum);
 	int idle1 = 0, idle2 = 0, idle3 = 0, idle4 = 0;
 	std::vector<std::vector<char>> blankvector;
 	bool sendmap = false;
 	ServerPositionPacket createPacket();
 	void addPlayerToGame(int playernum);
 	void removePlayerFromGame(int playernum);
+	
+	void enqueueMessage(ServerMessage msg);
 };
 
 #endif // __SERVERDEMO_SCENE_H__

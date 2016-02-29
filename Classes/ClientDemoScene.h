@@ -32,6 +32,7 @@ using boost::asio::ip::udp;
 using boost::asio::ip::tcp;
 
 class TCPCSession;
+class Villain;
 
 class ClientDemo : public cocos2d::Layer
 {
