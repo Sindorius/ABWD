@@ -15,7 +15,7 @@ public:
 	void off() { running = false; }
 	bool isOn() { return running; }
 	void attack() { hostile = true; cap = 6; }
-	void peace() { hostile = false; cap = 2; }
+	void peace() { hostile = false; cap = 3; }
 	bool isHostile() { return hostile; }
 	static Pterodactyl* create();
 	void setAnim(std::string state) { animstate = state; }

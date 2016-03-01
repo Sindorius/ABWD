@@ -130,25 +130,27 @@ void ServerSam::chooseBehavior() {
 		choose = 0;
 	}
 	else {
-		choose = (rand() % 4) + 1;
+		choose = behaviors.at((rand() % behaviors.size()));
 	}
 	switch (choose) {
+		//wait
 	case 0:
 		behavior_timer = idle_time;
 		behavior = 5;
 		setAnim("samdown");
 		break;
+		//walk
 	case 1:
 		behavior_timer = walk_time;
 		behavior = 0;
 		break;
-		
+		//ptera
 	case 2:
 		behavior_timer = 400;
 		secondary_time = 30;
 		behavior = 1;
 		break;
-
+		//teleport
 	case 3:
 		if (teleport_cd <= 0) {
 			int total = priority[0] + priority[1] + priority[2] + priority[3];
@@ -191,7 +193,7 @@ void ServerSam::chooseBehavior() {
 			}
 		}
 		break;
-
+		//candy
 	case 4:
 		behavior = 6;
 		behavior_timer = 120;
@@ -430,4 +432,49 @@ void ServerSam::linkPtera(Pterodactyl* pterodactyl) {
 
 void ServerSam::linkCandy(Candy* candies) {
 	candy = candies;
+}
+
+void ServerSam::pteraSwitch() {
+	if (b_ptera) {
+		b_ptera = false;
+		for (int i = 0; behaviors[i] != 2; i++) {
+			if (behaviors[i] == 2) {
+				behaviors.erase(behaviors.begin() + i);
+			}
+		}
+	}
+	else {
+		b_ptera = true;
+		behaviors.push_back(2);
+	}
+}
+
+void ServerSam::teleportSwitch() {
+	if (b_teleport) {
+		b_teleport = false;
+		for (int i = 0; behaviors[i] != 3; i++) {
+			if (behaviors[i] == 3) {
+				behaviors.erase(behaviors.begin() + i);
+			}
+		}
+	}
+	else {
+		b_teleport = true;
+		behaviors.push_back(3);
+	}
+}
+
+void ServerSam::candySwitch() {
+	if (b_candy) {
+		b_candy = false;
+		for (int i = 0; behaviors[i] != 4; i++) {
+			if (behaviors[i] == 4) {
+				behaviors.erase(behaviors.begin() + i);
+			}
+		}
+	}
+	else {
+		b_candy = true;
+		behaviors.push_back(4);
+	}
 }

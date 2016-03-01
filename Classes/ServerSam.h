@@ -63,6 +63,12 @@ public:
 	void linkPtera(Pterodactyl* pterodactyl);
 	void linkCandy(Candy* candies);
 
+	void teleportSwitch();
+	void candySwitch();
+	void pteraSwitch();
+
+
+
 	ServerDemo* serverptr;
 
 private:
@@ -92,6 +98,12 @@ private:
 	int munch_time = 100;
 
 	std::string animstate = "";
+
+	std::vector<int> behaviors{1,2,3,4};
+	bool b_walk = true;
+	bool b_teleport = true;
+	bool b_candy = true;
+	bool b_ptera = true;
 
 
 	//links
