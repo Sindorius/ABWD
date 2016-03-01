@@ -223,10 +223,10 @@ bool ClientDemo::init()
 		//initalize player sfx triggers to false
 		for (int i = 0; i < 3; i++)
 		{
-			pSFXTrigs[i].onBucket = false;
-			pSFXTrigs[i].onGrid = false; //no grid-detection, yet.
+			gSFX.pTrigs[i].onBucket = false;
+			gSFX.pTrigs[i].onGrid = false; //no grid-detection, yet.
 		}
-		gSFXTrigs.levelChange = false;
+		gSFX.levelChange = false;
 
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\paint.mp3");
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_hit.mp3");
@@ -613,7 +613,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	{
 		if (playernum == msg.status)
 		{
-			pSFXTrigs[playernum - 1].gotCandy = true;
+			gSFX.pTrigs[playernum - 1].gotCandy = true;
 			players[playernum - 1]->speedboost = 2;
 		}
 	}
@@ -621,7 +621,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	{
 		if (playernum == msg.status)
 		{
-			pSFXTrigs[playernum - 1].lostCandy = true;
+			gSFX.pTrigs[playernum - 1].lostCandy = true;
 			players[playernum - 1]->speedboost = 1;
 		}
 	}
@@ -738,48 +738,48 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				{
 					//p1CLabel->setString("Red");
 					p1CLabel->setFontFillColor(ccc3(247, 52, 47));
-					pSFXTrigs[0].onBucket = true; //0=p1, 1=p2, 2=p3, 3=p4
+					gSFX.pTrigs[0].onBucket = true; //0=p1, 1=p2, 2=p3, 3=p4
 				}
 				if ("true" == b)
 				{
 					//p1CLabel->setString("Blue");
 					p1CLabel->setFontFillColor(ccc3(49, 58, 197));
-					pSFXTrigs[0].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 				if ("true" == y) {
 					//p1CLabel->setString("Yellow");
 					p1CLabel->setFontFillColor(ccc3(222, 244, 69));
-					pSFXTrigs[0].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 				if ("true" == o) {
 					//p1CLabel->setString("Orange");
 					p1CLabel->setFontFillColor(ccc3(234, 152, 46));
-					pSFXTrigs[0].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
-					pSFXTrigs[0].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 				
 				if ("true" == b2) {
 					p1CLabel->setFontFillColor(ccc3(4, 31, 131));
-					pSFXTrigs[0].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 				if ("true" == b3) {
 					p1CLabel->setFontFillColor(ccc3(1, 16, 73));
-					pSFXTrigs[0].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 				if ("true" == g1) {
 					p1CLabel->setFontFillColor(ccc3(2, 123, 36));
-					pSFXTrigs[0].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 				if ("true" == g2) {
 					p1CLabel->setFontFillColor(ccc3(11, 187, 60));
-					pSFXTrigs[0].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 				if ("true" == g3) {
 					p1CLabel->setFontFillColor(ccc3(47, 247, 145));
-					pSFXTrigs[0].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 			}
 		}
@@ -806,45 +806,45 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == r)
 				{
 					p2CLabel->setFontFillColor(ccc3(247, 52, 47));
-					pSFXTrigs[1].onBucket = true;
+					gSFX.pTrigs[1].onBucket = true;
 				}
 				if ("true" == b)
 				{
 					p2CLabel->setFontFillColor(ccc3(49, 58, 197));
-					pSFXTrigs[1].onBucket = true;
+					gSFX.pTrigs[1].onBucket = true;
 				}
 				if ("true" == y) {
 					p2CLabel->setFontFillColor(ccc3(222, 244, 69));
-					pSFXTrigs[1].onBucket = true;
+					gSFX.pTrigs[1].onBucket = true;
 				}
 				if ("true" == o) {
 					p2CLabel->setFontFillColor(ccc3(234, 152, 46));
-					pSFXTrigs[1].onBucket = true;
+					gSFX.pTrigs[1].onBucket = true;
 				}
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
-					pSFXTrigs[1].onBucket = true;
+					gSFX.pTrigs[1].onBucket = true;
 				}
 				
 				if ("true" == b2) {
 					p2CLabel->setFontFillColor(ccc3(4, 31, 131));
-					pSFXTrigs[1].onBucket = true;
+					gSFX.pTrigs[1].onBucket = true;
 				}
 				if ("true" == b3) {
 					p2CLabel->setFontFillColor(ccc3(1, 16, 73));
-					pSFXTrigs[1].onBucket = true;
+					gSFX.pTrigs[1].onBucket = true;
 				}
 				if ("true" == g1) {
 					p2CLabel->setFontFillColor(ccc3(2, 123, 36));
-					pSFXTrigs[1].onBucket = true;
+					gSFX.pTrigs[1].onBucket = true;
 				}
 				if ("true" == g2) {
 					p2CLabel->setFontFillColor(ccc3(11, 187, 60));
-					pSFXTrigs[1].onBucket = true;
+					gSFX.pTrigs[1].onBucket = true;
 				}
 				if ("true" == g3) {
 					p2CLabel->setFontFillColor(ccc3(47, 247, 145));
-					pSFXTrigs[1].onBucket = true;
+					gSFX.pTrigs[1].onBucket = true;
 				}
 			}
 		}
@@ -871,45 +871,45 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == r)
 				{
 					p3CLabel->setFontFillColor(ccc3(247, 52, 47));
-					pSFXTrigs[2].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 				if ("true" == b)
 				{
 					p3CLabel->setFontFillColor(ccc3(49, 58, 197));
-					pSFXTrigs[2].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 				if ("true" == y) {
 					p3CLabel->setFontFillColor(ccc3(222, 244, 69));
-					pSFXTrigs[2].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 				if ("true" == o) {
 					p3CLabel->setFontFillColor(ccc3(234, 152, 46));
-					pSFXTrigs[2].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
-					pSFXTrigs[2].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 				
 				if ("true" == b2) {
 					p3CLabel->setFontFillColor(ccc3(4, 31, 131));
-					pSFXTrigs[2].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 				if ("true" == b3) {
 					p3CLabel->setFontFillColor(ccc3(1, 16, 73));
-					pSFXTrigs[2].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 				if ("true" == g1) {
 					p3CLabel->setFontFillColor(ccc3(2, 123, 36));
-					pSFXTrigs[2].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 				if ("true" == g2) {
 					p3CLabel->setFontFillColor(ccc3(11, 187, 60));
-					pSFXTrigs[2].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 				if ("true" == g3) {
 					p3CLabel->setFontFillColor(ccc3(47, 247, 145));
-					pSFXTrigs[2].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 			}
 		}
@@ -937,45 +937,45 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == r)
 				{
 					p4CLabel->setFontFillColor(ccc3(247, 52, 47));
-					pSFXTrigs[3].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 				if ("true" == b)
 				{
 					p4CLabel->setFontFillColor(ccc3(49, 58, 197));
-					pSFXTrigs[3].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 				if ("true" == y) {
 					p4CLabel->setFontFillColor(ccc3(222, 244, 69));
-					pSFXTrigs[3].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 				if ("true" == o) {
 					p4CLabel->setFontFillColor(ccc3(234, 152, 46));
-					pSFXTrigs[3].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
-					pSFXTrigs[3].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 
 				if ("true" == b2) {
 					p4CLabel->setFontFillColor(ccc3(4, 31, 131));
-					pSFXTrigs[3].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 				if ("true" == b3) {
 					p4CLabel->setFontFillColor(ccc3(1, 16, 73));
-					pSFXTrigs[3].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 				if ("true" == g1) {
 					p4CLabel->setFontFillColor(ccc3(2, 123, 36));
-					pSFXTrigs[3].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 				if ("true" == g2) {
 					p4CLabel->setFontFillColor(ccc3(11, 187, 60));
-					pSFXTrigs[3].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 				if ("true" == g3) {
 					p4CLabel->setFontFillColor(ccc3(47, 247, 145));
-					pSFXTrigs[3].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 				
 			}
@@ -1011,7 +1011,7 @@ void ClientDemo::loadLevel(int level)
 
 	removeChild(levelmanager.levelmap);
 
-	gSFXTrigs.levelChange = true;
+	gSFX.levelChange = true;
 	levelmanager.changeLevel(level);
 
 	addChild(levelmanager.levelmap, -1000);
@@ -1160,7 +1160,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 	for (unsigned int i = 0; i < 3; i++)
 	{
-		if (pSFXTrigs[i].gotCandy == true)
+		if (gSFX.pTrigs[i].gotCandy == true)
 		{
 			if (isSFXPlaying[7] == false)
 			{
@@ -1170,10 +1170,10 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 				{
 					isSFXPlaying[7] = false;
 				});
-				pSFXTrigs[i].gotCandy = false; //possibly needs to go before callback?
+				gSFX.pTrigs[i].gotCandy = false; //possibly needs to go before callback?
 			}
 		}
-		else if (pSFXTrigs[i].lostCandy == true)
+		else if (gSFX.pTrigs[i].lostCandy == true)
 		{
 			if (isSFXPlaying[9] == false)
 			{
@@ -1183,14 +1183,14 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 				{
 					isSFXPlaying[9] = false;
 				});
-				pSFXTrigs[i].lostCandy = false;
+				gSFX.pTrigs[i].lostCandy = false;
 			}
 		}
 	}
 	//If player gets/loses candy buff - end
 
 	//If level solved
-	if (gSFXTrigs.levelChange == true) //may need to set bool on changelevel() instead if this has trouble triggering sfx
+	if (gSFX.levelChange == true) //may need to set bool on changelevel() instead if this has trouble triggering sfx
 	{
 		if (isSFXPlaying[10] == false)
 		{
@@ -1200,7 +1200,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			{
 				isSFXPlaying[10] = false;
 			});
-			gSFXTrigs.levelChange = false;
+			gSFX.levelChange = false;
 		}
 	}
 	//If level solved - end
@@ -1234,7 +1234,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	//switch used here in case further animation states are created. modular switch-cases superior.
 	switch (p.p1anim) {
 	case 5: //p1paint
-		if (pSFXTrigs[0].onBucket == true) //if the player is on a bucket
+		if (gSFX.pTrigs[0].onBucket == true) //if the player is on a bucket
 		{
 			if (isSFXPlaying[6] == false)
 			{
@@ -1245,7 +1245,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 					isSFXPlaying[6] = false;
 				});
 			}
-			pSFXTrigs[0].onBucket = false; //put in callback func?
+			gSFX.pTrigs[0].onBucket = false; //put in callback func?
 		}
 		else
 		{
@@ -1267,7 +1267,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	}
 	switch (p.p2anim) {
 	case 11: //p1paint
-		if (pSFXTrigs[1].onBucket == true) //if the player is on a bucket
+		if (gSFX.pTrigs[1].onBucket == true) //if the player is on a bucket
 		{
 			if (isSFXPlaying[6] == false)
 			{
@@ -1278,7 +1278,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 					isSFXPlaying[6] = false;
 				});
 			}
-			pSFXTrigs[1].onBucket = false; 
+			gSFX.pTrigs[1].onBucket = false; 
 		}
 		else
 		{
@@ -1300,7 +1300,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	}
 	switch (p.p3anim) {
 	case 17: //p1paint
-		if (pSFXTrigs[2].onBucket == true) //if the player is on a bucket
+		if (gSFX.pTrigs[2].onBucket == true) //if the player is on a bucket
 		{
 			if (isSFXPlaying[6] == false)
 			{
@@ -1311,7 +1311,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 					isSFXPlaying[6] = false;
 				});
 			}
-			pSFXTrigs[2].onBucket = false; 
+			gSFX.pTrigs[2].onBucket = false; 
 		}
 		else
 		{
@@ -1333,7 +1333,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	}
 	switch (p.p4anim) {
 	case 23: //p1paint
-		if (pSFXTrigs[3].onBucket == true) //if the player is on a bucket
+		if (gSFX.pTrigs[3].onBucket == true) //if the player is on a bucket
 		{
 			if (isSFXPlaying[6] == false)
 			{
@@ -1344,7 +1344,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 					isSFXPlaying[6] = false;
 				});
 			}
-			pSFXTrigs[3].onBucket = false;
+			gSFX.pTrigs[3].onBucket = false;
 		}
 		else
 		{

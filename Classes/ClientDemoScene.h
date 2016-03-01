@@ -129,19 +129,19 @@ public:
 	//isSFXPlaying indexes correspond to soundIDList indexes, 
 	//i.e. isSFXPlaying[0] corresponds to the sound whose sound ID is in soundIDList[0].
 
-	//struct of bool checks for whether player is on paint grid/bucket or not
-	struct playerTriggers {
+	//struct of audio trigger checks for players
+	struct playerSFX {
 		bool onGrid;
 		bool onBucket;
 		bool gotCandy;
 		bool lostCandy;
 	};
-	playerTriggers pSFXTrigs[4];
-
-	struct gameTriggers {
+	//all game triggers 
+	struct SFXTriggers {
 		bool levelChange;
+		playerSFX pTrigs[4];
 	};
-	gameTriggers gSFXTrigs;
+	SFXTriggers gSFX;
 	unsigned int pIFrames[4] = { 0,0,0,0 }; //temporary iframes fix for sfx until real iframes implemented
 	void processSound(ServerPositionPacket &p);
 	
