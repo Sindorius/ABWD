@@ -218,6 +218,7 @@ bool ClientDemo::init()
 		// soundIDList[8] = sam_munch
 		// soundIDList[9] = player_candy_lost
 		// soundIDList[10] = puzzle_solved
+		// soundIDList[11] = ptero_swoop_fast
 
 		//initalize player sfx triggers to false
 		for (int i = 0; i < 3; i++)
@@ -238,21 +239,23 @@ bool ClientDemo::init()
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_munch.mp3");
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_candy_lost.mp3");
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\puzzle_solved.mp3");
+		experimental::AudioEngine::preload("\\res\\sound\\sfx\\ptero_swoop_fast.mp3");
 
 
 		//can probably remove code chunk below by initialzing soundIDList to AudioEngine::INVALID_AUDIO_ID
 		//then checking for that in audio sound checks in processSound()
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3", false, 0.0));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_hit.mp3", false, 0.0));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_teleport.mp3", false, 0.0));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_reappear.mp3", false, 0.0));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_whistle.mp3", false, 0.0));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop.mp3", false, 0.0));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\get_paint.mp3", false, 0.0));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_pickup.mp3", false, 0.0));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_munch.mp3", false, 0.0));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_lost.mp3", false, 0.0));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\puzzle_solved.mp3", false, 0.0));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3", false, 0.0f));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_hit.mp3", false, 0.0f));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_teleport.mp3", false, 0.0f));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_reappear.mp3", false, 0.0f));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_whistle.mp3", false, 0.0f));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop.mp3", false, 0.0f));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\get_paint.mp3", false, 0.0f));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_pickup.mp3", false, 0.0f));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_munch.mp3", false, 0.0f));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_lost.mp3", false, 0.0f));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\puzzle_solved.mp3", false, 0.0f));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop_fast.mp3", false, 0.0f));
 
 		for (unsigned int i = 0; i < soundIDList.size(); i++)
 		{
@@ -1225,6 +1228,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	// soundIDList[8] = sam munch
 	// soundIDList[9] = player_candy_lost
 	// soundIDList[10] = puzzle_solved
+	// soundIDList[11] = ptero_swoop_fast
 
 
 	//switch used here in case further animation states are created. modular switch-cases superior.
@@ -1412,12 +1416,29 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	case 33: //pteraleft
 		if (false == isSFXPlaying[5])
 		{
-			//change ptero_swoop to have 2 second silence after it plays
+			if (isSFXPlaying[11] == true)
+			{
+				experimental::AudioEngine::stop(soundIDList[11]);
+				isSFXPlaying[11] = false;
+			}
 			soundIDList[5] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop.mp3", true, 0.1f);
 			isSFXPlaying[5] = true;
 			//experimental::AudioEngine::setFinishCallback(soundIDList[5], [&](int id, const std::string& filePath)
 			//{
 			//	isSFXPlaying[5] = false;
+			//});
+		}
+		break;
+	case 40: //pteraANGRYleft
+		if (false == isSFXPlaying[11])
+		{
+			experimental::AudioEngine::stop(soundIDList[5]);
+			isSFXPlaying[5] = false;
+			soundIDList[11] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop_fast.mp3", true, 0.2f);
+			isSFXPlaying[11] = true;
+			//experimental::AudioEngine::setFinishCallback(soundIDList[11], [&](int id, const std::string& filePath)
+			//{
+			//	isSFXPlaying[11] = false;
 			//});
 		}
 		break;
