@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="31" height="24" tilewidth="24" tileheight="24" nextobjectid="98">
  <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
-  <image source="../sprites/tiles/walls.png" width="192" height="192"/>
+  <image source="./res/sprites/tiles/walls.png" width="192" height="192"/>
  </tileset>
  <tileset firstgid="65" name="floor" tilewidth="24" tileheight="24" tilecount="42">
-  <image source="../sprites/tiles/floor.png" width="168" height="144"/>
+  <image source="./res/sprites/tiles/floor.png" width="168" height="144"/>
   <tile id="0">
    <properties>
     <property name="block" value="true"/>
@@ -12,7 +12,7 @@
   </tile>
  </tileset>
  <tileset firstgid="107" name="buckets" tilewidth="24" tileheight="24" tilecount="15">
-  <image source="../sprites/buckets.png" width="360" height="24"/>
+  <image source="./res/sprites/buckets.png" width="360" height="24"/>
   <tile id="0">
    <properties>
     <property name="Red1" value="true"/>
@@ -90,7 +90,7 @@
   </tile>
  </tileset>
  <tileset firstgid="122" name="meta" tilewidth="24" tileheight="24" tilecount="2">
-  <image source="../sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
+  <image source="./res/sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
   <tile id="0">
    <properties>
     <property name="Collidable" value="true"/>
@@ -98,10 +98,10 @@
   </tile>
  </tileset>
  <tileset firstgid="124" name="instructions" tilewidth="24" tileheight="24" tilecount="18">
-  <image source="../sprites/objects/instructions.png" width="144" height="72"/>
+  <image source="./res/sprites/objects/instructions.png" width="144" height="72"/>
  </tileset>
  <tileset firstgid="142" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
-  <image source="../sprites/tiles/paintings as tiles.png" width="120" height="168"/>
+  <image source="./res/sprites/tiles/paintings as tiles.png" width="120" height="168"/>
  </tileset>
  <layer name="Floor" width="31" height="24">
   <data encoding="base64" compression="zlib">
@@ -118,11 +118,11 @@
    eJxjYBgFgx0UIrErkdjZ9HbIKBgFo4BkkEcjc0tpZO4oGAWjYBRQCoqQ2MVI7BJ6O2QIAwBNIAOS
   </data>
  </layer>
- <objectgroup name="SpawnObjects" visible="0">
-  <object id="84" name="P1spawnPoint" x="56" y="101" width="42" height="44"/>
-  <object id="85" name="P2spawnPoint" x="60" y="226" width="44" height="45"/>
-  <object id="87" name="P3spawnPoint" x="423" y="99" width="43" height="46"/>
-  <object id="88" name="P4spawnPoint" x="422" y="226" width="45" height="47"/>
+ <objectgroup name="SpawnObjects">
+  <object id="84" name="P1spawnPoint" x="96" y="456" width="24" height="48"/>
+  <object id="85" name="P2spawnPoint" x="48" y="96" width="24" height="48"/>
+  <object id="87" name="P3spawnPoint" x="624" y="456" width="24" height="48"/>
+  <object id="88" name="P4spawnPoint" x="672" y="96" width="24" height="48"/>
  </objectgroup>
  <layer name="Collision" width="31" height="24" visible="0">
   <data encoding="base64" compression="zlib">
