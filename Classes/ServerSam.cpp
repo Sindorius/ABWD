@@ -346,7 +346,7 @@ void ServerSam::munch() {
 			if (temp < temp1 && priority[i] > 0) { temp = temp1; target = i; }
 		}
 		flag = false;
-		candy->setPosition(this->getPositionX() - (this->getPositionX() - player_list->at(target)->getPositionX()) / 1.2, this->getPositionY() - (this->getPositionY() - player_list->at(target)->getPositionY()) / 1.2);
+		candy->setPosition(this->getPositionX() - (this->getPositionX() - player_list->at(target)->getPositionX()) / 1.5, this->getPositionY() - (this->getPositionY() - player_list->at(target)->getPositionY()) / 1.5);
 		candy->setStatus(true);
 	}
 

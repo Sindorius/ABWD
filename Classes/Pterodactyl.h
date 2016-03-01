@@ -14,8 +14,8 @@ public:
 	void on() { running = true; }
 	void off() { running = false; }
 	bool isOn() { return running; }
-	void attack() { hostile = true; cap = 5; }
-	void peace() { hostile = false; cap = 3; }
+	void attack() { hostile = true; cap = 6; }
+	void peace() { hostile = false; cap = 2; }
 	bool isHostile() { return hostile; }
 	static Pterodactyl* create();
 	void setAnim(std::string state) { animstate = state; }
@@ -27,7 +27,7 @@ private:
 	int posy;
 	float Xvelocity = 0;
 	float Yvelocity = 0;
-	float acceleration = .1f;
+	float acceleration = .2f;
 	std::string animstate = "";
 	bool running = false;
 	bool hostile = false;

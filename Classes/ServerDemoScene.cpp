@@ -289,7 +289,6 @@ void ServerDemo::update(float dt)
 							levelmanager.puzzle.currenttilevector[i][j] = 1;
 							tilespritevector[i][j]->setColor("clear");
 							tilespritevector[i][j]->refreshColor();
-							levelmanager.puzzle.drytilevector[i][j] = 0;
 
 						}
 					}
@@ -297,14 +296,14 @@ void ServerDemo::update(float dt)
 
 			}
 
-			if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p->getPositionX()) < 10 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 10)
+			if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p->getPositionX()) < 10 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 10 )
 			{
 				sendmap = true;
 				for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 				{
 					for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 					{
-						if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
+						if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != 1)
 						{
 							levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
 							levelmanager.puzzle.currenttilevector[i][j] = 1;
