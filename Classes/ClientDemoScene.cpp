@@ -208,7 +208,7 @@ bool ClientDemo::init()
 	{
 		//soundIDList index values are significant:
 		// soundIDList[0] = paint
-		// soundIDList[1] = player_hit
+		// soundIDList[1] = sam_playerhit
 		// soundIDList[2] = sam_teleport
 		// soundIDList[3] = sam_reappear
 		// soundIDList[4] = sam_whistle
@@ -224,12 +224,14 @@ bool ClientDemo::init()
 		for (int i = 0; i < 3; i++)
 		{
 			gSFX.pTrigs[i].onBucket = false;
-			gSFX.pTrigs[i].onGrid = false; //no grid-detection, yet.
+			gSFX.pTrigs[i].onGrid = false;
+			gSFX.pTrigs[i].gotCandy = false;
+			gSFX.pTrigs[i].lostCandy = false;
 		}
 		gSFX.levelChange = false;
 
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\paint.mp3");
-		experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_hit.mp3");
+		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_playerhit.mp3");
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_teleport.mp3");
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_reappear.mp3");
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_whistle.mp3");
@@ -240,12 +242,13 @@ bool ClientDemo::init()
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_candy_lost.mp3");
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\puzzle_solved.mp3");
 		experimental::AudioEngine::preload("\\res\\sound\\sfx\\ptero_swoop_fast.mp3");
+		experimental::AudioEngine::preload("\\res\\sound\\sfx\\ptero_playerhit.mp3");
 
 
 		//can probably remove code chunk below by initialzing soundIDList to AudioEngine::INVALID_AUDIO_ID
 		//then checking for that in audio sound checks in processSound()
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3", false, 0.0f));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_hit.mp3", false, 0.0f));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_playerhit.mp3", false, 0.0f));
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_teleport.mp3", false, 0.0f));
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_reappear.mp3", false, 0.0f));
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_whistle.mp3", false, 0.0f));
@@ -256,6 +259,7 @@ bool ClientDemo::init()
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_lost.mp3", false, 0.0f));
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\puzzle_solved.mp3", false, 0.0f));
 		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop_fast.mp3", false, 0.0f));
+		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.0f));
 
 		for (unsigned int i = 0; i < soundIDList.size(); i++)
 		{
@@ -342,6 +346,7 @@ void ClientDemo::update(float dt)
 			{
 				tileHighlight->setOpacity(255);
 				tileHighlight->setPosition(tilespritevector[i][j]->getPositionX(), tilespritevector[i][j]->getPositionY());
+				gSFX.pTrigs[playernum - 1].onGrid = true;
 			}
 		}
 	}
@@ -1064,17 +1069,21 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	//===========================================================
 	//					ISSUES AND BUGS
 	//===========================================================
-	//	1. Still need to check if player is on paint grid before 
-	//	playing paint sound.
+	//	1. If player is not holding down space and paints on the
+	// grid, they can paint outside the grid once and still get the 
+	// painting sfx.
 	//
-	//	2. Volume of various SFX need a little more adjustment.
+	//	2. Need to sync animations with sfx.
 	//
-	//	3. Pterodactyl swooping is still not QUITE there yet.
-	//	Sound and pacing need a little work.
+	//	3. Recode processSound() to no longer need a parameter.
 	//
-	//	4. Sam hitting a player triggers sfx even if they're idle
-	//	or have no tiles painted. Will look into solutions, but not
-	//	a priority.
+	//	4. Use Server Messages for audio triggers - specifically
+	//	for grid detection.
+	//
+	//	3. Volume of various SFX need a little more adjustment.
+	//
+	//	4. Idle Player check is hack-fixed for now, will implement
+	//	better later.
 	//============================================================
 
 	// GOOD REFERENCES FOR AUDIO CODING
@@ -1082,22 +1091,49 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	// https://searchcode.com/codesearch/view/95985619/
 
 	//===========================================================
-	//        NON-ANIMATION BASED AUDIO CODE
+	//        NON-ANIMATION BASED AUDIO
 	//===========================================================
+
+	// soundIDList[0] = paint
+	// soundIDList[1] = sam_playerhit
+	// soundIDList[2] = sam_teleport
+	// soundIDList[3] = sam_reappear
+	// soundIDList[4] = sam_whistle
+	// soundIDList[5] = ptero_swoop
+	// soundIDList[6] = get_paintc
+	// soundIDList[7] = player_candy_pickup
+	// soundIDList[8] = sam munch
+	// soundIDList[9] = player_candy_lost
+	// soundIDList[10] = puzzle_solved
+	// soundIDList[11] = ptero_swoop_fast
+	// soundIDList[12] = ptero_playerhit
 
 	//If Sam or pterodactyl touches a player
 
 	if (pIFrames[0] == 0) //if player 1 iframes = 0
 	{
-		if ((abs(p.vx - p.p1x) < 5 && abs(p.vy - p.p1y) < 5) || (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p.p1x) < 10 && abs(pterodactyl->getPositionY() - p.p1y) < 10))
+		if ((abs(p.vx - p.p1x) < 5 && abs(p.vy - p.p1y) < 5) && gSFX.pTrigs[0].hasPainted == true)
 		{
 			if (false == isSFXPlaying[1])
 			{
-				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_hit.mp3");
+				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_playerhit.mp3", false, 0.8f);
 				isSFXPlaying[1] = true;
 				experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
 				{
 					isSFXPlaying[1] = false;
+				});
+				pIFrames[0] = 3 * 30; //3 seconds of iframes at 30 fps
+			}
+		}
+		else if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p.p1x) < 10 && abs(pterodactyl->getPositionY() - p.p1y) < 10 && gSFX.pTrigs[0].hasPainted == true)
+		{
+			if (false == isSFXPlaying[12])
+			{
+				soundIDList[12] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.8f);
+				isSFXPlaying[12] = true;
+				experimental::AudioEngine::setFinishCallback(soundIDList[12], [&](int id, const std::string& filePath)
+				{
+					isSFXPlaying[12] = false;
 				});
 				pIFrames[0] = 2 * 30; //2 seconds of iframes at 30 fps
 			}
@@ -1105,15 +1141,28 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	}
 	if (pIFrames[1] == 0)
 	{
-		if ((abs(p.vx - p.p2x) < 5 && abs(p.vy - p.p2y) < 5) || (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p.p2x) < 10 && abs(pterodactyl->getPositionY() - p.p2y) < 10))
+		if ((abs(p.vx - p.p2x) < 5 && abs(p.vy - p.p2y) < 5) && gSFX.pTrigs[1].hasPainted == true)
 		{
 			if (false == isSFXPlaying[1])
 			{
-				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_hit.mp3");
+				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_playerhit.mp3", false, 0.8f);
 				isSFXPlaying[1] = true;
 				experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
 				{
 					isSFXPlaying[1] = false;
+				});
+				pIFrames[1] = 3 * 30; //3 seconds of iframes at 30 fps
+			}
+		}
+		else if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p.p2x) < 10 && abs(pterodactyl->getPositionY() - p.p2y) < 10 && gSFX.pTrigs[1].hasPainted == true)
+		{
+			if (false == isSFXPlaying[12])
+			{
+				soundIDList[12] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.8f);
+				isSFXPlaying[12] = true;
+				experimental::AudioEngine::setFinishCallback(soundIDList[12], [&](int id, const std::string& filePath)
+				{
+					isSFXPlaying[12] = false;
 				});
 				pIFrames[1] = 2 * 30; //2 seconds of iframes at 30 fps
 			}
@@ -1122,15 +1171,28 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 	if (pIFrames[2] == 0)
 	{
-		if ((abs(p.vx - p.p3x) < 5 && abs(p.vy - p.p3y) < 5) || (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p.p3x) < 10 && abs(pterodactyl->getPositionY() - p.p3y) < 10))
+		if ((abs(p.vx - p.p3x) < 5 && abs(p.vy - p.p3y) < 5) && gSFX.pTrigs[2].hasPainted == true)
 		{
 			if (false == isSFXPlaying[1])
 			{
-				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_hit.mp3");
+				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_playerhit.mp3", false, 0.8f);
 				isSFXPlaying[1] = true;
 				experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
 				{
 					isSFXPlaying[1] = false;
+				});
+				pIFrames[2] = 3 * 30; //3 seconds of iframes at 30 fps
+			}
+		}
+		else if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p.p3x) < 10 && abs(pterodactyl->getPositionY() - p.p3y) < 10 && gSFX.pTrigs[2].hasPainted == true)
+		{
+			if (false == isSFXPlaying[12])
+			{
+				soundIDList[12] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.8f);
+				isSFXPlaying[12] = true;
+				experimental::AudioEngine::setFinishCallback(soundIDList[12], [&](int id, const std::string& filePath)
+				{
+					isSFXPlaying[12] = false;
 				});
 				pIFrames[2] = 2 * 30; //2 seconds of iframes at 30 fps
 			}
@@ -1139,15 +1201,28 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 	if (pIFrames[3] == 0)
 	{
-		if ((abs(p.vx - p.p4x) < 5 && abs(p.vy - p.p4y) < 5) || (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p.p4x) < 10 && abs(pterodactyl->getPositionY() - p.p4y) < 10))
+		if ((abs(p.vx - p.p4x) < 5 && abs(p.vy - p.p4y) < 5) && gSFX.pTrigs[3].hasPainted == true)
 		{
 			if (false == isSFXPlaying[1])
 			{
-				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_hit.mp3");
+				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_playerhit.mp3", false, 0.8f);
 				isSFXPlaying[1] = true;
 				experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
 				{
 					isSFXPlaying[1] = false;
+				});
+				pIFrames[3] = 2 * 30; //2 seconds of iframes at 30 fps
+			}
+		}
+		else if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p.p4x) < 10 && abs(pterodactyl->getPositionY() - p.p4y) < 10 && gSFX.pTrigs[3].hasPainted == true)
+		{
+			if (false == isSFXPlaying[12])
+			{
+				soundIDList[12] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.8f);
+				isSFXPlaying[12] = true;
+				experimental::AudioEngine::setFinishCallback(soundIDList[12], [&](int id, const std::string& filePath)
+				{
+					isSFXPlaying[12] = false;
 				});
 				pIFrames[3] = 2 * 30; //2 seconds of iframes at 30 fps
 			}
@@ -1164,7 +1239,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		{
 			if (isSFXPlaying[7] == false)
 			{
-				soundIDList[7] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_pickup.mp3");
+				soundIDList[7] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_pickup.mp3", false, 0.8f);
 				isSFXPlaying[7] = true;
 				experimental::AudioEngine::setFinishCallback(soundIDList[7], [&](int id, const std::string& filePath)
 				{
@@ -1177,7 +1252,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		{
 			if (isSFXPlaying[9] == false)
 			{
-				soundIDList[9] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_lost.mp3");
+				soundIDList[9] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_lost.mp3", false, 0.8f);
 				isSFXPlaying[9] = true;
 				experimental::AudioEngine::setFinishCallback(soundIDList[9], [&](int id, const std::string& filePath)
 				{
@@ -1206,7 +1281,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	//If level solved - end
 
 	//===========================================================
-	//    END OF NON-ANIMATION BASED AUDIO CODE
+	//    END OF NON-ANIMATION BASED AUDIO
 	//===========================================================
 
 
@@ -1214,11 +1289,11 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 
 	//===========================================================
-	//        ANIMATION-BASED AUDIO CODE
+	//        ANIMATION-BASED AUDIO
 	//===========================================================
 
 	// soundIDList[0] = paint
-	// soundIDList[1] = player_hit
+	// soundIDList[1] = sam_playerhit
 	// soundIDList[2] = sam_teleport
 	// soundIDList[3] = sam_reappear
 	// soundIDList[4] = sam_whistle
@@ -1229,6 +1304,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	// soundIDList[9] = player_candy_lost
 	// soundIDList[10] = puzzle_solved
 	// soundIDList[11] = ptero_swoop_fast
+	// soundIDList[12] = ptero_playerhit
 
 
 	//switch used here in case further animation states are created. modular switch-cases superior.
@@ -1238,7 +1314,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		{
 			if (isSFXPlaying[6] == false)
 			{
-				soundIDList[6] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\get_paint.mp3", false, 0.5);
+				soundIDList[6] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\get_paint.mp3", false, 0.5f);
 				isSFXPlaying[6] = true;
 				experimental::AudioEngine::setFinishCallback(soundIDList[6], [&](int id, const std::string& filePath)
 				{
@@ -1247,20 +1323,19 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			}
 			gSFX.pTrigs[0].onBucket = false; //put in callback func?
 		}
-		else
+		else if (gSFX.pTrigs[0].onGrid == true) //if player is on grid
 		{
-			if (false == isSFXPlaying[0])
+			if (isSFXPlaying[0] == false)
 			{
-				if (isSFXPlaying[6] == false)
+				soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
+				isSFXPlaying[0] = true;
+				gSFX.pTrigs[0].hasPainted = true; //temp fix for checking if player is idle
+				experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
 				{
-					soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
-					isSFXPlaying[0] = true;
-					experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
-					{
-						isSFXPlaying[0] = false;
-					});
-				}
+					isSFXPlaying[0] = false;
+				});
 			}
+			gSFX.pTrigs[0].onGrid = false;
 		}
 		break;
 	default: break;
@@ -1280,20 +1355,19 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			}
 			gSFX.pTrigs[1].onBucket = false; 
 		}
-		else
+		else if (gSFX.pTrigs[1].onGrid == true) //if player is on grid
 		{
-			if (false == isSFXPlaying[0])
+			if (isSFXPlaying[0] == false)
 			{
-				if (isSFXPlaying[6] == false)
+				soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
+				isSFXPlaying[0] = true;
+				gSFX.pTrigs[1].hasPainted = true; //temp fix for checking if player is idle
+				experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
 				{
-					soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
-					isSFXPlaying[0] = true;
-					experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
-					{
-						isSFXPlaying[0] = false;
-					});
-				}
+					isSFXPlaying[0] = false;
+				});
 			}
+			gSFX.pTrigs[1].onGrid = false;
 		}
 		break;
 	default: break;
@@ -1313,20 +1387,19 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			}
 			gSFX.pTrigs[2].onBucket = false; 
 		}
-		else
+		else if (gSFX.pTrigs[2].onGrid == true) //if player is on grid
 		{
-			if (false == isSFXPlaying[0])
+			if (isSFXPlaying[0] == false)
 			{
-				if (isSFXPlaying[6] == false)
+				soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
+				isSFXPlaying[0] = true;
+				gSFX.pTrigs[2].hasPainted = true; //temp fix for checking if player is idle
+				experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
 				{
-					soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
-					isSFXPlaying[0] = true;
-					experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
-					{
-						isSFXPlaying[0] = false;
-					});
-				}
+					isSFXPlaying[0] = false;
+				});
 			}
+			gSFX.pTrigs[2].onGrid = false;
 		}
 		break;
 	default: break;
@@ -1346,20 +1419,19 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			}
 			gSFX.pTrigs[3].onBucket = false;
 		}
-		else
+		else if (gSFX.pTrigs[3].onGrid == true) //if player is on grid
 		{
-			if (false == isSFXPlaying[0])
+			if (isSFXPlaying[0] == false)
 			{
-				if (isSFXPlaying[6] == false)
+				soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
+				isSFXPlaying[0] = true;
+				gSFX.pTrigs[3].hasPainted = true; //temp fix for checking if player is idle
+				experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
 				{
-					soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
-					isSFXPlaying[0] = true;
-					experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
-					{
-						isSFXPlaying[0] = false;
-					});
-				}
+					isSFXPlaying[0] = false;
+				});
 			}
+			gSFX.pTrigs[3].onGrid = false;
 		}
 		break;
 	default: break;
@@ -1379,7 +1451,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	case 30: //samappear
 		if (false == isSFXPlaying[3])
 		{
-			soundIDList[3] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_reappear.mp3");
+			soundIDList[3] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_reappear.mp3", false, 0.8f);
 			isSFXPlaying[3] = true;
 			experimental::AudioEngine::setFinishCallback(soundIDList[3], [&](int id, const std::string& filePath)
 			{
@@ -1401,7 +1473,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	case 39: //sammunch
 		if (false == isSFXPlaying[8])
 		{
-			soundIDList[8] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_munch.mp3");
+			soundIDList[8] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_munch.mp3", false, 0.7f);
 			isSFXPlaying[8] = true;
 			experimental::AudioEngine::setFinishCallback(soundIDList[8], [&](int id, const std::string& filePath)
 			{
@@ -1414,6 +1486,22 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 	switch (p.ptanim) {
 	case 33: //pteraleft
+		if (false == isSFXPlaying[5])
+		{
+			if (isSFXPlaying[11] == true)
+			{
+				experimental::AudioEngine::stop(soundIDList[11]);
+				isSFXPlaying[11] = false;
+			}
+			soundIDList[5] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop.mp3", true, 0.1f);
+			isSFXPlaying[5] = true;
+			//experimental::AudioEngine::setFinishCallback(soundIDList[5], [&](int id, const std::string& filePath)
+			//{
+			//	isSFXPlaying[5] = false;
+			//});
+		}
+		break;
+	case 34: //pteraright
 		if (false == isSFXPlaying[5])
 		{
 			if (isSFXPlaying[11] == true)
@@ -1442,11 +1530,24 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			//});
 		}
 		break;
+	case 41: //pteraANGRYright
+		if (false == isSFXPlaying[11])
+		{
+			experimental::AudioEngine::stop(soundIDList[5]);
+			isSFXPlaying[5] = false;
+			soundIDList[11] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop_fast.mp3", true, 0.2f);
+			isSFXPlaying[11] = true;
+			//experimental::AudioEngine::setFinishCallback(soundIDList[11], [&](int id, const std::string& filePath)
+			//{
+			//	isSFXPlaying[11] = false;
+			//});
+		}
+		break;
 	default: break;
 	}
 
 	//===========================================================
-	//     END OF ANIMATION-BASED AUDIO CODE
+	//     END OF ANIMATION-BASED AUDIO
 	//===========================================================
 	for (int i = 0; i < 3; i++)
 	{

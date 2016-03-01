@@ -133,6 +133,7 @@ public:
 	struct playerSFX {
 		bool onGrid;
 		bool onBucket;
+		bool hasPainted;
 		bool gotCandy;
 		bool lostCandy;
 	};
