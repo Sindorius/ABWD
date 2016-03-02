@@ -72,6 +72,9 @@ void ServerSam::runAI(std::vector<Player*>* players)
 	calculations();
 	teleport_cd--;
 	candy->run();
+	if (candy->getTime() == 1) {
+		candySwitch();
+	}
 	if(candy->getTime() == 1)
 	{
 		serverptr->enqueueMessage(ServerMessage(9, 0, 0, candy->getOwner()+1));
@@ -388,6 +391,7 @@ void ServerSam::munch() {
 			candy->setPosition(-1000, -1000);
 			flag = true;
 			behavior_unlocked = true;
+			candySwitch();
 			serverptr->enqueueMessage(ServerMessage(8, 0, 0, i + 1));
 		}
 	}
