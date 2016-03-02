@@ -390,7 +390,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	/* move players, with some client side prediction of your own character*/
 	if (playernum == 1)
 	{
-		if (abs(p.p1x - players[0]->getPositionX()) > 6 || abs(p.p1y - players[0]->getPositionY()) > 6)
+		if (abs(p.p1x - players[0]->getPositionX()) > 8 || abs(p.p1y - players[0]->getPositionY()) > 8)
 		{
 			player1->setPosition(Vec2(p.p1x, p.p1y));
 		}
@@ -398,7 +398,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	else{ player1->setPosition(Vec2(p.p1x, p.p1y)); }
 	if (playernum == 2)
 	{
-		if (abs(p.p2x - players[playernum - 1]->getPositionX()) > 6 || abs(p.p2y - players[playernum - 1]->getPositionY()) > 6)
+		if (abs(p.p2x - players[playernum - 1]->getPositionX()) > 8 || abs(p.p2y - players[playernum - 1]->getPositionY()) > 8)
 		{
 			player2->setPosition(Vec2(p.p2x, p.p2y));
 		}
@@ -406,7 +406,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	else { player2->setPosition(Vec2(p.p2x, p.p2y)); }
 	if (playernum == 3)
 	{
-		if (abs(p.p3x - players[2]->getPositionX()) > 6 || abs(p.p3y - players[2]->getPositionY()) > 6)
+		if (abs(p.p3x - players[2]->getPositionX()) > 8 || abs(p.p3y - players[2]->getPositionY()) > 8)
 		{
 			player3->setPosition(Vec2(p.p3x, p.p3y));
 		}
@@ -414,7 +414,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	else { player3->setPosition(Vec2(p.p3x, p.p3y)); }
 	if (playernum == 4)
 	{
-		if (abs(p.p4x - players[3]->getPositionX()) > 6 || abs(p.p4y - players[3]->getPositionY()) > 6)
+		if (abs(p.p4x - players[3]->getPositionX()) > 8 || abs(p.p4y - players[3]->getPositionY()) > 8)
 		{
 			player4->setPosition(Vec2(p.p4x, p.p4y));
 		}
