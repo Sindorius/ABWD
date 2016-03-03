@@ -9,7 +9,7 @@ ServerSam* ServerSam::create()
 {
 	ServerSam* pSprite = new ServerSam();
 
-	if (pSprite->initWithFile("\\res\\sprites\\animations\\sam\\sam_front_0.png"))
+	if (pSprite->initWithFile("\\res\\sprites\\animations\\sam\\sam_walk_front0.png"))
 	{
 		pSprite->autorelease();
 
@@ -26,7 +26,7 @@ ServerSam* ServerSam::create(ServerDemo* ptr)
 	ServerSam* pSprite = new ServerSam();
 	pSprite->serverptr = ptr;
 
-	if (pSprite->initWithFile("\\res\\sprites\\animations\\sam\\sam_front_0.png"))
+	if (pSprite->initWithFile("\\res\\sprites\\animations\\sam\\sam_walk_front0.png"))
 	{
 		pSprite->autorelease();
 
