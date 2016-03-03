@@ -124,7 +124,7 @@
   <object id="87" name="P3spawnPoint" x="348" y="74" width="24" height="48"/>
   <object id="88" name="P4spawnPoint" x="394" y="48" width="24" height="48"/>
  </objectgroup>
- <layer name="Collision" width="20" height="16">
+ <layer name="Collision" width="20" height="16" visible="0">
   <data encoding="base64" compression="zlib">
    eJyrYmBgqBphmFpg1LxR80bNo7951MQAhEQxkQ==
   </data>

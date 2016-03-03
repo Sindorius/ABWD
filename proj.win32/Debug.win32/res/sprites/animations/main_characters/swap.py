@@ -34,7 +34,7 @@ if __name__ == "__main__":
     key = get_color_key("key.json")
     names = list(key)
     files = os.listdir(inv_dir)
-    files = ["char_default_walking_up" + str(i) + ".png" for i in range(4)]
+    files = ["char_default_painting_right" + str(i) + ".png" for i in range(2)]
     print(files)
     for file in files:
         for name in names:
