@@ -392,7 +392,10 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	{
 		if (abs(p.p1x - players[0]->getPositionX()) > 8 || abs(p.p1y - players[0]->getPositionY()) > 8)
 		{
-			player1->setPosition(Vec2(p.p1x, p.p1y));
+			float diffx = (player1->getPositionX() - p.p1x)/2.0f;
+			float diffy = (player1->getPositionY() - p.p1y)/2.0f;
+
+			player1->setPosition(Vec2(p.p1x + diffx, p.p1y + diffy));
 		}
 	}
 	else{ player1->setPosition(Vec2(p.p1x, p.p1y)); }
@@ -400,7 +403,10 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	{
 		if (abs(p.p2x - players[playernum - 1]->getPositionX()) > 8 || abs(p.p2y - players[playernum - 1]->getPositionY()) > 8)
 		{
-			player2->setPosition(Vec2(p.p2x, p.p2y));
+			float diffx = (player2->getPositionX() - p.p2x) / 2.0f;
+			float diffy = (player2->getPositionY() - p.p2y) / 2.0f;
+
+			player2->setPosition(Vec2(p.p2x + diffx, p.p2y + diffy));
 		}
 	}
 	else { player2->setPosition(Vec2(p.p2x, p.p2y)); }
@@ -408,7 +414,10 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	{
 		if (abs(p.p3x - players[2]->getPositionX()) > 8 || abs(p.p3y - players[2]->getPositionY()) > 8)
 		{
-			player3->setPosition(Vec2(p.p3x, p.p3y));
+			float diffx = (player3->getPositionX() - p.p3x) / 2.0f;
+			float diffy = (player3->getPositionY() - p.p3y) / 2.0f;
+
+			player3->setPosition(Vec2(p.p3x + diffx, p.p3y + diffy));
 		}
 	}
 	else { player3->setPosition(Vec2(p.p3x, p.p3y)); }
@@ -416,7 +425,10 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	{
 		if (abs(p.p4x - players[3]->getPositionX()) > 8 || abs(p.p4y - players[3]->getPositionY()) > 8)
 		{
-			player4->setPosition(Vec2(p.p4x, p.p4y));
+			float diffx = (player4->getPositionX() - p.p4x) / 2.0f;
+			float diffy = (player4->getPositionY() - p.p4y) / 2.0f;
+
+			player4->setPosition(Vec2(p.p4x + diffx, p.p4y + diffy));
 		}
 	}
 	else { player4->setPosition(Vec2(p.p4x, p.p4y)); }
