@@ -170,24 +170,24 @@ bool ClientDemo::init()
 
 	// Player Label Creation
 	p1CLabel = CCLabelTTF::create("P1", "fonts/Marker Felt.ttf", 9);
-	//p1CLabel->enableStroke(ccColor3B(255,0,0),20.0, true);
-	//p1CLabel->enableShadow(CCSize(1,0), 50.0, 0.0, true);
+	p1CLabel->enableStroke(ccColor3B(255,0,0),20.0, true);
+	p1CLabel->enableShadow(CCSize(1,0), 50.0, 0.0, true);
 	p1CLabel->setPosition(Vec2(player1->getPositionX()+64, player1->getPositionY()+1));
 	player1->addChild(p1CLabel,100);
 
 	p2CLabel = CCLabelTTF::create("P2", "fonts/Marker Felt.ttf", 9);
-	//p2CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
+	p2CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
 	p2CLabel->setPosition(Vec2(player2->getPositionX()+64, player2->getPositionY()-48));
 	player2->addChild(p2CLabel, 100);
 
 	p3CLabel = CCLabelTTF::create("P3", "fonts/Marker Felt.ttf", 9);
-	//p3CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
+	p3CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
 	p3CLabel->setPosition(Vec2(player3->getPositionX()+64, player3->getPositionY()-104));
 	p3CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	player3->addChild(p3CLabel, 100);
 
 	p4CLabel = CCLabelTTF::create("P4", "fonts/Marker Felt.ttf", 9);
-	//p4CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
+	p4CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
 	p4CLabel->setPosition(Vec2(player4->getPositionX()+64, player4->getPositionY()-154));
 	p4CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	player4->addChild(p4CLabel, 100);
@@ -195,6 +195,9 @@ bool ClientDemo::init()
 	tileHighlight = Sprite::create("res//sprites//select_tile.png");
 	tileHighlight->setPosition(0, 0);
 	addChild(tileHighlight, -900);
+
+	winSizeWidth = CCDirector::sharedDirector()->getWinSize().width / 2; // CODE TO TRY
+	winSizeHeight = CCDirector::sharedDirector()->getWinSize().height / 2; // CODE TO TRY
 
 	for (Sprite* s : levelmanager.levelsprites)
 	{
@@ -308,6 +311,14 @@ void ClientDemo::update(float dt)
 		return;
 	}
 	*/
+	// NEW CODE TO TRY
+	if (levelmanager.currentlevel > 4)
+	{
+		auto GOScene = GameOver::createGameOver();
+		CCDirector::getInstance()->replaceScene(GOScene);
+	}
+	//////////////////
+
 	players[playernum - 1]->setPositionX(players[playernum - 1]->getPositionX() + xmove * players[playernum - 1]->speedboost);
 	players[playernum - 1]->setPositionY(players[playernum - 1]->getPositionY() + ymove * players[playernum - 1]->speedboost);
 
@@ -364,6 +375,17 @@ void ClientDemo::update(float dt)
 		pterodactyl->setZOrder(-pterodactyl->getPositionY());
 	}
 
+	////////////////////////////////////////////////////// NEW CODE
+	if (transitionManager.timer_status())
+	{
+		NotInTransition = true;
+
+		for (Sprite* ts : transitionManager.transitionSprite)
+		{
+			removeChild(ts);
+		}
+	}
+	//////////
 	centerCamera();
 }
 
@@ -377,16 +399,6 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 		processServerMessage(msg);
 	}
 	
-	//CCLOG("updatedserverpacket");
-	//CCLOG(std::to_string(p.p1x).c_str());
-	//CCLOG(std::to_string(p.p2x).c_str());
-	//CCLOG(std::to_string(p.p3x).c_str());
-	//CCLOG(std::to_string(p.p4x).c_str());
-	//CCLOG(std::to_string(p.vx).c_str());
-	//CCLOG(std::to_string(tilevalues[0][0]).c_str());
-	//CCLOG(std::to_string(p.tilevalues[0][0]).c_str());
-
-
 	/* move players, with some client side prediction of your own character*/
 	if (playernum == 1)
 	{
@@ -479,8 +491,19 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 		pterodactyl->runAction(RepeatForever::create(animationmanager.animationmap.at(ptanims)));
 		pterodactyl->setAnim(ptanims);
 	}
+	
+	updateTilesFromPacket(p);
+	//CCLOG(std::to_string(currenttilevector[0][0]).c_str());
+	//CCLOG(std::to_string(p.tilevector[0][0]).c_str());
 
+	if (AUDIO_ON)
+	{
+		processSound(p);
+	}
+}
 
+void ClientDemo::updateTilesFromPacket(ServerPositionPacket p)
+{
 
 	for (unsigned int i = 0; i < p.tilevector.size(); i++)
 	{
@@ -496,7 +519,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 				}
 				if (levelmanager.puzzle.currenttilevector[i][j] == 2)
 				{
-					tilespritevector[i][j]->setColor("red1");
+					tilespritevector[i][j]->setColor("red");
 					tilespritevector[i][j]->refreshColor();
 				}
 				if (levelmanager.puzzle.currenttilevector[i][j] == 3)
@@ -569,6 +592,11 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 				if (levelmanager.puzzle.currenttilevector[i][j] == 16)
 				{
 					tilespritevector[i][j]->setColor("purple1");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 17)
+				{
+					tilespritevector[i][j]->setColor("red1");
 					tilespritevector[i][j]->refreshColor();
 				}
 				///////////////
@@ -651,13 +679,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 			}
 		}
 	}
-	//CCLOG(std::to_string(currenttilevector[0][0]).c_str());
-	//CCLOG(std::to_string(p.tilevector[0][0]).c_str());
 
-	if (AUDIO_ON)
-	{
-		processSound(p);
-	}
 }
 
 void ClientDemo::processServerMessage(ServerMessage msg)
@@ -792,7 +814,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 			{
 				auto r = tilemapvals["Red"].asString();
 				auto b = tilemapvals["Blue"].asString();
-				auto y = tilemapvals["Yellow"].asString();
+				auto y = tilemapvals["Yellow1"].asString();
 				auto o = tilemapvals["Orange"].asString();
 				auto blk = tilemapvals["Black"].asString();
 
@@ -894,7 +916,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 			{
 				auto r = tilemapvals["Red"].asString();
 				auto b = tilemapvals["Blue"].asString();
-				auto y = tilemapvals["Yellow"].asString();
+				auto y = tilemapvals["Yellow1"].asString();
 				auto o = tilemapvals["Orange"].asString();
 				auto blk = tilemapvals["Black"].asString();
 
@@ -991,7 +1013,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 			{
 				auto r = tilemapvals["Red"].asString();
 				auto b = tilemapvals["Blue"].asString();
-				auto y = tilemapvals["Yellow"].asString();
+				auto y = tilemapvals["Yellow1"].asString();
 				auto o = tilemapvals["Orange"].asString();
 				auto blk = tilemapvals["Black"].asString();
 
@@ -1089,7 +1111,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 			{
 				auto r = tilemapvals["Red"].asString();
 				auto b = tilemapvals["Blue"].asString();
-				auto y = tilemapvals["Yellow"].asString();
+				auto y = tilemapvals["Yellow1"].asString();
 				auto o = tilemapvals["Orange"].asString();
 				auto blk = tilemapvals["Black"].asString();
 
@@ -1207,6 +1229,17 @@ void ClientDemo::loadLevel(int level)
 
 	removeChild(levelmanager.levelmap);
 
+	// NEW CODE ADDED
+	NotInTransition = false;
+
+	transitionManager.loadTransition(level);
+	for (Sprite* ts : transitionManager.transitionSprite)
+	{
+		addChild(ts, 10);
+	}
+	////////////////
+
+
 	gSFX.levelChange = true;
 	levelmanager.changeLevel(level);
 
@@ -1252,7 +1285,15 @@ void ClientDemo::setupPaintTiles()
 
 void ClientDemo::centerCamera()
 {
-	CCCamera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
+	if (NotInTransition) // CODE TO TRY
+	{
+		transitionManager.start_timer = 100;
+		CCCamera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
+	}
+	else
+	{
+		CCCamera::getDefaultCamera()->setPosition(winSizeWidth, winSizeHeight);
+	}
 }
 
 void ClientDemo::processSound(ServerPositionPacket &p) {

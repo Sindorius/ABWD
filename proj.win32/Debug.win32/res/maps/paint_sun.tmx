@@ -134,7 +134,7 @@
    eJzt1jkOgDAMBVHufwz2HY7I0LkjJLGr/6RpncpWmua/ljrqaaAxY0auiWZaaKUt8O2dDjrpojvwbZFSdmej59qdrSllrt3ZmrzmiogPrxuYwusGfnn/a/ZWRf7XpMwDjTodAw==
   </data>
  </layer>
- <layer name="paint_tiles" width="31" height="24">
+ <layer name="paint_tiles" width="31" height="24" visible="0">
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2BwgEIgzobSlVA2ProAiaYUgMzJJxNTCgoH0O6B9Hf2ANo9kP4uHkC7i0btprvdo2AUjIJRQA4AAG7kQWI=
   </data>

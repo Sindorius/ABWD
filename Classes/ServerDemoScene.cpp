@@ -479,7 +479,7 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 			{
 				auto r = tilemapvals["Red"].asString();
 				auto b = tilemapvals["Blue"].asString();
-				auto y = tilemapvals["Yellow"].asString();
+				auto y = tilemapvals["Yellow1"].asString();
 				auto o = tilemapvals["Orange"].asString();
 				auto blk = tilemapvals["Black"].asString();
 				
@@ -882,7 +882,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						levelmanager.puzzle.currenttilevector[i][j] = 79;
 					}
 				}
-				if (players[playernum - 1]->getColor() == "red")
+				if (players[playernum - 1]->getColor() == "red1")
 				{
 					if (levelmanager.puzzle.compareTile(i, j, 17))
 					{

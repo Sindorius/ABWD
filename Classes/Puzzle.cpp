@@ -5,10 +5,7 @@ void Puzzle::changePuzzle(int level)
 
 	if (level == -1)
 	{
-		//boost::multi_array<int, 2>::extent_gen extents;
-		//currentarray.resize(extents[7][3]);
-		//currentarray = keytilevalues;
-		//solutionarray = keysolution;
+
 		currenttilevector = keytilevectorvalues;
 		currenttilevectorsolution = keytilevectorsolution;
 		whichplayertilesvector = keyplayertilesvector;
@@ -17,10 +14,7 @@ void Puzzle::changePuzzle(int level)
 			
 	if (level == 1)
 	{
-		//boost::multi_array<int, 2>::extent_gen extents;
-		//currentarray.resize(extents[6][6]);
-		//currentarray = suntilevalues;
-		//solutionarray = sunsolution;
+
 		currenttilevector = samtilevectorvalues;
 		currenttilevectorsolution = samtilevectorsolution;
 		whichplayertilesvector = samplayertilesvector;
@@ -29,10 +23,7 @@ void Puzzle::changePuzzle(int level)
 	}
 	if (level == 2)
 	{
-		//boost::multi_array<int, 2>::extent_gen extents;
-		//currentarray.resize(extents[6][6]);
-		//currentarray = suntilevalues;
-		//solutionarray = sunsolution;
+
 		currenttilevector = candytilevectorvalues;
 		currenttilevectorsolution = candytilevectorsolution;
 		whichplayertilesvector = candyplayertilesvector;
@@ -41,10 +32,7 @@ void Puzzle::changePuzzle(int level)
 	}
 	if (level == 3)
 	{
-		//boost::multi_array<int, 2>::extent_gen extents;
-		//currentarray.resize(extents[6][6]);
-		//currentarray = suntilevalues;
-		//solutionarray = sunsolution;
+
 		currenttilevector = ptertilevectorvalues;
 		currenttilevectorsolution = ptertilevectorsolution;
 		whichplayertilesvector = pterplayertilesvector;
@@ -52,14 +40,11 @@ void Puzzle::changePuzzle(int level)
 	}
 	if (level == 4)
 	{
-		//boost::multi_array<int, 2>::extent_gen extents;
-		//currentarray.resize(extents[6][6]);
-		//currentarray = suntilevalues;
-		//solutionarray = sunsolution;
-		currenttilevector = ptertilevectorvalues;
-		currenttilevectorsolution = ptertilevectorsolution;
-		whichplayertilesvector = pterplayertilesvector;
-		drytilevector = pterdrytilesvector;
+
+		currenttilevector = suntilevectorvalues;
+		currenttilevectorsolution = suntilevectorsolution;
+		whichplayertilesvector = sunplayertilesvector;
+		drytilevector = sundrytilesvector;
 
 	}
 }

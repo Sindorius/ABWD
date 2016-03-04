@@ -113,7 +113,7 @@ void LevelManager::changeLevel(int level)
 		//levelsprites.push_back(wallpainting);
 
 		puzzle.changePuzzle(level);
-		tilestartpoint = Vec2(206, 232);
+		tilestartpoint = Vec2(230, 230);
 
 	}
 

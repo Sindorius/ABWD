@@ -26,6 +26,8 @@
 #include "TCPCSession.hpp"
 #include "AnimationManager.hpp"
 #include "LevelManager.hpp"
+#include "TransitionManager.h" // NEW CODE ADDED
+#include "GameOver.h"
 
 USING_NS_CC;
 using boost::asio::ip::udp;
@@ -163,10 +165,18 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	LevelManager levelmanager;
+	// NEW CODE ADDED 
+	TransitionManager transitionManager;
+	bool NotInTransition = true;
+	float winSizeWidth;
+	float winSizeHeight;
+	//////////////////
 
 	void loadLevel(int level);
 	void setupPaintTiles();
 	void centerCamera();
+	void updateTilesFromPacket(ServerPositionPacket p);
+	
 	~ClientDemo();
 	
 };

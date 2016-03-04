@@ -47,6 +47,12 @@
     <ClInclude Include="..\Classes\ServerMessage.hpp">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\GameOver.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TransitionManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
@@ -89,6 +95,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Candy.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameOver.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TransitionManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

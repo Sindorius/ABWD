@@ -153,6 +153,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\ClientAppDelegate.h" />
     <ClInclude Include="..\Classes\ClientDemoScene.h" />
     <ClInclude Include="..\Classes\ConfigFileInput.hpp" />
+    <ClInclude Include="..\Classes\GameOver.h" />
     <ClInclude Include="..\Classes\LevelManager.hpp" />
     <ClInclude Include="..\Classes\PaintTile.h" />
     <ClInclude Include="..\Classes\Player.h" />
@@ -162,6 +163,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\ServerMessage.hpp" />
     <ClInclude Include="..\Classes\ServerPositionPacket.hpp" />
     <ClInclude Include="..\Classes\TCPCSession.hpp" />
+    <ClInclude Include="..\Classes\TransitionManager.h" />
     <ClInclude Include="..\Classes\Villain.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
@@ -185,12 +187,14 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Candy.cpp" />
     <ClCompile Include="..\Classes\ClientAppDelegate.cpp" />
     <ClCompile Include="..\Classes\ClientDemoScene.cpp" />
+    <ClCompile Include="..\Classes\GameOver.cpp" />
     <ClCompile Include="..\Classes\LevelManager.cpp" />
     <ClCompile Include="..\Classes\PaintTile.cpp" />
     <ClCompile Include="..\Classes\Player.cpp" />
     <ClCompile Include="..\Classes\Pterodactyl.cpp" />
     <ClCompile Include="..\Classes\Puzzle.cpp" />
     <ClCompile Include="..\Classes\TCPCSession.cpp" />
+    <ClCompile Include="..\Classes\TransitionManager.cpp" />
     <ClCompile Include="..\Classes\Villain.cpp" />
     <ClCompile Include="main_client.cpp" />
   </ItemGroup>
