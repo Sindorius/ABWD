@@ -3,7 +3,7 @@
 void Puzzle::changePuzzle(int level)
 {
 
-	if (level == 1)
+	if (level == -1)
 	{
 		//boost::multi_array<int, 2>::extent_gen extents;
 		//currentarray.resize(extents[7][3]);
@@ -15,7 +15,7 @@ void Puzzle::changePuzzle(int level)
 		drytilevector = keydrytilesvector;
 	}
 			
-	if (level == 2)
+	if (level == 1)
 	{
 		//boost::multi_array<int, 2>::extent_gen extents;
 		//currentarray.resize(extents[6][6]);
@@ -27,7 +27,7 @@ void Puzzle::changePuzzle(int level)
 		drytilevector = samdrytilesvector;
 
 	}
-	if (level == 3)
+	if (level == 2)
 	{
 		//boost::multi_array<int, 2>::extent_gen extents;
 		//currentarray.resize(extents[6][6]);
@@ -39,7 +39,7 @@ void Puzzle::changePuzzle(int level)
 		drytilevector = candydrytilesvector;
 
 	}
-	if (level == 4)
+	if (level == 3)
 	{
 		//boost::multi_array<int, 2>::extent_gen extents;
 		//currentarray.resize(extents[6][6]);
@@ -50,7 +50,7 @@ void Puzzle::changePuzzle(int level)
 		whichplayertilesvector = pterplayertilesvector;
 		drytilevector = pterdrytilesvector;
 	}
-	if (level == 5)
+	if (level == 4)
 	{
 		//boost::multi_array<int, 2>::extent_gen extents;
 		//currentarray.resize(extents[6][6]);

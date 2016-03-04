@@ -57,13 +57,7 @@ bool ServerDemo::init()
 	CCLOG(std::to_string(newswapinterval).c_str());
 	*/
 
-
 	levelmanager.changeLevel(1);
-	addChild(levelmanager.levelmap, -1000);
-	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
-	blockage = levelmanager.levelmap->getLayer("Collision");
-	blockage->setVisible(false);
-
 	// Check to see if there is an object layer 
 	spawnObjs = levelmanager.levelmap->objectGroupNamed("SpawnObjects");
 
@@ -141,28 +135,11 @@ bool ServerDemo::init()
 	candy->setAnchorPoint(Vec2(0.5, 0.0));
 	cpos = candy->getPosition();
 	addChild(candy, 0);
-
-
+	
 	serversam->linkPtera(pterodactyl);
 	serversam->linkCandy(candy);
 
-
-
-	for (Sprite* s : levelmanager.levelsprites)
-	{
-		addChild(s, -999);
-	}
-
-	// Should also be part of SpawnObject layer if possible
-	//Sprite* wallpainting = Sprite::create("res/sprites/objects/key_framed.png");
-	//wallpainting->getTexture()->setAliasTexParameters();
-	//wallpainting->setPosition(Vec2(320, 320));
-	//wallpainting->setScale(1.0f);
-	//addChild(wallpainting, -999);
-
-
-	// Initialize painting area 
-	setupPaintTiles();
+	loadLevel(1);
 
 	std::ifstream is("config.json");
 	cereal::JSONInputArchive configloader(is);
@@ -623,7 +600,7 @@ void ServerDemo::loadLevel(int level)
 
 	setupPaintTiles();
 
-	if (level == 3 || level == 4 || level == 5)
+	if (level == 3 || level == 4)
 	{
 		this->setScale(.6f);
 	}
@@ -641,23 +618,23 @@ void ServerDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 	
 	case EventKeyboard::KeyCode::KEY_CAPITAL_K:
 	case EventKeyboard::KeyCode::KEY_K:
-		loadLevel(1);
+		loadLevel(-1);
 	break;
 	case EventKeyboard::KeyCode::KEY_CAPITAL_S:
 	case EventKeyboard::KeyCode::KEY_S:
-		loadLevel(2);
+		loadLevel(1);
 	break;
 	case EventKeyboard::KeyCode::KEY_CAPITAL_C:
 	case EventKeyboard::KeyCode::KEY_C:
-		loadLevel(3);
+		loadLevel(2);
 		break;
 	case EventKeyboard::KeyCode::KEY_CAPITAL_P:
 	case EventKeyboard::KeyCode::KEY_P:
-		loadLevel(4);
+		loadLevel(3);
 	break;
 	case EventKeyboard::KeyCode::KEY_CAPITAL_O:
 	case EventKeyboard::KeyCode::KEY_O:
-		loadLevel(5);
+		loadLevel(4);
 		break;
 	case EventKeyboard::KeyCode::KEY_1:
 		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);

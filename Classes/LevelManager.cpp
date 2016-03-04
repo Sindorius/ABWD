@@ -5,9 +5,9 @@
 
 void LevelManager::changeLevel(int level)
 {
-	if (level == 1)
+	if (level == -1)
 	{
-		currentlevel = 1;
+		currentlevel = -1;
 		levelsprites.clear();
 		
 		std::string file = "res//maps//key_room_big.tmx";
@@ -28,9 +28,9 @@ void LevelManager::changeLevel(int level)
 
 	}
 	
-	if (level == 2)
+	if (level == 1)
 	{
-		currentlevel = 2;
+		currentlevel = 1;
 		levelsprites.clear();
 		/*
 		std::string file = "res//maps//key_room_big.tmx";
@@ -55,9 +55,9 @@ void LevelManager::changeLevel(int level)
 
 
 	}
-	else if (level == 3)
+	else if (level == 2)
 	{
-		currentlevel = 3;
+		currentlevel = 2;
 		levelsprites.clear();
 		//std::string file = "res//maps//happy_sun_paint.tmx";
 		//auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
@@ -79,9 +79,9 @@ void LevelManager::changeLevel(int level)
 		tilestartpoint = Vec2(134, 104);
 
 	}
-	else if (level == 4)
+	else if (level == 3)
 	{
-		currentlevel = 4;
+		currentlevel = 3;
 		levelsprites.clear();
 		//std::string file = "res//maps//pteradactyl_room.tmx";
 		std::string file = "res//maps//paint_ptera.tmx";
@@ -97,9 +97,9 @@ void LevelManager::changeLevel(int level)
 		puzzle.changePuzzle(level);
 		tilestartpoint = Vec2(168, 64);
 	}
-	else if (level == 5)
+	else if (level == 4)
 	{
-		currentlevel = 5;
+		currentlevel = 4;
 		levelsprites.clear();
 		//std::string file = "res//maps//pteradactyl_room.tmx";
 		std::string file = "res//maps//paint_sun.tmx";
