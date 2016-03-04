@@ -481,6 +481,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	}
 
 
+
 	for (unsigned int i = 0; i < p.tilevector.size(); i++)
 	{
 		for (unsigned int j = 0; j < p.tilevector[i].size(); j++)
@@ -495,7 +496,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 				}
 				if (levelmanager.puzzle.currenttilevector[i][j] == 2)
 				{
-					tilespritevector[i][j]->setColor("red");
+					tilespritevector[i][j]->setColor("red1");
 					tilespritevector[i][j]->refreshColor();
 				}
 				if (levelmanager.puzzle.currenttilevector[i][j] == 3)
@@ -544,10 +545,36 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 					tilespritevector[i][j]->setColor("green3");
 					tilespritevector[i][j]->refreshColor();
 				}
-
+				// NEW CODE HERE
+				if (levelmanager.puzzle.currenttilevector[i][j] == 12)
+				{
+					tilespritevector[i][j]->setColor("white");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 13)
+				{
+					tilespritevector[i][j]->setColor("grey1");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 14)
+				{
+					tilespritevector[i][j]->setColor("grey2");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 15)
+				{
+					tilespritevector[i][j]->setColor("red2");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 16)
+				{
+					tilespritevector[i][j]->setColor("purple1");
+					tilespritevector[i][j]->refreshColor();
+				}
+				///////////////
 				if (levelmanager.puzzle.currenttilevector[i][j] == 20)
 				{
-					tilespritevector[i][j]->setColor("Xred");
+					tilespritevector[i][j]->setColor("Xred1");
 					tilespritevector[i][j]->refreshColor();
 				}
 				if (levelmanager.puzzle.currenttilevector[i][j] == 30)
@@ -594,6 +621,31 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 				if (levelmanager.puzzle.currenttilevector[i][j] == 74)
 				{
 					tilespritevector[i][j]->setColor("Xgreen3");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 75)
+				{
+					tilespritevector[i][j]->setColor("Xwhite");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 76)
+				{
+					tilespritevector[i][j]->setColor("Xgrey1");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 77)
+				{
+					tilespritevector[i][j]->setColor("Xgrey2");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 78)
+				{
+					tilespritevector[i][j]->setColor("Xred2");
+					tilespritevector[i][j]->refreshColor();
+				}
+				if (levelmanager.puzzle.currenttilevector[i][j] == 79)
+				{
+					tilespritevector[i][j]->setColor("Xpurple1");
 					tilespritevector[i][j]->refreshColor();
 				}
 			}
@@ -749,8 +801,16 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				auto g1 = tilemapvals["Green1"].asString();
 				auto g2 = tilemapvals["Green2"].asString();
 				auto g3 = tilemapvals["Green3"].asString();
-				
-				
+
+				auto w = tilemapvals["White"].asString();
+				auto gy1 = tilemapvals["Grey1"].asString();
+				auto gy2 = tilemapvals["Grey2"].asString();
+				auto r2 = tilemapvals["Red2"].asString();
+				auto p = tilemapvals["Purple1"].asString();
+				auto r1 = tilemapvals["Red1"].asString();
+
+
+
 				if ("true" == r)
 				{
 					//p1CLabel->setString("Red");
@@ -777,7 +837,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
 					gSFX.pTrigs[0].onBucket = true;
 				}
-				
+
 				if ("true" == b2) {
 					p1CLabel->setFontFillColor(ccc3(4, 31, 131));
 					gSFX.pTrigs[0].onBucket = true;
@@ -798,6 +858,30 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 					p1CLabel->setFontFillColor(ccc3(47, 247, 145));
 					gSFX.pTrigs[0].onBucket = true;
 				}
+				if ("true" == w) {
+					p1CLabel->setFontFillColor(ccc3(255, 255, 255));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == gy1) {
+					p1CLabel->setFontFillColor(ccc3(101, 141, 255));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == gy2) {
+					p1CLabel->setFontFillColor(ccc3(203, 216, 229));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == p) {
+					p1CLabel->setFontFillColor(ccc3(148, 55, 122));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == r2) {
+					p1CLabel->setFontFillColor(ccc3(187, 11, 44));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == r1) {
+					p1CLabel->setFontFillColor(ccc3(247, 52, 47));
+					gSFX.pTrigs[1].onBucket = true;
+				}
 			}
 		}
 	}
@@ -813,12 +897,20 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				auto y = tilemapvals["Yellow"].asString();
 				auto o = tilemapvals["Orange"].asString();
 				auto blk = tilemapvals["Black"].asString();
-				
+
 				auto b2 = tilemapvals["Blue2"].asString();
 				auto b3 = tilemapvals["Blue3"].asString();
 				auto g1 = tilemapvals["Green1"].asString();
 				auto g2 = tilemapvals["Green2"].asString();
 				auto g3 = tilemapvals["Green3"].asString();
+
+				auto w = tilemapvals["White"].asString();
+				auto gy1 = tilemapvals["Grey1"].asString();
+				auto gy2 = tilemapvals["Grey2"].asString();
+				auto r2 = tilemapvals["Red2"].asString();
+				auto p = tilemapvals["Purple1"].asString();
+				auto r1 = tilemapvals["Red1"].asString();
+
 
 				if ("true" == r)
 				{
@@ -842,7 +934,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
 					gSFX.pTrigs[1].onBucket = true;
 				}
-				
+
 				if ("true" == b2) {
 					p2CLabel->setFontFillColor(ccc3(4, 31, 131));
 					gSFX.pTrigs[1].onBucket = true;
@@ -863,6 +955,30 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 					p2CLabel->setFontFillColor(ccc3(47, 247, 145));
 					gSFX.pTrigs[1].onBucket = true;
 				}
+				if ("true" == w) {
+					p2CLabel->setFontFillColor(ccc3(255, 255, 255));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == gy1) {
+					p2CLabel->setFontFillColor(ccc3(101, 141, 255));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == gy2) {
+					p2CLabel->setFontFillColor(ccc3(203, 216, 229));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == p) {
+					p2CLabel->setFontFillColor(ccc3(148, 55, 122));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == r2) {
+					p2CLabel->setFontFillColor(ccc3(187, 11, 44));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == r1) {
+					p2CLabel->setFontFillColor(ccc3(247, 52, 47));
+					gSFX.pTrigs[1].onBucket = true;
+				}
 			}
 		}
 	}
@@ -878,12 +994,20 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				auto y = tilemapvals["Yellow"].asString();
 				auto o = tilemapvals["Orange"].asString();
 				auto blk = tilemapvals["Black"].asString();
-				
+
 				auto b2 = tilemapvals["Blue2"].asString();
 				auto b3 = tilemapvals["Blue3"].asString();
 				auto g1 = tilemapvals["Green1"].asString();
 				auto g2 = tilemapvals["Green2"].asString();
 				auto g3 = tilemapvals["Green3"].asString();
+
+				auto w = tilemapvals["White"].asString();
+				auto gy1 = tilemapvals["Grey1"].asString();
+				auto gy2 = tilemapvals["Grey2"].asString();
+				auto r2 = tilemapvals["Red2"].asString();
+				auto p = tilemapvals["Purple1"].asString();
+				auto r1 = tilemapvals["Red1"].asString();
+
 
 				if ("true" == r)
 				{
@@ -907,7 +1031,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
 					gSFX.pTrigs[2].onBucket = true;
 				}
-				
+
 				if ("true" == b2) {
 					p3CLabel->setFontFillColor(ccc3(4, 31, 131));
 					gSFX.pTrigs[2].onBucket = true;
@@ -927,6 +1051,30 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == g3) {
 					p3CLabel->setFontFillColor(ccc3(47, 247, 145));
 					gSFX.pTrigs[2].onBucket = true;
+				}
+				if ("true" == w) {
+					p3CLabel->setFontFillColor(ccc3(255, 255, 255));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == gy1) {
+					p3CLabel->setFontFillColor(ccc3(101, 141, 255));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == gy2) {
+					p3CLabel->setFontFillColor(ccc3(203, 216, 229));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == p) {
+					p3CLabel->setFontFillColor(ccc3(148, 55, 122));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == r2) {
+					p3CLabel->setFontFillColor(ccc3(187, 11, 44));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == r1) {
+					p3CLabel->setFontFillColor(ccc3(247, 52, 47));
+					gSFX.pTrigs[1].onBucket = true;
 				}
 			}
 		}
@@ -950,7 +1098,15 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				auto g1 = tilemapvals["Green1"].asString();
 				auto g2 = tilemapvals["Green2"].asString();
 				auto g3 = tilemapvals["Green3"].asString();
-				
+
+				auto w = tilemapvals["White"].asString();
+				auto gy1 = tilemapvals["Grey1"].asString();
+				auto gy2 = tilemapvals["Grey2"].asString();
+				auto r2 = tilemapvals["Red2"].asString();
+				auto p = tilemapvals["Purple1"].asString();
+				auto r1 = tilemapvals["Red1"].asString();
+
+
 				if ("true" == r)
 				{
 					p4CLabel->setFontFillColor(ccc3(247, 52, 47));
@@ -994,7 +1150,30 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 					p4CLabel->setFontFillColor(ccc3(47, 247, 145));
 					gSFX.pTrigs[3].onBucket = true;
 				}
-				
+				if ("true" == w) {
+					p4CLabel->setFontFillColor(ccc3(255, 255, 255));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == gy1) {
+					p4CLabel->setFontFillColor(ccc3(101, 141, 255));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == gy2) {
+					p4CLabel->setFontFillColor(ccc3(203, 216, 229));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == p) {
+					p4CLabel->setFontFillColor(ccc3(148, 55, 122));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == r2) {
+					p4CLabel->setFontFillColor(ccc3(187, 11, 44));
+					gSFX.pTrigs[1].onBucket = true;
+				}
+				if ("true" == r1) {
+					p3CLabel->setFontFillColor(ccc3(247, 52, 47));
+					gSFX.pTrigs[1].onBucket = true;
+				}
 			}
 		}
 	}
