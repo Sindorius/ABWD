@@ -100,8 +100,8 @@
  <tileset firstgid="124" name="instructions" tilewidth="24" tileheight="24" tilecount="18">
   <image source="./res/sprites/objects/instructions.png" width="144" height="72"/>
  </tileset>
- <tileset firstgid="142" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="30">
-  <image source="./res/sprites/tiles/paintings as tiles.png" width="120" height="144"/>
+ <tileset firstgid="142" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
+  <image source="./res/sprites/tiles/paintings as tiles.png" width="120" height="168"/>
  </tileset>
  <layer name="Floor" width="21" height="14">
   <data encoding="base64" compression="zlib">
@@ -124,12 +124,12 @@
   <object id="87" name="P3spawnPoint" x="360" y="120" width="24" height="48"/>
   <object id="88" name="P4spawnPoint" x="406" y="96" width="24" height="48"/>
  </objectgroup>
- <layer name="Collision" width="21" height="14" visible="0">
+ <layer name="Collision" width="21" height="14">
   <data encoding="base64" compression="zlib">
    eJyrYmBgqBrBmJpg1MxRM0eqmdTGAPzJMZE=
   </data>
  </layer>
- <layer name="paint_tiles" width="21" height="14">
+ <layer name="paint_tiles" width="21" height="14" visible="0">
   <data encoding="base64" compression="zlib">
    eJxjYBgFowAV5ENxKRKGiVFiZikWTImZMDMq0OhSKphZDjWvnApmwvxegYQp9ftwBwDBSA/m
   </data>

@@ -124,7 +124,7 @@
   <object id="87" name="P3spawnPoint" x="481" y="74" width="24" height="48"/>
   <object id="88" name="P4spawnPoint" x="527" y="48" width="24" height="48"/>
  </objectgroup>
- <layer name="Collision" width="25" height="15" visible="0">
+ <layer name="Collision" width="25" height="15">
   <data encoding="base64" compression="zlib">
    eJyrYmBgqBrFRGNaguFmB7XDjR5xM5ztoCUYtYN0O2iNAVRbRZU=
   </data>
@@ -134,7 +134,7 @@
    eJxjYCAeTAXiaUA8nQQ9pIJZQDwbiOfQ0I75QLwAiBfS0I5RQB9A7TSJzTxqp0ls5lE7TY6m8VEAAG7UEFo=
   </data>
  </layer>
- <layer name="paint_tiles" width="25" height="15">
+ <layer name="paint_tiles" width="25" height="15" visible="0">
   <data encoding="base64" compression="zlib">
    eJxjYBgFowACCrDgIiiG8YuRcAGZdhSSiAejHUXDxB/0sINU8+lhBzlpd6gBAPZZLeU=
   </data>
