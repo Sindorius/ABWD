@@ -115,7 +115,7 @@
  </layer>
  <layer name="Paintbuckets" width="20" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFMJCNRayM7q4YfKCIDnaU0sGOgQLlA+0AGoDh4icA+OICtw==
+   eJxjYBgFMJCNRayM7q4YfKCIDnaU0sGOgQLlA+2AUYATAACb6gJA
   </data>
  </layer>
  <objectgroup name="SpawnObjects">
