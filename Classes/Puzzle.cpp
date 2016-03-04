@@ -21,13 +21,36 @@ void Puzzle::changePuzzle(int level)
 		//currentarray.resize(extents[6][6]);
 		//currentarray = suntilevalues;
 		//solutionarray = sunsolution;
-		currenttilevector = suntilevectorvalues;
-		currenttilevectorsolution = suntilevectorsolution;
-		whichplayertilesvector = sunplayertilesvector;
-		drytilevector = sundrytilesvector;
+		currenttilevector = samtilevectorvalues;
+		currenttilevectorsolution = samtilevectorsolution;
+		whichplayertilesvector = samplayertilesvector;
+		drytilevector = samdrytilesvector;
 
 	}
 	if (level == 3)
+	{
+		//boost::multi_array<int, 2>::extent_gen extents;
+		//currentarray.resize(extents[6][6]);
+		//currentarray = suntilevalues;
+		//solutionarray = sunsolution;
+		currenttilevector = candytilevectorvalues;
+		currenttilevectorsolution = candytilevectorsolution;
+		whichplayertilesvector = candyplayertilesvector;
+		drytilevector = candydrytilesvector;
+
+	}
+	if (level == 4)
+	{
+		//boost::multi_array<int, 2>::extent_gen extents;
+		//currentarray.resize(extents[6][6]);
+		//currentarray = suntilevalues;
+		//solutionarray = sunsolution;
+		currenttilevector = ptertilevectorvalues;
+		currenttilevectorsolution = ptertilevectorsolution;
+		whichplayertilesvector = pterplayertilesvector;
+		drytilevector = pterdrytilesvector;
+	}
+	if (level == 5)
 	{
 		//boost::multi_array<int, 2>::extent_gen extents;
 		//currentarray.resize(extents[6][6]);

@@ -623,7 +623,7 @@ void ServerDemo::loadLevel(int level)
 
 	setupPaintTiles();
 
-	if (level == 3)
+	if (level == 3 || level == 4 || level == 5)
 	{
 		this->setScale(.6f);
 	}
@@ -647,11 +647,18 @@ void ServerDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 	case EventKeyboard::KeyCode::KEY_S:
 		loadLevel(2);
 	break;
+	case EventKeyboard::KeyCode::KEY_CAPITAL_C:
+	case EventKeyboard::KeyCode::KEY_C:
+		loadLevel(3);
+		break;
 	case EventKeyboard::KeyCode::KEY_CAPITAL_P:
 	case EventKeyboard::KeyCode::KEY_P:
-		loadLevel(3);
+		loadLevel(4);
 	break;
-
+	case EventKeyboard::KeyCode::KEY_CAPITAL_O:
+	case EventKeyboard::KeyCode::KEY_O:
+		loadLevel(5);
+		break;
 	case EventKeyboard::KeyCode::KEY_1:
 		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);
 		break;
