@@ -1344,7 +1344,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 	if (pIFrames[0] == 0) //if player 1 iframes = 0
 	{
-		if ((abs(p.vx - p.p1x) < 5 && abs(p.vy - p.p1y) < 5) && gSFX.pTrigs[0].hasPainted == true)
+		if (gSFX.pTrigs[0].hasPainted == true && villain->getOpacity() > 0 && (abs(p.vx - p.p1x) < 5 && abs(p.vy - p.p1y) < 5))
 		{
 			if (false == isSFXPlaying[1])
 			{
@@ -1373,7 +1373,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	}
 	if (pIFrames[1] == 0)
 	{
-		if ((abs(p.vx - p.p2x) < 5 && abs(p.vy - p.p2y) < 5) && gSFX.pTrigs[1].hasPainted == true)
+		if (gSFX.pTrigs[1].hasPainted == true && villain->getOpacity() > 0 && (abs(p.vx - p.p2x) < 5 && abs(p.vy - p.p2y) < 5))
 		{
 			if (false == isSFXPlaying[1])
 			{
@@ -1403,7 +1403,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 	if (pIFrames[2] == 0)
 	{
-		if ((abs(p.vx - p.p3x) < 5 && abs(p.vy - p.p3y) < 5) && gSFX.pTrigs[2].hasPainted == true)
+		if (gSFX.pTrigs[2].hasPainted == true && villain->getOpacity() > 0 && (abs(p.vx - p.p3x) < 5 && abs(p.vy - p.p3y) < 5))
 		{
 			if (false == isSFXPlaying[1])
 			{
@@ -1433,7 +1433,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 	if (pIFrames[3] == 0)
 	{
-		if ((abs(p.vx - p.p4x) < 5 && abs(p.vy - p.p4y) < 5) && gSFX.pTrigs[3].hasPainted == true)
+		if (gSFX.pTrigs[3].hasPainted == true && villain->getOpacity() > 0 && (abs(p.vx - p.p4x) < 5 && abs(p.vy - p.p4y) < 5))
 		{
 			if (false == isSFXPlaying[1])
 			{
