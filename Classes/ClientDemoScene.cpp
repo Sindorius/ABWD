@@ -1287,7 +1287,7 @@ void ClientDemo::centerCamera()
 {
 	if (NotInTransition) // CODE TO TRY
 	{
-		transitionManager.start_timer = 100;
+		transitionManager.start_timer = 60;
 		CCCamera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
 	}
 	else

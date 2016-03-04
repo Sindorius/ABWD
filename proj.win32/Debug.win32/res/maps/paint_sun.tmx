@@ -15,7 +15,7 @@
   <image source="./res/sprites/buckets.png" width="360" height="24"/>
   <tile id="0">
    <properties>
-    <property name="Red1" value="true"/>
+    <property name="Red" value="true"/>
    </properties>
   </tile>
   <tile id="1">
