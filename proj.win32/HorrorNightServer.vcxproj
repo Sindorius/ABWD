@@ -162,7 +162,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\TCPServer.hpp" />
     <ClInclude Include="..\Classes\TCPSplitter.hpp" />
     <ClInclude Include="..\Classes\TCPSSession.hpp" />
-    <ClInclude Include="..\Classes\UDPServer.hpp" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
@@ -193,7 +192,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\ServerSam.cpp" />
     <ClCompile Include="..\Classes\TCPServer.cpp" />
     <ClCompile Include="..\Classes\TCPSSession.cpp" />
-    <ClCompile Include="..\Classes\UDPServer.cpp" />
     <ClCompile Include="main_server.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

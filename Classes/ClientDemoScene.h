@@ -88,6 +88,7 @@ public:
 	bool button1 = false;
 	bool needssync = false;
 	int playernum;
+	char currentlevel = 1;
 	ConfigFileInput setupdata;
 
 	boost::asio::io_service* io_service_p;
@@ -173,6 +174,17 @@ public:
 	float winSizeWidth;
 	float winSizeHeight;
 	//////////////////
+
+	//// NEW CODE
+	bool playerOneActive = false;
+	bool playerTwoActive = false;
+	bool playerThreeActive = false;
+	bool playerFourActive = false;
+	ValueMap playerOneSP;
+	ValueMap playerTwoSP;
+	ValueMap playerThreeSP;
+	ValueMap playerFourSP;
+	////////////
 
 	void loadLevel(int level);
 	void setupPaintTiles();
