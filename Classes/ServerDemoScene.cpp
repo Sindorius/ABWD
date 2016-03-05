@@ -249,7 +249,7 @@ void ServerDemo::update(float dt)
 			if (abs(serversam->getPositionX() - p->getPositionX()) < 5 && abs(serversam->getPositionY() - p->getPositionY()) < 5)
 			{
 				sendmap = true;
-				enqueueMessage(ServerMessage(11, 0, 0, p->getPlayernum())); //SFX triger for sam hitting player
+				enqueueMessage(ServerMessage(13, 0, 0, p->getPlayernum())); //SFX triger for sam hitting player
 				for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 				{
 					for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
@@ -270,7 +270,7 @@ void ServerDemo::update(float dt)
 			if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p->getPositionX()) < 10 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 10 )
 			{
 				sendmap = true;
-				enqueueMessage(ServerMessage(12, 0, 0, p->getPlayernum())); //SFX triger for pterodactyl hitting player
+				enqueueMessage(ServerMessage(14, 0, 0, p->getPlayernum())); //SFX triger for pterodactyl hitting player
 				for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 				{
 					for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
