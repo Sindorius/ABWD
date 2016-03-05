@@ -5,7 +5,7 @@ USING_NS_CC;
 using boost::asio::ip::tcp;
 
 #define AUDIO_ON 1 //toggles all audio on/off
-#define MUSIC_ON 1 //toggles whether background music is on/off
+#define MUSIC_ON 0 //toggles whether background music is on/off
 
 
 Scene* ClientDemo::createScene()
@@ -1343,6 +1343,7 @@ void ClientDemo::loadLevel(int level)
 	}
 
 	setupPaintTiles();
+	currentlevel = level;
 }
 
 void ClientDemo::setupPaintTiles()
