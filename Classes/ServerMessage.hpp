@@ -49,7 +49,8 @@ character messagechar, float xpos, float ypos, char status
 8. Got candy, unused, unused, player #
 9. Candy wore off, unused, unused, player #
 10. Change Level, unused, unused, new level #
-
+11. Sam hit player, unused, unused, player #
+12. Ptero hit player, unused, unused, player #
 
 
 

@@ -695,7 +695,9 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		7. Candy pos, xpos, ypos, unused
 		8. Got candy, unused, unused, player #
 		9. Candy wore off, unused, unused, player #
-		10. Change Level, unused, unused, new level #*/
+		10. Change Level, unused, unused, new level #
+		11. Sam hit player, unused, unused, player #
+		12. Ptero hit player, unused, unused, player # */
 	if(msg.messagechar == 0)
 	{
 		playernum = msg.status;
@@ -719,6 +721,22 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	else if (msg.messagechar == 10)
 	{
 		loadLevel(msg.status);
+	}
+	else if (msg.messagechar == 11)
+	{
+		if (pIFrames[msg.status - 1] == 0)
+		{
+			gSFX.pTrigs[msg.status - 1].samCollide = true;
+			pIFrames[msg.status - 1] = 3 * 30; //3 seconds at 30 fps
+		}
+	}
+	else if (msg.messagechar == 12)
+	{
+		if (pIFrames[msg.status - 1] == 0)
+		{
+			gSFX.pTrigs[msg.status - 1].ptCollide = true;
+			pIFrames[msg.status - 1] = 1 * 30; //2 seconds at 30 fps
+		}
 	}
 	
 }
@@ -882,27 +900,27 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				}
 				if ("true" == w) {
 					p1CLabel->setFontFillColor(ccc3(255, 255, 255));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 				if ("true" == gy1) {
 					p1CLabel->setFontFillColor(ccc3(101, 141, 255));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 				if ("true" == gy2) {
 					p1CLabel->setFontFillColor(ccc3(203, 216, 229));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 				if ("true" == p) {
 					p1CLabel->setFontFillColor(ccc3(148, 55, 122));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 				if ("true" == r2) {
 					p1CLabel->setFontFillColor(ccc3(187, 11, 44));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 				if ("true" == r1) {
 					p1CLabel->setFontFillColor(ccc3(247, 52, 47));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[0].onBucket = true;
 				}
 			}
 		}
@@ -1076,27 +1094,27 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				}
 				if ("true" == w) {
 					p3CLabel->setFontFillColor(ccc3(255, 255, 255));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 				if ("true" == gy1) {
 					p3CLabel->setFontFillColor(ccc3(101, 141, 255));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 				if ("true" == gy2) {
 					p3CLabel->setFontFillColor(ccc3(203, 216, 229));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 				if ("true" == p) {
 					p3CLabel->setFontFillColor(ccc3(148, 55, 122));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 				if ("true" == r2) {
 					p3CLabel->setFontFillColor(ccc3(187, 11, 44));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 				if ("true" == r1) {
 					p3CLabel->setFontFillColor(ccc3(247, 52, 47));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[2].onBucket = true;
 				}
 			}
 		}
@@ -1174,27 +1192,27 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				}
 				if ("true" == w) {
 					p4CLabel->setFontFillColor(ccc3(255, 255, 255));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 				if ("true" == gy1) {
 					p4CLabel->setFontFillColor(ccc3(101, 141, 255));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 				if ("true" == gy2) {
 					p4CLabel->setFontFillColor(ccc3(203, 216, 229));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 				if ("true" == p) {
 					p4CLabel->setFontFillColor(ccc3(148, 55, 122));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 				if ("true" == r2) {
 					p4CLabel->setFontFillColor(ccc3(187, 11, 44));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 				if ("true" == r1) {
 					p3CLabel->setFontFillColor(ccc3(247, 52, 47));
-					gSFX.pTrigs[1].onBucket = true;
+					gSFX.pTrigs[3].onBucket = true;
 				}
 			}
 		}
@@ -1340,126 +1358,51 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	// soundIDList[11] = ptero_swoop_fast
 	// soundIDList[12] = ptero_playerhit
 
+	//these callbacks only work if theyre outside for loops.
+	experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
+	{
+		isSFXPlaying[1] = false;
+	});
+
+	experimental::AudioEngine::setFinishCallback(soundIDList[7], [&](int id, const std::string& filePath)
+	{
+		isSFXPlaying[7] = false;
+	});
+
+	experimental::AudioEngine::setFinishCallback(soundIDList[9], [&](int id, const std::string& filePath)
+	{
+		isSFXPlaying[9] = false;
+	});
+
+	experimental::AudioEngine::setFinishCallback(soundIDList[12], [&](int id, const std::string& filePath)
+	{
+		isSFXPlaying[12] = false;
+	});
+	//end of play2d callback definitions
+
+
 	//If Sam or pterodactyl touches a player
-
-	if (pIFrames[0] == 0) //if player 1 iframes = 0
+	for (unsigned int i = 0; i < 4; i++)
 	{
-		if (gSFX.pTrigs[0].hasPainted == true && villain->getOpacity() > 0 && (abs(p.vx - p.p1x) < 5 && abs(p.vy - p.p1y) < 5))
+		if (gSFX.pTrigs[i].samCollide == true && gSFX.pTrigs[i].hasPainted == true && villain->getOpacity() > 0)
 		{
 			if (false == isSFXPlaying[1])
 			{
 				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_playerhit.mp3", false, 0.8f);
 				isSFXPlaying[1] = true;
-				experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
-				{
-					isSFXPlaying[1] = false;
-				});
-				pIFrames[0] = 3 * 30; //3 seconds of iframes at 30 fps
+				gSFX.pTrigs[i].samCollide = false;
 			}
 		}
-		else if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p.p1x) < 10 && abs(pterodactyl->getPositionY() - p.p1y) < 10 && gSFX.pTrigs[0].hasPainted == true)
+		else if (gSFX.pTrigs[0].ptCollide == true && gSFX.pTrigs[0].hasPainted == true)
 		{
 			if (false == isSFXPlaying[12])
 			{
 				soundIDList[12] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.8f);
 				isSFXPlaying[12] = true;
-				experimental::AudioEngine::setFinishCallback(soundIDList[12], [&](int id, const std::string& filePath)
-				{
-					isSFXPlaying[12] = false;
-				});
-				pIFrames[0] = 2 * 30; //2 seconds of iframes at 30 fps
+				gSFX.pTrigs[i].ptCollide = false;
 			}
 		}
-	}
-	if (pIFrames[1] == 0)
-	{
-		if (gSFX.pTrigs[1].hasPainted == true && villain->getOpacity() > 0 && (abs(p.vx - p.p2x) < 5 && abs(p.vy - p.p2y) < 5))
-		{
-			if (false == isSFXPlaying[1])
-			{
-				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_playerhit.mp3", false, 0.8f);
-				isSFXPlaying[1] = true;
-				experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
-				{
-					isSFXPlaying[1] = false;
-				});
-				pIFrames[1] = 3 * 30; //3 seconds of iframes at 30 fps
-			}
-		}
-		else if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p.p2x) < 10 && abs(pterodactyl->getPositionY() - p.p2y) < 10 && gSFX.pTrigs[1].hasPainted == true)
-		{
-			if (false == isSFXPlaying[12])
-			{
-				soundIDList[12] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.8f);
-				isSFXPlaying[12] = true;
-				experimental::AudioEngine::setFinishCallback(soundIDList[12], [&](int id, const std::string& filePath)
-				{
-					isSFXPlaying[12] = false;
-				});
-				pIFrames[1] = 2 * 30; //2 seconds of iframes at 30 fps
-			}
-		}
-	}
-
-	if (pIFrames[2] == 0)
-	{
-		if (gSFX.pTrigs[2].hasPainted == true && villain->getOpacity() > 0 && (abs(p.vx - p.p3x) < 5 && abs(p.vy - p.p3y) < 5))
-		{
-			if (false == isSFXPlaying[1])
-			{
-				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_playerhit.mp3", false, 0.8f);
-				isSFXPlaying[1] = true;
-				experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
-				{
-					isSFXPlaying[1] = false;
-				});
-				pIFrames[2] = 3 * 30; //3 seconds of iframes at 30 fps
-			}
-		}
-		else if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p.p3x) < 10 && abs(pterodactyl->getPositionY() - p.p3y) < 10 && gSFX.pTrigs[2].hasPainted == true)
-		{
-			if (false == isSFXPlaying[12])
-			{
-				soundIDList[12] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.8f);
-				isSFXPlaying[12] = true;
-				experimental::AudioEngine::setFinishCallback(soundIDList[12], [&](int id, const std::string& filePath)
-				{
-					isSFXPlaying[12] = false;
-				});
-				pIFrames[2] = 2 * 30; //2 seconds of iframes at 30 fps
-			}
-		}
-	}
-
-	if (pIFrames[3] == 0)
-	{
-		if (gSFX.pTrigs[3].hasPainted == true && villain->getOpacity() > 0 && (abs(p.vx - p.p4x) < 5 && abs(p.vy - p.p4y) < 5))
-		{
-			if (false == isSFXPlaying[1])
-			{
-				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_playerhit.mp3", false, 0.8f);
-				isSFXPlaying[1] = true;
-				experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
-				{
-					isSFXPlaying[1] = false;
-				});
-				pIFrames[3] = 2 * 30; //2 seconds of iframes at 30 fps
-			}
-		}
-		else if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p.p4x) < 10 && abs(pterodactyl->getPositionY() - p.p4y) < 10 && gSFX.pTrigs[3].hasPainted == true)
-		{
-			if (false == isSFXPlaying[12])
-			{
-				soundIDList[12] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.8f);
-				isSFXPlaying[12] = true;
-				experimental::AudioEngine::setFinishCallback(soundIDList[12], [&](int id, const std::string& filePath)
-				{
-					isSFXPlaying[12] = false;
-				});
-				pIFrames[3] = 2 * 30; //2 seconds of iframes at 30 fps
-			}
-		}
-	}
+	} 
 	//If Sam or pterodactyl touches a player - end
 
 
@@ -1473,11 +1416,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			{
 				soundIDList[7] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_pickup.mp3", false, 0.8f);
 				isSFXPlaying[7] = true;
-				experimental::AudioEngine::setFinishCallback(soundIDList[7], [&](int id, const std::string& filePath)
-				{
-					isSFXPlaying[7] = false;
-				});
-				gSFX.pTrigs[i].gotCandy = false; //possibly needs to go before callback?
+				gSFX.pTrigs[i].gotCandy = false;
 			}
 		}
 		else if (gSFX.pTrigs[i].lostCandy == true)
@@ -1486,10 +1425,6 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			{
 				soundIDList[9] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_lost.mp3", false, 0.8f);
 				isSFXPlaying[9] = true;
-				experimental::AudioEngine::setFinishCallback(soundIDList[9], [&](int id, const std::string& filePath)
-				{
-					isSFXPlaying[9] = false;
-				});
 				gSFX.pTrigs[i].lostCandy = false;
 			}
 		}
@@ -1553,7 +1488,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 					isSFXPlaying[6] = false;
 				});
 			}
-			gSFX.pTrigs[0].onBucket = false; //put in callback func?
+			gSFX.pTrigs[0].onBucket = false;
 		}
 		else if (gSFX.pTrigs[0].onGrid == true) //if player is on grid
 		{
@@ -1781,6 +1716,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	//===========================================================
 	//     END OF ANIMATION-BASED AUDIO
 	//===========================================================
+	//iframe decrements
 	for (int i = 0; i < 3; i++)
 	{
 		if (pIFrames[i] > 0)

@@ -138,6 +138,8 @@ public:
 		bool hasPainted;
 		bool gotCandy;
 		bool lostCandy;
+		bool samCollide;
+		bool ptCollide;
 	};
 	//all game triggers 
 	struct SFXTriggers {
