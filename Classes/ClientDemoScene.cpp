@@ -401,28 +401,28 @@ void ClientDemo::update(float dt)
 	////////// NEW CODE HERE!!!
 	if (playerOneActive == false) {
 		if (player1->getPositionX() != playerOneSP["x"].asInt() && player1->getPositionY() != playerOneSP["y"].asInt()) {
-			playerOneActive == true;
+			playerOneActive = true;
 			player1->setOpacity(255);
 			p1CLabel->setOpacity(255);
 		}
 	}
 	if (playerTwoActive == false) {
 		if (player2->getPositionX() != playerTwoSP["x"].asInt() && player2->getPositionY() != playerTwoSP["y"].asInt()) {
-			playerTwoActive == true;
+			playerTwoActive = true;
 			player2->setOpacity(255);
 			p2CLabel->setOpacity(255);
 		}
 	}
 	if (playerThreeActive == false) {
 		if (player3->getPositionX() != playerThreeSP["x"].asInt() && player3->getPositionY() != playerThreeSP["y"].asInt()) {
-			playerThreeActive == true;
+			playerThreeActive = true;
 			player3->setOpacity(255);
 			p3CLabel->setOpacity(255);
 		}
 	}
 	if (playerFourActive == false) {
 		if (player4->getPositionX() != playerFourSP["x"].asInt() && player4->getPositionY() != playerFourSP["y"].asInt()) {
-			playerFourActive == true;
+			playerFourActive = true;
 			player4->setOpacity(255);
 			p4CLabel->setOpacity(255);
 		}
