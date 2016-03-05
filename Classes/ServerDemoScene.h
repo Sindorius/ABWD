@@ -20,6 +20,7 @@
 #include "ServerMessage.hpp"
 //#include "UDPServer.hpp"
 #include "TCPServer.hpp"
+#include "TCPSSession.hpp"
 #include "PaintTile.h"
 #include "AnimationManager.hpp"
 #include "Puzzle.hpp"
@@ -81,17 +82,7 @@ public:
 
 	~ServerDemo();
 
-	void processPlayerPacket(PlayerInputPacket p);
-
-	cocos2d::CCPoint p1pos;
-	cocos2d::CCPoint p2pos;
-	cocos2d::CCPoint p3pos;
-	cocos2d::CCPoint p4pos;
-	cocos2d::CCPoint vpos;
-	cocos2d::CCPoint ppos;
-	cocos2d::CCPoint cpos;
-
-	//PaintTile* tileptrarray[6][6];
+	void processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionptr);
 
 	std::vector<std::vector<PaintTile*>> tilespritevector;
 
@@ -108,9 +99,12 @@ public:
 	bool sendmap = false;
 	ServerPositionPacket createPacket();
 	void addPlayerToGame(int playernum);
-	void removePlayerFromGame(int playernum);
+	void removePlayerFromGame(TCPSSession* sessionptr);
 	
 	void enqueueMessage(ServerMessage msg);
+
+	std::map<TCPSSession*, int> sessionmap;
+	bool sessionmapped[5] = { false };
 };
 
 #endif // __SERVERDEMO_SCENE_H__

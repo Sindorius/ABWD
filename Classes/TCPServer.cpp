@@ -30,34 +30,11 @@ void TCPServer::handle_accept(
 	{
 		CCLOG("no error adding to socketlist");
 		CCLOG("starting socket read header");
-		TCPSSession* newsession = new TCPSSession(newsocket, serverptr);
-		sessionvector.push_back(newsession);
-		sessionvector.back()->do_read_header();
+		TCPSSession* newsession = new TCPSSession(newsocket, serverptr, this);
+		sessionlist.push_back(newsession);
+		sessionlist.back()->do_read_header();
 		
-		if (clientsessionmap.empty())
-		{
-			clientsessionmap.emplace(1, newsession);
-			CCLOG("session added to map");
-			addPlayer(1);
-		}
-		else
-		{
-			int nextavailable = 1;
-			for (int i = 1; i <= 4; i++)
-			{
-				if(clientsessionmap.find(i) == clientsessionmap.end())
-				{
-					clientsessionmap.emplace(std::make_pair(i, newsession));
-					CCLOG("session added to map");
-					addPlayer(i);
-					break;
-				}
-			}
-
-			
-		}
-
-		CCLOG(std::to_string(sessionvector.size()).c_str());
+		CCLOG(std::to_string(sessionlist.size()).c_str());
 		//socketvector.push_back(newsocket);
 		//CCLOG(std::to_string(socketvector.size()).c_str());
 	}
@@ -66,12 +43,10 @@ void TCPServer::handle_accept(
 		CCLOG("error value");
 		CCLOG(std::to_string(error.value()).c_str());
 	}
-
+	
+	CCLOG("SessionCounter");
+	CCLOG(std::to_string(sessionlist.size()).c_str());
 	do_accept();
-}
-
-void TCPServer::do_receive()
-{
 }
 
 
@@ -83,16 +58,16 @@ void TCPServer::sendPacket(ServerPositionPacket p)
 	outar(p);
 
 	outstringbuffer = os2.str();
-	int i = 1;
-	for each(TCPSSession* s in sessionvector)
+	//int i = 1;
+	for each(TCPSSession* s in sessionlist)
 	{
 	//	s.socketptr->async_write_some(boost::asio::buffer(outstringbuffer),
 	//		[this](boost::system::error_code /*ec*/, std::size_t /*bytes_sent*/)
 	//	{
 	//		CCLOG("wrote to client");
 	//	});
-		CCLOG("sending data to session"+i);
-		i++;
+		//CCLOG("sending data to session"+i);
+		//i++;
 		s->writewithstringbuffer(outstringbuffer);
 		
 	}
@@ -102,5 +77,11 @@ void TCPServer::sendPacket(ServerPositionPacket p)
 void TCPServer::addPlayer(int playernum)
 {
 	serverptr->addPlayerToGame(playernum);
+
+}
+
+void TCPServer::removeSession(TCPSSession* sptr)
+{
+	sessionlist.remove(sptr);
 
 }

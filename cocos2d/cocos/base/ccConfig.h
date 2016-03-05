@@ -390,7 +390,7 @@ THE SOFTWARE.
  *   If not enabled game loop will busy wait full CPU usage **WARNING** */
 
 #ifndef CC_SLEEP_1_MSEC
-#define CC_SLEEP_1_MSEC 1
+#define CC_SLEEP_1_MSEC 0
 #endif
 
 

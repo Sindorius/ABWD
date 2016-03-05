@@ -25,9 +25,7 @@ private:
 	std::shared_ptr<tcp::socket> newsocket;
 	tcp::socket socket_;
 	tcp::acceptor acceptor_;
-	std::vector<TCPSSession*> sessionvector;
-	std::map<int, TCPSSession*> clientsessionmap;
-	std::vector<std::shared_ptr<tcp::socket>> socketvector;
+	std::list<TCPSSession*> sessionlist;
 	
 	enum { max_length = 1024 };
 	char data_[max_length];
@@ -47,7 +45,7 @@ public:
 	{
 		CCLOG("TCPServer deconstructor should not see");
 	}
-	void do_receive();
+	//void do_receive();
 	void do_read();
 	void do_accept();
 	void sendPacket(ServerPositionPacket p);
@@ -55,42 +53,7 @@ public:
 	
 	void addPlayer(int playernum);
 	void removePlayer(int playernum);
-	
-	
-	/*UDPServer::UDPServer(boost::asio::io_service& io_service, short port, NetworkManager* mptr)
-	: socket_(io_service, udp::endpoint(udp::v4(), port))
-	{
-	networkmanager = mptr;
-	CCLOG("initialized");
-	do_receive();
-
-	}
-	*/
-	/*
-	void do_send()
-	{
-	std::cout << "sending data back";
-	CCLOG("sending data back");
-	std::ostringstream os2;
-	cereal::BinaryOutputArchive outar(os2);
-	ServerPositionPacket packet1(1.2f, 2.3f, 3.4f, 4.5f, 5.6f, 6.7f, 1.1f,1.1f,1.1f,1.1f);
-	outar(packet1);
-
-	outstringbuffer = os2.str();
-	for (auto& kv : clientmap)
-	{
-
-	socket_.async_send_to(
-	boost::asio::buffer(outstringbuffer), kv.second,
-	[this](boost::system::error_code , std::size_t )
-	{
-	do_receive();
-	});
-	}
-	}*/
-
-
-
+	void removeSession(TCPSSession* sptr);
 };
 
 #endif // __TCPSERVER_H__
