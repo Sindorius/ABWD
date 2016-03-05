@@ -171,7 +171,7 @@ bool ServerDemo::init()
 
 void ServerDemo::update(float dt)
 {
-	/*if (!alternate)
+	if (!alternate)
 	{
 		alternate = true;
 		io_service_p->poll();
@@ -180,7 +180,7 @@ void ServerDemo::update(float dt)
 	else
 	{
 		alternate = false;
-	}*/
+	}
 	/*
 	if (--swapframecounter <= 0)
 	{
