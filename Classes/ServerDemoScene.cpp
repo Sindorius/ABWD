@@ -459,7 +459,6 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionpt
 
 
 
-//void ServerDemo::space(int playernum) 
 void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, float dymove)
 {
 
