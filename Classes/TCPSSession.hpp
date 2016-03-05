@@ -13,6 +13,7 @@
 using boost::asio::ip::tcp;
 
 class ServerDemo;
+class TCPServer;
 
 class TCPSSession
 {
@@ -26,14 +27,16 @@ public:
 	char indata[max_length];
 	char outdata[max_length];
 	ServerDemo* serverptr;
+	TCPServer* tcpserverptr;
 
 	TCPSSession()
 	{
 		socketptr = nullptr;
 		serverptr = nullptr;
+		tcpserverptr = nullptr;
 	};
 
-	TCPSSession(std::shared_ptr<tcp::socket> sptr, ServerDemo* sdptr) : socketptr(sptr), serverptr(sdptr)
+	TCPSSession(std::shared_ptr<tcp::socket> sptr, ServerDemo* sdptr, TCPServer* tcpsptr) : socketptr(sptr), serverptr(sdptr), tcpserverptr(tcpsptr)
 	{
 	socketptr->set_option(tcp::no_delay(true));
 	};

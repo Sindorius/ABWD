@@ -77,14 +77,12 @@ bool ServerDemo::init()
 	player1->setPosition(Vec2(playerOneSP["x"].asInt(), playerOneSP["y"].asInt()));
 	player1->debugDraw(true);
 	player1->setAnchorPoint(Vec2(0.5, 0.0));
-	p1pos = player1->getPosition();
 	addChild(player1, 0);
 
 	player2 = Player::create(2);
 	player2->setPlayernum(2);
 	player2->getTexture()->setAliasTexParameters();
 	player2->setPosition(Vec2(playerTwoSP["x"].asInt(), playerTwoSP["y"].asInt()));
-	p2pos = player2->getPosition();
 	player2->debugDraw(true);
 	player2->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(player2, 0);
@@ -93,7 +91,6 @@ bool ServerDemo::init()
 	player3->setPlayernum(3);
 	player3->getTexture()->setAliasTexParameters();
 	player3->setPosition(Vec2(playerThreeSP["x"].asInt(), playerThreeSP["y"].asInt()));
-	p3pos = player3->getPosition();
 	player3->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(player3, 0);
 
@@ -102,38 +99,34 @@ bool ServerDemo::init()
 	player4->getTexture()->setAliasTexParameters();
 	player4->setPosition(Vec2(playerFourSP["x"].asInt(), playerFourSP["y"].asInt()));
 	player4->setAnchorPoint(Vec2(0.5, 0.0));
-	p4pos = player4->getPosition();
 	addChild(player4, 0);
 
-	//players.push_back(player1);
-	//players.push_back(player2);
-	//players.push_back(player3);
-	//players.push_back(player4);
+	players.push_back(player1);
+	players.push_back(player2);
+	players.push_back(player3);
+	players.push_back(player4);
 
-	player1->setVisible(false);
-	player2->setVisible(false);
-	player3->setVisible(false);
-	player4->setVisible(false);
+	//player1->setVisible(false);
+	//player2->setVisible(false);
+	//player3->setVisible(false);
+	//player4->setVisible(false);
 
 	serversam = ServerSam::create(this);
 	serversam->getTexture()->setAliasTexParameters();
 	serversam->setPosition(Vec2(-250, -150));
 	serversam->setAnchorPoint(Vec2(0.5, 0.0));
-	vpos = serversam->getPosition();
 	addChild(serversam, 0);
 
 	pterodactyl = Pterodactyl::create();
 	pterodactyl->getTexture()->setAliasTexParameters();
 	pterodactyl->setPosition(Vec2(50, 50));
 	pterodactyl->setAnchorPoint(Vec2(0.5, 0.0));
-	ppos = pterodactyl->getPosition();
 	addChild(pterodactyl, 0);
 
 	candy = Candy::create();
 	candy->getTexture()->setAliasTexParameters();
 	candy->setPosition(Vec2(-50, -50));
 	candy->setAnchorPoint(Vec2(0.5, 0.0));
-	cpos = candy->getPosition();
 	addChild(candy, 0);
 	
 	serversam->linkPtera(pterodactyl);
@@ -199,8 +192,8 @@ void ServerDemo::update(float dt)
 		return; 
 	}
 	*/
-	CCLOG("UPDATE DT");
-	CCLOG(std::to_string(dt).c_str());
+	//CCLOG("UPDATE DT");
+	//CCLOG(std::to_string(dt).c_str());
 	io_service_p->poll();
 	
 	idle1--;
@@ -374,8 +367,16 @@ void ServerDemo::update(float dt)
 
 
 
-void ServerDemo::processPlayerPacket(PlayerInputPacket p)
+void ServerDemo::processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionptr)
 {
+	if (!sessionmapped[p.playernum])
+	{
+		sessionmap.emplace(sessionptr, p.playernum);
+		sessionmapped[p.playernum] = true;
+		players[p.playernum - 1]->setVisible(true);
+		servermessagequeue.emplace_back(ServerMessage(12, 0, 0, p.playernum));
+	}
+	
 	float dxmove = p.dx;
 	float dymove = p.dy;
 	if (candy->active() && p.playernum-1 == candy->getOwner()) {
@@ -953,6 +954,7 @@ ServerPositionPacket ServerDemo::createPacket()
 
 void ServerDemo::addPlayerToGame(int playernum)
 {
+	/*
 	if (playernum == 1)
 	{
 		player1->setVisible(true);
@@ -973,9 +975,24 @@ void ServerDemo::addPlayerToGame(int playernum)
 		player4->setVisible(true);
 		players.push_back(player4);
 	}
+	*/
+	players[playernum - 1]->setVisible(true);
+	enqueueMessage(ServerMessage(12, 0, 0, playernum));
+
 }
-void ServerDemo::removePlayerFromGame(int playernum)
+void ServerDemo::removePlayerFromGame(TCPSSession* sessionptr)
 {
+	int theplayernum = -1;
+	auto it = sessionmap.find(sessionptr);
+	if (it != sessionmap.end())
+	{
+		theplayernum = it->second;
+		sessionmap.erase(it);
+		sessionmapped[theplayernum] = false;
+	}
+	else { return; }
+	players[theplayernum - 1]->setVisible(false);
+	enqueueMessage(ServerMessage(11, 0, 0, theplayernum));
 
 }
 

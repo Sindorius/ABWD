@@ -695,7 +695,11 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		7. Candy pos, xpos, ypos, unused
 		8. Got candy, unused, unused, player #
 		9. Candy wore off, unused, unused, player #
-		10. Change Level, unused, unused, new level #*/
+		10. Change Level, unused, unused, new level #
+		11. Drop Player, unused, unused, player #
+		12. Player Joined, unused, unused, player #
+		
+	*/
 	if(msg.messagechar == 0)
 	{
 		playernum = msg.status;
@@ -720,7 +724,14 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	{
 		loadLevel(msg.status);
 	}
-	
+	else if (msg.messagechar == 11)
+	{
+		players[(msg.status)-1]->setVisible(false);
+	}
+	else if (msg.messagechar == 12)
+	{
+		players[(msg.status) - 1]->setVisible(true);
+	}
 }
 
 

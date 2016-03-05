@@ -17,9 +17,6 @@
     <ClInclude Include="..\Classes\ServerPositionPacket.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\UDPServer.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\PaintTile.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -74,9 +71,6 @@
     </ClCompile>
     <ClCompile Include="main_server.cpp" />
     <ClCompile Include="..\Classes\PaintTile.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UDPServer.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\AnimationManager.cpp">

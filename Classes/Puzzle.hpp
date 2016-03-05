@@ -394,11 +394,11 @@ public:
 			{
 				if (currenttilevector[i][j] != currenttilevectorsolution[i][j])
 				{
-					CCLOG(std::to_string(i).c_str());
-					CCLOG(std::to_string(j).c_str());
-					CCLOG("solution not equal");
-					CCLOG(std::to_string(currenttilevector[i][j]).c_str());
-					CCLOG(std::to_string(currenttilevectorsolution[i][j]).c_str());
+					//CCLOG(std::to_string(i).c_str());
+					//CCLOG(std::to_string(j).c_str());
+					//CCLOG("solution not equal");
+					//CCLOG(std::to_string(currenttilevector[i][j]).c_str());
+					//CCLOG(std::to_string(currenttilevectorsolution[i][j]).c_str());
 					return false;
 				}
 			}
