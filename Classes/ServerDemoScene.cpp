@@ -171,7 +171,7 @@ bool ServerDemo::init()
 
 void ServerDemo::update(float dt)
 {
-	if (!alternate)
+	if (!alternate && dt < 0.03f)
 	{
 		alternate = true;
 		io_service_p->poll();
@@ -921,7 +921,7 @@ ServerPositionPacket ServerDemo::createPacket()
 
 	if (sendmap)
 	{
-		ServerPositionPacket p(
+		ServerPositionPacket p(levelmanager.currentlevel,
 			candy->getPositionX(), candy->getPositionY(),
 			pterodactyl->getPositionX(), pterodactyl->getPositionY(), animationmanager.charFromString(pterodactyl->getAnim()),
 			serversam->getPositionX(), serversam->getPositionY(), animationmanager.charFromString(serversam->getAnim()),
@@ -936,7 +936,7 @@ ServerPositionPacket ServerDemo::createPacket()
 	}
 	else
 	{
-		ServerPositionPacket p(
+		ServerPositionPacket p(levelmanager.currentlevel,
 			candy->getPositionX(), candy->getPositionY(),
 			pterodactyl->getPositionX(), pterodactyl->getPositionY(), animationmanager.charFromString(pterodactyl->getAnim()),
 			serversam->getPositionX(), serversam->getPositionY(), animationmanager.charFromString(serversam->getAnim()),

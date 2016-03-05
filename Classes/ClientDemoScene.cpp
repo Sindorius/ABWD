@@ -113,6 +113,20 @@ bool ClientDemo::init()
 	blockage = levelmanager.levelmap->getLayer("Collision");
 	blockage->setVisible(false);
 	
+	//////////////////////////////////////////////////////////////////////// NEW CODE HERE!!!
+	spawnObjs = levelmanager.levelmap->objectGroupNamed("SpawnObjects");
+
+	if (spawnObjs == NULL) {
+		CCLOG("TMX map has SpawnObjects layer");
+	}
+
+	playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
+	playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
+	playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
+	playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
+
+	////////////////////
+
 
 	player1 = Player::create(1);
 	player1->setPlayernum(1);
@@ -173,23 +187,32 @@ bool ClientDemo::init()
 	p1CLabel->enableStroke(ccColor3B(255,0,0),20.0, true);
 	p1CLabel->enableShadow(CCSize(1,0), 50.0, 0.0, true);
 	p1CLabel->setPosition(Vec2(player1->getPositionX()+64, player1->getPositionY()+1));
+	player1->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
+	p1CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
+
 	player1->addChild(p1CLabel,100);
 
 	p2CLabel = CCLabelTTF::create("P2", "fonts/Marker Felt.ttf", 9);
 	p2CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
 	p2CLabel->setPosition(Vec2(player2->getPositionX()+64, player2->getPositionY()-48));
+	player2->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
+	p2CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	player2->addChild(p2CLabel, 100);
 
 	p3CLabel = CCLabelTTF::create("P3", "fonts/Marker Felt.ttf", 9);
 	p3CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
 	p3CLabel->setPosition(Vec2(player3->getPositionX()+64, player3->getPositionY()-104));
 	p3CLabel->setAnchorPoint(Vec2(0.5, 0.0));
+	player3->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
+	p3CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	player3->addChild(p3CLabel, 100);
 
 	p4CLabel = CCLabelTTF::create("P4", "fonts/Marker Felt.ttf", 9);
 	p4CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
 	p4CLabel->setPosition(Vec2(player4->getPositionX()+64, player4->getPositionY()-154));
 	p4CLabel->setAnchorPoint(Vec2(0.5, 0.0));
+	player4->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
+	p4CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	player4->addChild(p4CLabel, 100);
 	
 	tileHighlight = Sprite::create("res//sprites//select_tile.png");
@@ -375,6 +398,37 @@ void ClientDemo::update(float dt)
 		pterodactyl->setZOrder(-pterodactyl->getPositionY());
 	}
 
+	////////// NEW CODE HERE!!!
+	if (playerOneActive == false) {
+		if (player1->getPositionX() != playerOneSP["x"].asInt() && player1->getPositionY() != playerOneSP["y"].asInt()) {
+			playerOneActive == true;
+			player1->setOpacity(255);
+			p1CLabel->setOpacity(255);
+		}
+	}
+	if (playerTwoActive == false) {
+		if (player2->getPositionX() != playerTwoSP["x"].asInt() && player2->getPositionY() != playerTwoSP["y"].asInt()) {
+			playerTwoActive == true;
+			player2->setOpacity(255);
+			p2CLabel->setOpacity(255);
+		}
+	}
+	if (playerThreeActive == false) {
+		if (player3->getPositionX() != playerThreeSP["x"].asInt() && player3->getPositionY() != playerThreeSP["y"].asInt()) {
+			playerThreeActive == true;
+			player3->setOpacity(255);
+			p3CLabel->setOpacity(255);
+		}
+	}
+	if (playerFourActive == false) {
+		if (player4->getPositionX() != playerFourSP["x"].asInt() && player4->getPositionY() != playerFourSP["y"].asInt()) {
+			playerFourActive == true;
+			player4->setOpacity(255);
+			p4CLabel->setOpacity(255);
+		}
+	}
+	//////////////////////
+
 	////////////////////////////////////////////////////// NEW CODE
 	if (transitionManager.timer_status())
 	{
@@ -394,11 +448,17 @@ void ClientDemo::update(float dt)
 void ClientDemo::processPacket(ServerPositionPacket p)
 {
 	
+	
 	for (ServerMessage msg : p.messagevector)
 	{
 		processServerMessage(msg);
 	}
+	if (currentlevel != p.level)
+	{
+		loadLevel(p.level);
+	}
 	
+
 	/* move players, with some client side prediction of your own character*/
 	if (playernum == 1)
 	{
@@ -722,6 +782,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	}
 	else if (msg.messagechar == 10)
 	{
+		currentlevel = msg.status;
 		loadLevel(msg.status);
 	}
 	else if (msg.messagechar == 11)
@@ -1261,6 +1322,20 @@ void ClientDemo::loadLevel(int level)
 	villain->setPosition(Vec2(250, 150));
 	
 	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
+
+	spawnObjs = levelmanager.levelmap->objectGroupNamed("SpawnObjects");
+
+	if (spawnObjs == NULL) {
+		CCLOG("TMX map has SpawnObjects layer");
+	}
+
+	playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
+	playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
+	playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
+	playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
+
+	////////////////////
+
 
 	for (Sprite* s : levelmanager.levelsprites)
 	{
