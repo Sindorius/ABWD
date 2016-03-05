@@ -631,7 +631,19 @@ void ServerDemo::loadLevel(int level)
 	
 
 	if (spawnObjs == NULL) {
-		CCLOG("TMX map has SpawnObjects layer");
+		CCLOG("TMX map has no SpawnObjects layer");
+	}
+	else
+	{
+		ValueMap playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
+		ValueMap playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
+		ValueMap playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
+		ValueMap playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
+		player1->setPosition(Vec2(playerOneSP["x"].asInt(), playerOneSP["y"].asInt()));
+		player2->setPosition(Vec2(playerTwoSP["x"].asInt(), playerTwoSP["y"].asInt()));
+		player3->setPosition(Vec2(playerThreeSP["x"].asInt(), playerThreeSP["y"].asInt()));
+		player4->setPosition(Vec2(playerFourSP["x"].asInt(), playerFourSP["y"].asInt()));
+
 	}
 
 	for (Sprite* s : levelmanager.levelsprites)
