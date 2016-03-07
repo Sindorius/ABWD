@@ -11,7 +11,7 @@ int playerNumber;
 ////////////////////////////////////////
 
 
-#define AUDIO_ON 1 //toggles all audio on/off
+#define AUDIO_ON 0 //toggles all audio on/off
 #define MUSIC_ON 0 //toggles whether background music is on/off
 
 
@@ -220,7 +220,7 @@ bool ClientDemo::init()
 	p1CLabel = CCLabelTTF::create("P1", "fonts/Marker Felt.ttf", 9);
 	p1CLabel->enableStroke(ccColor3B(255,0,0),20.0, true);
 	p1CLabel->enableShadow(CCSize(1,0), 50.0, 0.0, true);
-	p1CLabel->setPosition(Vec2(player1->getPositionX()+64, player1->getPositionY()+1));
+	p1CLabel->setPosition(Vec2(player1->getPositionX()-106, player1->getPositionY()-108));
 	player1->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	p1CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 
@@ -228,14 +228,14 @@ bool ClientDemo::init()
 
 	p2CLabel = CCLabelTTF::create("P2", "fonts/Marker Felt.ttf", 9);
 	p2CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
-	p2CLabel->setPosition(Vec2(player2->getPositionX()+64, player2->getPositionY()-48));
+	p2CLabel->setPosition(Vec2(player2->getPositionX() - 58, player2->getPositionY() - 136));
 	player2->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	p2CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	player2->addChild(p2CLabel, 100);
 
 	p3CLabel = CCLabelTTF::create("P3", "fonts/Marker Felt.ttf", 9);
 	p3CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
-	p3CLabel->setPosition(Vec2(player3->getPositionX()+64, player3->getPositionY()-104));
+	p3CLabel->setPosition(Vec2(player3->getPositionX() - 344, player3->getPositionY() - 114));
 	p3CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	player3->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	p3CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
@@ -243,7 +243,7 @@ bool ClientDemo::init()
 
 	p4CLabel = CCLabelTTF::create("P4", "fonts/Marker Felt.ttf", 9);
 	p4CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
-	p4CLabel->setPosition(Vec2(player4->getPositionX()+64, player4->getPositionY()-154));
+	p4CLabel->setPosition(Vec2(player4->getPositionX() - 396, player4->getPositionY() - 136));
 	p4CLabel->setAnchorPoint(Vec2(0.5, 0.0));
 	player4->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	p4CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
@@ -369,11 +369,11 @@ void ClientDemo::update(float dt)
 	}
 	*/
 	// NEW CODE TO TRY
-	if (levelmanager.currentlevel > 4)
-	{
-		auto GOScene = GameOver::createGameOver();
-		CCDirector::getInstance()->replaceScene(GOScene);
-	}
+	//if (levelmanager.currentlevel > 4)
+	//{
+//		auto GOScene = GameOver::createGameOver();
+//		CCDirector::getInstance()->replaceScene(GOScene);
+//	}
 	//////////////////
 
 	players[playernum - 1]->setPositionX(players[playernum - 1]->getPositionX() + xmove * players[playernum - 1]->speedboost);
@@ -850,36 +850,38 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 
 void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 {
-	//std::string playerstring = "p";
+	if (levelmanager.currentlevel != 5)
+	{//std::string playerstring = "p";
 	//playerstring += std::to_string(playernum).c_str();
-	switch (keyCode) {
-	case EventKeyboard::KeyCode::KEY_UP_ARROW:
-		ymove += 2;
-		break;
-	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		ymove -= 2;
-		break;
-	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-		xmove -= 2;
-		break;
-	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-		xmove += 2;
-		break;
-	case EventKeyboard::KeyCode::KEY_SPACE:
-		button1 = true;
-		space();
-		break;
+		switch (keyCode) {
+		case EventKeyboard::KeyCode::KEY_UP_ARROW:
+			ymove += 2;
+			break;
+		case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+			ymove -= 2;
+			break;
+		case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+			xmove -= 2;
+			break;
+		case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+			xmove += 2;
+			break;
+		case EventKeyboard::KeyCode::KEY_SPACE:
+			button1 = true;
+			space();
+			break;
 
-	case EventKeyboard::KeyCode::KEY_1:
-		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);
-		break;
-	case EventKeyboard::KeyCode::KEY_2:
-		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(2.0f);
-		break;
-	case EventKeyboard::KeyCode::KEY_3:
-		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(3.0f);
-		break;
+		case EventKeyboard::KeyCode::KEY_1:
+			Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);
+			break;
+		case EventKeyboard::KeyCode::KEY_2:
+			Director::getInstance()->getOpenGLView()->setFrameZoomFactor(2.0f);
+			break;
+		case EventKeyboard::KeyCode::KEY_3:
+			Director::getInstance()->getOpenGLView()->setFrameZoomFactor(3.0f);
+			break;
 
+		}
 	}
 	event->stopPropagation();
 }
@@ -1366,8 +1368,14 @@ void ClientDemo::loadLevel(int level)
 
 	gSFX.levelChange = true;
 	levelmanager.changeLevel(level);
-
-	addChild(levelmanager.levelmap, -1000);
+	if (level != 5)
+	{
+		addChild(levelmanager.levelmap, -1000);
+	}
+	else
+	{
+		addChild(levelmanager.levelmap, 1000);
+	}
 
 	blockage = levelmanager.levelmap->getLayer("Collision");
 	if (blockage != NULL)
@@ -1399,6 +1407,26 @@ void ClientDemo::loadLevel(int level)
 
 	setupPaintTiles();
 	currentlevel = level;
+	
+	if (level == 5)
+	{
+		auto menu_item = MenuItemImage::create("res//sprites//ui//goToMainNP.png", "res//sprites//ui//goToMainP.png", CC_CALLBACK_1(ClientDemo::goToMainMenu, this));
+		menu_item->setPosition(Vec2(winSizeWidth - 12, winSizeHeight - 35));
+		menu_item->setScale(0.7f);
+
+		auto menu = Menu::create(menu_item, NULL);
+		menu->setPosition(Point::ZERO);
+		addChild(menu, 1001);
+
+
+
+		auto gameover = Sprite::create("res//sprites//ui//game_overTitle.png");
+		gameover->setScale(0.25f);
+		gameover->setPosition(Vec2((int)winSizeWidth - 10, (int)winSizeHeight + 120));
+		addChild(gameover, 1001);
+
+	}
+	button1 = false;
 }
 
 void ClientDemo::setupPaintTiles()
@@ -1427,7 +1455,7 @@ void ClientDemo::setupPaintTiles()
 
 void ClientDemo::centerCamera()
 {
-	if (NotInTransition) // CODE TO TRY
+	if (NotInTransition && levelmanager.currentlevel != 5) // CODE TO TRY
 	{
 		transitionManager.start_timer = 60;
 		//if((players[playernum -1]->getPositionX() > 320 && players[playernum - 1]->getPositionX() < (levelmanager.levelmap->getMapSize().width*24)-320) || (players[playernum - 1]->getPositionY() > 180 && players[playernum - 1]->getPositionY() < (levelmanager.levelmap->getMapSize().height * 24) - 180))
@@ -1848,6 +1876,13 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			pIFrames[i]--;
 	}
 }
+
+void ClientDemo::goToMainMenu(cocos2d::Ref* pSender)
+{
+	auto scene = MenuScene::createMenu();
+	CCDirector::getInstance()->replaceScene(scene);
+}
+
 
 
 ClientDemo::~ClientDemo()

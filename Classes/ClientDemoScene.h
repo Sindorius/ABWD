@@ -27,7 +27,7 @@
 #include "AnimationManager.hpp"
 #include "LevelManager.hpp"
 #include "TransitionManager.h" // NEW CODE ADDED
-#include "GameOver.h"
+#include "MenuScene.h"
 
 USING_NS_CC;
 using boost::asio::ip::udp;
@@ -191,6 +191,7 @@ public:
 	void centerCamera();
 	void updateTilesFromPacket(ServerPositionPacket p);
 	
+	void goToMainMenu(cocos2d::Ref* pSender);
 	~ClientDemo();
 	
 };

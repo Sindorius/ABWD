@@ -378,13 +378,13 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionpt
 		players[p.playernum - 1]->setVisible(true);
 		servermessagequeue.emplace_back(ServerMessage(12, 0, 0, p.playernum));
 	}
-	
+
 	float dxmove = p.dx;
 	float dymove = p.dy;
-	if (candy->active() && p.playernum-1 == candy->getOwner()) {
+	if (candy->active() && p.playernum - 1 == candy->getOwner()) {
 		dxmove = dxmove * 2;
 		dymove = dymove * 2;
-		
+
 	}
 	auto playerPos = players[p.playernum - 1]->getPosition();
 	std::string newcolor = "none";
@@ -394,25 +394,23 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionpt
 	int testx = (playerPos.x + p.dx) / (levelmanager.levelmap->getTileSize().width);
 	int testy = ((levelmanager.levelmap->getMapSize().height * levelmanager.levelmap->getTileSize().height) - playerPos.y - p.dy) / (levelmanager.levelmap->getTileSize().height);
 	CCPoint tileCoord = CCPoint(testx, testy);
-
-	int bkTile = blockage->getTileGIDAt(tileCoord);
-
-	if (bkTile)
+	if (blockage != NULL)
 	{
-
-		auto tilemapvals = levelmanager.levelmap->getPropertiesForGID(bkTile).asValueMap();
-
-		if (!tilemapvals.empty())
+		int bkTile = blockage->getTileGIDAt(tileCoord);
+		if (bkTile)
 		{
-			auto w = tilemapvals["Collidable"].asString();
+			auto tilemapvals = levelmanager.levelmap->getPropertiesForGID(bkTile).asValueMap();
+			if (!tilemapvals.empty())
+			{
+				auto w = tilemapvals["Collidable"].asString();
 
-			if ("true" == w) {
-				dxmove = -dxmove * 2;
-				dymove = -dymove * 2;
+				if ("true" == w) {
+					dxmove = -dxmove * 2;
+					dymove = -dymove * 2;
+				}
 			}
 		}
 	}
-
 
 	players[p.playernum - 1]->setPositionX(playerPos.x + dxmove);
 	players[p.playernum - 1]->setPositionY(playerPos.y + dymove);
