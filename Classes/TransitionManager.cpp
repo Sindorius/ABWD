@@ -53,6 +53,18 @@ void TransitionManager::loadTransition(int level)
 		screen->setScale(1.0f);
 		transitionSprite.push_back(screen);
 	}
+	else if (level == 5)
+	{
+		transitionSprite.clear();
+		float winSizeWidth = CCDirector::sharedDirector()->getWinSize().width / 2;
+		float winSizeHeight = CCDirector::sharedDirector()->getWinSize().height / 2;
+
+		Sprite* screen = Sprite::create("res/sprites/ui/transition_screen.png");
+		screen->getTexture()->setAliasTexParameters();
+		screen->setPosition(Vec2(winSizeWidth, winSizeHeight));
+		screen->setScale(1.0f);
+		transitionSprite.push_back(screen);
+	}
 	else
 	{}
 

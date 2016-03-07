@@ -47,4 +47,13 @@ void Puzzle::changePuzzle(int level)
 		drytilevector = sundrytilesvector;
 
 	}
+	if (level == 5)
+	{
+
+		currenttilevector = keytilevectorvalues;
+		currenttilevectorsolution = keytilevectorsolution;
+		whichplayertilesvector = keyplayertilesvector;
+		drytilevector = keydrytilesvector;
+
+	}
 }

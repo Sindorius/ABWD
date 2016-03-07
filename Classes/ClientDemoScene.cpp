@@ -434,28 +434,28 @@ void ClientDemo::update(float dt)
 
 	////////// NEW CODE HERE!!!
 	if (playerOneActive == false) {
-		if (player1->getPositionX() != playerOneSP["x"].asInt() && player1->getPositionY() != playerOneSP["y"].asInt()) {
+		if (player1->getPositionX() != playerOneSP["x"].asInt() || player1->getPositionY() != playerOneSP["y"].asInt()) {
 			playerOneActive = true;
 			player1->setOpacity(255);
 			p1CLabel->setOpacity(255);
 		}
 	}
 	if (playerTwoActive == false) {
-		if (player2->getPositionX() != playerTwoSP["x"].asInt() && player2->getPositionY() != playerTwoSP["y"].asInt()) {
+		if (player2->getPositionX() != playerTwoSP["x"].asInt() || player2->getPositionY() != playerTwoSP["y"].asInt()) {
 			playerTwoActive = true;
 			player2->setOpacity(255);
 			p2CLabel->setOpacity(255);
 		}
 	}
 	if (playerThreeActive == false) {
-		if (player3->getPositionX() != playerThreeSP["x"].asInt() && player3->getPositionY() != playerThreeSP["y"].asInt()) {
+		if (player3->getPositionX() != playerThreeSP["x"].asInt() || player3->getPositionY() != playerThreeSP["y"].asInt()) {
 			playerThreeActive = true;
 			player3->setOpacity(255);
 			p3CLabel->setOpacity(255);
 		}
 	}
 	if (playerFourActive == false) {
-		if (player4->getPositionX() != playerFourSP["x"].asInt() && player4->getPositionY() != playerFourSP["y"].asInt()) {
+		if (player4->getPositionX() != playerFourSP["x"].asInt() || player4->getPositionY() != playerFourSP["y"].asInt()) {
 			playerFourActive = true;
 			player4->setOpacity(255);
 			p4CLabel->setOpacity(255);
@@ -850,9 +850,11 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 
 void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 {
+	
 	if (levelmanager.currentlevel != 5)
 	{//std::string playerstring = "p";
 	//playerstring += std::to_string(playernum).c_str();
+	
 		switch (keyCode) {
 		case EventKeyboard::KeyCode::KEY_UP_ARROW:
 			ymove += 2;

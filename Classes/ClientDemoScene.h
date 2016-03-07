@@ -42,7 +42,7 @@ private:
 	bool alternate = false;
 	int swapframes = 1;
 	int swapframecounter = 1;
-	CCTMXTiledMap* levelmap; 
+	//CCTMXTiledMap* levelmap; 
 	cocos2d::CCTMXLayer* bucketlayer;
 	cocos2d::CCTMXLayer* blockage;
 
