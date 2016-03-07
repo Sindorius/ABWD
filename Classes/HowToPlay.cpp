@@ -59,7 +59,7 @@ bool HowToPlay::init()
 	Directions->setPosition(Vec2((int)winSizeWidth - 10, (int)winSizeHeight + 143));
 	this->addChild(Directions, 0);
 
-	PaintBuckets = Sprite::create("res//sprites//buckets_.png");
+	PaintBuckets = Sprite::create("res//sprites//buckets.png");
 	PaintBuckets->setScale(0.6f);
 	PaintBuckets->setPosition(Vec2((int)winSizeWidth - 225, (int)winSizeHeight - 17));
 	this->addChild(PaintBuckets, 0);

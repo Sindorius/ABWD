@@ -456,17 +456,39 @@ AnimationManager::AnimationManager()
 	samrightanimFrames.at(2)->getTexture()->setAliasTexParameters();
 	samrightanimFrames.at(3)->getTexture()->setAliasTexParameters();
 
-	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport00.png", Rect(0, 0, 24, 48)));
-	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport01.png", Rect(0, 0, 24, 48)));
-	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport02.png", Rect(0, 0, 24, 48)));
-	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport03.png", Rect(0, 0, 24, 48)));
-	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport04.png", Rect(0, 0, 24, 48)));
-	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport05.png", Rect(0, 0, 24, 48)));
-	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport06.png", Rect(0, 0, 24, 48)));
-	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport07.png", Rect(0, 0, 24, 48)));
-	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport08.png", Rect(0, 0, 24, 48)));
-	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport09.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport0.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport1.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport2.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport3.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport4.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport5.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport6.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport7.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport8.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport9.png", Rect(0, 0, 24, 48)));
 	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport10.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport11.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport12.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport13.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport14.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport15.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport16.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport17.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport18.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport19.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport20.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport21.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport22.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport23.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport24.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport25.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport26.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport27.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport28.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport29.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport30.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport31.png", Rect(0, 0, 24, 48)));
+	samTeleportFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_teleport32.png", Rect(0, 0, 24, 48)));
 
 	samTeleportFrames.at(0)->getTexture()->setAliasTexParameters();
 	samTeleportFrames.at(1)->getTexture()->setAliasTexParameters();
@@ -479,12 +501,49 @@ AnimationManager::AnimationManager()
 	samTeleportFrames.at(8)->getTexture()->setAliasTexParameters();
 	samTeleportFrames.at(9)->getTexture()->setAliasTexParameters();
 	samTeleportFrames.at(10)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(11)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(12)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(13)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(14)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(15)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(16)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(17)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(18)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(19)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(20)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(21)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(22)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(23)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(24)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(25)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(26)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(27)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(28)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(29)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(30)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(31)->getTexture()->setAliasTexParameters();
+	samTeleportFrames.at(32)->getTexture()->setAliasTexParameters();
 
-	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear00.png", Rect(0, 0, 24, 48)));
-	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear01.png", Rect(0, 0, 24, 48)));
-	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear02.png", Rect(0, 0, 24, 48)));
-	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear03.png", Rect(0, 0, 24, 48)));
-	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear04.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear0.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear1.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear2.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear3.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear4.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear5.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear6.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear7.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear8.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear9.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear10.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear11.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear12.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear13.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear14.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear15.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear16.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear17.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear18.png", Rect(0, 0, 24, 48)));
+	samAppearFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_reappear19.png", Rect(0, 0, 24, 48)));
 
 
 	samAppearFrames.at(0)->getTexture()->setAliasTexParameters();
@@ -492,6 +551,21 @@ AnimationManager::AnimationManager()
 	samAppearFrames.at(2)->getTexture()->setAliasTexParameters();
 	samAppearFrames.at(3)->getTexture()->setAliasTexParameters();
 	samAppearFrames.at(4)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(5)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(6)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(7)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(8)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(9)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(10)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(11)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(12)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(13)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(14)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(15)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(16)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(17)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(18)->getTexture()->setAliasTexParameters();
+	samAppearFrames.at(19)->getTexture()->setAliasTexParameters();
 
 
 	samWhistleFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_whistle0.png", Rect(0, 0, 24, 48)));
@@ -501,8 +575,8 @@ AnimationManager::AnimationManager()
 	samWhistleFrames.at(1)->getTexture()->setAliasTexParameters();
 
 
-	samMunchFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_eating0.png", Rect(0, 0, 17, 36)));
-	samMunchFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_eating1.png", Rect(0, 0, 17, 36)));
+	samMunchFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_eating0.png", Rect(0, 0, 21, 37)));
+	samMunchFrames.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\sam\\sam_eating1.png", Rect(0, 0, 21, 37)));
 
 	samMunchFrames.at(0)->getTexture()->setAliasTexParameters();
 	samMunchFrames.at(1)->getTexture()->setAliasTexParameters();
@@ -520,10 +594,10 @@ AnimationManager::AnimationManager()
 	Animation* samrightanimation = Animation::createWithSpriteFrames(samrightanimFrames, 0.1f);
 	cocos2d::Animate* samrightanim = Animate::create(samrightanimation);
 	samrightanim->retain();
-	Animation* samteleportanimation = Animation::createWithSpriteFrames(samTeleportFrames, 0.3f);
+	Animation* samteleportanimation = Animation::createWithSpriteFrames(samTeleportFrames, 0.1f);
 	cocos2d::Animate* samteleportanim = Animate::create(samteleportanimation);
 	samteleportanim->retain();
-	Animation* samappearanimation = Animation::createWithSpriteFrames(samAppearFrames, 0.4f);
+	Animation* samappearanimation = Animation::createWithSpriteFrames(samAppearFrames, 0.1f);
 	cocos2d::Animate* samappearanim = Animate::create(samappearanimation);
 	samappearanim->retain();
 	Animation* samwhistleanimation = Animation::createWithSpriteFrames(samWhistleFrames, 0.2f);
