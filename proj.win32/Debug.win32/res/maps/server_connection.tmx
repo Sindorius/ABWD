@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="26" height="15" tilewidth="24" tileheight="24" nextobjectid="90">
+ <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
+  <image source="./res/sprites/tiles/walls.png" width="192" height="192"/>
+ </tileset>
+ <tileset firstgid="65" name="floor" tilewidth="24" tileheight="24" tilecount="42">
+  <image source="./res/sprites/tiles/floor.png" width="168" height="144"/>
+  <tile id="0">
+   <properties>
+    <property name="block" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="107" name="buckets" tilewidth="24" tileheight="24" tilecount="10">
+  <image source="./res/sprites/buckets.png" width="240" height="24"/>
+  <tile id="0">
+   <properties>
+    <property name="Red" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Blue" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Orange" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Yellow" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="117" name="meta" tilewidth="24" tileheight="24" tilecount="2">
+  <image source="./res/sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
+  <tile id="0">
+   <properties>
+    <property name="Collidable" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="119" name="instructions" tilewidth="24" tileheight="24" tilecount="18">
+  <image source="./res/sprites/objects/instructions.png" width="144" height="72"/>
+ </tileset>
+ <tileset firstgid="137" name="Stone_Tiles" tilewidth="24" tileheight="24" tilecount="104">
+  <image source="./res/sprites/tiles/Stone_Tiles.png" trans="ff00ff" width="320" height="192"/>
+ </tileset>
+ <layer name="Floor" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxzZGBgcBzFZGEPIPYkggbhADIwzB5/KJ8QTak99PaPFxZ/eCDR+DCp/vHAwScGB+CwG90/6GqI8Qe6mfjsoYZ/ArDoGQz+wUVTIx0Qm3/IxaT4hxr20AMDALjgbmE=
+  </data>
+ </layer>
+ <layer name="Walls" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztzsVKhVEUgNGLGIhPbnd3d+fEbr12YHf3I7iEM/hxKs7ugcUe7f2d5FgslkkW2eSQSx75FDAeZiFFFFNCKQMMMsQwI4wyFvYmSCGDMsqpoJIqqqmhloUw66ingUaamGSKaWaYZS7s/FgkPXSaaaGVNtrpoJMudsLspode+uhnjXXibLDJFtthbzfS+f2X+chfllhmhVUOOWCfvXBnJ9zdirTioX8U6dxxzwOPPPHMC6+88c4Hn3xxyw3XXHHJBeecccoJx5HOf79EJ9FJdP7WSSXpn6XxDbmpWgQ=
+  </data>
+ </layer>
+ <layer name="Paintbuckets" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4D+wAOKCYF8IC6k0B5iQAEQ51BgD7GgCIiL6WBPCRDn0cGeXCDOpoM9pABi45xSO+hhz0ABAFy9Bgw=
+  </data>
+ </layer>
+ <layer name="Boards" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2BggBcQewOxDwExXHIeBNTDQCAQBwFxMJI+dDF86nGJ4dPnQaI9xKintz0RQBwJxFEExLDJwezBp54awAMLHgWUAwCOrBgB
+  </data>
+ </layer>
+</map>

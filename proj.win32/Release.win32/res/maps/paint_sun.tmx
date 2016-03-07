@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="31" height="24" tilewidth="24" tileheight="24" nextobjectid="98">
+ <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
+  <image source="./res/sprites/tiles/walls.png" width="192" height="192"/>
+ </tileset>
+ <tileset firstgid="65" name="floor" tilewidth="24" tileheight="24" tilecount="42">
+  <image source="./res/sprites/tiles/floor.png" width="168" height="144"/>
+  <tile id="0">
+   <properties>
+    <property name="block" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="107" name="buckets" tilewidth="24" tileheight="24" tilecount="15">
+  <image source="./res/sprites/buckets.png" width="360" height="24"/>
+  <tile id="0">
+   <properties>
+    <property name="Red" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Blue1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Orange" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Yellow1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Black" value="true"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Blue2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Blue3" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Green1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Green2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="Green3" value="true"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="White" value="true"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="Red2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="Grey1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="Grey2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="Purple1" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="122" name="meta" tilewidth="24" tileheight="24" tilecount="2">
+  <image source="./res/sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
+  <tile id="0">
+   <properties>
+    <property name="Collidable" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="124" name="instructions" tilewidth="24" tileheight="24" tilecount="18">
+  <image source="./res/sprites/objects/instructions.png" width="144" height="72"/>
+ </tileset>
+ <tileset firstgid="142" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
+  <image source="./res/sprites/tiles/paintings as tiles.png" width="120" height="168"/>
+ </tileset>
+ <layer name="Floor" width="31" height="24">
+  <data encoding="base64" compression="zlib">
+   eJyFlVmOQyEMBPt48AX3P81kpCDVqzRJJPTC4q3dtneS+Vr7tcZrrbIf7/3G/cIa7zX1jmdT+0jX1KLuBflzfuzQty19A2f0I7inTsa68ozD9/RnF1uWOWcpWM48cbQexur4jLF1Evdo7+8vbHc+Y+J77hnTyTdxJc4NX+O2tOyvdRBH2jau5l3LC/3ZeeJtXccXYj7yyRHXzS0PI894+G1+kJPRu1X0tbr2Gf20L87/uSfmzUf3CcfsnPLdkF7vA/2M95cN22Nc7l/O3cEu6TmiDDlAPpuPLVc3LrG+t/Sab8ak9fdbDK3HMt9T711XW/9b/7fvzLPrzDVmHpsfnjnjIktfjQPfR3rME/pBG+7njJnYt1oh5sZ3SAftNP9vtdQ46LjdexlP467PG0fb7LGeFPk2Lzxvvs2WxqvmfyRPuV32Nxxcd643YsX6brOhcdVcus0185T2yc3ITuvnrlnH675wm4HNtnltW8SF8XnO2T5lzT/Wd8PKso2T7Ae+ty3Pk//fH3dT1e8=
+  </data>
+ </layer>
+ <layer name="Walls" width="31" height="24">
+  <data encoding="base64" compression="zlib">
+   eJzllbEKAkEMRKOeymGlV6mV3v//owmSJmSWvTDqgYHXpJiBbGYziMglsFeGpF8BaVn/pNwCI+hXQFrefwbOypT0KyAt9451Ve5Jv1JIC3k/lJnkjbSQ9zdqTd4bZavsyD6ZbvS2nbTsTWTvTDd6205a9lg73tKN3raTlj3Wjrd017Rr/+R9kPf+R1g583xFjoJvJStnnq/eG8rMmeer94ainKH5td7J89V7Q1Gh+VXeaak3ml/lnZZ6o/m13onlzaxfe6O/5dPY3/ICeFETdw==
+  </data>
+ </layer>
+ <layer name="Paintbuckets" width="31" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFgx0UIrErkdjZ9HbIKBgFo4BkkEcjc0tpZO4oGAWjYBRQCoqQ2MVI7BJ6O2QIAwBNIAOS
+  </data>
+ </layer>
+ <objectgroup name="SpawnObjects">
+  <object id="84" name="P1spawnPoint" x="96" y="456" width="24" height="48"/>
+  <object id="85" name="P2spawnPoint" x="48" y="96" width="24" height="48"/>
+  <object id="87" name="P3spawnPoint" x="624" y="456" width="24" height="48"/>
+  <object id="88" name="P4spawnPoint" x="672" y="96" width="24" height="48"/>
+ </objectgroup>
+ <layer name="Collision" width="31" height="24">
+  <data encoding="base64" compression="zlib">
+   eJyrYmBgqBrFdMfoAJc4OYBUOwbSbnqAwWQ3vjRADXuw2TVq98DZTU8w0u0mtqylhR2jdhNXv1FTDzX9QKpZo3bTDwwGuwcKAwCsKYVx
+  </data>
+ </layer>
+ <layer name="Painting" width="31" height="24">
+  <data encoding="base64" compression="zlib">
+   eJzt1jkOgDAMBVHufwz2HY7I0LkjJLGr/6RpncpWmua/ljrqaaAxY0auiWZaaKUt8O2dDjrpojvwbZFSdmej59qdrSllrt3ZmrzmiogPrxuYwusGfnn/a/ZWRf7XpMwDjTodAw==
+  </data>
+ </layer>
+ <layer name="paint_tiles" width="31" height="24" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2BwgEIgzobSlVA2ProAiaYUgMzJJxNTCgoH0O6B9Hf2ANo9kP4uHkC7i0btprvdo2AUjIJRQA4AAG7kQWI=
+  </data>
+ </layer>
+</map>
