@@ -1,5 +1,6 @@
 #include "ClientAppDelegate.h"
 #include "ClientDemoScene.h"
+#include "MenuScene.h"
 
 USING_NS_CC;
 
@@ -56,9 +57,11 @@ bool ClientAppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = ClientDemo::createScene();
+    //auto scene = ClientDemo::createScene();
+	auto scene = MenuScene::createMenu();
 
-    // run
+
+	// run
     director->runWithScene(scene);
 
     return true;

@@ -4,6 +4,13 @@ USING_NS_CC;
 //using boost::asio::ip::udp;
 using boost::asio::ip::tcp;
 
+///////////////////////// NEW CODE TO TRY
+int port = 10001;
+std::string ipaddress;
+int playerNumber;
+////////////////////////////////////////
+
+
 #define AUDIO_ON 1 //toggles all audio on/off
 #define MUSIC_ON 0 //toggles whether background music is on/off
 
@@ -22,6 +29,28 @@ Scene* ClientDemo::createScene()
 	// return the scene
 	return scene;
 }
+
+Scene* ClientDemo::createScene(std::string ipA, int playerNum)
+{
+	ipaddress = ipA; // NEW CODE TO TRY
+	playerNumber = playerNum; // NEW CODE TO TRY
+
+							  // 'scene' is an autorelease object
+	auto scene = Scene::create();
+
+	// 'layer' is an autorelease object
+	auto layer = ClientDemo::create();
+
+	// add layer as a child to scene
+	scene->addChild(layer);
+
+	// return the scene
+	return scene;
+}
+
+
+
+
 
 // on "init" you need to initialize your instance
 bool ClientDemo::init()
@@ -69,10 +98,15 @@ bool ClientDemo::init()
 
 	char mycp1[32];
 	char mycp2[32];
-	strncpy(mycp1, setupdata.ipaddress.c_str(), 32);
-	strncpy(mycp2, std::to_string(setupdata.port).c_str(), 32);
-	playernum = setupdata.level;
+	//strncpy(mycp1, setupdata.ipaddress.c_str(), 32);
+	//strncpy(mycp2, std::to_string(setupdata.port).c_str(), 32);
+	//playernum = setupdata.level;
 	//myendpoint = resolver.resolve({ tcp::v4(), mycp1, mycp2 });
+
+	strncpy(mycp1, ipaddress.c_str(), 32);  // NEW CODE TO TRY
+	strncpy(mycp2, std::to_string(port).c_str(), 32); // NEW CODE TO TRY
+	playernum = playerNumber; // NEW CODE TO TRY
+
 	CCLOG("setting player number");
 	CCLOG(std::to_string(playernum).c_str());
 	try
@@ -132,28 +166,28 @@ bool ClientDemo::init()
 	player1->setPlayernum(1);
 	player1->getTexture()->setAliasTexParameters();
 	player1->setAnchorPoint(Vec2(0.5, 0.0));
-	player1->setPosition(Vec2(-50, 50));
+	player1->setPosition(Vec2(playerOneSP["x"].asInt(), playerOneSP["y"].asInt()));
 	addChild(player1, 0);
 
 	player2 = Player::create(2);
 	player2->setPlayernum(2);
 	player2->getTexture()->setAliasTexParameters();
 	player2->setAnchorPoint(Vec2(0.5, 0.0));
-	player2->setPosition(Vec2(-50, 100));
+	player2->setPosition(Vec2(playerTwoSP["x"].asInt(), playerTwoSP["y"].asInt()));
 	addChild(player2, 0);
 
 	player3 = Player::create(3);
 	player3->setPlayernum(3);
 	player3->getTexture()->setAliasTexParameters();
 	player3->setAnchorPoint(Vec2(0.5, 0.0));
-	player3->setPosition(Vec2(-50, 150));
+	player3->setPosition(Vec2(playerThreeSP["x"].asInt(), playerThreeSP["y"].asInt()));
 	addChild(player3, 0);
 
 	player4 = Player::create(4);
 	player4->setPlayernum(4);
 	player4->getTexture()->setAliasTexParameters();
 	player4->setAnchorPoint(Vec2(0.5, 0.0));
-	player4->setPosition(Vec2(-50, 200));
+	player4->setPosition(Vec2(playerFourSP["x"].asInt(), playerFourSP["y"].asInt()));
 	addChild(player4, 0);
 
 	players.push_back(player1);
@@ -1393,6 +1427,7 @@ void ClientDemo::centerCamera()
 	if (NotInTransition) // CODE TO TRY
 	{
 		transitionManager.start_timer = 60;
+		//if((players[playernum -1]->getPositionX() > 320 && players[playernum - 1]->getPositionX() < (levelmanager.levelmap->getMapSize().width*24)-320) || (players[playernum - 1]->getPositionY() > 180 && players[playernum - 1]->getPositionY() < (levelmanager.levelmap->getMapSize().height * 24) - 180))
 		CCCamera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
 	}
 	else

@@ -1,0 +1,35 @@
+#ifndef __HOW_TO_PLAY__
+#define __HOW_TO_PLAY__
+
+#include "cocos2d.h"
+#include <cstdlib>
+#include <iostream>
+#include <fstream>
+#include "ClientDemoScene.h"
+
+USING_NS_CC;
+
+class HowToPlay : public cocos2d::Layer
+{
+private:
+	Sprite* Directions;
+	Sprite* PaintBuckets;
+	Sprite* HTP_D1;
+	Sprite* HTP_D2;
+	Sprite* HTP_D3;
+	Sprite* HTP_D4;
+	CCTMXTiledMap* HTPScreen;
+
+public:
+	static cocos2d::Scene* createHowToPlay();
+	static cocos2d::Scene* createHowToPlay(std::string ipa, int playernum); 
+	virtual bool init();
+	void menuCloseCallback(cocos2d::Ref * pSender);
+	void begin(cocos2d::Ref* sSender);
+
+	CREATE_FUNC(HowToPlay);
+
+};
+
+
+#endif // __HOW_TO_PLAY__
