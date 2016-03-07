@@ -116,5 +116,24 @@ void LevelManager::changeLevel(int level)
 		tilestartpoint = Vec2(230, 230);
 
 	}
+	else if (level == 5)
+	{
+		currentlevel = 5;
+		levelsprites.clear();
+		//std::string file = "res//maps//pteradactyl_room.tmx";
+		std::string file = "res//maps//game_over.tmx";
+		auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
+		levelmap = cocos2d::TMXTiledMap::createWithXML(str->getCString(), "");
+
+		//Sprite* wallpainting = Sprite::create("res/sprites/objects/pteradactyl_framed.png");
+		//wallpainting->getTexture()->setAliasTexParameters();
+		//wallpainting->setPosition(Vec2(370, 464));
+		//wallpainting->setScale(1.0f);
+		//levelsprites.push_back(wallpainting);
+
+		puzzle.changePuzzle(level);
+		tilestartpoint = Vec2(230, 230);
+
+	}
 
 }

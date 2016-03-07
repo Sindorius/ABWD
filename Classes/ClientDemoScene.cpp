@@ -1370,7 +1370,10 @@ void ClientDemo::loadLevel(int level)
 	addChild(levelmanager.levelmap, -1000);
 
 	blockage = levelmanager.levelmap->getLayer("Collision");
-	blockage->setVisible(false);
+	if (blockage != NULL)
+	{
+		blockage->setVisible(false);
+	}
 	villain->setPosition(Vec2(250, 150));
 	
 	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
@@ -1380,12 +1383,12 @@ void ClientDemo::loadLevel(int level)
 	if (spawnObjs == NULL) {
 		CCLOG("TMX map has SpawnObjects layer");
 	}
-
-	playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
-	playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
-	playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
-	playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
-
+	else {
+		playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
+		playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
+		playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
+		playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
+	}
 	////////////////////
 
 

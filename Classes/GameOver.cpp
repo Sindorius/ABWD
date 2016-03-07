@@ -34,7 +34,7 @@ bool GameOver::init()
 	titleScreen = cocos2d::TMXTiledMap::createWithXML(str->getCString(), "");
 	this->addChild(titleScreen, 0);
 
-	gameover = Sprite::create("res//sprites//ui//game_over.png");
+	gameover = Sprite::create("res//sprites//ui//game_overTitle.png");
 	gameover->setScale(0.25f);
 	gameover->setPosition(Vec2((int)winSizeWidth - 10, (int)winSizeHeight + 120));
 	this->addChild(gameover, 0);
@@ -44,8 +44,8 @@ bool GameOver::init()
 
 void GameOver::goToMainMenu(cocos2d::Ref* pSender)
 {
-	//auto scene = MenuScene::createMenu();
-	//CCDirector::getInstance()->replaceScene(scene);
+	auto scene = MenuScene::createMenu();
+	CCDirector::getInstance()->replaceScene(scene);
 }
 
 

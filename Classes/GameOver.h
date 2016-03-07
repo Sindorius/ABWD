@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <cstring>
 #include "cocos2d.h"
-//#include "MenuScene.h"
+#include "MenuScene.h"
 
 USING_NS_CC;
 

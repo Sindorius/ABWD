@@ -627,7 +627,10 @@ void ServerDemo::loadLevel(int level)
 	spawnObjs = levelmanager.levelmap->objectGroupNamed("SpawnObjects");
 
 	blockage = levelmanager.levelmap->getLayer("Collision");
-	blockage->setVisible(false);
+	if (blockage != NULL)
+	{
+		blockage->setVisible(false);
+	}
 	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
 	serversam->setPosition(Vec2(250, 150));
 	
@@ -690,6 +693,10 @@ void ServerDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 	case EventKeyboard::KeyCode::KEY_CAPITAL_O:
 	case EventKeyboard::KeyCode::KEY_O:
 		loadLevel(4);
+		break;
+	case EventKeyboard::KeyCode::KEY_CAPITAL_E:
+	case EventKeyboard::KeyCode::KEY_E:
+		loadLevel(5);
 		break;
 	case EventKeyboard::KeyCode::KEY_1:
 		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);
