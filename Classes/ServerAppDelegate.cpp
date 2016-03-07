@@ -38,7 +38,7 @@ bool ServerAppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = GLViewImpl::create("Horror Demo Server");
+        glview = GLViewImpl::create("A Brush With Danger Server");
         director->setOpenGLView(glview);
     }
 

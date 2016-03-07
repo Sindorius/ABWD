@@ -38,7 +38,7 @@ bool ClientAppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = GLViewImpl::create("Horror Demo Client");
+        glview = GLViewImpl::create("A Brush With Danger Client");
         director->setOpenGLView(glview);
     }
 
