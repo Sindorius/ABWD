@@ -122,11 +122,13 @@ void PlayerConnection::KeyP(EventKeyboard::KeyCode keyCode, Event* event)
 		IPLabel->setString(IPAddress);
 		break;
 	case EventKeyboard::KeyCode::KEY_BACKSPACE:
-		if (IPAddress != "") {
+		if (IPAddress.size() > 0)
+		{
 			IPAddress.erase(IPAddress.size() - 1);
 			IPLabel->setString(IPAddress);
-			break;
 		}
+		break;
+	}
 
 	event->stopPropagation();
 }
