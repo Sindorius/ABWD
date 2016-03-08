@@ -108,7 +108,7 @@
  </tileset>
  <layer name="Floor" width="21" height="14">
   <data encoding="base64" compression="zlib">
-   eJxzZGBgcByh2AOIPfHQ+ORw0f5AHICHJkYNOj3qTgjtMYjcia4On53+JIQ5se4kNRyJdScp4UhLdwIAR+9UIw==
+   eJxjYBjZwBOIPXDQ+OSw0TAQAMT+OGhPPHLY6FF3IuzwGETuRFZHKDz9iXSnJwnuJCUcSXEnseGI7k5qAwDSmjhC
   </data>
  </layer>
  <layer name="Walls" width="21" height="14">

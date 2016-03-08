@@ -108,7 +108,7 @@
  </tileset>
  <layer name="Floor" width="20" height="16">
   <data encoding="base64" compression="zlib">
-   eJylkzsOxTAIBH21lO/i0NlXiiJhaTQPF1EK5ISfF3Z9jTGuxqKsi72xWfa1z4Ml5Vvly0OM8Sgc+6R/ybJyFvAnYrsm4KfPljppE/el+hGDMRk7c4iXO+hmWYe+gZpQzc73HBOxHP/8TPXjfa7lP3lbyvdefsoPfXMv3qPvMdapno51+7I2uO+TJrr5jLPTdqdDctzpLdDH2MwL660rY8nigm/InHa74JzWjHnqtO1acuLzybsBKpzkdg==
+   eJzlkzkOwDAIBP3/h+EOvpQURppMaFMFaYUTcyyH1/qf5I19EDdK2Memjm77kk9L4V8M2NJEx84hHjmYk7nTps8te7gr6CluwCcUr+1dR+KOOZzf8WLw5XeuZz9oz76QX0Dz3LymPjoP+8f6PFtzcR7vC+uYdmKqzzwZz73hbDhj7xv3kvOgf6533z1bvyfvXwreOfaCdXpnvpALRi2q5g==
   </data>
  </layer>
  <layer name="Walls" width="20" height="16">

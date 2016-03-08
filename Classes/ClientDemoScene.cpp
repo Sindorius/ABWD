@@ -11,8 +11,8 @@ int playerNumber;
 ////////////////////////////////////////
 
 
-#define AUDIO_ON 0 //toggles all audio on/off
-#define MUSIC_ON 0 //toggles whether background music is on/off
+#define AUDIO_ON 1 //toggles all audio on/off
+#define MUSIC_ON 1 //toggles whether background music is on/off
 
 
 Scene* ClientDemo::createScene()
