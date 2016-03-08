@@ -103,7 +103,7 @@ public:
 	
 	void enqueueMessage(ServerMessage msg);
 
-	std::map<TCPSSession*, int> sessionmap;
+	boost::bimap<TCPSSession*, int> sessionmap;
 	bool sessionmapped[5] = { false };
 	char getActiveChars();
 

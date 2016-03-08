@@ -74,6 +74,16 @@ void TCPServer::sendPacket(ServerPositionPacket p)
 	
 }
 
+void TCPServer::sendPacket(ServerPositionPacket p, TCPSSession* s)
+{
+	std::ostringstream os2;
+	cereal::BinaryOutputArchive outar(os2);
+	outar(p);
+	outstringbuffer = os2.str();
+	s->writewithstringbuffer(outstringbuffer);
+}
+
+
 void TCPServer::addPlayer(int playernum)
 {
 	serverptr->addPlayerToGame(playernum);

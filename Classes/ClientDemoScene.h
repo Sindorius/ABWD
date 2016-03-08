@@ -28,6 +28,7 @@
 #include "LevelManager.hpp"
 #include "TransitionManager.h" // NEW CODE ADDED
 #include "MenuScene.h"
+#include "GameOver.h"
 
 USING_NS_CC;
 using boost::asio::ip::udp;
@@ -195,6 +196,8 @@ public:
 	void goToMainMenu(cocos2d::Ref* pSender);
 
 	void Joystick(cocos2d::Event*);
+	void ClientDemo::setVisiblePlayers(char activechars);
+	bool killsound = false;
 
 	~ClientDemo();
 	

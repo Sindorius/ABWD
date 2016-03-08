@@ -49,6 +49,7 @@ public:
 	void do_read();
 	void do_accept();
 	void sendPacket(ServerPositionPacket p);
+	void TCPServer::sendPacket(ServerPositionPacket p, TCPSSession* s);
 	void handle_accept(	const boost::system::error_code& error);
 	
 	void addPlayer(int playernum);

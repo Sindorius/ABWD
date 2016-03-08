@@ -353,7 +353,8 @@ void ServerDemo::update(float dt)
 		}
 		else if (levelmanager.currentlevel == 4)
 		{
-			loadLevel(5);
+			servermessagequeue.emplace_back(ServerMessage(15, 0, 0, 0));
+			loadLevel(1);
 		}
 
 		sendmap = true;
@@ -395,11 +396,23 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionpt
 {
 	if (!sessionmapped[p.playernum])
 	{
-		sessionmap.emplace(sessionptr, p.playernum);
+		//sessionmap.emplace(sessionptr, p.playernum);
+		sessionmap.insert(boost::bimap<TCPSSession*, int>::value_type(sessionptr, p.playernum));
 		sessionmapped[p.playernum] = true;
 		players[p.playernum - 1]->setVisible(true);
 		servermessagequeue.emplace_back(ServerMessage(12, 0, 0, p.playernum));
 	}
+	else
+	{
+		if (sessionmap.right.at(p.playernum) != sessionptr)
+		{
+			//if (sessionptr != sessionmap.at(p.playernum)->left())
+			//{
+				//send message to client of the players list;
+			//}
+		}
+	}
+
 
 	float dxmove = p.dx;
 	float dymove = p.dy;
@@ -427,8 +440,10 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionpt
 				auto w = tilemapvals["Collidable"].asString();
 
 				if ("true" == w) {
-					dxmove = -dxmove * 2;
-					dymove = -dymove * 2;
+					//dxmove = -dxmove * 2;
+					//dymove = -dymove * 2;
+					dxmove = 0;
+					dymove = 0;
 				}
 			}
 		}
@@ -461,7 +476,7 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionpt
 	}
 	else if (players[p.playernum - 1]->getPosition().x > playerPos.x) {
 		players[p.playernum - 1]->setAnim(playerstring + "right");
-		;
+		
 	}
 	else if (players[p.playernum - 1]->getPosition().x < playerPos.x) {
 		players[p.playernum - 1]->setAnim(playerstring + "left");
@@ -622,6 +637,15 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 
 void ServerDemo::loadLevel(int level)
 {
+	if (level == 5)
+	{
+		servermessagequeue.emplace_back(ServerMessage(15, 0, 0, 0));
+		loadLevel(1);
+		return;
+	}
+
+	
+	
 	servermessagequeue.emplace_back(ServerMessage(10, 0, 0, level));
 
 	for (Sprite* s : levelmanager.levelsprites)
@@ -1011,14 +1035,21 @@ void ServerDemo::addPlayerToGame(int playernum)
 void ServerDemo::removePlayerFromGame(TCPSSession* sessionptr)
 {
 	int theplayernum = -1;
-	auto it = sessionmap.find(sessionptr);
-	if (it != sessionmap.end())
-	{
-		theplayernum = it->second;
-		sessionmap.erase(it);
-		sessionmapped[theplayernum] = false;
+	//auto it = sessionmap.find(sessionptr);
+	//if (it != sessionmap.end())
+	//{
+	//	theplayernum = it->second;
+	//	sessionmap.erase(it);
+	//	sessionmapped[theplayernum] = false;
+	//}
+	//else { return; }
+	
+	try {
+		sessionmap.left.erase(sessionptr);
 	}
-	else { return; }
+	catch(std::out_of_range & e){
+		return;
+	}
 	players[theplayernum - 1]->setVisible(false);
 	enqueueMessage(ServerMessage(11, 0, 0, theplayernum));
 

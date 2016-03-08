@@ -170,6 +170,7 @@ bool ClientDemo::init()
 	player1->setAnchorPoint(Vec2(0.5, 0.0));
 	player1->setPosition(Vec2(playerOneSP["x"].asInt(), playerOneSP["y"].asInt()));
 	addChild(player1, 0);
+	player1->setVisible(false);
 
 	player2 = Player::create(2);
 	player2->setPlayernum(2);
@@ -177,6 +178,7 @@ bool ClientDemo::init()
 	player2->setAnchorPoint(Vec2(0.5, 0.0));
 	player2->setPosition(Vec2(playerTwoSP["x"].asInt(), playerTwoSP["y"].asInt()));
 	addChild(player2, 0);
+	player2->setVisible(false);
 
 	player3 = Player::create(3);
 	player3->setPlayernum(3);
@@ -184,6 +186,7 @@ bool ClientDemo::init()
 	player3->setAnchorPoint(Vec2(0.5, 0.0));
 	player3->setPosition(Vec2(playerThreeSP["x"].asInt(), playerThreeSP["y"].asInt()));
 	addChild(player3, 0);
+	player3->setVisible(false);
 
 	player4 = Player::create(4);
 	player4->setPlayernum(4);
@@ -191,6 +194,7 @@ bool ClientDemo::init()
 	player4->setAnchorPoint(Vec2(0.5, 0.0));
 	player4->setPosition(Vec2(playerFourSP["x"].asInt(), playerFourSP["y"].asInt()));
 	addChild(player4, 0);
+	player4->setVisible(false);
 
 	players.push_back(player1);
 	players.push_back(player2);
@@ -223,7 +227,6 @@ bool ClientDemo::init()
 	p1CLabel->enableStroke(ccColor3B(255, 0, 0), 20.0, true);
 	p1CLabel->enableShadow(CCSize(1, 0), 50.0, 0.0, true);
 	p1CLabel->setPosition(Vec2(player1->getPositionX() - 106, player1->getPositionY() - 108));
-	player1->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	p1CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 
 	player1->addChild(p1CLabel, 100);
@@ -231,7 +234,6 @@ bool ClientDemo::init()
 	p2CLabel = CCLabelTTF::create("P2", "fonts/Marker Felt.ttf", 9);
 	p2CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
 	p2CLabel->setPosition(Vec2(player2->getPositionX() - 58, player2->getPositionY() - 136));
-	player2->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	p2CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	player2->addChild(p2CLabel, 100);
 
@@ -239,7 +241,6 @@ bool ClientDemo::init()
 	p3CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
 	p3CLabel->setPosition(Vec2(player3->getPositionX() - 344, player3->getPositionY() - 114));
 	p3CLabel->setAnchorPoint(Vec2(0.5, 0.0));
-	player3->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	p3CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	player3->addChild(p3CLabel, 100);
 
@@ -247,7 +248,6 @@ bool ClientDemo::init()
 	p4CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
 	p4CLabel->setPosition(Vec2(player4->getPositionX() - 396, player4->getPositionY() - 136));
 	p4CLabel->setAnchorPoint(Vec2(0.5, 0.0));
-	player4->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	p4CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	player4->addChild(p4CLabel, 100);
 
@@ -274,25 +274,25 @@ bool ClientDemo::init()
 	if (playernum == 1)
 	{
 		playerOneActive = true;
-		player1->setOpacity(255);
+		player1->setVisible(true);
 		p1CLabel->setOpacity(255);
 	}
 	if (playernum == 2)
 	{
 		playerTwoActive = true;
-		player2->setOpacity(255);
+		player2->setVisible(true);
 		p2CLabel->setOpacity(255);
 	}
 	if (playernum == 3)
 	{
 		playerThreeActive = true;
-		player3->setOpacity(255);
+		player3->setVisible(true);
 		p3CLabel->setOpacity(255);
 	}
 	if (playernum == 4)
 	{
 		playerFourActive = true;
-		player4->setOpacity(255);
+		player4->setVisible(true);
 		p4CLabel->setOpacity(255);
 	}
 
@@ -365,7 +365,6 @@ void ClientDemo::update(float dt)
 	
 		CCLOG("outstringbuffer length");
 		CCLOG(std::to_string(outstringbuffer.length()).c_str());
-	
 		CCLOG("sending packet");
 		tcpsessionptr->writewithstringbuffer(outstringbuffer);
 		io_service_p->poll_one();
@@ -398,10 +397,11 @@ void ClientDemo::update(float dt)
 		villain->setZOrder(-villain->getPositionY());
 		pterodactyl->setOpacity(255);
 		pterodactyl->setZOrder(-pterodactyl->getPositionY());
+		candy->setZOrder(-candy->getPositionY());
 	}
 
 	////////// NEW CODE HERE!!!
-	if (playerOneActive == false) {
+	/*if (playerOneActive == false) {
 		if (player1->getPositionX() != playerOneSP["x"].asInt() || player1->getPositionY() != playerOneSP["y"].asInt()) {
 			playerOneActive = true;
 			player1->setOpacity(255);
@@ -428,7 +428,7 @@ void ClientDemo::update(float dt)
 			player4->setOpacity(255);
 			p4CLabel->setOpacity(255);
 		}
-	}
+	}*/
 	//////////////////////
 
 	////////////////////////////////////////////////////// NEW CODE
@@ -455,12 +455,20 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	{
 		processServerMessage(msg);
 	}
+//	if (killsound)
+	///{
+		//cocos2d::experimental::AudioEngine::stopAll();
+		//cocos2d::experimental::AudioEngine::end();
+		//return;
+	//}
 	if (currentlevel != p.level)
 	{
 		loadLevel(p.level);
 	}
 	
-
+	char activechars = p.activeplayers;
+	setVisiblePlayers(activechars);
+		
 	/* move players, with some client side prediction of your own character*/
 	if (playernum == 1)
 	{
@@ -561,6 +569,56 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	if (AUDIO_ON && SFX_ON)
 	{
 		processSound(p);
+	}
+}
+
+void ClientDemo::setVisiblePlayers(char activechars)
+{
+	char p1mask = 1;
+	char p2mask = 2;
+	char p3mask = 4;
+	char p4mask = 8;
+	
+	char p1there = p1mask & activechars;
+	char p2there = p2mask & activechars;
+	char p3there = p3mask & activechars;
+	char p4there = p4mask & activechars;
+	if (p1there == p1mask)
+	{
+		player1->setVisible(true);
+		p1CLabel->setOpacity(255);
+	}
+	else {
+		player1->setVisible(false);
+		p1CLabel->setOpacity(0);
+	}
+	if (p2there == p2mask)
+	{
+		player2->setVisible(true);
+		p2CLabel->setOpacity(255);
+	}
+	else {
+		player2->setVisible(false);
+		p2CLabel->setOpacity(0);
+	}
+	if (p3there == p3mask)
+	{
+		player3->setVisible(true);
+		p3CLabel->setOpacity(255);
+	}
+	else {
+		player3->setVisible(false);
+		p3CLabel->setOpacity(0);
+
+	}
+	if (p4there == p4mask)
+	{
+		player4->setVisible(true);
+		p4CLabel->setOpacity(255);
+	}
+	else {
+		player4->setVisible(false);
+		p4CLabel->setOpacity(0);
 	}
 }
 
@@ -747,22 +805,24 @@ void ClientDemo::updateTilesFromPacket(ServerPositionPacket p)
 void ClientDemo::processServerMessage(ServerMessage msg)
 {
 	/*character messagechar, float xpos, float ypos, char status
-		0. Assign Player Number, unused, unused, new player number
-		1. Player 1 pos, xpos, ypos, animation #
-		2. Player 2 pos, xpos, ypos, animation #
-		3. Player 3 pos, xpos, ypos, animation #
-		4. Player 4 pos, xpos, ypos, animation #
-		5. Sam pos, xpos, ypos, animation #
-		6. Ptera pos, xpos, ypos, animmation #
-		7. Candy pos, xpos, ypos, unused
-		8. Got candy, unused, unused, player #
-		9. Candy wore off, unused, unused, player #
-		10. Change Level, unused, unused, new level #
-		11. Drop Player, unused, unused, player #
-		12. Player Joined, unused, unused, player #
-		13. Sam hit player, unused, unused, player #
-		14. Ptero hit player, unused, unused, player #
+	0. Assign Player Number, unused, unused, new player number
+	1. Player 1 pos, xpos, ypos, animation #
+	2. Player 2 pos, xpos, ypos, animation #
+	3. Player 3 pos, xpos, ypos, animation #
+	4. Player 4 pos, xpos, ypos, animation #
+	5. Sam pos, xpos, ypos, animation #
+	6. Ptera pos, xpos, ypos, animmation #
+	7. Candy pos, xpos, ypos, unused
+	8. Got candy, unused, unused, player #
+	9. Candy wore off, unused, unused, player #
+	10. Change Level, unused, unused, new level #
+	11. Drop Player, unused, unused, player #
+	12. Player Joined, unused, unused, player #
+	13. Sam hit player, unused, unused, player #
+	14. Ptero hit player, unused, unused, player #
+	15. Go to win game, unused, unused, unused	
 	*/
+	
 	if(msg.messagechar == 0)
 	{
 		playernum = msg.status;
@@ -811,6 +871,15 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 			gSFX.pTrigs[msg.status - 1].ptCollide = true;
 			pIFrames[msg.status - 1] = 1 * 30; //2 seconds at 30 fps
 		}
+	}
+	else if (msg.messagechar == 15)
+	{
+		_eventDispatcher->removeAllEventListeners();
+		cocos2d::experimental::AudioEngine::stopAll();
+		auto scene = GameOver::createGameOver();
+		CCDirector::getInstance()->replaceScene(scene);
+		killsound = true;
+		
 	}
 }
 
@@ -2075,6 +2144,8 @@ void ClientDemo::goToMainMenu(cocos2d::Ref* pSender)
 
 ClientDemo::~ClientDemo()
 {
+	cocos2d::experimental::AudioEngine::stopAll();
+	cocos2d::experimental::AudioEngine::end();
 
 	if (tcpsessionptr)
 		delete tcpsessionptr;
