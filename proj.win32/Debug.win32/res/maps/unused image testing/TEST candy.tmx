@@ -100,7 +100,7 @@
  <tileset firstgid="124" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
   <image source="../../sprites/tiles/paintings as tiles.png" width="120" height="168"/>
  </tileset>
- <tileset firstgid="159" name="TEST" tilewidth="24" tileheight="24" tilecount="34">
+ <tileset firstgid="159" name="TEST" tilewidth="24" tileheight="24" tilecount="35">
   <tile id="0">
    <image width="24" height="24" source="../../sprites/objects/tile_black_paint_correct.png"/>
   </tile>
@@ -203,13 +203,16 @@
   <tile id="33">
    <image width="24" height="24" source="../../sprites/objects/tile_yellow3_paint_incorrect.png"/>
   </tile>
+  <tile id="34">
+   <image width="24" height="24" source="../../sprites/paint_overlay_dry.png"/>
+  </tile>
  </tileset>
- <tileset firstgid="193" name="candy_wall" tilewidth="24" tileheight="24" tilecount="40">
+ <tileset firstgid="194" name="candy_wall" tilewidth="24" tileheight="24" tilecount="40">
   <image source="../../sprites/tiles/candy_wall.png" width="192" height="120"/>
  </tileset>
  <layer name="Floor" width="20" height="16">
   <data encoding="base64" compression="zlib">
-   eJzlkzEOwCAMA/ka/9+TjXylDEQ6uWbr1kpWaUhtJ4E5xpg/Qm7ERp33OgigAOYU1s2TB46vBJ3r9kN4EjrMKdFsH4E1/Ybh0FqZn/hmjF61X9R09a2LluPXeliH+if3kn80Ts+MUZ+eu8edl4Zb9W9enG/q6KxcTPvH88FanPYSuNnp3NibMBw13n44O9139ymRo2dA62yOr58Hlrncfg==
+   eJzlksENxDAIBN1a+i8AfqaU5CQjjSbc734XaRXAeFnA11rr+iPkg3hQ578PAiiAOQW7efJg4iuhc6fzEE/npXLI03bgjvXGwOFemZ/wGaNWz4s1p/7oe5bmdz/sw/rJvXXHcWpmjPWpuWfceTlwu/43LZNu1vGuppjnx/fBXqbaW5h2571xNjFw1Hrr4e583r7fSsnmTLbsz9mvvxult91u
   </data>
  </layer>
  <layer name="Walls" width="20" height="16">
@@ -233,14 +236,19 @@
    eJyrYmBgqBphmFpg1LxR80bNo7951MQAhEQxkQ==
   </data>
  </layer>
- <layer name="paint_tiles" width="20" height="16">
+ <layer name="paint_tiles" width="20" height="16" visible="0">
   <data encoding="base64" compression="zlib">
    eJxjYBgFgx0sh+LtQLwbSi/HgkkxD2YOMk2ueTD9O6H6duJwJ6nmIetdi0WcWIDLPejixAJc7kEXJ8U8mHuwxSvMnaOA+gAAwtQv7Q==
   </data>
  </layer>
+ <layer name="Tile Layer 8" width="20" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFgx0cJBKPmjc4zGNgGFj3jQLiAQDjFjQG
+  </data>
+ </layer>
  <layer name="Painting" width="20" height="16">
   <data encoding="base64" compression="zlib">
-   eJw7wsDAcIlK+CgQnwbiW1TCJ6HmPaIShplHLTBq3qh5o+bR17xjQHyISvg4EAMA0ZdUzw==
+   eJw7ysDAcJlK+BgQnwHi21TCp6DmPaYShplHLTBq3qh5o+bR17zjQHyYSvgEEAMAGgVVNw==
   </data>
  </layer>
  <layer name="Oops" width="20" height="16">

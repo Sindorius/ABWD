@@ -106,7 +106,7 @@
  <tileset firstgid="177" name="outside_wall" tilewidth="24" tileheight="24" tilecount="40">
   <image source="../../sprites/tiles/outside_wall.png" width="192" height="120"/>
  </tileset>
- <tileset firstgid="217" name="s" tilewidth="24" tileheight="24" tilecount="34">
+ <tileset firstgid="217" name="s" tilewidth="24" tileheight="24" tilecount="35">
   <tile id="0">
    <image width="24" height="24" source="../../sprites/objects/tile_black_paint_correct.png"/>
   </tile>
@@ -209,6 +209,9 @@
   <tile id="33">
    <image width="24" height="24" source="../../sprites/objects/tile_yellow3_paint_incorrect.png"/>
   </tile>
+  <tile id="34">
+   <image width="24" height="24" source="../../sprites/paint_overlay_dry.png"/>
+  </tile>
  </tileset>
  <layer name="Floor" width="31" height="24">
   <data encoding="base64" compression="zlib">
@@ -238,12 +241,17 @@
  </layer>
  <layer name="paint_tiles" width="31" height="24">
   <data encoding="base64" compression="zlib">
-   eJzFlk9rwzAMxf39v822bqMM9qe7pN3Fy1rYrYSSYyk5jF4nUYk+NKlzgscED7uq+37BtqrMUkob0lrE81vSDHILyS/MXEdcswE/9MJ1a8k/kJ5JKxjnkud5hnyGMZvvszPPxmsFHM1/khoZW9Ij6UnmLeRVjaMWPBqYWy+Vsm0sSW9OfkpEXhH7nfRRiR15RWwbW9Ig4550CMYtjL9FKRt9I+4A64YJ7CvSNenGrPO4B2GoLB/D87Xsl3Sqv1fzW497BHl8DM/XsvlOcv3Ze6l+yP0CeXwMz9ey+U5y7dl7eYkb8TE839K7tiP16bzHEVufrS/wLGV3wsdn8Ng9rKvNjp7haL7vCtl36XT/rbAeugv8XfrJRbbWl9V9Ovc37H1enU0NrS/s0fwZeygL+2TNXoK9U/31vG0v9OqMI9o/75w0tL60p2o/Lr1rGrx/+O6he6hnNeacxrJx//A9Z8o5jWXbc8H3k+icarFrxn+zo/+Wvxb/t3wDsEhNnw==
+   eJzlVl0LwjAM7P//N+pURPBjvsz5UucG/hdfTFiDR0jRdRUHBo7GOO6gSXYrnHMdoQ3gfEkooFaGeqlyOfGZDviQC59rQ31LOBBqODehzrmHuofTq/+9kXvFVYOO1O+EKpwNYUfYh7yBuqAy0ABHBbnmEoi2jjPhYtRTIsYV074Sbpm0Y1wxbR2PBLyLKWnPCHPCIrO2xau1j67fv1NmbYtXa/NM8v7puRyrbfFqbZ5J3j09l2O1Ld4pzdo/aa9cP/8auA9jtGW/NNbu5W/ofdaepYbsF3o0/0YPZaBP5vQS9E7hl35rL7T2jCN2f1afJGS/xFPFjz+dNQm+P/z2kDuUXg3p01BtvD/8zknp01Bt3Rf8Pon1KZd2zvi1duzd8m3wu+UJVRdU9w==
   </data>
  </layer>
  <layer name="Painting" width="31" height="24">
   <data encoding="base64" compression="zlib">
    eJzt1jkOgDAMBVHufwz2HY7I0LkjJLGr/6RpncpWmua/ljrqaaAxY0auiWZaaKUt8O2dDjrpojvwbZFSdmej59qdrSllrt3ZmrzmiogPrxuYwusGfnn/a/ZWRf7XpMwDjTodAw==
+  </data>
+ </layer>
+ <layer name="Tile Layer 7" width="31" height="24" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJzt0LEKwCAMRdH8/0+KiGORDMW1DkofNikU3tAhF4JDxRMqEkX/KY3ReR5jmnMmOFnhu56rcE+JtuW2aazZfVaW22Esn9V6D90TxvJZvbmez6qMqXL/Y89eu1WinaePO1h2hXts29uhb98z2fb8Ik+XaUdRFH3tAvCceB8=
   </data>
  </layer>
 </map>
