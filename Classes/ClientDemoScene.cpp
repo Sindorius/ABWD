@@ -142,13 +142,13 @@ bool ClientDemo::init()
 		CCLOG(e.what());
 	}
 
-	
+
 	levelmanager.changeLevel(1);
 	addChild(levelmanager.levelmap, -1000);
 	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
 	blockage = levelmanager.levelmap->getLayer("Collision");
 	blockage->setVisible(false);
-	
+
 	//////////////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	spawnObjs = levelmanager.levelmap->objectGroupNamed("SpawnObjects");
 
@@ -220,13 +220,13 @@ bool ClientDemo::init()
 
 	// Player Label Creation
 	p1CLabel = CCLabelTTF::create("P1", "fonts/Marker Felt.ttf", 9);
-	p1CLabel->enableStroke(ccColor3B(255,0,0),20.0, true);
-	p1CLabel->enableShadow(CCSize(1,0), 50.0, 0.0, true);
-	p1CLabel->setPosition(Vec2(player1->getPositionX()-106, player1->getPositionY()-108));
+	p1CLabel->enableStroke(ccColor3B(255, 0, 0), 20.0, true);
+	p1CLabel->enableShadow(CCSize(1, 0), 50.0, 0.0, true);
+	p1CLabel->setPosition(Vec2(player1->getPositionX() - 106, player1->getPositionY() - 108));
 	player1->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	p1CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 
-	player1->addChild(p1CLabel,100);
+	player1->addChild(p1CLabel, 100);
 
 	p2CLabel = CCLabelTTF::create("P2", "fonts/Marker Felt.ttf", 9);
 	p2CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
@@ -250,7 +250,7 @@ bool ClientDemo::init()
 	player4->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	p4CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
 	player4->addChild(p4CLabel, 100);
-	
+
 	tileHighlight = Sprite::create("res//sprites//select_tile.png");
 	tileHighlight->setPosition(0, 0);
 	addChild(tileHighlight, -900);
@@ -265,11 +265,36 @@ bool ClientDemo::init()
 
 	// Initialize painting area 
 	setupPaintTiles();
-	
+
 	if (AUDIO_ON)
 	{
 		initializeSound(); //all sound initialization is in here now, cleaner
-	} 
+	}
+
+	if (playernum == 1)
+	{
+		playerOneActive = true;
+		player1->setOpacity(255);
+		p1CLabel->setOpacity(255);
+	}
+	if (playernum == 2)
+	{
+		playerTwoActive = true;
+		player2->setOpacity(255);
+		p2CLabel->setOpacity(255);
+	}
+	if (playernum == 3)
+	{
+		playerThreeActive = true;
+		player3->setOpacity(255);
+		p3CLabel->setOpacity(255);
+	}
+	if (playernum == 4)
+	{
+		playerFourActive = true;
+		player4->setOpacity(255);
+		p4CLabel->setOpacity(255);
+	}
 
 	auto joyListener = EventListenerJoystick::create();
 	joyListener->onEvent = CC_CALLBACK_1(ClientDemo::Joystick, this);
@@ -283,6 +308,7 @@ bool ClientDemo::init()
 	_eventDispatcher->addEventListenerWithFixedPriority(keyListener, 2);
 
 	this->scheduleUpdate();
+
 	return true;
 }
 
