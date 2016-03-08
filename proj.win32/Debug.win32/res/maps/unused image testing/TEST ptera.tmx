@@ -100,7 +100,7 @@
  <tileset firstgid="124" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
   <image source="../../sprites/tiles/paintings as tiles.png" width="120" height="168"/>
  </tileset>
- <tileset firstgid="159" name="s" tilewidth="24" tileheight="24" tilecount="34">
+ <tileset firstgid="159" name="s" tilewidth="24" tileheight="24" tilecount="35">
   <tile id="0">
    <image width="24" height="24" source="../../sprites/objects/tile_black_paint_correct.png"/>
   </tile>
@@ -203,23 +203,26 @@
   <tile id="33">
    <image width="24" height="24" source="../../sprites/objects/tile_yellow3_paint_incorrect.png"/>
   </tile>
+  <tile id="34">
+   <image width="24" height="24" source="../../sprites/paint_overlay_dry.png"/>
+  </tile>
  </tileset>
- <tileset firstgid="193" name="ptera_wall" tilewidth="24" tileheight="24" tilecount="40">
+ <tileset firstgid="194" name="ptera_wall" tilewidth="24" tileheight="24" tilecount="40">
   <image source="../../sprites/tiles/ptera_wall.png" width="192" height="120"/>
  </tileset>
  <layer name="Floor" width="25" height="15">
   <data encoding="base64" compression="zlib">
-   eJyFlEESxCAIBP2a/7/jDb6y2Sqt6vSS7IGKGsBhBpxjjHlZ7O+6LPc+9vp7VlgHfHLH/bMTu5SnYEsWijs4JmJXk7fDH/iXii3FhPzIDXHVw53O7bq6mgrraHxZR4x7Pa6T+M11h5v8ED/1Mf5schp34DzHr970r3HXoV7OjPWNA3N//FN5qBV5450lP/LCWvkvdC/zndnJ0fNainMNXV+xN06eOX71Mn73CTVjX3b9ZS49a9aktOe5Z9T96tnstDDHrrvDyDqe3jzr3c0ne6XTPh9yec48W353PRvnyzf3A8NHNGM=
+   eJyFlFEOxCAIRL2a9z8A/sFRtpto8vqWdj9IlQLODOgcY8zLYn/XZbn3sddfX2EdiMmd989O7lKdgi1ZKO/gmMhdTd0Of+BfKreUE4qjNsRFTZjv2ubVcSqso4kljxh3PuZJ/Na6w019iJ/9Mf5sahp3wJ/jt9+Mr3HvQ734jPVNA2t/4lN12CvqxjNLcdSFXPmP+1S9c3fYiyf+PKtGz40zSExz/PbL+D0n7Bnnspsva+m75p6U9vT7jnpefTe7Xlhj8+4wksfTm8czmL+U080CeXS16sFHXbp7lPLzzf0Av381xw==
   </data>
  </layer>
  <layer name="Tile Layer 7" width="25" height="15" visible="0">
   <data encoding="base64" compression="zlib">
-   eJy7x8DAcG8Uj+JRPIpH8bDCAICxRUI=
+   eJy7z8DAcH8Uj+JRPIpH8bDCAM59Rrk=
   </data>
  </layer>
  <layer name="Walls" width="25" height="15">
   <data encoding="base64" compression="zlib">
-   eJzdkz0OgCAMhXv/W6moMU7qJE4qBo5hSUp8UdlggeRLf0LeG9oqIpoz0jIjYxnHaMk11O7VC7WN/MHoGcTjYoxExED/L4/VSPDI+Ury6JhaaBLpVqDZM4qePVsSeUz03V0tbIk8VtAM8ziEM5HHDpol7VUpHngfOfD3cQMSXniq
+   eJzdkz0OgCAMhXv/Y6moMU7qJE4qBm5hSUp8UdlggeRLf0LeG9oqIpoz0jIjYxnHaMk11O7VC7WN/MHoGcTjYoxExED/L4/VSPDI+Ury6JhaaBLpVqDZM4qePVsSeUz03V0tbIk8VtAM8ziEM5HHDpol7VUpHngfOfD3cQMdgHk8
   </data>
  </layer>
  <layer name="Paintbuckets" width="25" height="15">
@@ -243,9 +246,14 @@
    eJxjYCAeNANxCxC3kqCHVNABxJ1A3EVDO3qBuA+I+2loxyigD6B2msRmHrXTJDbzqJ0mR9P4KAAA3asOdA==
   </data>
  </layer>
- <layer name="paint_tiles" width="25" height="15">
+ <layer name="paint_tiles" width="25" height="15" visible="0">
   <data encoding="base64" compression="zlib">
    eJztkUsKACEMQ3v/W8yiBJlLDmUUQjGbdiUYCPiB98Sa3dz8eVLHbN7zWdWxY8X6neV3VBzBAvGZnfkoOIao4nf+ajGUE9afR9SFB9abhxN/FeRCuvOiY1fFrzhOywf9n0Mx
+  </data>
+ </layer>
+ <layer name="Tile Layer 8" width="25" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFowACDpKBR+0YtWOk2DHUAABxNE5p
   </data>
  </layer>
 </map>
