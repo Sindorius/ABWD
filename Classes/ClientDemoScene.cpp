@@ -11,8 +11,9 @@ int playerNumber;
 ////////////////////////////////////////
 
 
-#define AUDIO_ON 0 //toggles all audio on/off
-#define MUSIC_ON 0 //toggles whether background music is on/off
+#define AUDIO_ON 1 //toggles all audio on/off
+#define MUSIC_ON 1 //toggles whether background music is on/off
+#define SFX_ON 1 //toggles sfx on/off
 
 
 Scene* ClientDemo::createScene()
@@ -266,74 +267,8 @@ bool ClientDemo::init()
 	
 	if (AUDIO_ON)
 	{
-		//soundIDList index values are significant:
-		// soundIDList[0] = paint
-		// soundIDList[1] = sam_playerhit
-		// soundIDList[2] = sam_teleport
-		// soundIDList[3] = sam_reappear
-		// soundIDList[4] = sam_whistle
-		// soundIDList[5] = ptero_swoop
-		// soundIDList[6] = get_paint
-		// soundIDList[7] = player_candy_pickup
-		// soundIDList[8] = sam_munch
-		// soundIDList[9] = player_candy_lost
-		// soundIDList[10] = puzzle_solved
-		// soundIDList[11] = ptero_swoop_fast
-
-		//initalize player sfx triggers to false
-		for (int i = 0; i < 3; i++)
-		{
-			gSFX.pTrigs[i].onBucket = false;
-			gSFX.pTrigs[i].onGrid = false;
-			gSFX.pTrigs[i].gotCandy = false;
-			gSFX.pTrigs[i].lostCandy = false;
-		}
-		gSFX.levelChange = false;
-
-		experimental::AudioEngine::preload("\\res\\sound\\sfx\\paint.mp3");
-		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_playerhit.mp3");
-		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_teleport.mp3");
-		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_reappear.mp3");
-		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_whistle.mp3");
-		experimental::AudioEngine::preload("\\res\\sound\\sfx\\ptero_swoop.mp3");
-		experimental::AudioEngine::preload("\\res\\sound\\sfx\\get_paint.mp3");
-		experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_candy_pickup.mp3");
-		experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_munch.mp3");
-		experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_candy_lost.mp3");
-		experimental::AudioEngine::preload("\\res\\sound\\sfx\\puzzle_solved.mp3");
-		experimental::AudioEngine::preload("\\res\\sound\\sfx\\ptero_swoop_fast.mp3");
-		experimental::AudioEngine::preload("\\res\\sound\\sfx\\ptero_playerhit.mp3");
-
-
-		//can probably remove code chunk below by initialzing soundIDList to AudioEngine::INVALID_AUDIO_ID
-		//then checking for that in audio sound checks in processSound()
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3", false, 0.0f));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_playerhit.mp3", false, 0.0f));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_teleport.mp3", false, 0.0f));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_reappear.mp3", false, 0.0f));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_whistle.mp3", false, 0.0f));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop.mp3", false, 0.0f));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\get_paint.mp3", false, 0.0f));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_pickup.mp3", false, 0.0f));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_munch.mp3", false, 0.0f));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_lost.mp3", false, 0.0f));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\puzzle_solved.mp3", false, 0.0f));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop_fast.mp3", false, 0.0f));
-		soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.0f));
-
-		for (unsigned int i = 0; i < soundIDList.size(); i++)
-		{
-			isSFXPlaying.push_back(false);
-		}
-
-		if (MUSIC_ON)
-		{
-			//run background music
-			experimental::AudioEngine::preload("\\res\\sound\\music\\music_1.mp3");
-			experimental::AudioEngine::play2d("\\res\\sound\\music\\music_1.mp3", true, 0.5);
-
-		}
-	}
+		initializeSound(); //all sound initialization is in here now, cleaner
+	} 
 
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(ClientDemo::KeyDown, this);
@@ -590,7 +525,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	//CCLOG(std::to_string(currenttilevector[0][0]).c_str());
 	//CCLOG(std::to_string(p.tilevector[0][0]).c_str());
 
-	if (AUDIO_ON)
+	if (AUDIO_ON && SFX_ON)
 	{
 		processSound(p);
 	}
@@ -1482,13 +1417,15 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	//
 	//	3. Recode processSound() to no longer need a parameter.
 	//
-	//	4. Use Server Messages for audio triggers - specifically
-	//	for grid detection.
+	//	4. Use Server Messages for grid detection.
 	//
-	//	3. Volume of various SFX need a little more adjustment.
+	//	5. Volume of various SFX need a little more adjustment.
 	//
-	//	4. Idle Player check is hack-fixed for now, will implement
+	//	6. Idle Player check is hack-fixed for now, will implement
 	//	better later.
+	//
+	//	7. Strange bug where sometimes sam_playerhit always plays
+	//	instead of paint. Fixed by resetting game.
 	//============================================================
 
 	// GOOD REFERENCES FOR AUDIO CODING
@@ -1512,6 +1449,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	// soundIDList[10] = puzzle_solved
 	// soundIDList[11] = ptero_swoop_fast
 	// soundIDList[12] = ptero_playerhit
+	// soundIDList[13] = player_footsteps
 
 	//these callbacks only work if theyre outside for loops.
 	experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
@@ -1557,7 +1495,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 				gSFX.pTrigs[i].ptCollide = false;
 			}
 		}
-	} 
+	}
 	//If Sam or pterodactyl touches a player - end
 
 
@@ -1627,10 +1565,40 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	// soundIDList[10] = puzzle_solved
 	// soundIDList[11] = ptero_swoop_fast
 	// soundIDList[12] = ptero_playerhit
+	// soundIDList[13] = player_footsteps
 
 
 	//switch used here in case further animation states are created. modular switch-cases superior.
 	switch (p.p1anim) {
+		//case 1-4 are walking in the 4 directions
+	case 1:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
+	case 2:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
+	case 3:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
+	case 4:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
 	case 5: //p1paint
 		if (gSFX.pTrigs[0].onBucket == true) //if the player is on a bucket
 		{
@@ -1660,9 +1628,45 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			gSFX.pTrigs[0].onGrid = false;
 		}
 		break;
+	case 35:
+		if (isSFXPlaying[13] == true)
+		{
+			experimental::AudioEngine::stop(soundIDList[13]);
+			isSFXPlaying[13] = false;
+		}
+		break;
 	default: break;
 	}
 	switch (p.p2anim) {
+		//case 7-10 are walking in the 4 directions
+	case 7:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
+	case 8:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
+	case 9:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
+	case 10:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
 	case 11: //p1paint
 		if (gSFX.pTrigs[1].onBucket == true) //if the player is on a bucket
 		{
@@ -1675,7 +1679,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 					isSFXPlaying[6] = false;
 				});
 			}
-			gSFX.pTrigs[1].onBucket = false; 
+			gSFX.pTrigs[1].onBucket = false;
 		}
 		else if (gSFX.pTrigs[1].onGrid == true) //if player is on grid
 		{
@@ -1692,9 +1696,46 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			gSFX.pTrigs[1].onGrid = false;
 		}
 		break;
+	//case 36:
+	//	if (isSFXPlaying[13] == true)
+	//	{
+	//		experimental::AudioEngine::stop(soundIDList[13]);
+	//		isSFXPlaying[13] = false;
+	//	}
+		break;
 	default: break;
 	}
-	switch (p.p3anim) {
+	switch (p.p3anim)
+	{
+		//case 13-16 are walking in the 4 directions
+	case 13:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
+	case 14:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
+	case 15:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
+	case 16:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
 	case 17: //p1paint
 		if (gSFX.pTrigs[2].onBucket == true) //if the player is on a bucket
 		{
@@ -1707,7 +1748,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 					isSFXPlaying[6] = false;
 				});
 			}
-			gSFX.pTrigs[2].onBucket = false; 
+			gSFX.pTrigs[2].onBucket = false;
 		}
 		else if (gSFX.pTrigs[2].onGrid == true) //if player is on grid
 		{
@@ -1724,9 +1765,45 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			gSFX.pTrigs[2].onGrid = false;
 		}
 		break;
+	//case 37:
+	//	if (isSFXPlaying[13] == true)
+	//	{
+	//		experimental::AudioEngine::stop(soundIDList[13]);
+	//		isSFXPlaying[13] = false;
+	//	}
+	//	break;
 	default: break;
-	}
+}
 	switch (p.p4anim) {
+			//case 13-16 are walking in the 4 directions
+	case 19:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
+	case 20:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
+	case 21:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
+	case 22:
+		if (isSFXPlaying[13] == false)
+		{
+			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
+			isSFXPlaying[13] = true;
+		}
+		break;
 	case 23: //p1paint
 		if (gSFX.pTrigs[3].onBucket == true) //if the player is on a bucket
 		{
@@ -1756,6 +1833,13 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			gSFX.pTrigs[3].onGrid = false;
 		}
 		break;
+	//case 38:
+	//	if (isSFXPlaying[13] == true)
+	//	{
+	//		experimental::AudioEngine::stop(soundIDList[13]);
+	//		isSFXPlaying[13] = false;
+	//	}
+	//	break;
 	default: break;
 	}
 	switch (p.vanim) {
@@ -1903,4 +1987,85 @@ ClientDemo::~ClientDemo()
 	//if (myudpinterfacep)
 	//	delete myudpinterfacep;
 
+}
+
+void ClientDemo::initializeSound()
+{
+	if (AUDIO_ON)
+	{
+		//soundIDList index values are significant:
+		// soundIDList[0] = paint
+		// soundIDList[1] = sam_playerhit
+		// soundIDList[2] = sam_teleport
+		// soundIDList[3] = sam_reappear
+		// soundIDList[4] = sam_whistle
+		// soundIDList[5] = ptero_swoop
+		// soundIDList[6] = get_paint
+		// soundIDList[7] = player_candy_pickup
+		// soundIDList[8] = sam_munch
+		// soundIDList[9] = player_candy_lost
+		// soundIDList[10] = puzzle_solved
+		// soundIDList[11] = ptero_swoop_fast
+		// soundIDList[12] = ptero_playerhit
+		// soundIDList[13] = player_footsteps
+
+		if (SFX_ON)
+		{
+			//initalize player sfx triggers to false
+			for (int i = 0; i < 3; i++)
+			{
+				gSFX.pTrigs[i].onBucket = false;
+				gSFX.pTrigs[i].onGrid = false;
+				gSFX.pTrigs[i].gotCandy = false;
+				gSFX.pTrigs[i].lostCandy = false;
+			}
+			gSFX.levelChange = false;
+
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\paint.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_playerhit.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_teleport.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_reappear.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_whistle.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\ptero_swoop.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\get_paint.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_candy_pickup.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_munch.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_candy_lost.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\puzzle_solved.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\ptero_swoop_fast.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\ptero_playerhit.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_footsteps.mp3");
+
+
+			//can probably remove code chunk below by initialzing soundIDList to AudioEngine::INVALID_AUDIO_ID
+			//then checking for that in audio sound checks in processSound()
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3", false, 0.0f));
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_playerhit.mp3", false, 0.0f));
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_teleport.mp3", false, 0.0f));
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_reappear.mp3", false, 0.0f));
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_whistle.mp3", false, 0.0f));
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop.mp3", false, 0.0f));
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\get_paint.mp3", false, 0.0f));
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_pickup.mp3", false, 0.0f));
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_munch.mp3", false, 0.0f));
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_lost.mp3", false, 0.0f));
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\puzzle_solved.mp3", false, 0.0f));
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop_fast.mp3", false, 0.0f));
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.0f));
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", false, 0.0f));
+
+			for (unsigned int i = 0; i < soundIDList.size(); i++)
+			{
+				isSFXPlaying.push_back(false);
+			}
+		}
+
+		if (MUSIC_ON)
+		{
+			//run background music
+			experimental::AudioEngine::preload("\\res\\sound\\music\\music_1.mp3");
+			experimental::AudioEngine::play2d("\\res\\sound\\music\\music_1.mp3", true, 0.5);
+
+		}
+	}
 }
