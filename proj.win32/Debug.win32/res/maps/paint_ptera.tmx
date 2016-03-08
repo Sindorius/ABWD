@@ -103,19 +103,17 @@
  <tileset firstgid="142" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
   <image source="./res/sprites/tiles/paintings as tiles.png" width="120" height="168"/>
  </tileset>
+ <tileset firstgid="177" name="ptera_wall" tilewidth="24" tileheight="24" tilecount="40">
+  <image source="./res/sprites/tiles/ptera_wall.png" width="192" height="120"/>
+ </tileset>
  <layer name="Floor" width="25" height="15">
   <data encoding="base64" compression="zlib">
-   eJxzZGBgcBzFRGMPIPaE0shsZBqbGDE0zA5/IA6A0shsZNoTjxw+etQflPvDYxD7A5s6YuPDn0h/eFLgD3LigRx/kBoPA+EPWmMAKJZplA==
+   eJztk8EOhDAIRPv/HwY3+KV1Eyd5O7auXjw5CRFbYOiUjvHiDmq33izxTfv/xgTiY9+Tn9iTL6gObVZLnIGcQIz8Ro7AHhr1AvExfvm9rzAe53Dd2E+ZTw5y6Yx1LHnKwTuY9Ugu9vMPyqPe8l1rnoV6X+XgjJWZ1lSb97jioCacRWrj317siVuc7J15bRxpeTXWuvmMCnxDrr/r5fr4fLgv+DuevYVVnZyss95T+AAvRrVW
   </data>
  </layer>
  <layer name="Walls" width="25" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYWBgEKIhZgVibiCWoiHmhNqhREMMs4OWYDjZwQbETFDMTCVzGZHMZAdiFgZEOhOmkh2CDLjTrjSV7JBkwJ12lalkhyLDaNodzHYg5w9aYFD+AAAtTAoZ
-  </data>
- </layer>
- <layer name="Paintbuckets" width="25" height="15">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgF1AIFULoQShdB6WIoXUJf54yCUTAKRjAAAAsiAjs=
+   eJzdkkEKg0AMRXPkar2Y1SriSrtSV05H9DhG+MEsplVwdOHA40OSydskJaL6RN5MyYzMhGyRujahrtGz0nfNF3AYZmCsYlBYzNgfNflvHH1x/HsPZIAMkU9ktPF/j+Pou9LxAomnvbHaKQ65s48nR6V2ikPurPPkaMh9uwtfT45e7bzbXd3BkdF6y2eQMzPK/nGs
   </data>
  </layer>
  <objectgroup name="SpawnObjects">
@@ -129,14 +127,19 @@
    eJyrYmBgqBrFRGNaguFmB7XDjR5xM5ztoCUYtYN0O2iNAVRbRZU=
   </data>
  </layer>
+ <layer name="paint_tiles" width="25" height="15" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFowACCrDgIiiG8YuRcAGZdhSSiAejHUXDxB/0sINU8+lhBzlpd6gBAPZZLeU=
+  </data>
+ </layer>
  <layer name="Painting" width="25" height="15">
   <data encoding="base64" compression="zlib">
    eJxjYCAeTAXiaUA8nQQ9pIJZQDwbiOfQ0I75QLwAiBfS0I5RQB9A7TSJzTxqp0ls5lE7TY6m8VEAAG7UEFo=
   </data>
  </layer>
- <layer name="paint_tiles" width="25" height="15" visible="0">
+ <layer name="Paintbuckets" width="25" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowACCrDgIiiG8YuRcAGZdhSSiAejHUXDxB/0sINU8+lhBzlpd6gBAPZZLeU=
+   eJxjYBgF1AIFULoQShdB6WIoXUJf54yCUTAKRjAAAAsiAjs=
   </data>
  </layer>
 </map>

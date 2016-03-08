@@ -16,6 +16,7 @@ int playerNumber;
 #define SFX_ON 1 //toggles sfx on/off
 
 
+
 Scene* ClientDemo::createScene()
 {
 	// 'scene' is an autorelease object

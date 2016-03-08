@@ -103,14 +103,17 @@
  <tileset firstgid="142" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
   <image source="./res/sprites/tiles/paintings as tiles.png" width="120" height="168"/>
  </tileset>
+ <tileset firstgid="177" name="outside_wall" tilewidth="24" tileheight="24" tilecount="40">
+  <image source="./res/sprites/tiles/outside_wall.png" width="192" height="120"/>
+ </tileset>
  <layer name="Floor" width="31" height="24">
   <data encoding="base64" compression="zlib">
-   eJyFlVmOQyEMBPt48AX3P81kpCDVqzRJJPTC4q3dtneS+Vr7tcZrrbIf7/3G/cIa7zX1jmdT+0jX1KLuBflzfuzQty19A2f0I7inTsa68ozD9/RnF1uWOWcpWM48cbQexur4jLF1Evdo7+8vbHc+Y+J77hnTyTdxJc4NX+O2tOyvdRBH2jau5l3LC/3ZeeJtXccXYj7yyRHXzS0PI894+G1+kJPRu1X0tbr2Gf20L87/uSfmzUf3CcfsnPLdkF7vA/2M95cN22Nc7l/O3cEu6TmiDDlAPpuPLVc3LrG+t/Sab8ak9fdbDK3HMt9T711XW/9b/7fvzLPrzDVmHpsfnjnjIktfjQPfR3rME/pBG+7njJnYt1oh5sZ3SAftNP9vtdQ46LjdexlP467PG0fb7LGeFPk2Lzxvvs2WxqvmfyRPuV32Nxxcd643YsX6brOhcdVcus0185T2yc3ITuvnrlnH675wm4HNtnltW8SF8XnO2T5lzT/Wd8PKso2T7Ae+ty3Pk//fH3dT1e8=
+   eJztlkEOwzAIBPn/w+yb86X2YKTJmEZJGqmXIlmVbTALLKQRf/mFjPdqc3Wd590278b8zT3veJZ29rHNZR9dvvO9tBnY02/ujWuciI/YW+x9+X2uPCcmv9Nin4fUoe8Wq9/EzsW8dejwjLhb7HOad8wt9xFrPav3GV8v9F3ziNV3vktxTI45/RlLVSuK8XzSIXb+Mt+feMG6OW7z3zr2bc6bPz3W3Ke933WPVbVjjYmFOHqs9e2xx+U8OeeVLXnuWD0TyAXqVrxkLrZY6+oZYd+MpYqdfo3F9a3EODxXGYfnadVfV4Q5dO3NC2J4wrdnoutnXNVMvyvkmXvlCC9xndX3t9J5veKb/eo+9WwZsmOPneVmxMpp2nNGECu56+/Y3bg9A8hdYnXvJH73sme3+6yKmeeeqUc4PV/NgWr+Wd//fb7pvafkBSHUbxw=
   </data>
  </layer>
  <layer name="Walls" width="31" height="24">
   <data encoding="base64" compression="zlib">
-   eJzllbEKAkEMRKOeymGlV6mV3v//owmSJmSWvTDqgYHXpJiBbGYziMglsFeGpF8BaVn/pNwCI+hXQFrefwbOypT0KyAt9451Ve5Jv1JIC3k/lJnkjbSQ9zdqTd4bZavsyD6ZbvS2nbTsTWTvTDd6205a9lg73tKN3raTlj3Wjrd017Rr/+R9kPf+R1g583xFjoJvJStnnq/eG8rMmeer94ainKH5td7J89V7Q1Gh+VXeaak3ml/lnZZ6o/m13onlzaxfe6O/5dPY3/ICeFETdw==
+   eJzlVl0LwjAM7P//N86piC/7eJnzZWqF/hwTSOAW2kFH1YGFoyONd5AmPWvnnCe8BB3hSLhI3EtMzz3k6xnueMb7IcLlId4IRtnPEp/gDHNGOZsgNsHvY1yNydf4QHjIzmgJvcQYQTBAbjDfAb5jXMHkqbZdV8ItEl+zUlwp7TvhWUg7xZXS/sbakvaOUBH2hXVivFabe5Lnry+sHeO12tyTPHulenyJ12pzT/LslerxJd4t9do/abNnVRGUmjOdL4sToXZzD1UfLTVnLXCi36qHqt+hL5b0EuVGj9X7Vl9DP4zNWap+S/ek8zW4ue/m9prWD2vYuXX3lKuN9cP/IBrLuadcbawf7npnOe/hr+d7i2/Lp8Fvyxs+GNVq
   </data>
  </layer>
  <layer name="Paintbuckets" width="31" height="24">
