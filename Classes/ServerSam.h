@@ -63,9 +63,12 @@ public:
 	void linkPtera(Pterodactyl* pterodactyl);
 	void linkCandy(Candy* candies);
 
-	void teleportSwitch();
-	void candySwitch();
-	void pteraSwitch();
+	void teleportOn();
+	void candyOn();
+	void pteraOn();
+	void teleportOff();
+	void candyOff();
+	void pteraOff();
 
 
 
@@ -99,11 +102,11 @@ private:
 
 	std::string animstate = "";
 
-	std::vector<int> behaviors{1,2,3,4};
+	std::vector<int> behaviors{1,3};
 	bool b_walk = true;
 	bool b_teleport = true;
-	bool b_candy = true;
-	bool b_ptera = true;
+	bool b_candy = false;
+	bool b_ptera = false;
 
 
 	//links

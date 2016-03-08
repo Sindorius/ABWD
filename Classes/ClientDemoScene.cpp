@@ -1532,6 +1532,18 @@ void ClientDemo::loadLevel(int level)
 		addChild(gameover, 1001);
 
 	}
+	else if (level == 1) {
+		pterodactyl->setVisible(false);
+	}
+	else if (level == 2) {
+		pterodactyl->setVisible(false);
+	}
+	else if (level == 3) {
+		pterodactyl->setVisible(false);
+	}
+	else if (level == 4) {
+		pterodactyl->setVisible(true);
+	}
 	button1 = false;
 }
 
