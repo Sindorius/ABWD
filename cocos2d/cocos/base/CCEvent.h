@@ -53,7 +53,8 @@ public:
         MOUSE,
         FOCUS,
         GAME_CONTROLLER,
-        CUSTOM
+        CUSTOM,
+		JOYSTICK
     };
     
 CC_CONSTRUCTOR_ACCESS:

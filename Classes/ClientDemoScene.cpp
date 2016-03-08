@@ -271,6 +271,11 @@ bool ClientDemo::init()
 		initializeSound(); //all sound initialization is in here now, cleaner
 	} 
 
+	auto joyListener = EventListenerJoystick::create();
+	joyListener->onEvent = CC_CALLBACK_1(ClientDemo::Joystick, this);
+	_eventDispatcher->addEventListenerWithFixedPriority(joyListener, 1);
+
+
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(ClientDemo::KeyDown, this);
 	keyListener->onKeyReleased = CC_CALLBACK_2(ClientDemo::KeyRelease, this);
@@ -280,6 +285,7 @@ bool ClientDemo::init()
 	this->scheduleUpdate();
 	return true;
 }
+
 
 void ClientDemo::update(float dt)
 {
@@ -846,6 +852,73 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 	}
 	event->stopPropagation();
 
+}
+
+
+
+void ClientDemo::Joystick(cocos2d::Event* event)
+{
+	EventJoystick* e = (EventJoystick*)event;
+	//CCLOG("JOYSTICK PRESENT");
+	bool present = e->isPresent();
+	//CCLOG(std::to_string(present).c_str());
+	if (present)
+	{
+			//CCLOG(e->getName());
+			int foraxis;
+			const float* axisval = e->getAxes(&foraxis);
+			float xval = axisval[0];
+			float yval = axisval[1];
+			//CCLOG(std::to_string(xval).c_str());
+			//CCLOG(std::to_string(yval).c_str());
+			bool nox = false;
+			bool noy = false;
+			if (yval > 0.2)
+			{
+				ymove = -2;
+			}
+			else if (yval < -0.2)
+			{
+				ymove = 2;
+			}
+			else {
+				ymove = 0;
+			}
+			if (xval > 0.2)
+			{
+				xmove = 2;
+			}
+			else if (xval < -0.2)
+			{
+				xmove = -2;
+			}
+			else {
+				xmove = 0;
+			}
+			if (nox && noy)
+			{
+				xmove = 0;
+				ymove = 0;
+			}
+
+
+			int forbutton;
+			const unsigned char* buttonval = e->getButtonValues(&forbutton);
+			unsigned char b0 = buttonval[0];
+			unsigned char b1 = buttonval[1];
+			unsigned char b2 = buttonval[2];
+			unsigned char b3 = buttonval[3];
+		
+			if (b0 || b1 || b2 || b3)
+			{
+				button1 = true;
+			}
+			else
+			{
+				button1 = false;
+			}
+		
+	}
 }
 
 
@@ -1966,6 +2039,8 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 void ClientDemo::goToMainMenu(cocos2d::Ref* pSender)
 {
+	_eventDispatcher->removeAllEventListeners();
+	cocos2d::experimental::AudioEngine::stopAll();
 	auto scene = MenuScene::createMenu();
 	CCDirector::getInstance()->replaceScene(scene);
 }

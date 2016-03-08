@@ -1934,6 +1934,12 @@
     <ClCompile Include="..\renderer\CCTextureCube.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
+    <ClCompile Include="..\base\EventJoystick.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\base\EventListenerJoystick.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\physics\CCPhysicsBody.h">
@@ -3770,6 +3776,12 @@
     </ClInclude>
     <ClInclude Include="..\renderer\CCTextureCube.h">
       <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\base\EventJoystick.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\base\EventListenerJoystick.h">
+      <Filter>base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

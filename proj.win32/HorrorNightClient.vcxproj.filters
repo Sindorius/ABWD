@@ -62,6 +62,8 @@
     <ClInclude Include="..\Classes\MenuScene.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\cocos2d\cocos\base\EventJoystick.h" />
+    <ClInclude Include="..\cocos2d\cocos\base\EventListenerJoystick.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
@@ -121,5 +123,7 @@
     <ClCompile Include="..\Classes\MenuScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\cocos2d\cocos\base\EventJoystick.cpp" />
+    <ClCompile Include="..\cocos2d\cocos\base\EventListenerJoystick.cpp" />
   </ItemGroup>
 </Project>

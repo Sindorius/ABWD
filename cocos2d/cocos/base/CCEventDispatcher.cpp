@@ -38,6 +38,7 @@
 #include "base/CCDirector.h"
 #include "base/CCEventType.h"
 #include "2d/CCCamera.h"
+#include "base/EventListenerJoystick.h"
 
 #define DUMP_LISTENER_ITEM_PRIORITY_INFO 0
 
@@ -94,6 +95,9 @@ static EventListener::ListenerID __getListenerID(Event* event)
             // return UNKNOWN instead.
             CCASSERT(false, "Don't call this method if the event is for touch.");
             break;
+		case Event::Type::JOYSTICK:
+			ret = EventListenerJoystick::LISTENER_ID;
+			break;
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         case Event::Type::GAME_CONTROLLER:
             ret = EventListenerController::LISTENER_ID;

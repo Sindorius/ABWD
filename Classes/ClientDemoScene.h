@@ -193,6 +193,9 @@ public:
 	void updateTilesFromPacket(ServerPositionPacket p);
 	
 	void goToMainMenu(cocos2d::Ref* pSender);
+
+	void Joystick(cocos2d::Event*);
+
 	~ClientDemo();
 	
 };

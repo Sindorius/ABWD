@@ -33,6 +33,7 @@ THE SOFTWARE.
 #include "base/CCEventDispatcher.h"
 #include "base/CCEventKeyboard.h"
 #include "base/CCEventMouse.h"
+#include "base/EventJoystick.h"
 #include "base/CCIMEDispatcher.h"
 #include "base/ccUtils.h"
 #include "base/ccUTF8.h"
@@ -486,7 +487,33 @@ bool GLViewImpl::windowShouldClose()
 void GLViewImpl::pollEvents()
 {
     glfwPollEvents();
+	pollJoystickEvent(GLFW_JOYSTICK_1);
+	pollJoystickEvent(GLFW_JOYSTICK_2);
 }
+
+// TODO - joystick- optimize - cache joystick availability and name
+// TODO - joystick - add key mapping support - follow SDL's example so that we can pull default mapping when publishing on Steam
+void GLViewImpl::pollJoystickEvent(int id)
+{
+	int count = 0;
+	bool isPresent = glfwJoystickPresent(id);
+	EventJoystick event;
+	if (isPresent)
+	{
+		event.setPresent(true);
+		event.setId(id);
+		const char* name = glfwGetJoystickName(id);
+		event.setName(name);
+		const unsigned char* values = glfwGetJoystickButtons(id, &count);
+		event.setButtonValues(count, values);
+		// ps3: left: x,y right:x,y x (left)-1<=x<=1(right) (up)-1<=y<=1(down)
+		const float* axes = glfwGetJoystickAxes(id, &count);
+		event.setAxes(count, axes);
+	}
+	Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+}
+
+
 
 void GLViewImpl::enableRetina(bool enabled)
 {
