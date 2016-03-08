@@ -103,6 +103,9 @@
  <tileset firstgid="142" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
   <image source="./res/sprites/tiles/paintings as tiles.png" width="120" height="168"/>
  </tileset>
+ <tileset firstgid="177" name="sam_wall" tilewidth="24" tileheight="24" tilecount="72">
+  <image source="./res/sprites/tiles/sam_wall.png" width="216" height="192"/>
+ </tileset>
  <layer name="Floor" width="21" height="14">
   <data encoding="base64" compression="zlib">
    eJxzZGBgcByh2AOIPfHQ+ORw0f5AHICHJkYNOj3qTgjtMYjcia4On53+JIQ5se4kNRyJdScp4UhLdwIAR+9UIw==
@@ -110,7 +113,7 @@
  </layer>
  <layer name="Walls" width="21" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYWBgEKIiZgVibiCWoiLmhJqpREUMM5OaYNTMUTNHoplsQMxERcwOxADJqwb3
+   eJztzMEKgkAUheF5/8cRNYtcFDELI9xJblJXaqvMF/APzoV5gNnlwMfhDPfe1Dl3wws9BvVS2SmNzZTBXoGjeoYzHhgx463ulZPS2IwP9i64qp9084kPvljVa+WibJU2U+vvt1fhjia4GfPtN/eb/3gzRxLRARs9NFEe
   </data>
  </layer>
  <layer name="Paintbuckets" width="21" height="14">

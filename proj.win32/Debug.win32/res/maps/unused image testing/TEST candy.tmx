@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="16" tilewidth="24" tileheight="24" nextobjectid="90">
+ <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
+  <image source="../../sprites/tiles/walls.png" width="192" height="192"/>
+ </tileset>
+ <tileset firstgid="65" name="floor" tilewidth="24" tileheight="24" tilecount="42">
+  <image source="../../sprites/tiles/floor.png" width="168" height="144"/>
+  <tile id="0">
+   <properties>
+    <property name="block" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="107" name="buckets" tilewidth="24" tileheight="24" tilecount="15">
+  <image source="../../sprites/buckets.png" width="360" height="24"/>
+  <tile id="0">
+   <properties>
+    <property name="Red" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Blue1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Orange" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Yellow1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Black" value="true"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Blue2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Blue3" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Green1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Green2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="Green3" value="true"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="White" value="true"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="Red2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="Grey1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="Grey2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="Purple1" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="122" name="meta" tilewidth="24" tileheight="24" tilecount="2">
+  <image source="../../sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
+  <tile id="0">
+   <properties>
+    <property name="Collidable" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="124" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
+  <image source="../../sprites/tiles/paintings as tiles.png" width="120" height="168"/>
+ </tileset>
+ <tileset firstgid="159" name="TEST" tilewidth="24" tileheight="24" tilecount="34">
+  <tile id="0">
+   <image width="24" height="24" source="../../sprites/objects/tile_black_paint_correct.png"/>
+  </tile>
+  <tile id="1">
+   <image width="24" height="24" source="../../sprites/objects/tile_black_paint_incorrect.png"/>
+  </tile>
+  <tile id="2">
+   <image width="24" height="24" source="../../sprites/objects/tile_blue1_paint_correct.png"/>
+  </tile>
+  <tile id="3">
+   <image width="24" height="24" source="../../sprites/objects/tile_blue1_paint_incorrect.png"/>
+  </tile>
+  <tile id="4">
+   <image width="24" height="24" source="../../sprites/objects/tile_blue2_paint_correct.png"/>
+  </tile>
+  <tile id="5">
+   <image width="24" height="24" source="../../sprites/objects/tile_blue2_paint_incorrect.png"/>
+  </tile>
+  <tile id="6">
+   <image width="24" height="24" source="../../sprites/objects/tile_blue3_paint_correct.png"/>
+  </tile>
+  <tile id="7">
+   <image width="24" height="24" source="../../sprites/objects/tile_blue3_paint_incorrect.png"/>
+  </tile>
+  <tile id="8">
+   <image width="24" height="24" source="../../sprites/objects/tile_green1_paint_correct.png"/>
+  </tile>
+  <tile id="9">
+   <image width="24" height="24" source="../../sprites/objects/tile_green1_paint_incorrect.png"/>
+  </tile>
+  <tile id="10">
+   <image width="24" height="24" source="../../sprites/objects/tile_green2_paint_correct.png"/>
+  </tile>
+  <tile id="11">
+   <image width="24" height="24" source="../../sprites/objects/tile_green2_paint_incorrect.png"/>
+  </tile>
+  <tile id="12">
+   <image width="24" height="24" source="../../sprites/objects/tile_green3_paint_correct.png"/>
+  </tile>
+  <tile id="13">
+   <image width="24" height="24" source="../../sprites/objects/tile_green3_paint_incorrect.png"/>
+  </tile>
+  <tile id="14">
+   <image width="24" height="24" source="../../sprites/objects/tile_grey1_paint_correct.png"/>
+  </tile>
+  <tile id="15">
+   <image width="24" height="24" source="../../sprites/objects/tile_grey1_paint_incorrect.png"/>
+  </tile>
+  <tile id="16">
+   <image width="24" height="24" source="../../sprites/objects/tile_grey2_paint_correct.png"/>
+  </tile>
+  <tile id="17">
+   <image width="24" height="24" source="../../sprites/objects/tile_grey2_paint_incorrect.png"/>
+  </tile>
+  <tile id="18">
+   <image width="24" height="24" source="../../sprites/objects/tile_orange_paint_correct.png"/>
+  </tile>
+  <tile id="19">
+   <image width="24" height="24" source="../../sprites/objects/tile_orange_paint_incorrect.png"/>
+  </tile>
+  <tile id="20">
+   <image width="24" height="24" source="../../sprites/objects/tile_purple1_paint_correct.png"/>
+  </tile>
+  <tile id="21">
+   <image width="24" height="24" source="../../sprites/objects/tile_purple1_paint_incorrect.png"/>
+  </tile>
+  <tile id="22">
+   <image width="24" height="24" source="../../sprites/objects/tile_red_paint_correct.png"/>
+  </tile>
+  <tile id="23">
+   <image width="24" height="24" source="../../sprites/objects/tile_red_paint_incorrect.png"/>
+  </tile>
+  <tile id="24">
+   <image width="24" height="24" source="../../sprites/objects/tile_red1_paint_correct.png"/>
+  </tile>
+  <tile id="25">
+   <image width="24" height="24" source="../../sprites/objects/tile_red1_paint_incorrect.png"/>
+  </tile>
+  <tile id="26">
+   <image width="24" height="24" source="../../sprites/objects/tile_red2_paint_correct.png"/>
+  </tile>
+  <tile id="27">
+   <image width="24" height="24" source="../../sprites/objects/tile_red2_paint_incorrect.png"/>
+  </tile>
+  <tile id="28">
+   <image width="24" height="24" source="../../sprites/objects/tile_white_paint_correct.png"/>
+  </tile>
+  <tile id="29">
+   <image width="24" height="24" source="../../sprites/objects/tile_white_paint_incorrect.png"/>
+  </tile>
+  <tile id="30">
+   <image width="24" height="24" source="../../sprites/objects/tile_yellow1_paint_correct.png"/>
+  </tile>
+  <tile id="31">
+   <image width="24" height="24" source="../../sprites/objects/tile_yellow1_paint_incorrect.png"/>
+  </tile>
+  <tile id="32">
+   <image width="24" height="24" source="../../sprites/objects/tile_yellow3_paint_correct.png"/>
+  </tile>
+  <tile id="33">
+   <image width="24" height="24" source="../../sprites/objects/tile_yellow3_paint_incorrect.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="193" name="candy_wall" tilewidth="24" tileheight="24" tilecount="40">
+  <image source="../../sprites/tiles/candy_wall.png" width="192" height="120"/>
+ </tileset>
+ <layer name="Floor" width="20" height="16">
+  <data encoding="base64" compression="zlib">
+   eJzlkzEOwCAMA/ka/9+TjXylDEQ6uWbr1kpWaUhtJ4E5xpg/Qm7ERp33OgigAOYU1s2TB46vBJ3r9kN4EjrMKdFsH4E1/Ybh0FqZn/hmjF61X9R09a2LluPXeliH+if3kn80Ts+MUZ+eu8edl4Zb9W9enG/q6KxcTPvH88FanPYSuNnp3NibMBw13n44O9139ymRo2dA62yOr58Hlrncfg==
+  </data>
+ </layer>
+ <layer name="Walls" width="20" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYWBgEKISZgVibiCWohLmhJqnRCUMM49aYNS8UfNGzaOveWxAzEQlzA7EAIctBs8=
+  </data>
+ </layer>
+ <layer name="Paintbuckets" width="20" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFMJCNRayM7q4YfKCIDnaU0sGOgQLlA+2AUYATAACb6gJA
+  </data>
+ </layer>
+ <objectgroup name="SpawnObjects" visible="0">
+  <object id="84" name="P1spawnPoint" x="108" y="74" width="24" height="48"/>
+  <object id="85" name="P2spawnPoint" x="60" y="48" width="24" height="48"/>
+  <object id="87" name="P3spawnPoint" x="348" y="74" width="24" height="48"/>
+  <object id="88" name="P4spawnPoint" x="394" y="48" width="24" height="48"/>
+ </objectgroup>
+ <layer name="Collision" width="20" height="16" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJyrYmBgqBphmFpg1LxR80bNo7951MQAhEQxkQ==
+  </data>
+ </layer>
+ <layer name="paint_tiles" width="20" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFgx0sh+LtQLwbSi/HgkkxD2YOMk2ueTD9O6H6duJwJ6nmIetdi0WcWIDLPejixAJc7kEXJ8U8mHuwxSvMnaOA+gAAwtQv7Q==
+  </data>
+ </layer>
+ <layer name="Painting" width="20" height="16">
+  <data encoding="base64" compression="zlib">
+   eJw7wsDAcIlK+CgQnwbiW1TCJ6HmPaIShplHLTBq3qh5o+bR17xjQHyISvg4EAMA0ZdUzw==
+  </data>
+ </layer>
+ <layer name="Oops" width="20" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAMGoG4iQh1xII2IG6nonndQNxDRfNGwSgYBSMDAABOkgMo
+  </data>
+ </layer>
+</map>

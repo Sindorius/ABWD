@@ -103,14 +103,17 @@
  <tileset firstgid="142" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
   <image source="./res/sprites/tiles/paintings as tiles.png" width="120" height="168"/>
  </tileset>
+ <tileset firstgid="177" name="candy_wall" tilewidth="24" tileheight="24" tilecount="40">
+  <image source="./res/sprites/tiles/candy_wall.png" width="192" height="120"/>
+ </tileset>
  <layer name="Floor" width="20" height="16">
   <data encoding="base64" compression="zlib">
-   eJxzZGBgcBxB2BOIPQjQxKiB0QFA7E+A9iRCDbLakew+j0HiPhgmZKc/ke7zZCDOfcSGG7HxS2y4ERt+pLrPEYntj2QGcjwj85HDEz3+QWZRGwAAnqxV+w==
+   eJylkzsOxTAIBH21lO/i0NlXiiJhaTQPF1EK5ISfF3Z9jTGuxqKsi72xWfa1z4Ml5Vvly0OM8Sgc+6R/ybJyFvAnYrsm4KfPljppE/el+hGDMRk7c4iXO+hmWYe+gZpQzc73HBOxHP/8TPXjfa7lP3lbyvdefsoPfXMv3qPvMdapno51+7I2uO+TJrr5jLPTdqdDctzpLdDH2MwL660rY8nigm/InHa74JzWjHnqtO1acuLzybsBKpzkdg==
   </data>
  </layer>
  <layer name="Walls" width="20" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYWBgEKISZgVibiCWohLmhJqnRCUMM49aYNS8UfNGzaOveWxAzEQlzA7EAIctBs8=
+   eJzbwsDAcIhKeCsQ7wbiU1TCO6HmXaIShplHLTBq3qh5o+bR17xtQLyJSng7EAMAS2tOTw==
   </data>
  </layer>
  <layer name="Paintbuckets" width="20" height="16">
