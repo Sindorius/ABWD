@@ -113,7 +113,7 @@
  </layer>
  <layer name="Walls" width="31" height="24">
   <data encoding="base64" compression="zlib">
-   eJzlVl0LwjAM7P//N86piC/7eJnzZWqF/hwTSOAW2kFH1YGFoyONd5AmPWvnnCe8BB3hSLhI3EtMzz3k6xnueMb7IcLlId4IRtnPEp/gDHNGOZsgNsHvY1yNydf4QHjIzmgJvcQYQTBAbjDfAb5jXMHkqbZdV8ItEl+zUlwp7TvhWUg7xZXS/sbakvaOUBH2hXVivFabe5Lnry+sHeO12tyTPHulenyJ12pzT/LslerxJd4t9do/abNnVRGUmjOdL4sToXZzD1UfLTVnLXCi36qHqt+hL5b0EuVGj9X7Vl9DP4zNWap+S/ek8zW4ue/m9prWD2vYuXX3lKuN9cP/IBrLuadcbawf7npnOe/hr+d7i2/Lp8Fvyxs+GNVq
+   eJzlVl0LwjAM7P//N+pUxJd9vMz5MnWD/hwTTPAW2kFH1YGFoyONd5AmPQvn3EAYBTVhTygkPkhMzwfI1zPc8WyMcA0SPxNKQSf7SeI9nGFOJ2c9xHr4fYirNPkabwl32RkVoZEYwwtayPXm28N3iMubPNW260K4BuJLVowrpn0jPDJpx7hi2t9Ya9LeELaEXWadEK/V5p7k+Wsya4d4rTb3JM9erh6f47Xa3JM8e7l6fI53Tb32T9oH9+p/i1xzpvNlcXRvfxvd1EdzzVkFnOi36qHqd+iLOb1EudFj9b7V19APQ3MWq9/cPel8tW7qu6m9pvXDGtZu2T2lamP98D+IxlLuKVUb64e73lnKe/jr+V7j2/Jp8NvyBJMh1Vs=
   </data>
  </layer>
  <layer name="Paintbuckets" width="31" height="24">
@@ -127,7 +127,7 @@
   <object id="87" name="P3spawnPoint" x="624" y="456" width="24" height="48"/>
   <object id="88" name="P4spawnPoint" x="672" y="96" width="24" height="48"/>
  </objectgroup>
- <layer name="Collision" width="31" height="24">
+ <layer name="Collision" width="31" height="24" visible="0">
   <data encoding="base64" compression="zlib">
    eJyrYmBgqBrFdMfoAJc4OYBUOwbSbnqAwWQ3vjRADXuw2TVq98DZTU8w0u0mtqylhR2jdhNXv1FTDzX9QKpZo3bTDwwGuwcKAwCsKYVx
   </data>
