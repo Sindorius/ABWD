@@ -105,6 +105,8 @@ public:
 
 	std::map<TCPSSession*, int> sessionmap;
 	bool sessionmapped[5] = { false };
+	char getActiveChars();
+
 };
 
 #endif // __SERVERDEMO_SCENE_H__

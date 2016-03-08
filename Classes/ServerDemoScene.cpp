@@ -367,7 +367,29 @@ void ServerDemo::update(float dt)
 
 
 
-
+char ServerDemo::getActiveChars()
+{
+	char p1mask = 1;
+	char p2mask = 2; 
+	char p3mask = 4; 
+	char p4mask = 8;
+	char returnchar = 0;
+	if (sessionmapped[1])
+	{
+		returnchar = returnchar | p1mask;
+	}
+	if (sessionmapped[2])
+	{
+		returnchar = returnchar | p2mask;
+	}if (sessionmapped[3])
+	{
+		returnchar = returnchar | p3mask;
+	}if (sessionmapped[4])
+	{
+		returnchar = returnchar | p4mask;
+	}
+	return returnchar;
+}
 
 void ServerDemo::processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionptr)
 {
@@ -927,7 +949,7 @@ ServerPositionPacket ServerDemo::createPacket()
 
 	if (sendmap)
 	{
-		ServerPositionPacket p(levelmanager.currentlevel,
+		ServerPositionPacket p(getActiveChars(),levelmanager.currentlevel,
 			candy->getPositionX(), candy->getPositionY(),
 			pterodactyl->getPositionX(), pterodactyl->getPositionY(), animationmanager.charFromString(pterodactyl->getAnim()),
 			serversam->getPositionX(), serversam->getPositionY(), animationmanager.charFromString(serversam->getAnim()),
@@ -942,7 +964,7 @@ ServerPositionPacket ServerDemo::createPacket()
 	}
 	else
 	{
-		ServerPositionPacket p(levelmanager.currentlevel,
+		ServerPositionPacket p(getActiveChars(),levelmanager.currentlevel,
 			candy->getPositionX(), candy->getPositionY(),
 			pterodactyl->getPositionX(), pterodactyl->getPositionY(), animationmanager.charFromString(pterodactyl->getAnim()),
 			serversam->getPositionX(), serversam->getPositionY(), animationmanager.charFromString(serversam->getAnim()),
