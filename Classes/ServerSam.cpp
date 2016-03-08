@@ -390,7 +390,8 @@ void ServerSam::munch() {
 			candy->start();
 			candy->setPosition(-1000, -1000);
 			flag = true;
-			behavior_unlocked = true;
+			behavior_timer = 150;
+			behavior = 0;
 			candySwitch();
 			serverptr->enqueueMessage(ServerMessage(8, 0, 0, i + 1));
 		}

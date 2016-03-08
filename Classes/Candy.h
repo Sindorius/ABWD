@@ -14,7 +14,7 @@ public:
 	bool active() { return time > 0; }
 	void setOwner(int target) { owner = target; }
 	int getOwner() { return owner; }
-	void start() { time = 300; }
+	void start() { time = 150; }
 	int getTime() { return time; }
 
 private:
