@@ -1,71 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="26" height="15" tilewidth="24" tileheight="24" nextobjectid="90">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="27" height="15" tilewidth="24" tileheight="24" nextobjectid="90">
  <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
-  <image source="../sprites/tiles/walls.png" width="192" height="192"/>
+  <image source="./res/sprites/tiles/walls.png" width="192" height="192"/>
  </tileset>
- <tileset firstgid="65" name="floor" tilewidth="24" tileheight="24" tilecount="42">
-  <image source="../sprites/tiles/floor.png" width="168" height="144"/>
-  <tile id="0">
-   <properties>
-    <property name="block" value="true"/>
-   </properties>
-  </tile>
+ <tileset firstgid="65" name="ptera_wall" tilewidth="24" tileheight="24" tilecount="48">
+  <image source="./res/sprites/tiles/ptera_wall.png" width="192" height="144"/>
  </tileset>
- <tileset firstgid="107" name="buckets" tilewidth="24" tileheight="24" tilecount="10">
-  <image source="../sprites/buckets.png" width="240" height="24"/>
-  <tile id="0">
-   <properties>
-    <property name="Red" value="true"/>
-   </properties>
-  </tile>
-  <tile id="1">
-   <properties>
-    <property name="Blue" value="true"/>
-   </properties>
-  </tile>
-  <tile id="2">
-   <properties>
-    <property name="Orange" value="true"/>
-   </properties>
-  </tile>
-  <tile id="3">
-   <properties>
-    <property name="Yellow" value="true"/>
-   </properties>
-  </tile>
+ <tileset firstgid="113" name="ending" tilewidth="24" tileheight="24" tilecount="24">
+  <image source="./res/sprites/tiles/ending.png" width="96" height="144"/>
  </tileset>
- <tileset firstgid="117" name="meta" tilewidth="24" tileheight="24" tilecount="2">
-  <image source="../sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
-  <tile id="0">
-   <properties>
-    <property name="Collidable" value="true"/>
-   </properties>
-  </tile>
- </tileset>
- <tileset firstgid="119" name="instructions" tilewidth="24" tileheight="24" tilecount="18">
-  <image source="../sprites/objects/instructions.png" width="144" height="72"/>
- </tileset>
- <tileset firstgid="137" name="Stone_Tiles" tilewidth="24" tileheight="24" tilecount="104">
-  <image source="../sprites/tiles/Stone_Tiles.png" trans="ff00ff" width="320" height="192"/>
- </tileset>
- <layer name="Floor" width="26" height="15">
+ <layer name="Sky" width="27" height="15">
   <data encoding="base64" compression="zlib">
-   eJxzZGBgcBzFZGEPIPYkggbhADIwzB5/KJ8QTak9I8k/XkDsTQD7UME/gUAcRAAHU8E/pNiDKw6J8U8EEEcSwFFIZuKzh5j0Rk78k5veKLWHXv6hBwYAy0pw/w==
+   eJxjYBgFo2AUjIJRQA5oBOImIG4G4hYa29UKxG1A3A7EHTS2ixIAAIFZBCU=
   </data>
  </layer>
- <layer name="Walls" width="26" height="15">
+ <layer name="Copy of Sky" width="27" height="15">
   <data encoding="base64" compression="zlib">
-   eJzdzsdOlVEUgNEbAhjDmwETZKK+EV2lKyC9iEovE5AiHekQpfeiUh6BRXIGf5jcySUBTrKyR3t/JzkWi+WQSx75FFBIEe8YCPM9HyimhFI66aKbHnrpoz/sDZJCGmWUU0ElH/lEFdX8DLOGz9RSRz1DDPODEUYZCzt3JngZOg000kQzLbTSxheWw2znK9/4TgezzDHPLxZYZCnsrUQ69/8yHvnLJFNMM8MG66yxGu4sh7uLkdZ86P+OdI454ZQzzrngL//4zyVXXHPDEYccsM8eu+ywzRab/Il0Hvo9pk46GXFkJqCTxas4sp9Q5zVv4nibgE4i3nPspJL0wF5wC7o6ZtQ=
+   eJyLYGBgiBjFKDgBiDOgOGAAzaC3vQPlZhDOAuJsKJ0JxTB+FpJ4Npq6LCQxZPUwfiYWtWmjeEjhUTC0AABXZm5r
   </data>
  </layer>
- <layer name="Paintbuckets" width="26" height="15">
+ <layer name="Tile Layer 4" width="27" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMAoQAAAGGAAB
+   eJxjYBgFo2AUDAdQQkdcQUc8CoYWAAClUBjl
   </data>
  </layer>
- <layer name="Boards" width="26" height="15">
+ <layer name="People" width="27" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt07VOBVAURUF+H3d3d3d3d3d35xOYhNzyFZeCipVMd3Z5kpL++++nFVZZY50NNtlimx122WOfg8jb0CFHHHPCKWecc8ElV1xzw23kbeiOex545IlnXnjljXc++OQrwSbRbSiZFFJJI50MMskimxxyySM/chMqoJAiiimhlDLKqaCSKqqpidyEaqmjngYaaaKZFlppo50OOiM3oS666aGXPvoZYJAhhhlhlLHITWicCSaZYpoZZpljngUWWWI5chP6zf/EbP6yb4WGoLY=
+   eJxjYBgF5ICigXbAKBgFeEANFrFKLGKFWMSqsIhV47GrAYtYLRaxUixidVjE6vHYNQoGPwAAbRwFPQ==
+  </data>
+ </layer>
+ <layer name="Paintbuckets" width="27" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjALSQDkUl0ExOhtZHhu/DI96dLFRMLQAAN9hDIM=
   </data>
  </layer>
 </map>

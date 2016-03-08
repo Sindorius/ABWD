@@ -42,33 +42,27 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="124" name="instructions" tilewidth="24" tileheight="24" tilecount="18">
-  <image source="./res/sprites/objects/instructions.png" width="144" height="72"/>
- </tileset>
- <tileset firstgid="142" name="Stone_Tiles" tilewidth="24" tileheight="24" tilecount="104">
-  <image source="./res/sprites/tiles/Stone_Tiles.png" trans="ff00ff" width="320" height="192"/>
- </tileset>
- <tileset firstgid="246" name="ptera_wall" tilewidth="24" tileheight="24" tilecount="40">
-  <image source="./res/sprites/tiles/ptera_wall.png" width="192" height="120"/>
+ <tileset firstgid="124" name="candy_wall" tilewidth="24" tileheight="24" tilecount="40">
+  <image source="./res/sprites/tiles/candy_wall.png" width="192" height="120"/>
  </tileset>
  <layer name="Floor" width="26" height="15">
   <data encoding="base64" compression="zlib">
-   eJxzZGBgcBzFZGEPIPYkggbhADIwzB5/KJ8QTak9g8E/HjTyjwcOPiEMMxObGLp/0NX4U9keavkHXc9g8A8umpz4Jzf/UGoPvfxDDwwAAWZu5w==
+   eJztkjEOwzAMA/21bsnUfM3apNfGgwRc2RaxOxQdKoBA7ESkSKW1f2nd3mC1toE9cQC/WjHQBzyfQ+4sz5Znx3vDdy69hSoHnwMd/Nae9QN95A30U6e3xxmos02iZnHRCdHR3KpnVicEzJr7Yc7Mb0VHcylf1OEePtFhL/1Qh5nqnvbkOS5AD/RiovNqf54c9wkd9cL/U/3Qe8234ofc5PlmnXS/bUc=
   </data>
  </layer>
  <layer name="Walls" width="26" height="15">
   <data encoding="base64" compression="zlib">
-   eJztzrVOhFEQgNENQUJ4d9zd3V0b3GFxCe7uPYfkFn9oCd3e5GSqme8mx2KxTLLIJodc8singPEwCymimBJKGWCQIYYZYZSxsDdBChmUUU4FlVRRTQ21LIRZRz0NNNLEJFNMM8Msc2HnxyLpodNMC6200U4HnXSxE2Y3PfTSRz9rrBNng0222A57u5HO77/MR/6yxDIrrHLIAfvshTs74e5WpBUP/aNI5457HnjkiWdeeOWNdz745ItbbrjmiksuOOeMU044jnT++yU6iU6i87dOKkn/LI1vpe1cXA==
+   eJyrZ2Bg6KUxbgDiNiCeSmPcMkztmUtjDLOH1mDUnlF7Ru2hzJ5GIK6lMW4CYgD1nWEV
   </data>
  </layer>
  <layer name="Paintbuckets" width="26" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowA/yAfiQiAuAOIcIC5Cky8G4hIgzgPiXCDOpqvrRsEoGAXUBgDWpARc
+   eJxjYBgFowATZANxLhDnAXEOEFcCcT4Ql2JRWwqVq4SqLYLqzaaLS0fBKBgF1AYAvoUGIw==
   </data>
  </layer>
- <layer name="Boards" width="26" height="15">
+ <layer name="Paintings" width="26" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2BkAi8g9saDfahkTyAQB+HBwaP2YAURQByJB0dRyZ5RgAkA1cEOaw==
+   eJxjYBgFo2DkgRogriWA66hgTwsQtxLAbaP2DJg9PUDcSwD3UcGeKUA8lQCeRgV7qAUAjc4k/w==
   </data>
  </layer>
 </map>

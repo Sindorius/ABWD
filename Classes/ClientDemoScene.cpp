@@ -1448,7 +1448,7 @@ void ClientDemo::loadLevel(int level)
 	if (level == 5)
 	{
 		auto menu_item = MenuItemImage::create("res//sprites//ui//goToMainNP.png", "res//sprites//ui//goToMainP.png", CC_CALLBACK_1(ClientDemo::goToMainMenu, this));
-		menu_item->setPosition(Vec2(winSizeWidth - 12, winSizeHeight - 35));
+		menu_item->setPosition(Vec2(winSizeWidth + 20, winSizeHeight));
 		menu_item->setScale(0.7f);
 
 		auto menu = Menu::create(menu_item, NULL);

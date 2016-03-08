@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="16" tilewidth="24" tileheight="24" nextobjectid="90">
  <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
-  <image source="../sprites/tiles/walls.png" width="192" height="192"/>
+  <image source="./res/sprites/tiles/walls.png" width="192" height="192"/>
  </tileset>
  <tileset firstgid="65" name="floor" tilewidth="24" tileheight="24" tilecount="42">
-  <image source="../sprites/tiles/floor.png" width="168" height="144"/>
+  <image source="./res/sprites/tiles/floor.png" width="168" height="144"/>
   <tile id="0">
    <properties>
     <property name="block" value="true"/>
@@ -12,7 +12,7 @@
   </tile>
  </tileset>
  <tileset firstgid="107" name="buckets" tilewidth="24" tileheight="24" tilecount="15">
-  <image source="../sprites/buckets.png" width="360" height="24"/>
+  <image source="./res/sprites/buckets.png" width="360" height="24"/>
   <tile id="0">
    <properties>
     <property name="Red" value="true"/>
@@ -90,7 +90,7 @@
   </tile>
  </tileset>
  <tileset firstgid="122" name="meta" tilewidth="24" tileheight="24" tilecount="2">
-  <image source="../sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
+  <image source="./res/sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
   <tile id="0">
    <properties>
     <property name="Collidable" value="true"/>
@@ -98,24 +98,27 @@
   </tile>
  </tileset>
  <tileset firstgid="124" name="instructions" tilewidth="24" tileheight="24" tilecount="18">
-  <image source="../sprites/objects/instructions.png" width="144" height="72"/>
+  <image source="./res/sprites/objects/instructions.png" width="144" height="72"/>
  </tileset>
  <tileset firstgid="142" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
-  <image source="../sprites/tiles/paintings as tiles.png" width="120" height="168"/>
+  <image source="./res/sprites/tiles/paintings as tiles.png" width="120" height="168"/>
+ </tileset>
+ <tileset firstgid="177" name="candy_wall" tilewidth="24" tileheight="24" tilecount="40">
+  <image source="./res/sprites/tiles/candy_wall.png" width="192" height="120"/>
  </tileset>
  <layer name="Floor" width="20" height="16">
   <data encoding="base64" compression="zlib">
-   eJxzZGBgcBxB2BOIPQjQxKiB0QFA7E+A9iRCDbLakew+j0HiPhgmZKc/ke7zZCDOfcSGG7HxS2y4ERt+pLrPEYntj2QGcjwj85HDEz3+QWZRGwAAnqxV+w==
+   eJzlkzkOwDAIBP3/h+EOvpQURppMaFMFaYUTcyyH1/qf5I19EDdK2Memjm77kk9L4V8M2NJEx84hHjmYk7nTps8te7gr6CluwCcUr+1dR+KOOZzf8WLw5XeuZz9oz76QX0Dz3LymPjoP+8f6PFtzcR7vC+uYdmKqzzwZz73hbDhj7xv3kvOgf6533z1bvyfvXwreOfaCdXpnvpALRi2q5g==
   </data>
  </layer>
  <layer name="Walls" width="20" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYWBgEKISZgVibiCWohLmhJqnRCUMM49aYNS8UfNGzaOveWxAzEQlzA7EAIctBs8=
+   eJzbwsDAcIhKeCsQ7wbiU1TCO6HmXaIShplHLTBq3qh5o+bR17xtQLyJSng7EAMAS2tOTw==
   </data>
  </layer>
  <layer name="Paintbuckets" width="20" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFMJCNRayM7q4YfKCIDnaU0sGOgQLlA+0AGoDh4icA+OICtw==
+   eJxjYBgFMJCNRayM7q4YfKCIDnaU0sGOgQLlA+2AUYATAACb6gJA
   </data>
  </layer>
  <objectgroup name="SpawnObjects">

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="15" tilewidth="24" tileheight="24" nextobjectid="98">
  <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
-  <image source="../sprites/tiles/walls.png" width="192" height="192"/>
+  <image source="./res/sprites/tiles/walls.png" width="192" height="192"/>
  </tileset>
  <tileset firstgid="65" name="floor" tilewidth="24" tileheight="24" tilecount="42">
-  <image source="../sprites/tiles/floor.png" width="168" height="144"/>
+  <image source="./res/sprites/tiles/floor.png" width="168" height="144"/>
   <tile id="0">
    <properties>
     <property name="block" value="true"/>
@@ -12,7 +12,7 @@
   </tile>
  </tileset>
  <tileset firstgid="107" name="buckets" tilewidth="24" tileheight="24" tilecount="15">
-  <image source="../sprites/buckets.png" width="360" height="24"/>
+  <image source="./res/sprites/buckets.png" width="360" height="24"/>
   <tile id="0">
    <properties>
     <property name="Red1" value="true"/>
@@ -90,7 +90,7 @@
   </tile>
  </tileset>
  <tileset firstgid="122" name="meta" tilewidth="24" tileheight="24" tilecount="2">
-  <image source="../sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
+  <image source="./res/sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
   <tile id="0">
    <properties>
     <property name="Collidable" value="true"/>
@@ -98,24 +98,22 @@
   </tile>
  </tileset>
  <tileset firstgid="124" name="instructions" tilewidth="24" tileheight="24" tilecount="18">
-  <image source="../sprites/objects/instructions.png" width="144" height="72"/>
+  <image source="./res/sprites/objects/instructions.png" width="144" height="72"/>
  </tileset>
  <tileset firstgid="142" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
-  <image source="../sprites/tiles/paintings as tiles.png" width="120" height="168"/>
+  <image source="./res/sprites/tiles/paintings as tiles.png" width="120" height="168"/>
+ </tileset>
+ <tileset firstgid="177" name="ptera_wall" tilewidth="24" tileheight="24" tilecount="40">
+  <image source="./res/sprites/tiles/ptera_wall.png" width="192" height="120"/>
  </tileset>
  <layer name="Floor" width="25" height="15">
   <data encoding="base64" compression="zlib">
-   eJxzZGBgcBzFRGMPIPaE0shsZBqbGDE0zA5/IA6A0shsZNoTjxw+etQflPvDYxD7A5s6YuPDn0h/eFLgD3LigRx/kBoPA+EPWmMAKJZplA==
+   eJztk8EOhDAIRPv/HwY3+KV1Eyd5O7auXjw5CRFbYOiUjvHiDmq33izxTfv/xgTiY9+Tn9iTL6gObVZLnIGcQIz8Ro7AHhr1AvExfvm9rzAe53Dd2E+ZTw5y6Yx1LHnKwTuY9Ugu9vMPyqPe8l1rnoV6X+XgjJWZ1lSb97jioCacRWrj317siVuc7J15bRxpeTXWuvmMCnxDrr/r5fr4fLgv+DuevYVVnZyss95T+AAvRrVW
   </data>
  </layer>
  <layer name="Walls" width="25" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYWBgEKIhZgVibiCWoiHmhNqhREMMs4OWYDjZwQbETFDMTCVzGZHMZAdiFgZEOhOmkh2CDLjTrjSV7JBkwJ12lalkhyLDaNodzHYg5w9aYFD+AAAtTAoZ
-  </data>
- </layer>
- <layer name="Paintbuckets" width="25" height="15">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgF1AIFULoQShdB6WIoXUJf54yCUTAKRjAAAAsiAjs=
+   eJzdkkEKg0AMRXPkar2Y1SriSrtSV05H9DhG+MEsplVwdOHA40OSydskJaL6RN5MyYzMhGyRujahrtGz0nfNF3AYZmCsYlBYzNgfNflvHH1x/HsPZIAMkU9ktPF/j+Pou9LxAomnvbHaKQ65s48nR6V2ikPurPPkaMh9uwtfT45e7bzbXd3BkdF6y2eQMzPK/nGs
   </data>
  </layer>
  <objectgroup name="SpawnObjects">
@@ -129,14 +127,19 @@
    eJyrYmBgqBrFRGNaguFmB7XDjR5xM5ztoCUYtYN0O2iNAVRbRZU=
   </data>
  </layer>
+ <layer name="paint_tiles" width="25" height="15" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFowACCrDgIiiG8YuRcAGZdhSSiAejHUXDxB/0sINU8+lhBzlpd6gBAPZZLeU=
+  </data>
+ </layer>
  <layer name="Painting" width="25" height="15">
   <data encoding="base64" compression="zlib">
    eJxjYCAeTAXiaUA8nQQ9pIJZQDwbiOfQ0I75QLwAiBfS0I5RQB9A7TSJzTxqp0ls5lE7TY6m8VEAAG7UEFo=
   </data>
  </layer>
- <layer name="paint_tiles" width="25" height="15" visible="0">
+ <layer name="Paintbuckets" width="25" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowACCrDgIiiG8YuRcAGZdhSSiAejHUXDxB/0sINU8+lhBzlpd6gBAPZZLeU=
+   eJxjYBgF1AIFULoQShdB6WIoXUJf54yCUTAKRjAAAAsiAjs=
   </data>
  </layer>
 </map>

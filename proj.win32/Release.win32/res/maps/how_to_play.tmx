@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="26" height="15" tilewidth="24" tileheight="24" nextobjectid="90">
  <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
-  <image source="../sprites/tiles/walls.png" width="192" height="192"/>
+  <image source="./res/sprites/tiles/walls.png" width="192" height="192"/>
  </tileset>
  <tileset firstgid="65" name="floor" tilewidth="24" tileheight="24" tilecount="42">
-  <image source="../sprites/tiles/floor.png" width="168" height="144"/>
+  <image source="./res/sprites/tiles/floor.png" width="168" height="144"/>
   <tile id="0">
    <properties>
     <property name="block" value="true"/>
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="107" name="buckets" tilewidth="24" tileheight="24" tilecount="10">
-  <image source="../sprites/buckets.png" width="240" height="24"/>
+ <tileset firstgid="107" name="buckets" tilewidth="24" tileheight="24" tilecount="15">
+  <image source="./res/sprites/buckets.png" width="360" height="24"/>
   <tile id="0">
    <properties>
     <property name="Red" value="true"/>
@@ -34,33 +34,41 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="117" name="Stone_Tiles" tilewidth="24" tileheight="24" tilecount="104">
-  <image source="../sprites/tiles/Stone_Tiles.png" trans="ff00ff" width="320" height="192"/>
+ <tileset firstgid="122" name="paint_overlay_dry" tilewidth="24" tileheight="24" tilecount="1">
+  <image source="./res/sprites/paint_overlay_dry.png" trans="ff00ff" width="24" height="24"/>
  </tileset>
- <tileset firstgid="221" name="paint_overlay_dry" tilewidth="24" tileheight="24" tilecount="1">
-  <image source="../sprites/paint_overlay_dry.png" trans="ff00ff" width="24" height="24"/>
+ <tileset firstgid="123" name="HTP" tilewidth="24" tileheight="24" tilecount="42">
+  <image source="./res/sprites/tiles/HTP.png" trans="ff00ff" width="168" height="144"/>
  </tileset>
- <tileset firstgid="222" name="HTP" tilewidth="24" tileheight="24" tilecount="42">
-  <image source="../sprites/tiles/HTP.png" trans="ff00ff" width="168" height="144"/>
+ <tileset firstgid="165" name="candy_wall" tilewidth="24" tileheight="24" tilecount="40">
+  <image source="./res/sprites/tiles/candy_wall.png" width="192" height="120"/>
+ </tileset>
+ <tileset firstgid="205" name="tile_green1_paint_incorrect" tilewidth="24" tileheight="24" tilecount="1">
+  <image source="./res/sprites/objects/tile_green1_paint_incorrect.png" width="24" height="24"/>
  </tileset>
  <layer name="Floor" width="26" height="15">
   <data encoding="base64" compression="zlib">
-   eJxzZGBgcBzFZGEPIPYkggbhADIwzB5/KJ8QTak9g8E/HjTyjwcOPiEMMxObGLp/0NX4U9keavkHXc9g8A8umpz4Jzf/UGoPvfxDDwwAAWZu5w==
+   eJzdlEEKxDAIRb1arx138WLDQIXXVwuz6GoWkqDRr/9Ljog4/tzWaQl7o26ddb/nVn36+t49LN077veN0zHiJc5U3O+ds5VDnujfyFtD/hJexn2GaR73wzqJeq5fcZ+VunZd606eauBvC6PiyrV3p982jmM8J0zrPe0FeyNnkyacfcWVN2K7/1Kc+1bC6XrGJHf5cPfuWh9q/+Qr3Z/02gMOteBeUZ8czHw7f+LNO8++6PcOe08931t/1q/2AUAt52Q=
   </data>
  </layer>
- <layer name="Walls" width="26" height="15">
+ <layer name="Paintbuckets" width="26" height="15" visible="0">
   <data encoding="base64" compression="zlib">
-   eJztzdtSgWEYhuF/DDWm46WFhFIqpAUtKcpOyGinlHJsLjPfhhOw978z17xbz9zJKIoyZNlmh132yLHPW/h5DihQpESbDs+80KXHa9j1SbHFIUeUOeaECqecMQn/nCo16lzwzoAhIz4Yh83SJ+nQaXDJFdfc0KTFLf/h33HPA4888cU3U374ZcZf2M1XOuu+uBN34k7cWe1skFizTRYmwCvu
-  </data>
- </layer>
- <layer name="Paintbuckets" width="26" height="15">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFQwX8pYIZ94D4Ph7530D8B4h/UWjPUyB+RqEZgwEwMkIwMxCzMCL4tLAHZD4TFDPTyB5mJDtgmIUG9rBgsYeZRuHGjOYXWsUPLI6YaZgOBgsAAPwiB+k=
+   eJxjYBgFQwXMIlF9NRDXkKhnBhDPBOLpJOhpAuJmEu0ZjGAeFC8A4oVIfBCoQsOU2gMyfz4UL0CyhxCYAMQTgXgSEE8moHYBkh0wvJBk1xIGyH5B9hMInEXDlABY3CD7hdhwI9UeWBwtYEBNByMFAADR/iIj
   </data>
  </layer>
  <layer name="Boards" width="26" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUDBVwFw2P2jO47BkuAACGYA3R
+   eJxbwcDAsI3GeCUQrwfifTTGa+lszzEaY5g9tAaj9ozaM2rP0LBnFRAvozFeDcQAYptrIw==
+  </data>
+ </layer>
+ <layer name="Tile Layer 4" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAcaAOxDhLWpYKZ2IAxEJsgYVOoeDUQ19DBniYgbqaiPdZAbIOEbaloNrkAPS5JidN5ULwAiBci8bEB9DBGD2tC9oDMnw/FC2hkzwIkO2B4IQ616HFJSpwi+wXZT9gApfGzgAHVL7QIt7NQvBBqH4xPbXtICQtK7CFFLyXpgBK91AYA+oouOw==
+  </data>
+ </layer>
+ <layer name="Tile Layer 5" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMAoQAAAGGAAB
   </data>
  </layer>
 </map>
