@@ -12,7 +12,7 @@ int playerNumber;
 
 
 #define AUDIO_ON 1 //toggles all audio on/off
-#define MUSIC_ON 1 //toggles whether background music is on/off
+#define MUSIC_ON 0 //toggles whether background music is on/off
 #define SFX_ON 1 //toggles sfx on/off
 
 
@@ -817,6 +817,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	13. Sam hit player, unused, unused, player #
 	14. Ptero hit player, unused, unused, player #
 	15. Go to win game, unused, unused, unused	
+	16. Player got bucket, player number, unused, color #
 	*/
 	
 	if(msg.messagechar == 0)
@@ -881,20 +882,53 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		auto labelcolor(ccc3(255, 255, 255));
 		switch (msg.status)
 		{
-		case 2:
+		case 2: // red
 			labelcolor = ccc3(247, 52, 47);
 			break;
-		case 3:
+		case 3: // blue
 			labelcolor = ccc3(49, 58, 197);
 			break;
-		case 4:
-			labelcolor = ccc3(255, 255, 255);
+		case 4: // yellow 
+			labelcolor = ccc3(236, 250, 85);
 			break;
-		case 5:
-			labelcolor = ccc3(255, 255, 255);
+		case 5: // orange
+			labelcolor = ccc3(234, 152, 26);
 			break;
-		case 6:
+		case 6: // black
 			labelcolor = ccc3(36, 33, 25);
+			break;
+		case 7: 
+			labelcolor = ccc3(4, 31, 131);
+			break;
+		case 8: 
+			labelcolor = ccc3(1, 16, 73);
+			break;
+		case 9: 
+			labelcolor = ccc3(2, 123, 36);
+			break;
+		case 10: 
+			labelcolor = ccc3(11, 187, 60);
+			break;
+		case 11: 
+			labelcolor = ccc3(47, 247, 145);
+			break;
+		case 12: 
+			labelcolor = ccc3(255, 255, 255);
+			break;
+		case 13: 
+			labelcolor = ccc3(101, 141, 186);
+			break;
+		case 14: 
+			labelcolor = ccc3(203, 216, 229);
+			break;
+		case 15: // red2
+			labelcolor = ccc3(187, 11, 44);
+			break;
+		case 16:  // purple1
+			labelcolor = ccc3(148, 55, 122);
+			break;
+		case 17: 
+			labelcolor = ccc3(247, 52, 47);
 			break;
 
 
@@ -902,18 +936,34 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		if (msg.xpos == 1)
 		{
 			p1CLabel->setFontFillColor(labelcolor);
+			if (playernum == 1)
+			{
+				gSFX.pTrigs[playernum - 1].onBucket = true;
+			}
 		}
 		if (msg.xpos == 2)
 		{
 			p2CLabel->setFontFillColor(labelcolor);
+			if (playernum == 2)
+			{
+				gSFX.pTrigs[playernum - 1].onBucket = true;
+			}
 		}
 		if (msg.xpos == 3)
 		{
 			p3CLabel->setFontFillColor(labelcolor);
+			if (playernum == 3)
+			{
+				gSFX.pTrigs[playernum - 1].onBucket = true;
+			}
 		}
 		if (msg.xpos == 4)
 		{
 			p4CLabel->setFontFillColor(labelcolor);
+			if (playernum == 4)
+			{
+				gSFX.pTrigs[playernum - 1].onBucket = true;
+			}
 		}
 
 
@@ -1793,7 +1843,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 	//switch used here in case further animation states are created. modular switch-cases superior.
 	switch (p.p1anim) {
-		//case 1-4 are walking in the 4 directions
+	/*	//case 1-4 are walking in the 4 directions
 	case 1:
 		if (isSFXPlaying[13] == false)
 		{
@@ -1821,7 +1871,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
 			isSFXPlaying[13] = true;
 		}
-		break;
+		break; */
 	case 5: //p1paint
 		if (gSFX.pTrigs[0].onBucket == true) //if the player is on a bucket
 		{
@@ -1851,17 +1901,17 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			gSFX.pTrigs[0].onGrid = false;
 		}
 		break;
-	case 35:
-		if (isSFXPlaying[13] == true)
-		{
-			experimental::AudioEngine::stop(soundIDList[13]);
-			isSFXPlaying[13] = false;
-		}
-		break;
+	//case 35:
+	//	if (isSFXPlaying[13] == true)
+	//	{
+	//		experimental::AudioEngine::stop(soundIDList[13]);
+	//		isSFXPlaying[13] = false;
+	//	}
+	//	break;
 	default: break;
 	}
 	switch (p.p2anim) {
-		//case 7-10 are walking in the 4 directions
+	/*	//case 7-10 are walking in the 4 directions
 	case 7:
 		if (isSFXPlaying[13] == false)
 		{
@@ -1889,8 +1939,8 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
 			isSFXPlaying[13] = true;
 		}
-		break;
-	case 11: //p1paint
+		break; */
+	case 11: //p2paint
 		if (gSFX.pTrigs[1].onBucket == true) //if the player is on a bucket
 		{
 			if (isSFXPlaying[6] == false)
@@ -1931,7 +1981,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	switch (p.p3anim)
 	{
 		//case 13-16 are walking in the 4 directions
-	case 13:
+	/*case 13:
 		if (isSFXPlaying[13] == false)
 		{
 			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
@@ -1958,8 +2008,8 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
 			isSFXPlaying[13] = true;
 		}
-		break;
-	case 17: //p1paint
+		break;*/
+	case 17: //p3paint
 		if (gSFX.pTrigs[2].onBucket == true) //if the player is on a bucket
 		{
 			if (isSFXPlaying[6] == false)
@@ -1998,7 +2048,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	default: break;
 }
 	switch (p.p4anim) {
-			//case 13-16 are walking in the 4 directions
+	/*		//case 13-16 are walking in the 4 directions
 	case 19:
 		if (isSFXPlaying[13] == false)
 		{
@@ -2026,8 +2076,8 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			soundIDList[13] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", true, 0.4f);
 			isSFXPlaying[13] = true;
 		}
-		break;
-	case 23: //p1paint
+		break; */
+	case 23: //p4paint
 		if (gSFX.pTrigs[3].onBucket == true) //if the player is on a bucket
 		{
 			if (isSFXPlaying[6] == false)
@@ -2115,7 +2165,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 	switch (p.ptanim) {
 	case 33: //pteraleft
-		if (false == isSFXPlaying[5])
+		if (false == isSFXPlaying[5] && pterodactyl->isVisible())
 		{
 			if (isSFXPlaying[11] == true)
 			{
@@ -2131,7 +2181,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		}
 		break;
 	case 34: //pteraright
-		if (false == isSFXPlaying[5])
+		if (false == isSFXPlaying[5] && pterodactyl->isVisible())
 		{
 			if (isSFXPlaying[11] == true)
 			{
@@ -2147,7 +2197,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		}
 		break;
 	case 40: //pteraANGRYleft
-		if (false == isSFXPlaying[11])
+		if (false == isSFXPlaying[11] && pterodactyl->isVisible())
 		{
 			experimental::AudioEngine::stop(soundIDList[5]);
 			isSFXPlaying[5] = false;
@@ -2160,7 +2210,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		}
 		break;
 	case 41: //pteraANGRYright
-		if (false == isSFXPlaying[11])
+		if (false == isSFXPlaying[11]&& pterodactyl->isVisible())
 		{
 			experimental::AudioEngine::stop(soundIDList[5]);
 			isSFXPlaying[5] = false;
