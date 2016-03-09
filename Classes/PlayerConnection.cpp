@@ -58,7 +58,7 @@ void PlayerConnection::beginGame(cocos2d::Ref* pSender)
 	if (IPAddress != "")
 	{
 		keyboard->setEnabled(false);
-		auto scene = ServerConnection::createServerConnection(IPAddress); 
+		auto scene = ServerConnection::createServerConnection(IPAddress,0); 
 		CCDirector::getInstance()->replaceScene(scene);
 	}
 }

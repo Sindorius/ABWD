@@ -55,6 +55,7 @@ character messagechar, float xpos, float ypos, char status
 14. Ptero hit player, unused, unused, player #
 15. Go to win game, unused, unused, unused
 16. Player got bucket, player number, unused, color # 
+17. Player already taken, unused, unused, player #
 
 
 

@@ -26,9 +26,9 @@ private:
 	Sprite* p4Chara;
 
 public:
-	static cocos2d::Scene* createServerConnection();
+	static cocos2d::Scene* createServerConnection(char chosencharacters);
 
-	static cocos2d::Scene* createServerConnection(std::string ipa); // NEW CODE TO TRY
+	static cocos2d::Scene* createServerConnection(std::string ipa, char chosencharacters); // NEW CODE TO TRY
 
 	virtual bool init();
 	void menuCloseCallback(cocos2d::Ref * pSender);

@@ -48,7 +48,7 @@ bool MenuScene::init()
 
 void MenuScene::server(cocos2d::Ref* pSender)
 {
-	auto scene = ServerConnection::createServerConnection();
+	auto scene = ServerConnection::createServerConnection(0);
 	CCDirector::getInstance()->replaceScene(scene);
 }
 

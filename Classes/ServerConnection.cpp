@@ -1,10 +1,12 @@
  #include "ServerConnection.h"
 
 std::string IPAddress = "";
+char pickedchars = 0;
 
-Scene* ServerConnection::createServerConnection()
+Scene* ServerConnection::createServerConnection(char chosencharacters)
 {
 	IPAddress = "127.0.0.1";
+	pickedchars = chosencharacters;
 	auto SCScene = Scene::create();
 	auto SClayer = ServerConnection::create();
 
@@ -13,9 +15,10 @@ Scene* ServerConnection::createServerConnection()
 	return SCScene;
 }
 
-Scene* ServerConnection::createServerConnection(std::string ipa)
+Scene* ServerConnection::createServerConnection(std::string ipa, char chosencharacters)
 {
 	IPAddress = ipa;
+	pickedchars = chosencharacters;
 	auto SCScene = Scene::create();
 	auto SClayer = ServerConnection::create();
 
@@ -31,6 +34,16 @@ bool ServerConnection::init()
 		return false;
 	}
 
+	char p1mask = 1;
+	char p2mask = 2;
+	char p3mask = 4;
+	char p4mask = 8;
+	char p1there = p1mask & pickedchars;
+	char p2there = p2mask & pickedchars;
+	char p3there = p3mask & pickedchars;
+	char p4there = p4mask & pickedchars;
+
+	
 	float winSizeWidth = CCDirector::sharedDirector()->getWinSize().width / 2;
 	float winSizeHeight = CCDirector::sharedDirector()->getWinSize().height / 2;
 
@@ -111,6 +124,23 @@ bool ServerConnection::init()
 	p4Chara->setPosition(Vec2((int)winSizeWidth + 200, (int)winSizeHeight - 20));
 	p4Chara->setOpacity(0);
 	this->addChild(p4Chara, 1);
+
+	if (p1there == p1mask)
+	{
+		p1_button->setOpacity(20);
+	}
+	if (p2there == p2mask)
+	{
+		p2_button->setOpacity(20);
+	}
+	if (p3there == p3mask)
+	{
+		p3_button->setOpacity(20);
+	}
+	if (p4there == p4mask)
+	{
+		p4_button->setOpacity(20);
+	}
 
 	return true;
 }
