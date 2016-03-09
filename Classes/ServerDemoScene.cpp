@@ -648,6 +648,22 @@ void ServerDemo::loadLevel(int level)
 		loadLevel(1);
 		return;
 	}
+	else if (level == 1) {
+		serversam->pteraOff();
+		serversam->candyOff();
+	}
+	else if (level == 2) {
+		serversam->pteraOff();
+		serversam->candyOff();
+	}
+	else if (level == 3) {
+		serversam->pteraOff();
+		serversam->candyOn();
+	}
+	else if (level == 4) {
+		serversam->pteraOn();
+		serversam->candyOn();
+	}
 
 	
 	
