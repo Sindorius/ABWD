@@ -18,6 +18,13 @@ bool PlayerConnection::init()
 		return false;
 	}
 
+	std::ifstream is("config.json");
+	cereal::JSONInputArchive configloader(is);
+	ConfigFileInput setupdata = ConfigFileInput();
+	configloader(setupdata);
+	is.close();
+	IPAddress = setupdata.ipaddress;
+
 	float winSizeWidth = CCDirector::sharedDirector()->getWinSize().width / 2;
 	float winSizeHeight = CCDirector::sharedDirector()->getWinSize().height / 2;
 
@@ -39,7 +46,7 @@ bool PlayerConnection::init()
 	Directions->setPosition(Vec2((int)winSizeWidth - 10, (int)winSizeHeight + 120));
 	this->addChild(Directions, 0);
 
-	IPLabel = CCLabelTTF::create("Enter IP Address", "fonts/Marker Felt.ttf", 12);
+	IPLabel = CCLabelTTF::create(IPAddress, "fonts/Marker Felt.ttf", 12);
 	IPLabel->setPosition(Vec2((int)winSizeWidth - 10, (int)winSizeHeight - 24));
 	this->addChild(IPLabel, 1);
 
@@ -88,6 +95,7 @@ void PlayerConnection::KeyP(EventKeyboard::KeyCode keyCode, Event* event)
 		break;
 	case EventKeyboard::KeyCode::KEY_2:
 		IPAddress += "2";
+		IPLabel->setString(IPAddress);
 		break;
 	case EventKeyboard::KeyCode::KEY_3:
 		IPAddress += "3";
