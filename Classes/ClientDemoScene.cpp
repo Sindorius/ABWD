@@ -170,32 +170,28 @@ bool ClientDemo::init()
 	player1->setAnchorPoint(Vec2(0.5, 0.0));
 	player1->setPosition(Vec2(playerOneSP["x"].asInt(), playerOneSP["y"].asInt()));
 	addChild(player1, 0);
-	player1->setVisible(false);
-
+	
 	player2 = Player::create(2);
 	player2->setPlayernum(2);
 	player2->getTexture()->setAliasTexParameters();
 	player2->setAnchorPoint(Vec2(0.5, 0.0));
 	player2->setPosition(Vec2(playerTwoSP["x"].asInt(), playerTwoSP["y"].asInt()));
 	addChild(player2, 0);
-	player2->setVisible(false);
-
+	
 	player3 = Player::create(3);
 	player3->setPlayernum(3);
 	player3->getTexture()->setAliasTexParameters();
 	player3->setAnchorPoint(Vec2(0.5, 0.0));
 	player3->setPosition(Vec2(playerThreeSP["x"].asInt(), playerThreeSP["y"].asInt()));
 	addChild(player3, 0);
-	player3->setVisible(false);
-
+	
 	player4 = Player::create(4);
 	player4->setPlayernum(4);
 	player4->getTexture()->setAliasTexParameters();
 	player4->setAnchorPoint(Vec2(0.5, 0.0));
 	player4->setPosition(Vec2(playerFourSP["x"].asInt(), playerFourSP["y"].asInt()));
 	addChild(player4, 0);
-	player4->setVisible(false);
-
+	
 	players.push_back(player1);
 	players.push_back(player2);
 	players.push_back(player3);
@@ -270,31 +266,31 @@ bool ClientDemo::init()
 	{
 		initializeSound(); //all sound initialization is in here now, cleaner
 	}
-
+	playernum = playerNumber;
 	if (playernum == 1)
 	{
-		playerOneActive = true;
-		player1->setVisible(true);
 		p1CLabel->setOpacity(255);
 	}
 	if (playernum == 2)
 	{
-		playerTwoActive = true;
-		player2->setVisible(true);
 		p2CLabel->setOpacity(255);
 	}
 	if (playernum == 3)
 	{
-		playerThreeActive = true;
-		player3->setVisible(true);
 		p3CLabel->setOpacity(255);
 	}
 	if (playernum == 4)
 	{
-		playerFourActive = true;
-		player4->setVisible(true);
 		p4CLabel->setOpacity(255);
 	}
+	for (int i = 1; i <= 4; i++)
+	{
+		if(playernum != i)
+		{
+			players[i - 1]->setVisible(false);
+		}
+	}
+
 
 	auto joyListener = EventListenerJoystick::create();
 	joyListener->onEvent = CC_CALLBACK_1(ClientDemo::Joystick, this);
@@ -878,8 +874,49 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		cocos2d::experimental::AudioEngine::stopAll();
 		auto scene = GameOver::createGameOver();
 		CCDirector::getInstance()->replaceScene(scene);
-		killsound = true;
-		
+		killsound = true;	
+	}
+	else if (msg.messagechar == 16)
+	{
+		auto labelcolor(ccc3(255, 255, 255));
+		switch (msg.status)
+		{
+		case 2:
+			labelcolor = ccc3(247, 52, 47);
+			break;
+		case 3:
+			labelcolor = ccc3(49, 58, 197);
+			break;
+		case 4:
+			labelcolor = ccc3(255, 255, 255);
+			break;
+		case 5:
+			labelcolor = ccc3(255, 255, 255);
+			break;
+		case 6:
+			labelcolor = ccc3(36, 33, 25);
+			break;
+
+
+		}
+		if (msg.xpos == 1)
+		{
+			p1CLabel->setFontFillColor(labelcolor);
+		}
+		if (msg.xpos == 2)
+		{
+			p2CLabel->setFontFillColor(labelcolor);
+		}
+		if (msg.xpos == 3)
+		{
+			p3CLabel->setFontFillColor(labelcolor);
+		}
+		if (msg.xpos == 4)
+		{
+			p4CLabel->setFontFillColor(labelcolor);
+		}
+
+
 	}
 }
 
@@ -1037,7 +1074,7 @@ int ClientDemo::getTileProperties(CCPoint tileCoord)
 
 void ClientDemo::changeLabelColor(int bTile, int playerNum)
 {
-	if (playerNum == 1) {
+	/*if (playerNum == 1) {
 		if (bTile)
 		{
 			auto tilemapvals = levelmanager.levelmap->getPropertiesForGID(bTile).asValueMap();
@@ -1062,7 +1099,6 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				auto r2 = tilemapvals["Red2"].asString();
 				auto p = tilemapvals["Purple1"].asString();
 				auto r1 = tilemapvals["Red1"].asString();
-
 
 
 				if ("true" == r)
@@ -1430,7 +1466,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				}
 			}
 		}
-	}
+	}*/
 }
 
 

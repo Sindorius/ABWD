@@ -540,27 +540,32 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "red";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 2));
 				}
 				if ("true" == b)
 				{
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "blue";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 3));
 				}
 				if ("true" == y) {
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "yellow";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 4));
 				}
 				if ("true" == o) {
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "orange";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 5));
 				}
 				if ("true" == blk) {
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "black";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 6));
 				}
 
 				if ("true" == b2) {
@@ -1045,12 +1050,15 @@ void ServerDemo::removePlayerFromGame(TCPSSession* sessionptr)
 	//else { return; }
 	
 	try {
+		theplayernum = sessionmap.left.at(sessionptr);
 		sessionmap.left.erase(sessionptr);
 	}
 	catch(std::out_of_range & e){
 		return;
 	}
+	sessionmapped[theplayernum] = false;
 	players[theplayernum - 1]->setVisible(false);
+	
 	enqueueMessage(ServerMessage(11, 0, 0, theplayernum));
 
 }
