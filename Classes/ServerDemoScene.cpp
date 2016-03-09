@@ -572,57 +572,68 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "blue2";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 7));
 				}
 				if ("true" == b3) {
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "blue3";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 8));
 				}
 				if ("true" == g1) {
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "green1";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 9));
 				}
 				if ("true" == g2) {
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "green2";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 10));
 				}
 				if ("true" == g3) {
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "green3";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 11));
 				}
 				///// ADDED THIS
 				if ("true" == w) {
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "white";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 12));
 				}
 				if ("true" == gy1) {
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "grey1";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 13));
 				}
 				if ("true" == gy2) {
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "grey2";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 14));
 				}
 				if ("true" == r2) {
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "red2";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 15));
 				}
 				if ("true" == p) {
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "purple1";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 16));
 				}
 				if ("true" == r1) {
 					dxmove = -dxmove * 2;
 					dymove = -dymove * 2;
 					newcolor = "red1";
+					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 17));
 				}
 				//// ADDED THIS
 			}
