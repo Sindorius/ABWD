@@ -406,10 +406,18 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionpt
 	{
 		if (sessionmap.right.at(p.playernum) != sessionptr)
 		{
-			//if (sessionptr != sessionmap.at(p.playernum)->left())
-			//{
-				//send message to client of the players list;
-			//}
+			//send message to client of the players list;
+			std::vector<ServerMessage> tempservermessagequeue;
+			tempservermessagequeue.emplace_back(ServerMessage(17, 0, 0, p.playernum));
+			mytcpserverp->sendPacket(ServerPositionPacket (getActiveChars(), levelmanager.currentlevel,
+				candy->getPositionX(), candy->getPositionY(),
+				pterodactyl->getPositionX(), pterodactyl->getPositionY(), animationmanager.charFromString(pterodactyl->getAnim()),
+				serversam->getPositionX(), serversam->getPositionY(), animationmanager.charFromString(serversam->getAnim()),
+				player1->getPositionX(), player1->getPositionY(), animationmanager.charFromString(player1->getAnim()),
+				player2->getPositionX(), player2->getPositionY(), animationmanager.charFromString(player2->getAnim()),
+				player3->getPositionX(), player3->getPositionY(), animationmanager.charFromString(player3->getAnim()),
+				player4->getPositionX(), player4->getPositionY(), animationmanager.charFromString(player4->getAnim()), blankvector, tempservermessagequeue)
+			,sessionptr);
 		}
 	}
 

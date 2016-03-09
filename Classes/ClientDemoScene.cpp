@@ -462,7 +462,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 		loadLevel(p.level);
 	}
 	
-	char activechars = p.activeplayers;
+	activechars = p.activeplayers;
 	setVisiblePlayers(activechars);
 		
 	/* move players, with some client side prediction of your own character*/
@@ -579,7 +579,7 @@ void ClientDemo::setVisiblePlayers(char activechars)
 	char p2there = p2mask & activechars;
 	char p3there = p3mask & activechars;
 	char p4there = p4mask & activechars;
-	if (p1there == p1mask)
+	if (p1there == p1mask || playernum == 1)
 	{
 		player1->setVisible(true);
 		p1CLabel->setOpacity(255);
@@ -588,7 +588,7 @@ void ClientDemo::setVisiblePlayers(char activechars)
 		player1->setVisible(false);
 		p1CLabel->setOpacity(0);
 	}
-	if (p2there == p2mask)
+	if (p2there == p2mask || playernum == 2)
 	{
 		player2->setVisible(true);
 		p2CLabel->setOpacity(255);
@@ -597,7 +597,7 @@ void ClientDemo::setVisiblePlayers(char activechars)
 		player2->setVisible(false);
 		p2CLabel->setOpacity(0);
 	}
-	if (p3there == p3mask)
+	if (p3there == p3mask || playernum == 3)
 	{
 		player3->setVisible(true);
 		p3CLabel->setOpacity(255);
@@ -607,7 +607,7 @@ void ClientDemo::setVisiblePlayers(char activechars)
 		p3CLabel->setOpacity(0);
 
 	}
-	if (p4there == p4mask)
+	if (p4there == p4mask || playernum == 4)
 	{
 		player4->setVisible(true);
 		p4CLabel->setOpacity(255);
@@ -874,7 +874,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		cocos2d::experimental::AudioEngine::stopAll();
 		auto scene = GameOver::createGameOver();
 		CCDirector::getInstance()->replaceScene(scene);
-		killsound = true;	
+		
 	}
 	else if (msg.messagechar == 16)
 	{
@@ -917,6 +917,12 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		}
 
 
+	}
+	else if (msg.messagechar == 17)
+	{
+		_eventDispatcher->removeAllEventListeners();
+		auto scene = ServerConnection::createServerConnection(ipaddress, activechars);
+		CCDirector::getInstance()->replaceScene(scene);
 	}
 }
 

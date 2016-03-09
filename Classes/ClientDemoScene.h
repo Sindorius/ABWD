@@ -197,7 +197,7 @@ public:
 
 	void Joystick(cocos2d::Event*);
 	void ClientDemo::setVisiblePlayers(char activechars);
-	bool killsound = false;
+	char activechars = 0;
 
 	~ClientDemo();
 	
