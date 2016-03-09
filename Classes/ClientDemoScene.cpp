@@ -1563,8 +1563,6 @@ void ClientDemo::loadLevel(int level)
 	}
 	////////////////
 
-
-	gSFX.levelChange = true;
 	levelmanager.changeLevel(level);
 	if (level != 5)
 	{
@@ -1605,6 +1603,8 @@ void ClientDemo::loadLevel(int level)
 
 	setupPaintTiles();
 	currentlevel = level;
+
+	gSFX.levelChange = true;
 	
 	if (level == 5)
 	{
@@ -1800,13 +1800,36 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	//If level solved
 	if (gSFX.levelChange == true) //may need to set bool on changelevel() instead if this has trouble triggering sfx
 	{
+		//play level completed sfx
 		if (isSFXPlaying[10] == false)
 		{
 			soundIDList[10] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\puzzle_solved.mp3");
 			isSFXPlaying[10] = true;
 			experimental::AudioEngine::setFinishCallback(soundIDList[10], [&](int id, const std::string& filePath)
 			{
+				experimental::AudioEngine::stop(soundIDList[14]);
 				isSFXPlaying[10] = false;
+				//play new level's music
+				if (currentlevel == 1)
+				{
+					soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", true, 0.4f);
+				}
+				else if (currentlevel == 2)
+				{
+					soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\candylvl_music.mp3", true, 0.4f);
+				}
+				else if (currentlevel == 3)
+				{
+					soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\ptlvl_music.mp3", true, 0.4f);
+				}
+				else if (currentlevel == 4)
+				{
+					soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\sunlvl_music.mp3", true, 0.4f);
+				}
+				//else if (currentlevel == 5)
+				//{
+				//	soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\win_music.mp3", true, 0.4f);
+				//}
 			});
 			gSFX.levelChange = false;
 		}
@@ -2234,6 +2257,14 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		if (pIFrames[i] > 0)
 			pIFrames[i]--;
 	}
+	//hackfix to get lvl 1 music to play
+	//stopall() in howtoplay.cpp cant be followed too quickly by play2d(). cocos2d bug?
+	if (isSFXPlaying[14] == false && currentlevel == 1)
+	{
+		soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", true, 0.4f);
+		isSFXPlaying[14] = true;
+
+	}
 }
 
 void ClientDemo::goToMainMenu(cocos2d::Ref* pSender)
@@ -2330,6 +2361,7 @@ void ClientDemo::initializeSound()
 			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop_fast.mp3", false, 0.0f));
 			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.0f));
 			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", false, 0.0f));
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", false, 0.0f)); //part of hackfix to get lvl 1 music to play
 
 			for (unsigned int i = 0; i < soundIDList.size(); i++)
 			{
@@ -2339,10 +2371,13 @@ void ClientDemo::initializeSound()
 
 		if (MUSIC_ON)
 		{
-			//run background music
-			experimental::AudioEngine::preload("\\res\\sound\\music\\music_1.mp3");
-			experimental::AudioEngine::play2d("\\res\\sound\\music\\music_1.mp3", true, 0.5);
-
+			//preload background music
+			experimental::AudioEngine::preload("\\res\\sound\\music\\menu_music.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\music\\samlvl_music.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\music\\candylvl_music.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\music\\ptlvl_music.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\music\\sunlvl_music.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\music\\win_music.mp3");
 		}
 	}
 }
