@@ -67,16 +67,12 @@ bool ServerAppDelegate::applicationDidFinishLaunching() {
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
 void ServerAppDelegate::applicationDidEnterBackground() {
-    Director::getInstance()->stopAnimation();
+    //Director::getInstance()->stopAnimation();
 
-    // if you use SimpleAudioEngine, it must be pause
-    // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
 }
 
 // this function will be called when the app is active again
 void ServerAppDelegate::applicationWillEnterForeground() {
-    Director::getInstance()->startAnimation();
+    //Director::getInstance()->startAnimation();
 
-    // if you use SimpleAudioEngine, it must resume here
-    // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }
