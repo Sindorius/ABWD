@@ -881,20 +881,53 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		auto labelcolor(ccc3(255, 255, 255));
 		switch (msg.status)
 		{
-		case 2:
+		case 2: // red
 			labelcolor = ccc3(247, 52, 47);
 			break;
-		case 3:
+		case 3: // blue
 			labelcolor = ccc3(49, 58, 197);
 			break;
-		case 4:
-			labelcolor = ccc3(255, 255, 255);
+		case 4: // yellow 
+			labelcolor = ccc3(236, 250, 85);
 			break;
-		case 5:
-			labelcolor = ccc3(255, 255, 255);
+		case 5: // orange
+			labelcolor = ccc3(234, 152, 26);
 			break;
-		case 6:
+		case 6: // black
 			labelcolor = ccc3(36, 33, 25);
+			break;
+		case 7: 
+			labelcolor = ccc3(4, 31, 131);
+			break;
+		case 8: 
+			labelcolor = ccc3(1, 16, 73);
+			break;
+		case 9: 
+			labelcolor = ccc3(2, 123, 36);
+			break;
+		case 10: 
+			labelcolor = ccc3(11, 187, 60);
+			break;
+		case 11: 
+			labelcolor = ccc3(47, 247, 145);
+			break;
+		case 12: 
+			labelcolor = ccc3(255, 255, 255);
+			break;
+		case 13: 
+			labelcolor = ccc3(101, 141, 186);
+			break;
+		case 14: 
+			labelcolor = ccc3(203, 216, 229);
+			break;
+		case 15: // red2
+			labelcolor = ccc3(187, 11, 44);
+			break;
+		case 16:  // purple1
+			labelcolor = ccc3(148, 55, 122);
+			break;
+		case 17: 
+			labelcolor = ccc3(247, 52, 47);
 			break;
 
 
