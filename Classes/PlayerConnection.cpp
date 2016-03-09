@@ -88,6 +88,7 @@ void PlayerConnection::KeyP(EventKeyboard::KeyCode keyCode, Event* event)
 		break;
 	case EventKeyboard::KeyCode::KEY_2:
 		IPAddress += "2";
+		IPLabel->setString(IPAddress);
 		break;
 	case EventKeyboard::KeyCode::KEY_3:
 		IPAddress += "3";
