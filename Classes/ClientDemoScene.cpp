@@ -1627,6 +1627,7 @@ void ClientDemo::loadLevel(int level)
 	}
 	else if (level == 1) {
 		pterodactyl->setVisible(false);
+		villain->setVisible(false);
 	}
 	else if (level == 2) {
 		pterodactyl->setVisible(false);

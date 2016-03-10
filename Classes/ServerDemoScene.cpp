@@ -670,6 +670,7 @@ void ServerDemo::loadLevel(int level)
 	else if (level == 1) {
 		serversam->pteraOff();
 		serversam->candyOff();
+		serversam->setPosition(-1000, -1000);
 	}
 	else if (level == 2) {
 		serversam->pteraOff();
