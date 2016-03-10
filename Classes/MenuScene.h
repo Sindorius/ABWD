@@ -8,6 +8,8 @@
 #include "ServerConnection.h"
 #include "PlayerConnection.h"
 
+#define MUSIC_ON 1
+
 USING_NS_CC;
 
 class MenuScene : public cocos2d::Layer

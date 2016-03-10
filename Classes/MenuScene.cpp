@@ -43,7 +43,10 @@ bool MenuScene::init()
 	title->setPosition(Vec2((int)winSizeWidth - 10, (int)winSizeHeight + 110));
 	this->addChild(title, 0);
 
-	experimental::AudioEngine::play2d("\\res\\sound\\music\\menu_music.mp3", true);
+	if (MUSIC_ON)
+	{
+		experimental::AudioEngine::play2d("\\res\\sound\\music\\menu_music.mp3", true);
+	}
 
 	return true;
 }

@@ -12,7 +12,8 @@ int playerNumber;
 
 
 #define AUDIO_ON 1 //toggles all audio on/off
-#define MUSIC_ON 0 //toggles whether background music is on/off
+#define MUSIC_ON 1 //toggles whether background music is on/off
+//**** IMPORTANT: MUSIC_ON is also defined in MenuScene.h so remember to toggle that one too to turn off menu music!
 #define SFX_ON 1 //toggles sfx on/off
 
 
@@ -1809,27 +1810,29 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			{
 				experimental::AudioEngine::stop(soundIDList[14]);
 				isSFXPlaying[10] = false;
-				//play new level's music
-				if (currentlevel == 1)
-				{
-					soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", true, 0.4f);
+				if (MUSIC_ON)
+				{//play new level's music
+					if (currentlevel == 1)
+					{
+						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", true, 0.4f);
+					}
+					else if (currentlevel == 2)
+					{
+						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\candylvl_music.mp3", true, 0.4f);
+					}
+					else if (currentlevel == 3)
+					{
+						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\ptlvl_music.mp3", true, 0.4f);
+					}
+					else if (currentlevel == 4)
+					{
+						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\sunlvl_music.mp3", true, 0.4f);
+					}
+					//else if (currentlevel == 5)
+					//{
+					//	soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\win_music.mp3", true, 0.4f);
+					//}
 				}
-				else if (currentlevel == 2)
-				{
-					soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\candylvl_music.mp3", true, 0.4f);
-				}
-				else if (currentlevel == 3)
-				{
-					soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\ptlvl_music.mp3", true, 0.4f);
-				}
-				else if (currentlevel == 4)
-				{
-					soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\sunlvl_music.mp3", true, 0.4f);
-				}
-				//else if (currentlevel == 5)
-				//{
-				//	soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\win_music.mp3", true, 0.4f);
-				//}
 			});
 			gSFX.levelChange = false;
 		}
@@ -2259,11 +2262,14 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	}
 	//hackfix to get lvl 1 music to play
 	//stopall() in howtoplay.cpp cant be followed too quickly by play2d(). cocos2d bug?
-	if (isSFXPlaying[14] == false && currentlevel == 1)
+	if (MUSIC_ON)
 	{
-		soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", true, 0.4f);
-		isSFXPlaying[14] = true;
+		if (isSFXPlaying[14] == false && currentlevel == 1)
+		{
+			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", true, 0.4f);
+			isSFXPlaying[14] = true;
 
+		}
 	}
 }
 
