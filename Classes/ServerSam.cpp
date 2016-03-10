@@ -211,47 +211,64 @@ void ServerSam::walk() {
 	if (timeCheck()) {
 		behavior_timer--;
 		int temp = -1;
+		bool anything = false;
 		for (int i = 0; i < distance.size(); i++) {
 			int temp1 = distance[i];
-			if (temp == -1) { temp = temp1; target = i; }
-			else if (temp > temp1 && priority[i] > 0) { temp = temp1; target = i; }
-		}
-		double playerx, playery, samx, samy;
-		playerx = player_list->at(target)->getPositionX();
-		playery = player_list->at(target)->getPositionY();
-		samx = this->getPositionX();
-		samy = this->getPositionY();
-		double theta;
-		if (playerx >= samx) {
-			theta = atan((playery - samy) / (playerx - samx)) * 180 / 3.14159;
-		}
-		else if (playery > samy){
-			theta = 180 + (atan((playery - samy) / (playerx - samx)) * 180 / 3.14159);
-		}
-		else {
-			theta = -180 + atan((playery - samy) / (playerx - samx)) * 180 / 3.14159;
-		}
-		if (priority[target] > 0) {
-			
-			this->setPositionX(this->getPositionX() + walk_speed*(cos(theta * 3.14159/180)));
-			this->setPositionY(this->getPositionY() + walk_speed*(sin(theta * 3.14159/180)));
-			
-			if (theta > 45 && theta < 135) {
-				setAnim("samup");
+			if (temp == -1 && priority[i] > 0) { 
+				temp = temp1; 
+				target = i; 
+				anything = true;
 			}
-			else if (theta >= 135 || theta <= -135) {
-				setAnim("samleft");
+			else if (temp > temp1 && priority[i] > 0) { 
+				temp = temp1; 
+				target = i; 
 			}
-			else if (theta <= 45 && theta >= -45) {
-				setAnim("samright");
+		}
+		if (anything) {
+			double playerx, playery, samx, samy;
+			playerx = player_list->at(target)->getPositionX();
+			playery = player_list->at(target)->getPositionY();
+			samx = this->getPositionX();
+			samy = this->getPositionY();
+			double theta;
+			if (playerx >= samx) {
+				theta = atan((playery - samy) / (playerx - samx)) * 180 / 3.14159;
 			}
-			else if (theta < -45 && theta > -135) {
+			else if (playery > samy) {
+				theta = 180 + (atan((playery - samy) / (playerx - samx)) * 180 / 3.14159);
+			}
+			else {
+				theta = -180 + atan((playery - samy) / (playerx - samx)) * 180 / 3.14159;
+			}
+			if (priority[target] > 0 && distance[target] > 2) {
+
+				this->setPositionX(this->getPositionX() + walk_speed*(cos(theta * 3.14159 / 180)));
+				this->setPositionY(this->getPositionY() + walk_speed*(sin(theta * 3.14159 / 180)));
+
+				if (theta > 45 && theta < 135) {
+					setAnim("samup");
+				}
+				else if (theta >= 135 || theta <= -135) {
+					setAnim("samleft");
+				}
+				else if (theta <= 45 && theta >= -45) {
+					setAnim("samright");
+				}
+				else if (theta < -45 && theta > -135) {
+					setAnim("samdown");
+				}
+
+			}
+			else {
+				behavior_timer = 0;
+				behavior = 0;
+				walk_speed = 2;
 				setAnim("samdown");
 			}
-			
 		}
 		else {
 			behavior_timer = 0;
+			behavior = 0;
 		}
 	}
 	else {
