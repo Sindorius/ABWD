@@ -43,8 +43,8 @@ void ServerSam::setPriority(std::vector<std::vector<char>> tiles, std::vector<st
 		priority[i] = 0;
 		idle = true;
 	}
-	for (int i = 0; i < tiles.size(); i++) {
-		for (int j = 0; j < tiles[i].size(); j++ ) {
+	for (unsigned int i = 0; i < tiles.size(); i++) {
+		for (unsigned int j = 0; j < tiles[i].size(); j++ ) {
 			if (tiles[i][j] == 1 && dry[i][j] != 1) {
 				priority[0]++;
 				idle = false;
@@ -120,7 +120,7 @@ void ServerSam::calculations() {
 	distance.erase(distance.begin(), distance.end());
 	int ServerSamX = this->getPositionX();
 	int ServerSamY = this->getPositionY();
-	for (int i = 0; i < player_list->size(); i++) {
+	for (unsigned int i = 0; i < player_list->size(); i++) {
 		int temp = sqrt(pow((ServerSamX - player_list->at(i)->getPositionX()), 2) + pow((ServerSamY - player_list->at(i)->getPositionY()), 2));
 		distance.push_back(temp);
 	}
@@ -212,7 +212,7 @@ void ServerSam::walk() {
 		behavior_timer--;
 		int temp = -1;
 		bool anything = false;
-		for (int i = 0; i < distance.size(); i++) {
+		for (unsigned int i = 0; i < distance.size(); i++) {
 			int temp1 = distance[i];
 			if (temp == -1 && priority[i] > 0) { 
 				temp = temp1; 
@@ -346,7 +346,7 @@ void ServerSam::pteraSummon() {
 			secondary_time--;
 		}
 		int temp = -1;
-		for (int i = 0; i < distance.size(); i++) {
+		for (unsigned int i = 0; i < distance.size(); i++) {
 			int temp1 = distance[i];
 			if (temp < temp1 && priority[i] > 0) { temp = temp1; target = i; }
 		}
@@ -363,7 +363,7 @@ void ServerSam::pteraSummon() {
 void ServerSam::munch() {
 	if (flag) {
 		int temp = -1;
-		for (int i = 0; i < distance.size(); i++) {
+		for (unsigned int i = 0; i < distance.size(); i++) {
 			int temp1 = distance[i];
 			if (temp < temp1 && priority[i] > 0) { temp = temp1; target = i; }
 		}
@@ -400,7 +400,7 @@ void ServerSam::munch() {
 	}
 
 
-	for (int i = 0; i < player_list->size(); i++) {
+	for (unsigned int i = 0; i < player_list->size(); i++) {
 		if (abs(player_list->at(i)->getPositionX() - candy->getPositionX()) < 10 && abs(player_list->at(i)->getPositionY() - candy->getPositionY()) < 10 && candy->notCollected()) {
 			candy->setStatus(false);
 			candy->setOwner(i);

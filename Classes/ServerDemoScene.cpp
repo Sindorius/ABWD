@@ -227,12 +227,12 @@ void ServerDemo::update(float dt)
 		serversam->runAI(&players);
 	}
 
-	player1->setZOrder(-player1->getPositionY());
-	player2->setZOrder(-player2->getPositionY());
-	player3->setZOrder(-player3->getPositionY());
-	player4->setZOrder(-player4->getPositionY());
-	serversam->setZOrder(-serversam->getPositionY());
-	pterodactyl->setZOrder(-pterodactyl->getPositionY());
+	player1->setLocalZOrder(-player1->getPositionY());
+	player2->setLocalZOrder(-player2->getPositionY());
+	player3->setLocalZOrder(-player3->getPositionY());
+	player4->setLocalZOrder(-player4->getPositionY());
+	serversam->setLocalZOrder(-serversam->getPositionY());
+	pterodactyl->setLocalZOrder(-pterodactyl->getPositionY());
 
 	if (levelmanager.currentlevel != 1) {
 		if (dry_time < 15) {
@@ -250,9 +250,9 @@ void ServerDemo::update(float dt)
 			{
 				sendmap = true;
 				enqueueMessage(ServerMessage(13, 0, 0, p->getPlayernum())); //SFX triger for sam hitting player
-				for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
+				for (unsigned int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 				{
-					for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
+					for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 					{
 						if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != 1)
 						{
@@ -271,9 +271,9 @@ void ServerDemo::update(float dt)
 			{
 				sendmap = true;
 				enqueueMessage(ServerMessage(14, 0, 0, p->getPlayernum())); //SFX triger for pterodactyl hitting player
-				for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
+				for (unsigned int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 				{
-					for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
+					for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 					{
 						if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != 1)
 						{
@@ -436,7 +436,7 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionpt
 	// Convert the players position into tile coordinates
 	int testx = (playerPos.x + p.dx) / (levelmanager.levelmap->getTileSize().width);
 	int testy = ((levelmanager.levelmap->getMapSize().height * levelmanager.levelmap->getTileSize().height) - playerPos.y - p.dy) / (levelmanager.levelmap->getTileSize().height);
-	CCPoint tileCoord = CCPoint(testx, testy);
+	Vec2 tileCoord = Vec2(testx, testy);
 	if (blockage != NULL)
 	{
 		int bkTile = blockage->getTileGIDAt(tileCoord);
@@ -694,9 +694,9 @@ void ServerDemo::loadLevel(int level)
 		removeChild(s);
 	}
 
-	for (int i = 0; i < tilespritevector.size(); i++)
+	for (unsigned int i = 0; i < tilespritevector.size(); i++)
 	{
-		for (int j = 0; j < tilespritevector[i].size(); j++)
+		for (unsigned int j = 0; j < tilespritevector[i].size(); j++)
 		{
 			removeChild(tilespritevector[i][j]);
 		}
@@ -804,14 +804,14 @@ void ServerDemo::setupPaintTiles()
 {
 
 	tilespritevector.resize(levelmanager.puzzle.currenttilevector.size());
-	for (int i = 0; i < tilespritevector.size(); i++)
+	for (unsigned int i = 0; i < tilespritevector.size(); i++)
 	{
 		tilespritevector[i].resize(levelmanager.puzzle.currenttilevector[i].size());
 	}
 	
-	for (int i = 0; i < tilespritevector.size(); i++)
+	for (unsigned int i = 0; i < tilespritevector.size(); i++)
 	{
-		for (int j = 0; j < tilespritevector[i].size(); j++)
+		for (unsigned int j = 0; j < tilespritevector[i].size(); j++)
 		{
 			tilespritevector[i][j] = PaintTile::create();
 			tilespritevector[i][j]->setPosition(24 * j + levelmanager.tilestartpoint.x, 24 * i + levelmanager.tilestartpoint.y);
@@ -828,9 +828,9 @@ void ServerDemo::updatePaintTiles(int playernum)
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// optimize this, might not need to go through each tile here.
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
+	for (unsigned int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 	{
-		for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
+		for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 		{
 			if (players[playernum - 1]->getPositionX() > tilespritevector[i][j]->getPositionX() - 12 && players[playernum - 1]->getPositionX() < tilespritevector[i][j]->getPositionX() + 12 && players[playernum - 1]->getPositionY() > tilespritevector[i][j]->getPositionY() - 12 && players[playernum - 1]->getPositionY() < tilespritevector[i][j]->getPositionY() + 12)
 			{

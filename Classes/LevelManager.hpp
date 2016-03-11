@@ -13,7 +13,7 @@ class LevelManager
 public:
 	int currentlevel=1;
 	cocos2d::Vec2 tilestartpoint;
-	CCTMXTiledMap* levelmap;
+	TMXTiledMap* levelmap;
 	std::vector<Sprite*> levelsprites;
 	Puzzle puzzle;
 
