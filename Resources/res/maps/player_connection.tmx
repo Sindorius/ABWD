@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="26" height="15" tilewidth="24" tileheight="24" nextobjectid="90">
+ <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
+  <image source="./res/sprites/tiles/walls.png" width="192" height="192"/>
+ </tileset>
+ <tileset firstgid="65" name="floor" tilewidth="24" tileheight="24" tilecount="42">
+  <image source="./res/sprites/tiles/floor.png" width="168" height="144"/>
+  <tile id="0">
+   <properties>
+    <property name="block" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="107" name="buckets" tilewidth="24" tileheight="24" tilecount="15">
+  <image source="./res/sprites/buckets.png" width="360" height="24"/>
+  <tile id="0">
+   <properties>
+    <property name="Red" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Blue" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Orange" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Yellow" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="122" name="meta" tilewidth="24" tileheight="24" tilecount="2">
+  <image source="./res/sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
+  <tile id="0">
+   <properties>
+    <property name="Collidable" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="124" name="instructions" tilewidth="24" tileheight="24" tilecount="18">
+  <image source="./res/sprites/objects/instructions.png" width="144" height="72"/>
+ </tileset>
+ <tileset firstgid="142" name="Stone_Tiles" tilewidth="24" tileheight="24" tilecount="104">
+  <image source="./res/sprites/tiles/Stone_Tiles.png" trans="ff00ff" width="320" height="192"/>
+ </tileset>
+ <tileset firstgid="246" name="candy_wall" tilewidth="24" tileheight="24" tilecount="40">
+  <image source="./res/sprites/tiles/candy_wall.png" width="192" height="120"/>
+ </tileset>
+ <tileset firstgid="286" name="ptera_wall" tilewidth="24" tileheight="24" tilecount="40">
+  <image source="./res/sprites/tiles/ptera_wall.png" width="192" height="120"/>
+ </tileset>
+ <layer name="Floor" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxzZGBgcBzFZGEPIPYkggbhADIwzB5/KJ8QTak9g8E/HjTyjwcOPiEMMxObGLp/0NX4U9keavkHXc9g8A8umlh7qJF/yMWk+Ica9tADAwCm126n
+  </data>
+ </layer>
+ <layer name="Walls" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzdk70OAyEMg2HqQKQOidT3f8qqP6qaAaTvfOnI0sGCgySOTe7RWrv0vXgmR8v1uhmfP+W5bcbi8UQkRsLm3ifGhGN15ITEB2Jt7hePzfOQuuQx5Dn6YXxVx4RH67ich9yr5uhH3eRSPfRt9N/+sEZIjPWj/koPe6EOl5q8Y03m0kfVwzuCGvjG7MH7ude1ct7Yg85QNSPqHf1jnco3zRkST77qu5pr+kY/yMX5qv4d7+f3UC+Xb6/EfTPeiS/gTj1p
+  </data>
+ </layer>
+ <layer name="Paintbuckets" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMAoQAAAGGAAB
+  </data>
+ </layer>
+ <layer name="Boards" width="26" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2BkAmtGBgYbIDZGwiZQDGJTC4DscGTAjq2paA/M7TA/2SDxqWnPKBj+AAB7JAV5
+  </data>
+ </layer>
+</map>
