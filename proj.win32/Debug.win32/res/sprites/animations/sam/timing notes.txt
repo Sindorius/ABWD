@@ -1,1 +1,0 @@
-sam whistle should be display for .2 seconds each frame
