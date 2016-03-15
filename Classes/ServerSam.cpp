@@ -73,7 +73,7 @@ void ServerSam::runAI(std::vector<Player*>* players)
 	teleport_cd--;
 	candy->run();
 	if (candy->getTime() == 1) {
-		candyOff();
+		candyOn();
 	}
 	if(candy->getTime() == 1)
 	{
@@ -111,7 +111,7 @@ void ServerSam::runAI(std::vector<Player*>* players)
 		munching();
 		break;
 	}
-	if (behavior != 1) {
+	if (behavior != 1 && b_ptera) {
 		ptera->run(this->getPositionX(), this->getPositionY());
 	}
 }
@@ -419,7 +419,7 @@ void ServerSam::munch() {
 		behavior = 7;
 		behavior_timer = 150;
 		flag = true;
-		walk_speed = 2.5;
+		walk_speed = 4;
 	}
 
 }
@@ -430,7 +430,7 @@ void ServerSam::munching() {
 		setAnim("sammunch");
 	}
 	else {
-		behavior_timer = 150;
+		behavior_timer = 60;
 		behavior = 0;
 	}
 }
@@ -461,9 +461,10 @@ void ServerSam::pteraOff() {
 		ptera->setVisible(false);
 		b_ptera = false;
 		int i;
-		for (i = 0; behaviors[i] != 2; i++) {
+		for (i = 0; i < behaviors.size() != 2; i++) {
 			if (behaviors[i] == 2) {
 				behaviors.erase(behaviors.begin() + i);
+				break;
 			}
 		}
 	}
@@ -472,9 +473,10 @@ void ServerSam::pteraOff() {
 void ServerSam::teleportOff() {
 	if (b_teleport) {
 		b_teleport = false;
-		for (int i = 0; behaviors[i] != 3; i++) {
+		for (int i = 0; i < behaviors.size(); i++) {
 			if (behaviors[i] == 3) {
 				behaviors.erase(behaviors.begin() + i);
+				break;
 			}
 		}
 	}
@@ -483,9 +485,10 @@ void ServerSam::teleportOff() {
 void ServerSam::candyOff() {
 	if (b_candy) {
 		b_candy = false;
-		for (int i = 0; behaviors[i] != 4; i++) {
+		for (int i = 0; i < behaviors.size() != 4; i++) {
 			if (behaviors[i] == 4) {
 				behaviors.erase(behaviors.begin() + i);
+				break;
 			}
 		}
 	}

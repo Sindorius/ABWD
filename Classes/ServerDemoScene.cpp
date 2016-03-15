@@ -424,6 +424,7 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionpt
 
 	float dxmove = p.dx;
 	float dymove = p.dy;
+
 	if (candy->active() && p.playernum - 1 == candy->getOwner()) {
 		dxmove = dxmove * 2;
 		dymove = dymove * 2;

@@ -301,7 +301,7 @@ bool ClientDemo::init()
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(ClientDemo::KeyDown, this);
 	keyListener->onKeyReleased = CC_CALLBACK_2(ClientDemo::KeyRelease, this);
-
+	
 	_eventDispatcher->addEventListenerWithFixedPriority(keyListener, 2);
 
 	this->scheduleUpdate();
@@ -312,6 +312,7 @@ bool ClientDemo::init()
 
 void ClientDemo::update(float dt)
 {
+
 	
 	/*if(!alternate)
 	{
@@ -340,7 +341,7 @@ void ClientDemo::update(float dt)
 //		CCDirector::getInstance()->replaceScene(GOScene);
 //	}
 	//////////////////
-
+	
 	players[playernum - 1]->setPositionX(players[playernum - 1]->getPositionX() + xmove * players[playernum - 1]->speedboost);
 	players[playernum - 1]->setPositionY(players[playernum - 1]->getPositionY() + ymove * players[playernum - 1]->speedboost);
 
@@ -1015,7 +1016,9 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 			break;
 
 		}
+		
 	}
+	
 	event->stopPropagation();
 }
 
@@ -1039,6 +1042,7 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 		button1 = false;
 		break;
 	}
+
 	event->stopPropagation();
 
 }
@@ -1631,12 +1635,15 @@ void ClientDemo::loadLevel(int level)
 	}
 	else if (level == 2) {
 		pterodactyl->setVisible(false);
+		villain->setVisible(true);
 	}
 	else if (level == 3) {
 		pterodactyl->setVisible(false);
+		villain->setVisible(true);
 	}
 	else if (level == 4) {
 		pterodactyl->setVisible(true);
+		villain->setVisible(true);
 	}
 	button1 = false;
 }
