@@ -1059,10 +1059,18 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 				if (gSound.sfxOn)
 				{
 					gSound.sfxOn = false;
+					experimental::AudioEngine::stop(soundIDList[5]);
+					experimental::AudioEngine::stop(soundIDList[11]);
 				}
 				else
 				{
 					gSound.sfxOn = true;
+					//hack fix for now, need to deal with looped sfx properly in processSound()
+					if (currentlevel > 3)
+					{
+						soundIDList[5] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop.mp3", true, 0.1f);
+						isSFXPlaying[5] = true;
+					} 
 				}
 			break;
 		case EventKeyboard::KeyCode::KEY_EQUAL:
@@ -2306,7 +2314,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 	switch (p.ptanim) {
 	case 33: //pteraleft
-		if (false == isSFXPlaying[5] && pterodactyl->isVisible())
+		if (false == isSFXPlaying[5] && pterodactyl->isVisible() == true && currentlevel > 3) //shouldnt need 3rd check, hack fix for now
 		{
 			if (isSFXPlaying[11] == true)
 			{
@@ -2322,7 +2330,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		}
 		break;
 	case 34: //pteraright
-		if (false == isSFXPlaying[5] && pterodactyl->isVisible())
+		if (false == isSFXPlaying[5] && pterodactyl->isVisible() == true && currentlevel > 3) //shouldnt need 3rd check, hack fix for now)
 		{
 			if (isSFXPlaying[11] == true)
 			{
@@ -2338,7 +2346,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		}
 		break;
 	case 40: //pteraANGRYleft
-		if (false == isSFXPlaying[11] && pterodactyl->isVisible())
+		if (false == isSFXPlaying[11] && pterodactyl->isVisible() == true && currentlevel > 3) //shouldnt need 3rd check, hack fix for now
 		{
 			experimental::AudioEngine::stop(soundIDList[5]);
 			isSFXPlaying[5] = false;
@@ -2351,7 +2359,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		}
 		break;
 	case 41: //pteraANGRYright
-		if (false == isSFXPlaying[11]&& pterodactyl->isVisible())
+		if (false == isSFXPlaying[11] && pterodactyl->isVisible() == true && currentlevel > 3) //shouldnt need 3rd check, hack fix for now
 		{
 			experimental::AudioEngine::stop(soundIDList[5]);
 			isSFXPlaying[5] = false;
