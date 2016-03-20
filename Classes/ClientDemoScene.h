@@ -87,6 +87,7 @@ public:
 	float xmove = 0;
 	float ymove = 0;
 	bool button1 = false;
+	bool button2 = false; 
 	bool needssync = false;
 	int playernum;
 	char currentlevel = 1;
@@ -135,20 +136,27 @@ public:
 
 	//struct of audio trigger checks for players
 	struct playerSFX {
-		bool onGrid;
-		bool onBucket;
-		bool hasPainted;
-		bool gotCandy;
-		bool lostCandy;
-		bool samCollide;
-		bool ptCollide;
+		bool onGrid = false;
+		bool onBucket = false;
+		bool hasPainted = false;
+		bool gotCandy = false;
+		bool lostCandy = false;
+		bool samCollide = false;
+		bool ptCollide = false;
 	};
 	//all game triggers 
 	struct SFXTriggers {
-		bool levelChange;
+		bool levelChange = false;
+		bool musicOn = true;
+		bool sfxOn = true;
+		bool audioOn = true;
+		float oldMVol = 0.4f; //used to remember music volume before it was toggled off
+		float oldSVol = 0.7f; //used to remember sfx volume before it was toggled off
+		float mVolume = 0.4f;
+		float sVolume = 0.7f;
 		playerSFX pTrigs[4];
 	};
-	SFXTriggers gSFX;
+	SFXTriggers gSound;
 	unsigned int pIFrames[4] = { 0,0,0,0 }; //temporary iframes fix for sfx until real iframes implemented
 	void processSound(ServerPositionPacket &p);
 	void initializeSound();

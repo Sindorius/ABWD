@@ -10,11 +10,8 @@ std::string ipaddress;
 int playerNumber;
 ////////////////////////////////////////
 
-
-#define AUDIO_ON 1 //toggles all audio on/off
-#define MUSIC_ON 1 //toggles whether background music is on/off
 //**** IMPORTANT: MUSIC_ON is also defined in MenuScene.h so remember to toggle that one too to turn off menu music!
-#define SFX_ON 1 //toggles sfx on/off
+
 
 
 
@@ -263,7 +260,8 @@ bool ClientDemo::init()
 	// Initialize painting area 
 	setupPaintTiles();
 
-	if (AUDIO_ON)
+	//AUDIO INITIALIZATION
+	if (gSound.audioOn)
 	{
 		initializeSound(); //all sound initialization is in here now, cleaner
 	}
@@ -379,7 +377,7 @@ void ClientDemo::update(float dt)
 			{
 				tileHighlight->setOpacity(255);
 				tileHighlight->setPosition(tilespritevector[i][j]->getPositionX(), tilespritevector[i][j]->getPositionY());
-				gSFX.pTrigs[playernum - 1].onGrid = true;
+				gSound.pTrigs[playernum - 1].onGrid = true;
 			}
 		}
 	}
@@ -564,7 +562,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	//CCLOG(std::to_string(currenttilevector[0][0]).c_str());
 	//CCLOG(std::to_string(p.tilevector[0][0]).c_str());
 
-	if (AUDIO_ON && SFX_ON)
+	if (gSound.audioOn && gSound.sfxOn)
 	{
 		processSound(p);
 	}
@@ -830,7 +828,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	{
 		if (playernum == msg.status)
 		{
-			gSFX.pTrigs[playernum - 1].gotCandy = true;
+			gSound.pTrigs[playernum - 1].gotCandy = true;
 			players[playernum - 1]->speedboost = 2;
 		}
 	}
@@ -838,7 +836,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	{
 		if (playernum == msg.status)
 		{
-			gSFX.pTrigs[playernum - 1].lostCandy = true;
+			gSound.pTrigs[playernum - 1].lostCandy = true;
 			players[playernum - 1]->speedboost = 1;
 		}
 	}
@@ -859,7 +857,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	{
 		if (pIFrames[msg.status - 1] == 0)
 		{
-			gSFX.pTrigs[msg.status - 1].samCollide = true;
+			gSound.pTrigs[msg.status - 1].samCollide = true;
 			pIFrames[msg.status - 1] = 3 * 30; //3 seconds at 30 fps
 		}
 	}
@@ -867,7 +865,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	{
 		if (pIFrames[msg.status - 1] == 0)
 		{
-			gSFX.pTrigs[msg.status - 1].ptCollide = true;
+			gSound.pTrigs[msg.status - 1].ptCollide = true;
 			pIFrames[msg.status - 1] = 1 * 30; //2 seconds at 30 fps
 		}
 	}
@@ -940,7 +938,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 			p1CLabel->setFontFillColor(labelcolor);
 			if (playernum == 1)
 			{
-				gSFX.pTrigs[playernum - 1].onBucket = true;
+				gSound.pTrigs[playernum - 1].onBucket = true;
 			}
 		}
 		if (msg.xpos == 2)
@@ -948,7 +946,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 			p2CLabel->setFontFillColor(labelcolor);
 			if (playernum == 2)
 			{
-				gSFX.pTrigs[playernum - 1].onBucket = true;
+				gSound.pTrigs[playernum - 1].onBucket = true;
 			}
 		}
 		if (msg.xpos == 3)
@@ -956,7 +954,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 			p3CLabel->setFontFillColor(labelcolor);
 			if (playernum == 3)
 			{
-				gSFX.pTrigs[playernum - 1].onBucket = true;
+				gSound.pTrigs[playernum - 1].onBucket = true;
 			}
 		}
 		if (msg.xpos == 4)
@@ -964,7 +962,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 			p4CLabel->setFontFillColor(labelcolor);
 			if (playernum == 4)
 			{
-				gSFX.pTrigs[playernum - 1].onBucket = true;
+				gSound.pTrigs[playernum - 1].onBucket = true;
 			}
 		}
 
@@ -1014,7 +1012,73 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 		case EventKeyboard::KeyCode::KEY_3:
 			Director::getInstance()->getOpenGLView()->setFrameZoomFactor(3.0f);
 			break;
-
+		
+		case EventKeyboard::KeyCode::KEY_CTRL:
+			button2 = true;
+			break;
+		//CTRL + M = Toggle Music On/Off
+		case EventKeyboard::KeyCode::KEY_M:
+			if (button2) //if CTRL is pressed down too
+				//toggle music on/off
+				if (gSound.musicOn)
+				{
+					gSound.musicOn = false;
+					gSound.oldMVol = gSound.mVolume;
+					gSound.mVolume = 0.0f;
+					experimental::AudioEngine::stop(soundIDList[14]);
+				}
+				else
+				{
+					gSound.musicOn = true;
+					gSound.mVolume = gSound.oldMVol;
+					if (currentlevel == 1)
+					{
+						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", true, gSound.mVolume);
+					}
+					else if (currentlevel == 2)
+					{
+						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\candylvl_music.mp3", true, gSound.mVolume);
+					}
+					else if (currentlevel == 3)
+					{
+						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\ptlvl_music.mp3", true, gSound.mVolume);
+					}
+					else if (currentlevel == 4)
+					{
+						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\sunlvl_music.mp3", true, gSound.mVolume);
+					}
+					//else if (currentlevel == 5)
+					//{
+					//	soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\win_music.mp3", true, gSound.mVolume);
+					//}
+				}
+			break;
+		//CTRL + S = Toggle SFX On/Off
+		case EventKeyboard::KeyCode::KEY_S:
+			if (button2) //if CTRL is pressed down too
+				//toggle sfx on/off
+				if (gSound.sfxOn)
+				{
+					gSound.sfxOn = false;
+				}
+				else
+				{
+					gSound.sfxOn = true;
+				}
+			break;
+		case EventKeyboard::KeyCode::KEY_EQUAL:
+			if (gSound.musicOn && gSound.mVolume <= 1.0f)
+			{
+				gSound.mVolume += 0.1f;
+				experimental::AudioEngine::setVolume(soundIDList[14], gSound.mVolume);
+			}
+			break;
+		case EventKeyboard::KeyCode::KEY_MINUS:
+			if (gSound.musicOn && gSound.mVolume >= 0.0f)
+			{
+				gSound.mVolume -= 0.1f;
+				experimental::AudioEngine::setVolume(soundIDList[14], gSound.mVolume);
+			}
 		}
 		
 	}
@@ -1040,6 +1104,9 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
 		button1 = false;
+		break;
+	case EventKeyboard::KeyCode::KEY_CTRL:
+		button2 = false;
 		break;
 	}
 
@@ -1166,72 +1233,72 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				{
 					//p1CLabel->setString("Red");
 					p1CLabel->setFontFillColor(ccc3(247, 52, 47));
-					gSFX.pTrigs[0].onBucket = true; //0=p1, 1=p2, 2=p3, 3=p4
+					gSound.pTrigs[0].onBucket = true; //0=p1, 1=p2, 2=p3, 3=p4
 				}
 				if ("true" == b)
 				{
 					//p1CLabel->setString("Blue");
 					p1CLabel->setFontFillColor(ccc3(49, 58, 197));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == y) {
 					//p1CLabel->setString("Yellow");
 					p1CLabel->setFontFillColor(ccc3(222, 244, 69));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == o) {
 					//p1CLabel->setString("Orange");
 					p1CLabel->setFontFillColor(ccc3(234, 152, 46));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 
 				if ("true" == b2) {
 					p1CLabel->setFontFillColor(ccc3(4, 31, 131));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == b3) {
 					p1CLabel->setFontFillColor(ccc3(1, 16, 73));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == g1) {
 					p1CLabel->setFontFillColor(ccc3(2, 123, 36));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == g2) {
 					p1CLabel->setFontFillColor(ccc3(11, 187, 60));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == g3) {
 					p1CLabel->setFontFillColor(ccc3(47, 247, 145));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == w) {
 					p1CLabel->setFontFillColor(ccc3(255, 255, 255));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == gy1) {
 					p1CLabel->setFontFillColor(ccc3(101, 141, 255));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == gy2) {
 					p1CLabel->setFontFillColor(ccc3(203, 216, 229));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == p) {
 					p1CLabel->setFontFillColor(ccc3(148, 55, 122));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == r2) {
 					p1CLabel->setFontFillColor(ccc3(187, 11, 44));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == r1) {
 					p1CLabel->setFontFillColor(ccc3(247, 52, 47));
-					gSFX.pTrigs[0].onBucket = true;
+					gSound.pTrigs[0].onBucket = true;
 				}
 			}
 		}
@@ -1266,69 +1333,69 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == r)
 				{
 					p2CLabel->setFontFillColor(ccc3(247, 52, 47));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == b)
 				{
 					p2CLabel->setFontFillColor(ccc3(49, 58, 197));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == y) {
 					p2CLabel->setFontFillColor(ccc3(222, 244, 69));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == o) {
 					p2CLabel->setFontFillColor(ccc3(234, 152, 46));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 
 				if ("true" == b2) {
 					p2CLabel->setFontFillColor(ccc3(4, 31, 131));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == b3) {
 					p2CLabel->setFontFillColor(ccc3(1, 16, 73));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == g1) {
 					p2CLabel->setFontFillColor(ccc3(2, 123, 36));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == g2) {
 					p2CLabel->setFontFillColor(ccc3(11, 187, 60));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == g3) {
 					p2CLabel->setFontFillColor(ccc3(47, 247, 145));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == w) {
 					p2CLabel->setFontFillColor(ccc3(255, 255, 255));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == gy1) {
 					p2CLabel->setFontFillColor(ccc3(101, 141, 255));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == gy2) {
 					p2CLabel->setFontFillColor(ccc3(203, 216, 229));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == p) {
 					p2CLabel->setFontFillColor(ccc3(148, 55, 122));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == r2) {
 					p2CLabel->setFontFillColor(ccc3(187, 11, 44));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == r1) {
 					p2CLabel->setFontFillColor(ccc3(247, 52, 47));
-					gSFX.pTrigs[1].onBucket = true;
+					gSound.pTrigs[1].onBucket = true;
 				}
 			}
 		}
@@ -1363,69 +1430,69 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == r)
 				{
 					p3CLabel->setFontFillColor(ccc3(247, 52, 47));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == b)
 				{
 					p3CLabel->setFontFillColor(ccc3(49, 58, 197));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == y) {
 					p3CLabel->setFontFillColor(ccc3(222, 244, 69));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == o) {
 					p3CLabel->setFontFillColor(ccc3(234, 152, 46));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 
 				if ("true" == b2) {
 					p3CLabel->setFontFillColor(ccc3(4, 31, 131));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == b3) {
 					p3CLabel->setFontFillColor(ccc3(1, 16, 73));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == g1) {
 					p3CLabel->setFontFillColor(ccc3(2, 123, 36));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == g2) {
 					p3CLabel->setFontFillColor(ccc3(11, 187, 60));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == g3) {
 					p3CLabel->setFontFillColor(ccc3(47, 247, 145));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == w) {
 					p3CLabel->setFontFillColor(ccc3(255, 255, 255));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == gy1) {
 					p3CLabel->setFontFillColor(ccc3(101, 141, 255));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == gy2) {
 					p3CLabel->setFontFillColor(ccc3(203, 216, 229));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == p) {
 					p3CLabel->setFontFillColor(ccc3(148, 55, 122));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == r2) {
 					p3CLabel->setFontFillColor(ccc3(187, 11, 44));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == r1) {
 					p3CLabel->setFontFillColor(ccc3(247, 52, 47));
-					gSFX.pTrigs[2].onBucket = true;
+					gSound.pTrigs[2].onBucket = true;
 				}
 			}
 		}
@@ -1461,69 +1528,69 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == r)
 				{
 					p4CLabel->setFontFillColor(ccc3(247, 52, 47));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == b)
 				{
 					p4CLabel->setFontFillColor(ccc3(49, 58, 197));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == y) {
 					p4CLabel->setFontFillColor(ccc3(222, 244, 69));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == o) {
 					p4CLabel->setFontFillColor(ccc3(234, 152, 46));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == blk) {
 					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 
 				if ("true" == b2) {
 					p4CLabel->setFontFillColor(ccc3(4, 31, 131));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == b3) {
 					p4CLabel->setFontFillColor(ccc3(1, 16, 73));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == g1) {
 					p4CLabel->setFontFillColor(ccc3(2, 123, 36));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == g2) {
 					p4CLabel->setFontFillColor(ccc3(11, 187, 60));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == g3) {
 					p4CLabel->setFontFillColor(ccc3(47, 247, 145));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == w) {
 					p4CLabel->setFontFillColor(ccc3(255, 255, 255));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == gy1) {
 					p4CLabel->setFontFillColor(ccc3(101, 141, 255));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == gy2) {
 					p4CLabel->setFontFillColor(ccc3(203, 216, 229));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == p) {
 					p4CLabel->setFontFillColor(ccc3(148, 55, 122));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == r2) {
 					p4CLabel->setFontFillColor(ccc3(187, 11, 44));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == r1) {
 					p3CLabel->setFontFillColor(ccc3(247, 52, 47));
-					gSFX.pTrigs[3].onBucket = true;
+					gSound.pTrigs[3].onBucket = true;
 				}
 			}
 		}
@@ -1609,7 +1676,7 @@ void ClientDemo::loadLevel(int level)
 	setupPaintTiles();
 	currentlevel = level;
 
-	gSFX.levelChange = true;
+	gSound.levelChange = true;
 	
 	if (level == 5)
 	{
@@ -1691,23 +1758,23 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	//===========================================================
 	//					ISSUES AND BUGS
 	//===========================================================
-	//	1. If player is not holding down space and paints on the
-	// grid, they can paint outside the grid once and still get the 
-	// painting sfx.
+	//	1. Need to sync animations with sfx.
 	//
-	//	2. Need to sync animations with sfx.
+	//	2. Use Server Messages for grid detection.
 	//
-	//	3. Recode processSound() to no longer need a parameter.
+	//	3. Volume of various SFX need a little more adjustment.
 	//
-	//	4. Use Server Messages for grid detection.
-	//
-	//	5. Volume of various SFX need a little more adjustment.
-	//
-	//	6. Idle Player check is hack-fixed for now, will implement
+	//	4. Idle Player check is hack-fixed for now, will implement
 	//	better later.
 	//
-	//	7. Strange bug where sometimes sam_playerhit always plays
+	//	5. Strange bug where sometimes sam_playerhit always plays
 	//	instead of paint. Fixed by resetting game.
+	//
+	//  6. Find a cleaner way to use callbacks.
+	//
+	//	7. Edit sfx to normalize audio and allow sfx toggling to
+	//	keep processing sfx, but keeping volume at zero. This 
+	//	ensures sfx/animation synchronization.
 	//============================================================
 
 	// GOOD REFERENCES FOR AUDIO CODING
@@ -1732,6 +1799,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	// soundIDList[11] = ptero_swoop_fast
 	// soundIDList[12] = ptero_playerhit
 	// soundIDList[13] = player_footsteps
+	// soundIDList[14] = music
 
 	//these callbacks only work if theyre outside for loops.
 	experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
@@ -1755,26 +1823,62 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	});
 	//end of play2d callback definitions
 
+	/*//if music was toggled on/off
+	if (gSound.mVolume > 0.0f && gSound.musicOn == false)
+	{
+		gSound.oldMVol = gSound.mVolume;
+		gSound.mVolume = 0.0f;
+		experimental::AudioEngine::stop(soundIDList[14]);
+		//experimental::AudioEngine::setVolume(soundIDList[14], gSound.mVolume);
+	}
+	else if (gSound.musicOn == true && gSound.mVolume == 0.0f)
+	{
+		gSound.mVolume = gSound.oldMVol;
+		if (currentlevel == 1)
+		{
+			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", true, gSound.mVolume);
+		}
+		else if (currentlevel == 2)
+		{
+			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\candylvl_music.mp3", true, gSound.mVolume);
+		}
+		else if (currentlevel == 3)
+		{
+			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\ptlvl_music.mp3", true, gSound.mVolume);
+		}
+		else if (currentlevel == 4)
+		{
+			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\sunlvl_music.mp3", true, gSound.mVolume);
+		}
+		//else if (currentlevel == 5)
+		//{
+		//	soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\win_music.mp3", true, gSound.mVolume);
+		//}
+	}
+	//end of music toggled on/off */
+
+
+
 
 	//If Sam or pterodactyl touches a player
 	for (unsigned int i = 0; i < 4; i++)
 	{
-		if (gSFX.pTrigs[i].samCollide == true && gSFX.pTrigs[i].hasPainted == true && villain->getOpacity() > 0)
+		if (gSound.pTrigs[i].samCollide == true && gSound.pTrigs[i].hasPainted == true && villain->getOpacity() > 0)
 		{
 			if (false == isSFXPlaying[1])
 			{
 				soundIDList[1] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_playerhit.mp3", false, 0.8f);
 				isSFXPlaying[1] = true;
-				gSFX.pTrigs[i].samCollide = false;
+				gSound.pTrigs[i].samCollide = false;
 			}
 		}
-		else if (gSFX.pTrigs[0].ptCollide == true && gSFX.pTrigs[0].hasPainted == true)
+		else if (gSound.pTrigs[0].ptCollide == true && gSound.pTrigs[0].hasPainted == true)
 		{
 			if (false == isSFXPlaying[12])
 			{
 				soundIDList[12] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.8f);
 				isSFXPlaying[12] = true;
-				gSFX.pTrigs[i].ptCollide = false;
+				gSound.pTrigs[i].ptCollide = false;
 			}
 		}
 	}
@@ -1785,29 +1889,29 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 	for (unsigned int i = 0; i < 3; i++)
 	{
-		if (gSFX.pTrigs[i].gotCandy == true)
+		if (gSound.pTrigs[i].gotCandy == true)
 		{
 			if (isSFXPlaying[7] == false)
 			{
 				soundIDList[7] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_pickup.mp3", false, 0.8f);
 				isSFXPlaying[7] = true;
-				gSFX.pTrigs[i].gotCandy = false;
+				gSound.pTrigs[i].gotCandy = false;
 			}
 		}
-		else if (gSFX.pTrigs[i].lostCandy == true)
+		else if (gSound.pTrigs[i].lostCandy == true)
 		{
 			if (isSFXPlaying[9] == false)
 			{
 				soundIDList[9] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_candy_lost.mp3", false, 0.8f);
 				isSFXPlaying[9] = true;
-				gSFX.pTrigs[i].lostCandy = false;
+				gSound.pTrigs[i].lostCandy = false;
 			}
 		}
 	}
 	//If player gets/loses candy buff - end
 
 	//If level solved
-	if (gSFX.levelChange == true) //may need to set bool on changelevel() instead if this has trouble triggering sfx
+	if (gSound.levelChange == true)
 	{
 		//play level completed sfx
 		if (isSFXPlaying[10] == false)
@@ -1818,7 +1922,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 			{
 				experimental::AudioEngine::stop(soundIDList[14]);
 				isSFXPlaying[10] = false;
-				if (MUSIC_ON)
+				if (gSound.musicOn)
 				{//play new level's music
 					if (currentlevel == 1)
 					{
@@ -1842,7 +1946,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 					//}
 				}
 			});
-			gSFX.levelChange = false;
+			gSound.levelChange = false;
 		}
 	}
 	//If level solved - end
@@ -1873,6 +1977,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	// soundIDList[11] = ptero_swoop_fast
 	// soundIDList[12] = ptero_playerhit
 	// soundIDList[13] = player_footsteps
+	// soundIDList[14] = music
 
 
 	//switch used here in case further animation states are created. modular switch-cases superior.
@@ -1907,7 +2012,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		}
 		break; */
 	case 5: //p1paint
-		if (gSFX.pTrigs[0].onBucket == true) //if the player is on a bucket
+		if (gSound.pTrigs[0].onBucket == true) //if the player is on a bucket
 		{
 			if (isSFXPlaying[6] == false)
 			{
@@ -1918,21 +2023,21 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 					isSFXPlaying[6] = false;
 				});
 			}
-			gSFX.pTrigs[0].onBucket = false;
+			gSound.pTrigs[0].onBucket = false;
 		}
-		else if (gSFX.pTrigs[0].onGrid == true) //if player is on grid
+		else if (gSound.pTrigs[0].onGrid == true) //if player is on grid
 		{
 			if (isSFXPlaying[0] == false)
 			{
 				soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
 				isSFXPlaying[0] = true;
-				gSFX.pTrigs[0].hasPainted = true; //temp fix for checking if player is idle
+				gSound.pTrigs[0].hasPainted = true; //temp fix for checking if player is idle
 				experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
 				{
 					isSFXPlaying[0] = false;
 				});
 			}
-			gSFX.pTrigs[0].onGrid = false;
+			gSound.pTrigs[0].onGrid = false;
 		}
 		break;
 	//case 35:
@@ -1975,7 +2080,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		}
 		break; */
 	case 11: //p2paint
-		if (gSFX.pTrigs[1].onBucket == true) //if the player is on a bucket
+		if (gSound.pTrigs[1].onBucket == true) //if the player is on a bucket
 		{
 			if (isSFXPlaying[6] == false)
 			{
@@ -1986,21 +2091,21 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 					isSFXPlaying[6] = false;
 				});
 			}
-			gSFX.pTrigs[1].onBucket = false;
+			gSound.pTrigs[1].onBucket = false;
 		}
-		else if (gSFX.pTrigs[1].onGrid == true) //if player is on grid
+		else if (gSound.pTrigs[1].onGrid == true) //if player is on grid
 		{
 			if (isSFXPlaying[0] == false)
 			{
 				soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
 				isSFXPlaying[0] = true;
-				gSFX.pTrigs[1].hasPainted = true; //temp fix for checking if player is idle
+				gSound.pTrigs[1].hasPainted = true; //temp fix for checking if player is idle
 				experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
 				{
 					isSFXPlaying[0] = false;
 				});
 			}
-			gSFX.pTrigs[1].onGrid = false;
+			gSound.pTrigs[1].onGrid = false;
 		}
 		break;
 	//case 36:
@@ -2044,7 +2149,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		}
 		break;*/
 	case 17: //p3paint
-		if (gSFX.pTrigs[2].onBucket == true) //if the player is on a bucket
+		if (gSound.pTrigs[2].onBucket == true) //if the player is on a bucket
 		{
 			if (isSFXPlaying[6] == false)
 			{
@@ -2055,21 +2160,21 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 					isSFXPlaying[6] = false;
 				});
 			}
-			gSFX.pTrigs[2].onBucket = false;
+			gSound.pTrigs[2].onBucket = false;
 		}
-		else if (gSFX.pTrigs[2].onGrid == true) //if player is on grid
+		else if (gSound.pTrigs[2].onGrid == true) //if player is on grid
 		{
 			if (isSFXPlaying[0] == false)
 			{
 				soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
 				isSFXPlaying[0] = true;
-				gSFX.pTrigs[2].hasPainted = true; //temp fix for checking if player is idle
+				gSound.pTrigs[2].hasPainted = true; //temp fix for checking if player is idle
 				experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
 				{
 					isSFXPlaying[0] = false;
 				});
 			}
-			gSFX.pTrigs[2].onGrid = false;
+			gSound.pTrigs[2].onGrid = false;
 		}
 		break;
 	//case 37:
@@ -2112,7 +2217,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		}
 		break; */
 	case 23: //p4paint
-		if (gSFX.pTrigs[3].onBucket == true) //if the player is on a bucket
+		if (gSound.pTrigs[3].onBucket == true) //if the player is on a bucket
 		{
 			if (isSFXPlaying[6] == false)
 			{
@@ -2123,21 +2228,21 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 					isSFXPlaying[6] = false;
 				});
 			}
-			gSFX.pTrigs[3].onBucket = false;
+			gSound.pTrigs[3].onBucket = false;
 		}
-		else if (gSFX.pTrigs[3].onGrid == true) //if player is on grid
+		else if (gSound.pTrigs[3].onGrid == true) //if player is on grid
 		{
 			if (isSFXPlaying[0] == false)
 			{
 				soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3");
 				isSFXPlaying[0] = true;
-				gSFX.pTrigs[3].hasPainted = true; //temp fix for checking if player is idle
+				gSound.pTrigs[3].hasPainted = true; //temp fix for checking if player is idle
 				experimental::AudioEngine::setFinishCallback(soundIDList[0], [&](int id, const std::string& filePath)
 				{
 					isSFXPlaying[0] = false;
 				});
 			}
-			gSFX.pTrigs[3].onGrid = false;
+			gSound.pTrigs[3].onGrid = false;
 		}
 		break;
 	//case 38:
@@ -2270,7 +2375,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	}
 	//hackfix to get lvl 1 music to play
 	//stopall() in howtoplay.cpp cant be followed too quickly by play2d(). cocos2d bug?
-	if (MUSIC_ON)
+	if (gSound.musicOn)
 	{
 		if (isSFXPlaying[14] == false && currentlevel == 1)
 		{
@@ -2313,7 +2418,7 @@ ClientDemo::~ClientDemo()
 
 void ClientDemo::initializeSound()
 {
-	if (AUDIO_ON)
+	if (gSound.audioOn)
 	{
 		//soundIDList index values are significant:
 		// soundIDList[0] = paint
@@ -2331,17 +2436,17 @@ void ClientDemo::initializeSound()
 		// soundIDList[12] = ptero_playerhit
 		// soundIDList[13] = player_footsteps
 
-		if (SFX_ON)
+		if (gSound.sfxOn)
 		{
 			//initalize player sfx triggers to false
-			for (int i = 0; i < 3; i++)
-			{
-				gSFX.pTrigs[i].onBucket = false;
-				gSFX.pTrigs[i].onGrid = false;
-				gSFX.pTrigs[i].gotCandy = false;
-				gSFX.pTrigs[i].lostCandy = false;
-			}
-			gSFX.levelChange = false;
+			//for (int i = 0; i < 3; i++)
+			//{
+			//	gSound.pTrigs[i].onBucket = false;
+			//	gSound.pTrigs[i].onGrid = false;
+			//	gSound.pTrigs[i].gotCandy = false;
+			//	gSound.pTrigs[i].lostCandy = false;
+			//}
+			//gSound.levelChange = false;
 
 			experimental::AudioEngine::preload("\\res\\sound\\sfx\\paint.mp3");
 			experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_playerhit.mp3");
@@ -2383,7 +2488,7 @@ void ClientDemo::initializeSound()
 			}
 		}
 
-		if (MUSIC_ON)
+		if (gSound.musicOn)
 		{
 			//preload background music
 			experimental::AudioEngine::preload("\\res\\sound\\music\\menu_music.mp3");
