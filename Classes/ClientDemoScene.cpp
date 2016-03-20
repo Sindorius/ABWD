@@ -874,8 +874,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		_eventDispatcher->removeAllEventListeners();
 		cocos2d::experimental::AudioEngine::stopAll();
 		auto scene = GameOver::createGameOver();
-		CCDirector::getInstance()->replaceScene(scene);
-		
+		CCDirector::getInstance()->replaceScene(scene);	
 	}
 	else if (msg.messagechar == 16)
 	{
@@ -1676,7 +1675,10 @@ void ClientDemo::loadLevel(int level)
 	setupPaintTiles();
 	currentlevel = level;
 
-	gSound.levelChange = true;
+	if (level != 1)
+	{
+		gSound.levelChange = true;
+	}
 	
 	if (level == 5)
 	{
@@ -2398,8 +2400,10 @@ void ClientDemo::goToMainMenu(cocos2d::Ref* pSender)
 
 ClientDemo::~ClientDemo()
 {
-	cocos2d::experimental::AudioEngine::stopAll();
-	cocos2d::experimental::AudioEngine::end();
+	//below lines prevented win screen to play music, and commenting
+	//them out doesn't cause the client to crash, so...
+	//cocos2d::experimental::AudioEngine::stopAll();
+	//cocos2d::experimental::AudioEngine::end();
 
 	if (tcpsessionptr)
 		delete tcpsessionptr;

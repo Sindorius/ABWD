@@ -7,6 +7,8 @@
 #include "cocos2d.h"
 #include "MenuScene.h"
 
+#define MUSIC_ON 1
+
 USING_NS_CC;
 
 class GameOver : public cocos2d::Layer

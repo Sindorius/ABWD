@@ -39,13 +39,17 @@ bool GameOver::init()
 	gameover->setPosition(Vec2((int)winSizeWidth - 10, (int)winSizeHeight + 120));
 	this->addChild(gameover, 0);
 
-	//experimental::AudioEngine::play2d("\\res\\sound\\music\\win_music.mp3", true, 0.5f);
+	if (MUSIC_ON)
+	{
+		experimental::AudioEngine::play2d("\\res\\sound\\music\\win_music.mp3", true, 0.5f);
+	}
 
 	return true;
 }
 
 void GameOver::goToMainMenu(cocos2d::Ref* pSender)
 {
+	experimental::AudioEngine::stopAll();
 	auto scene = MenuScene::createMenu();
 	CCDirector::getInstance()->replaceScene(scene);
 }
