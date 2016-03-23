@@ -81,6 +81,10 @@ bool ClientAppDelegate::applicationDidFinishLaunching() {
 		{
 			director->getOpenGLView()->setFrameZoomFactor(3.0f);
 		}
+		else
+		{
+			director->getOpenGLView()->setFrameZoomFactor(3.0f); //for resolutions above 1080p just set to 1080p
+		}
 	}
 	else
 	{
