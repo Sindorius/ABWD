@@ -2,6 +2,8 @@
 #include "ClientDemoScene.h"
 #include "MenuScene.h"
 
+#define FULLSCREEN 1
+
 USING_NS_CC;
 
 static cocos2d::Size designResolutionSize = cocos2d::Size(640, 360);
@@ -39,9 +41,17 @@ bool ClientAppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = GLViewImpl::create("A Brush With Danger Client");
+		if (FULLSCREEN)
+		{
+			glview = GLViewImpl::createWithFullScreen("A Brush with Danger");
+		}
+		else
+		{
+			glview = GLViewImpl::create("A Brush with Danger");
+		}
         director->setOpenGLView(glview);
     }
+	auto screenSize = glview->getVisibleSize();
 
     // turn on display FPS
     director->setDisplayStats(false);
@@ -51,8 +61,31 @@ bool ClientAppDelegate::applicationDidFinishLaunching() {
 
     // Set the design resolution
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::SHOW_ALL);
+
 	glview->setFrameSize(designResolutionSize.width, designResolutionSize.height);
-	director->getOpenGLView()->setFrameZoomFactor(2.0f);
+
+	//Right now only check for below 720p, 720p, and 1080p.
+	//Need to account for greater than 1080p and create different
+	//sized assets for different size resolutions.
+	if (FULLSCREEN)
+	{
+		if (screenSize.height < 720)
+		{
+			director->getOpenGLView()->setFrameZoomFactor(1.0f);
+		}
+		else if (screenSize.height == 720)
+		{
+			director->getOpenGLView()->setFrameZoomFactor(2.0f);
+		}
+		else if (screenSize.height == 1080)
+		{
+			director->getOpenGLView()->setFrameZoomFactor(3.0f);
+		}
+	}
+	else
+	{
+		director->getOpenGLView()->setFrameZoomFactor(2.0f);
+	}
 	//director->setProjection(cocos2d::Director::Projection::_2D);
     register_all_packages();
 

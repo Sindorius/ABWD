@@ -1011,6 +1011,10 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 		case EventKeyboard::KeyCode::KEY_3:
 			Director::getInstance()->getOpenGLView()->setFrameZoomFactor(3.0f);
 			break;
+
+		case EventKeyboard::KeyCode::KEY_ESCAPE:
+			Director::getInstance()->end();
+			exit(0);
 		
 		case EventKeyboard::KeyCode::KEY_CTRL:
 			button2 = true;
