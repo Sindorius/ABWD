@@ -25,6 +25,10 @@ public:
 	void server(cocos2d::Ref* sSender);
 	void player(cocos2d::Ref* pSender);
 
+	//void KeyDown(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+	//void KeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+	void Joystick(cocos2d::Event*);
+
 	CREATE_FUNC(MenuScene);
 };
 

@@ -50,6 +50,10 @@ bool PlayerConnection::init()
 	IPLabel->setPosition(Vec2((int)winSizeWidth - 10, (int)winSizeHeight - 24));
 	this->addChild(IPLabel, 1);
 
+	auto joyListener = EventListenerJoystick::create();
+	joyListener->onEvent = CC_CALLBACK_1(PlayerConnection::Joystick, this);
+	_eventDispatcher->addEventListenerWithFixedPriority(joyListener, 1);
+
 	keyboard = EventListenerKeyboard::create();
 	keyboard->onKeyPressed = CC_CALLBACK_2(PlayerConnection::KeyP, this);
 	keyboard->onKeyReleased = CC_CALLBACK_2(PlayerConnection::KeyNP, this);
@@ -173,4 +177,37 @@ void PlayerConnection::KeyNP(EventKeyboard::KeyCode keyCode, Event* event)
 	}
 
 	event->stopPropagation();
+}
+
+void PlayerConnection::Joystick(cocos2d::Event* event)
+{
+	EventJoystick* e = (EventJoystick*)event;
+	//CCLOG("JOYSTICK PRESENT");
+	bool present = e->isPresent();
+	//CCLOG(std::to_string(present).c_str());
+	if (present)
+	{
+		if (timeDelay == 0)
+		{//CCLOG(e->getName());
+
+			int forbutton;
+			const unsigned char* buttonval = e->getButtonValues(&forbutton);
+			unsigned char b0 = buttonval[0];
+			unsigned char b1 = buttonval[1];
+			unsigned char b2 = buttonval[2];
+			unsigned char b3 = buttonval[3];
+
+			if (b0 || b1 || b2 || b3)
+			{
+				_eventDispatcher->removeAllEventListeners();
+				beginGame(this);
+			}
+
+			//add support for typing in the IP address?
+		}
+		if (timeDelay > 0)
+		{
+			timeDelay--;
+		}
+	}
 }

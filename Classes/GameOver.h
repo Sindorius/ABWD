@@ -23,6 +23,8 @@ public:
 	void menuCloseCallback(cocos2d::Ref * pSender);
 	void goToMainMenu(cocos2d::Ref* pSender);
 
+	void Joystick(cocos2d::Event*);
+
 	CREATE_FUNC(GameOver);
 
 };

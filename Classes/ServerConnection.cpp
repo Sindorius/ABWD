@@ -34,6 +34,10 @@ bool ServerConnection::init()
 		return false;
 	}
 
+	auto joyListener = EventListenerJoystick::create();
+	joyListener->onEvent = CC_CALLBACK_1(ServerConnection::Joystick, this);
+	_eventDispatcher->addEventListenerWithFixedPriority(joyListener, 1);
+
 	char p1mask = 1;
 	char p2mask = 2;
 	char p3mask = 4;
@@ -157,42 +161,92 @@ void ServerConnection::beginGame(cocos2d::Ref* pSender)
 
 void ServerConnection::player1(cocos2d::Ref* sSender)
 {
-	if (aPlayerChosen == false) 
+	//this if block deals with de-selecting previously 
+	//selected player
+	if (aPlayerChosen == true)
 	{
-		p1Chara->setOpacity(255);
-		aPlayerChosen = true;
-		playerNum = 1;
+		if (playerNum == 2)
+		{
+			p2Chara->setOpacity(0);
+		}
+		else if (playerNum == 3)
+		{
+			p3Chara->setOpacity(0);
+		}
+		else if (playerNum == 4)
+		{
+			p4Chara->setOpacity(0);
+		}
 	}
+	p1Chara->setOpacity(255);
+	aPlayerChosen = true;
+	playerNum = 1;
 }
 
 void ServerConnection::player2(cocos2d::Ref* sSender)
 {
-	if(aPlayerChosen == false)
+	if (aPlayerChosen == true)
 	{
-		p2Chara->setOpacity(255);
-		aPlayerChosen = true;
-		playerNum = 2;
+		if (playerNum == 1)
+		{
+			p1Chara->setOpacity(0);
+		}
+		else if (playerNum == 3)
+		{
+			p3Chara->setOpacity(0);
+		}
+		else if (playerNum == 4)
+		{
+			p4Chara->setOpacity(0);
+		}
 	}
+	p2Chara->setOpacity(255);
+	aPlayerChosen = true;
+	playerNum = 2;
 }
 
 void ServerConnection::player3(cocos2d::Ref* sSender)
 {
-	if (aPlayerChosen == false)
+	if (aPlayerChosen == true)
 	{
-		p3Chara->setOpacity(255);
-		aPlayerChosen = true;
-		playerNum = 3;
+		if (playerNum == 1)
+		{
+			p1Chara->setOpacity(0);
+		}
+		else if (playerNum == 2)
+		{
+			p2Chara->setOpacity(0);
+		}
+		else if (playerNum == 4)
+		{
+			p4Chara->setOpacity(0);
+		}
 	}
+	p3Chara->setOpacity(255);
+	aPlayerChosen = true;
+	playerNum = 3;
 }
 
 void ServerConnection::player4(cocos2d::Ref* sSender)
 {
-	if (aPlayerChosen == false) 
+	if (aPlayerChosen == true)
 	{
-		p4Chara->setOpacity(255);
-		aPlayerChosen = true;
-		playerNum = 4;
+		if (playerNum == 1)
+		{
+			p1Chara->setOpacity(0);
+		}
+		else if (playerNum == 2)
+		{
+			p2Chara->setOpacity(0);
+		}
+		else if (playerNum == 3)
+		{
+			p3Chara->setOpacity(0);
+		}
 	}
+	p4Chara->setOpacity(255);
+	aPlayerChosen = true;
+	playerNum = 4;
 }
 
 void ServerConnection::menuCloseCallback(Ref* pSender)
@@ -202,5 +256,90 @@ void ServerConnection::menuCloseCallback(Ref* pSender)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	exit(0);
 #endif
+}
+
+void ServerConnection::Joystick(cocos2d::Event* event)
+{
+	EventJoystick* e = (EventJoystick*)event;
+	//CCLOG("JOYSTICK PRESENT");
+	bool present = e->isPresent();
+	//CCLOG(std::to_string(present).c_str());
+	if (present)
+	{
+		//default select player 1
+		if (aPlayerChosen == false)
+		{
+			player1(this);
+		}
+		//CCLOG(e->getName());
+		int foraxis;
+		const float* axisval = e->getAxes(&foraxis);
+		float xval = axisval[0];
+		//CCLOG(std::to_string(xval).c_str());
+		bool nox = false;
+		bool noy = false;
+		//below if/else-if statements should check for d-pad too...
+		if (xval > 0.6)
+		{
+			if (timeDelay == 0)
+			{
+				if (playerNum == 1)
+				{
+					timeDelay = 15; //30 frames or 1 second
+					player2(this);
+				}
+				else if (playerNum == 2)
+				{
+					timeDelay = 15;
+					player3(this);
+				}
+				else if (playerNum == 3)
+				{
+					timeDelay = 15;
+					player4(this);
+				}
+			}
+		}
+		else if (xval < -0.6)
+		{
+			if (timeDelay == 0)
+			{
+				if (playerNum == 2)
+				{
+					timeDelay = 15;
+					player1(this);
+				}
+				else if (playerNum == 3)
+				{
+					timeDelay = 15;
+					player2(this);
+				}
+				else if (playerNum == 4)
+				{
+					timeDelay = 15;
+					player3(this);
+				}
+			}
+		}
+		int forbutton;
+		const unsigned char* buttonval = e->getButtonValues(&forbutton);
+		unsigned char b0 = buttonval[0];
+		unsigned char b1 = buttonval[1];
+		unsigned char b2 = buttonval[2];
+		unsigned char b3 = buttonval[3];
+
+		if (b0 || b1 || b2 || b3)
+		{
+			if (aPlayerChosen == true)
+			{
+				_eventDispatcher->removeAllEventListeners();
+				beginGame(this);
+			}
+		}
+		if (timeDelay > 0)
+		{
+			timeDelay--;
+		}
+	}
 }
 

@@ -27,6 +27,10 @@ public:
 	void KeyP(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void KeyNP(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 
+	void Joystick(cocos2d::Event*);
+
+	int timeDelay = 30;
+
 	CREATE_FUNC(PlayerConnection);
 
 };

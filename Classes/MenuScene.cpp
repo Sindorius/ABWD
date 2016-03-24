@@ -18,6 +18,18 @@ bool MenuScene::init()
 		return false;
 	}
 
+	//listeners init
+	auto joyListener = EventListenerJoystick::create();
+	joyListener->onEvent = CC_CALLBACK_1(MenuScene::Joystick, this);
+	_eventDispatcher->addEventListenerWithFixedPriority(joyListener, 1);
+
+	//auto keyListener = EventListenerKeyboard::create();
+	//keyListener->onKeyPressed = CC_CALLBACK_2(ClientDemo::KeyDown, this);
+	//keyListener->onKeyReleased = CC_CALLBACK_2(ClientDemo::KeyRelease, this);
+
+	//_eventDispatcher->addEventListenerWithFixedPriority(keyListener, 2);
+	//listeners init end
+
 	float winSizeWidth = CCDirector::sharedDirector()->getWinSize().width / 2;
 	float winSizeHeight = CCDirector::sharedDirector()->getWinSize().height / 2;
 
@@ -72,5 +84,53 @@ void MenuScene::menuCloseCallback(Ref* pSender)
 	exit(0);
 #endif
 }
+
+void MenuScene::Joystick(cocos2d::Event* event)
+{
+	EventJoystick* e = (EventJoystick*)event;
+	//CCLOG("JOYSTICK PRESENT");
+	bool present = e->isPresent();
+	//CCLOG(std::to_string(present).c_str());
+	if (present)
+	{
+		//CCLOG(e->getName());
+
+		int forbutton;
+		const unsigned char* buttonval = e->getButtonValues(&forbutton);
+		unsigned char b0 = buttonval[0];
+		unsigned char b1 = buttonval[1];
+		unsigned char b2 = buttonval[2];
+		unsigned char b3 = buttonval[3];
+
+		if (b0 || b1 || b2 || b3)
+		{
+			_eventDispatcher->removeAllEventListeners();
+			player(this);
+		}
+
+	}
+}
+
+/*This stuff could be useful later on if we want keys to trigger things during menus
+void MenuScene::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
+{
+	switch (keyCode) {
+	case EventKeyboard::KeyCode::KEY_UP_ARROW:
+		break;
+	}
+	event->stopPropagation();
+}
+
+void MenuScene::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
+{
+
+	switch (keyCode) {
+	case EventKeyboard::KeyCode::KEY_UP_ARROW:
+		break;
+	}
+
+	event->stopPropagation();
+
+}*/
 
 

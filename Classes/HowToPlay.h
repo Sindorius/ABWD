@@ -27,6 +27,10 @@ public:
 	void menuCloseCallback(cocos2d::Ref * pSender);
 	void begin(cocos2d::Ref* sSender);
 
+	void Joystick(cocos2d::Event*);
+
+	int timeDelay = 30;
+
 	CREATE_FUNC(HowToPlay);
 
 };

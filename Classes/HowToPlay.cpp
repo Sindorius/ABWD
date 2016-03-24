@@ -59,6 +59,10 @@ bool HowToPlay::init()
 	Directions->setPosition(Vec2((int)winSizeWidth, (int)winSizeHeight));
 	this->addChild(Directions, 0);
 
+	auto joyListener = EventListenerJoystick::create();
+	joyListener->onEvent = CC_CALLBACK_1(HowToPlay::Joystick, this);
+	_eventDispatcher->addEventListenerWithFixedPriority(joyListener, 1);
+
 	return true;
 }
 
@@ -80,4 +84,34 @@ void HowToPlay::menuCloseCallback(Ref* pSender)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	exit(0);
 #endif
+}
+
+void HowToPlay::Joystick(cocos2d::Event* event)
+{
+	EventJoystick* e = (EventJoystick*)event;
+	//CCLOG("JOYSTICK PRESENT");
+	bool present = e->isPresent();
+	//CCLOG(std::to_string(present).c_str());
+	if (present)
+	{
+		if (timeDelay == 0)
+		{
+			int forbutton;
+			const unsigned char* buttonval = e->getButtonValues(&forbutton);
+			unsigned char b0 = buttonval[0];
+			unsigned char b1 = buttonval[1];
+			unsigned char b2 = buttonval[2];
+			unsigned char b3 = buttonval[3];
+
+			if (b0 || b1 || b2 || b3)
+			{
+				_eventDispatcher->removeAllEventListeners();
+				begin(this);
+			}
+		}
+		if (timeDelay > 0)
+		{
+			timeDelay--;
+		}
+	}
 }

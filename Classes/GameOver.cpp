@@ -39,6 +39,10 @@ bool GameOver::init()
 	gameover->setPosition(Vec2((int)winSizeWidth - 10, (int)winSizeHeight + 120));
 	this->addChild(gameover, 0);
 
+	auto joyListener = EventListenerJoystick::create();
+	joyListener->onEvent = CC_CALLBACK_1(GameOver::Joystick, this);
+	_eventDispatcher->addEventListenerWithFixedPriority(joyListener, 1);
+
 	if (MUSIC_ON)
 	{
 		experimental::AudioEngine::play2d("\\res\\sound\\music\\win_music.mp3", true, 0.5f);
@@ -62,6 +66,31 @@ void GameOver::menuCloseCallback(Ref* pSender)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	exit(0);
 #endif
+}
+
+void GameOver::Joystick(cocos2d::Event* event)
+{
+	EventJoystick* e = (EventJoystick*)event;
+	//CCLOG("JOYSTICK PRESENT");
+	bool present = e->isPresent();
+	//CCLOG(std::to_string(present).c_str());
+	if (present)
+	{
+		//CCLOG(e->getName());
+
+		int forbutton;
+		const unsigned char* buttonval = e->getButtonValues(&forbutton);
+		unsigned char b0 = buttonval[0];
+		unsigned char b1 = buttonval[1];
+		unsigned char b2 = buttonval[2];
+		unsigned char b3 = buttonval[3];
+
+		if (b0 || b1 || b2 || b3)
+		{
+			_eventDispatcher->removeAllEventListeners();
+			goToMainMenu(this);
+		}
+	}
 }
 
 

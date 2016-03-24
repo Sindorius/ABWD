@@ -42,6 +42,10 @@ public:
 	bool aPlayerChosen = false;
 	int playerNum = 1;
 
+	void Joystick(cocos2d::Event*);
+
+	int timeDelay = 30;
+
 	CREATE_FUNC(ServerConnection);
 
 };
