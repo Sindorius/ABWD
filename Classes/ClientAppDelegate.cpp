@@ -69,22 +69,7 @@ bool ClientAppDelegate::applicationDidFinishLaunching() {
 	//sized assets for different size resolutions.
 	if (FULLSCREEN)
 	{
-		if (screenSize.height < 720)
-		{
-			director->getOpenGLView()->setFrameZoomFactor(1.0f);
-		}
-		else if (screenSize.height == 720)
-		{
-			director->getOpenGLView()->setFrameZoomFactor(2.0f);
-		}
-		else if (screenSize.height == 1080)
-		{
-			director->getOpenGLView()->setFrameZoomFactor(3.0f);
-		}
-		else
-		{
-			director->getOpenGLView()->setFrameZoomFactor(3.0f); //for resolutions above 1080p just set to 1080p
-		}
+		director->getOpenGLView()->setFrameZoomFactor(screenSize.height/designResolutionSize.height);
 	}
 	else
 	{
