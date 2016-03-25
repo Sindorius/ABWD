@@ -57,7 +57,7 @@ bool MenuScene::init()
 
 	if (MUSIC_ON)
 	{
-		experimental::AudioEngine::play2d("\\res\\sound\\music\\menu_music.mp3", true);
+		experimental::AudioEngine::play2d("\\res\\sound\\music\\menu_music.mp3", true, 0.4f);
 	}
 
 	return true;
