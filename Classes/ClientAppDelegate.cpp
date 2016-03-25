@@ -64,11 +64,9 @@ bool ClientAppDelegate::applicationDidFinishLaunching() {
 
 	glview->setFrameSize(designResolutionSize.width, designResolutionSize.height);
 
-	//Right now only check for below 720p, 720p, and 1080p.
-	//Need to account for greater than 1080p and create different
-	//sized assets for different size resolutions.
 	if (FULLSCREEN)
 	{
+		//adjusts zoom factor for all resolutions, though for resolutions above 1080p might have too much aliasing
 		director->getOpenGLView()->setFrameZoomFactor(screenSize.height/designResolutionSize.height);
 	}
 	else
