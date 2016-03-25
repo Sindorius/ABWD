@@ -59,19 +59,37 @@ bool ServerConnection::init()
 	p1_button->setPosition(Vec2((int)winSizeWidth - 210, (int)winSizeHeight - 20));
 	p1_button->setScale(0.3f);
 
+	//these button2s are so players can select the labels too.
+	//selected image is the same as normal image for now, need selected version
+	auto p1_button2 = MenuItemImage::create("res//sprites//ui//p1Label.png", "res//sprites//ui//p1Label.png", CC_CALLBACK_1(ServerConnection::player1, this));
+	p1_button2->setPosition(Vec2((int)winSizeWidth - 210, (int)winSizeHeight - 95));
+	p1_button2->setScale(0.4f);
+
 	auto p2_button = MenuItemImage::create("res//sprites//ui//p2NP.png", "res//sprites//ui//p2P.png", CC_CALLBACK_1(ServerConnection::player2, this));
 	p2_button->setPosition(Vec2((int)winSizeWidth - 90, (int)winSizeHeight - 20));
 	p2_button->setScale(0.3f);
+
+	auto p2_button2 = MenuItemImage::create("res//sprites//ui//p2Label.png", "res//sprites//ui//p2Label.png", CC_CALLBACK_1(ServerConnection::player2, this));
+	p2_button2->setPosition(Vec2((int)winSizeWidth - 90, (int)winSizeHeight - 95));
+	p2_button2->setScale(0.4f);
 
 	auto p3_button = MenuItemImage::create("res//sprites//ui//p3NP.png", "res//sprites//ui//p3P.png", CC_CALLBACK_1(ServerConnection::player3, this));
 	p3_button->setPosition(Vec2((int)winSizeWidth + 80, (int)winSizeHeight - 20));
 	p3_button->setScale(0.3f);
 
+	auto p3_button2 = MenuItemImage::create("res//sprites//ui//p3Label.png", "res//sprites//ui//p3Label.png", CC_CALLBACK_1(ServerConnection::player3, this));
+	p3_button2->setPosition(Vec2((int)winSizeWidth + 80, (int)winSizeHeight - 95));
+	p3_button2->setScale(0.4f);
+
 	auto p4_button = MenuItemImage::create("res//sprites//ui//p4NP.png", "res//sprites//ui//p4P.png", CC_CALLBACK_1(ServerConnection::player4, this));
 	p4_button->setPosition(Vec2((int)winSizeWidth + 200, (int)winSizeHeight - 20));
 	p4_button->setScale(0.3f);
 
-	auto layer = Menu::create(enter_button, p1_button, p2_button, p3_button, p4_button, NULL);
+	auto p4_button2 = MenuItemImage::create("res//sprites//ui//p4Label.png", "res//sprites//ui//p4Label.png", CC_CALLBACK_1(ServerConnection::player4, this));
+	p4_button2->setPosition(Vec2((int)winSizeWidth + 200, (int)winSizeHeight - 95));
+	p4_button2->setScale(0.4f);
+
+	auto layer = Menu::create(enter_button, p1_button, p1_button2, p2_button, p2_button2, p3_button, p3_button2, p4_button, p4_button2, NULL);
 	layer->setPosition(Point::ZERO);
 	this->addChild(layer, 1);
 
@@ -85,21 +103,11 @@ bool ServerConnection::init()
 	Directions->setPosition(Vec2((int)winSizeWidth - 10, (int)winSizeHeight + 120));
 	this->addChild(Directions, 0);
 
-	p1 = Sprite::create("res//sprites//ui//p1Label.png");
-	p1->setScale(0.4f);
-	p1->setPosition(Vec2((int)winSizeWidth - 210, (int)winSizeHeight - 95));
-	this->addChild(p1, 0);
-
 	p1Chara = Sprite::create("res//sprites//ui//p1P.png");
 	p1Chara->setScale(0.3f);
 	p1Chara->setPosition(Vec2((int)winSizeWidth - 210, (int)winSizeHeight - 20));
 	p1Chara->setOpacity(0);
 	this->addChild(p1Chara, 1);
-
-	p2 = Sprite::create("res//sprites//ui//p2Label.png");
-	p2->setScale(0.4f);
-	p2->setPosition(Vec2((int)winSizeWidth - 90, (int)winSizeHeight - 95));
-	this->addChild(p2, 0);
 
 	p2Chara = Sprite::create("res//sprites//ui//p2P.png");
 	p2Chara->setScale(0.3f);
@@ -107,21 +115,11 @@ bool ServerConnection::init()
 	p2Chara->setOpacity(0);
 	this->addChild(p2Chara, 1);
 
-	p3 = Sprite::create("res//sprites//ui//p3Label.png");
-	p3->setScale(0.4f);
-	p3->setPosition(Vec2((int)winSizeWidth + 80, (int)winSizeHeight - 95));
-	this->addChild(p3, 0);
-
 	p3Chara = Sprite::create("res//sprites//ui//p3P.png");
 	p3Chara->setScale(0.3f);
 	p3Chara->setPosition(Vec2((int)winSizeWidth + 80, (int)winSizeHeight - 20));
 	p3Chara->setOpacity(0);
 	this->addChild(p3Chara, 1);
-
-	p4 = Sprite::create("res//sprites//ui//p4Label.png");
-	p4->setScale(0.4f);
-	p4->setPosition(Vec2((int)winSizeWidth + 200, (int)winSizeHeight - 95));
-	this->addChild(p4, 0);
 
 	p4Chara = Sprite::create("res//sprites//ui//p4P.png");
 	p4Chara->setScale(0.3f);
