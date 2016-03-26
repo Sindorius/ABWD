@@ -2,7 +2,7 @@
 #include "ClientDemoScene.h"
 #include "MenuScene.h"
 
-#define FULLSCREEN 1
+#define FULLSCREEN 0
 
 USING_NS_CC;
 
