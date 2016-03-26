@@ -403,7 +403,7 @@ void PaintTile::refreshColor()
 {
 	if (color == "red")
 	{
-		setTexture("res//sprites//objects//tile_red_paint_correct.png");
+		setTexture("res//sprites//objects//tile_correct_wet_red1.png");
 	}
 	if (color == "blue")
 	{
@@ -472,7 +472,7 @@ void PaintTile::refreshColor()
 	////////////////////////////////////
 	if (color == "Xred")
 	{
-		setTexture("res//sprites//objects//tile_red_paint_incorrect.png");
+		setTexture("res//sprites//objects//tile_correct_wet_red1.png");
 	}
 
 	if (color == "Xblue")
