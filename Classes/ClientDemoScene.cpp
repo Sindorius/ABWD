@@ -985,6 +985,16 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 		case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 			xmove += 2;
 			break;
+		case EventKeyboard::KeyCode::KEY_W:
+			ymove += 2;
+			break;
+		case EventKeyboard::KeyCode::KEY_A:
+			xmove -= 2;
+			break;
+		//KEY_S is down further since it also deals with sound toggling too
+		case EventKeyboard::KeyCode::KEY_D:
+			xmove += 2;
+			break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
 			button1 = true;
 			space();
@@ -1064,6 +1074,10 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 						isSFXPlaying[5] = true;
 					} 
 				}
+			else
+			{
+				ymove -= 2;
+			}
 			break;
 		case EventKeyboard::KeyCode::KEY_EQUAL:
 			if (gSound.musicOn && gSound.mVolume <= 1.0f)
@@ -1099,6 +1113,19 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 		xmove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		xmove = 0;
+		break;
+	case EventKeyboard::KeyCode::KEY_W:
+		ymove = 0;
+		break;
+	case EventKeyboard::KeyCode::KEY_S:
+		if (!button2)
+			ymove = 0;
+		break;
+	case EventKeyboard::KeyCode::KEY_A:
+		xmove = 0;
+		break;
+	case EventKeyboard::KeyCode::KEY_D:
 		xmove = 0;
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
