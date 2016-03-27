@@ -935,34 +935,22 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		if (msg.xpos == 1)
 		{
 			p1CLabel->setFontFillColor(labelcolor);
-			if (playernum == 1)
-			{
-				gSound.pTrigs[playernum - 1].onBucket = true;
-			}
+			gSound.pTrigs[playernum - 1].onBucket = true;
 		}
 		if (msg.xpos == 2)
 		{
 			p2CLabel->setFontFillColor(labelcolor);
-			if (playernum == 2)
-			{
-				gSound.pTrigs[playernum - 1].onBucket = true;
-			}
+			gSound.pTrigs[playernum - 1].onBucket = true;
 		}
 		if (msg.xpos == 3)
 		{
 			p3CLabel->setFontFillColor(labelcolor);
-			if (playernum == 3)
-			{
-				gSound.pTrigs[playernum - 1].onBucket = true;
-			}
+			gSound.pTrigs[playernum - 1].onBucket = true;
 		}
 		if (msg.xpos == 4)
 		{
 			p4CLabel->setFontFillColor(labelcolor);
-			if (playernum == 4)
-			{
-				gSound.pTrigs[playernum - 1].onBucket = true;
-			}
+			gSound.pTrigs[playernum - 1].onBucket = true;
 		}
 
 

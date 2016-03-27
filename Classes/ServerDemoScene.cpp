@@ -662,6 +662,13 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 
 void ServerDemo::loadLevel(int level)
 {
+	//reset player color+label on new level
+	for (unsigned int i = 0; i < players.size(); i++)
+	{
+		players[i]->setColor("");
+		servermessagequeue.emplace_back(ServerMessage(16, i, 0, 1));
+	}
+
 	if (level == 5)
 	{
 		servermessagequeue.emplace_back(ServerMessage(15, 0, 0, 0));
