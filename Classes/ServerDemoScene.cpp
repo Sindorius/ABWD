@@ -840,7 +840,11 @@ void ServerDemo::updatePaintTiles(int playernum)
 	{
 		for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 		{
-			if (players[playernum - 1]->getPositionX() > tilespritevector[i][j]->getPositionX() - 12 && players[playernum - 1]->getPositionX() < tilespritevector[i][j]->getPositionX() + 12 && players[playernum - 1]->getPositionY() > tilespritevector[i][j]->getPositionY() - 12 && players[playernum - 1]->getPositionY() < tilespritevector[i][j]->getPositionY() + 12)
+			if (players[playernum - 1]->getColor() != "" //check if player has paint
+			 &&	players[playernum - 1]->getPositionX() > tilespritevector[i][j]->getPositionX() - 12 
+			 && players[playernum - 1]->getPositionX() < tilespritevector[i][j]->getPositionX() + 12 
+			 && players[playernum - 1]->getPositionY() > tilespritevector[i][j]->getPositionY() - 12 
+			 && players[playernum - 1]->getPositionY() < tilespritevector[i][j]->getPositionY() + 12)
 			{
 				tilespritevector[i][j]->setColor(players[playernum - 1]->getColor());
 				tilespritevector[i][j]->refreshColor();
