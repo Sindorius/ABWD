@@ -44,7 +44,7 @@ public:
 
 	void Joystick(cocos2d::Event*);
 
-	int timeDelay = 30;
+	int timeDelay = 20; //so you dont skip screens if you hold down button too long on previous screen
 
 	CREATE_FUNC(ServerConnection);
 

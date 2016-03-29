@@ -269,69 +269,65 @@ void ServerConnection::Joystick(cocos2d::Event* event)
 		{
 			player1(this);
 		}
-		//CCLOG(e->getName());
-		int foraxis;
-		const float* axisval = e->getAxes(&foraxis);
-		float xval = axisval[0];
-		//CCLOG(std::to_string(xval).c_str());
-		bool nox = false;
-		bool noy = false;
-		//below if/else-if statements should check for d-pad too...
-		if (xval > 0.6)
-		{
-			if (timeDelay == 0)
+		if (timeDelay == 0) //so you dont skip screens if you hold down button too long on previous screen
+		{//CCLOG(e->getName());
+			int foraxis;
+			const float* axisval = e->getAxes(&foraxis);
+			float xval = axisval[0];
+			//CCLOG(std::to_string(xval).c_str());
+			bool nox = false;
+			bool noy = false;
+			//below if/else-if statements should check for d-pad too...
+			if (xval > 0.6)
 			{
 				if (playerNum == 1)
 				{
-					timeDelay = 15; //30 frames or 1 second
+					timeDelay = 10; //10 frames or 1/3rd of a second
 					player2(this);
 				}
 				else if (playerNum == 2)
 				{
-					timeDelay = 15;
+					timeDelay = 10;
 					player3(this);
 				}
 				else if (playerNum == 3)
 				{
-					timeDelay = 15;
+					timeDelay = 10;
 					player4(this);
 				}
 			}
-		}
-		else if (xval < -0.6)
-		{
-			if (timeDelay == 0)
+			else if (xval < -0.6)
 			{
 				if (playerNum == 2)
 				{
-					timeDelay = 15;
+					timeDelay = 10;
 					player1(this);
 				}
 				else if (playerNum == 3)
 				{
-					timeDelay = 15;
+					timeDelay = 10;
 					player2(this);
 				}
 				else if (playerNum == 4)
 				{
-					timeDelay = 15;
+					timeDelay = 10;
 					player3(this);
 				}
 			}
-		}
-		int forbutton;
-		const unsigned char* buttonval = e->getButtonValues(&forbutton);
-		unsigned char b0 = buttonval[0];
-		unsigned char b1 = buttonval[1];
-		unsigned char b2 = buttonval[2];
-		unsigned char b3 = buttonval[3];
+			int forbutton;
+			const unsigned char* buttonval = e->getButtonValues(&forbutton);
+			unsigned char b0 = buttonval[0];
+			unsigned char b1 = buttonval[1];
+			unsigned char b2 = buttonval[2];
+			unsigned char b3 = buttonval[3];
 
-		if (b0 || b1 || b2 || b3)
-		{
-			if (aPlayerChosen == true)
+			if (b0 || b1 || b2 || b3)
 			{
-				_eventDispatcher->removeAllEventListeners();
-				beginGame(this);
+				if (aPlayerChosen == true)
+				{
+					_eventDispatcher->removeAllEventListeners();
+					beginGame(this);
+				}
 			}
 		}
 		if (timeDelay > 0)

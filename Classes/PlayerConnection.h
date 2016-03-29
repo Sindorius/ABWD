@@ -29,7 +29,7 @@ public:
 
 	void Joystick(cocos2d::Event*);
 
-	int timeDelay = 30;
+	int timeDelay = 20;
 
 	CREATE_FUNC(PlayerConnection);
 
