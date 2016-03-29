@@ -10,11 +10,15 @@ public:
 	~PaintTile() {};
 	static PaintTile* create();
 	static PaintTile* create(std::string color);
-	std::string color;
-
 	void setColor(std::string c) { color = c; }
 	std::string getColor() { return color; }
+	bool isDry() { return dry; }
+	void setDry(bool b) { dry = b; }
 	void refreshColor();
+
+private:
+	std::string color;
+	bool dry = false;
 };
 
 

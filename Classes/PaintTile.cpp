@@ -403,145 +403,369 @@ void PaintTile::refreshColor()
 {
 	if (color == "red")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_red1.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_red1.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_red1.png");
+		}
 	}
-	if (color == "blue")
+	else if (color == "blue")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_blue1.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_blue1.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_blue1.png");
+		}
 	}
 
-	if (color == "yellow")
+	else if (color == "yellow")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_yellow1.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_yellow1.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_yellow1.png");
+		}
 	}
 
-	if (color == "orange")
+	else if (color == "orange")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_orange.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_orange.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_orange.png");
+		}
 	}
 
-	if (color == "black")
+	else if (color == "black")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_black.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_black.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_black.png");
+		}
 	}
 	///////////////////// NEW CODE ADDED
-	if (color == "blue2")
+	else if (color == "blue2")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_blue2.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_blue2.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_blue2.png");
+		}
 	}
-	if (color == "blue3")
+	else if (color == "blue3")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_blue3.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_blue3.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_blue3.png");
+		}
 	}
-	if (color == "green1")
+	else if (color == "green1")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_green1.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_green1.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_green1.png");
+		}
 	}
-	if (color == "green2")
+	else if (color == "green2")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_green2.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_green2.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_green2.png");
+		}
 	}
-	if (color == "green3")
+	else if (color == "green3")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_green3.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_green3.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_green3.png");
+		}
 	}
-	if (color == "grey1")
+	else if (color == "grey1")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_grey1.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_grey1.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_grey1.png");
+		}
 	}
-	if (color == "grey2")
+	else if (color == "grey2")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_grey2.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_grey2.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_grey2.png");
+		}
 	}
-	if (color == "white")
+	else if (color == "white")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_white.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_white.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_white.png");
+		}
 	}
-	if (color == "red1")
+	else if (color == "red1")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_red1.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_red1.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_red1.png");
+		}
 	}
-	if (color == "red2")
+	else if (color == "red2")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_red2.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_red2.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_red2.png");
+		}
 	}
-	if (color == "purple1")
+	else if (color == "purple1")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_purple1.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_correct_dry_purple1.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_correct_wet_purple1.png");
+		}
 	}
 	////////////////////////////////////
-	if (color == "Xred")
+	else if (color == "Xred")
 	{
-		setTexture("res//sprites//objects//tile_correct_wet_red1.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_red1.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_red1.png");
+		}
 	}
 
-	if (color == "Xblue")
+	else if (color == "Xblue")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_blue1.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_blue1.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_blue1.png");
+		}
 	}
 
-	if (color == "Xyellow")
+	else if (color == "Xyellow")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_yellow1.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_yellow1.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_yellow1.png");
+		}
 	}
 
-	if (color == "Xorange")
+	else if (color == "Xorange")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_orange.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_orange.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_orange.png");
+		}
 	}
 
-	if (color == "Xblack")
+	else if (color == "Xblack")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_black.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_black.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_black.png");
+		}
 	}
 	///////////////////// NEW CODE ADDED
-	if (color == "Xblue2")
+	else if (color == "Xblue2")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_blue2.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_blue2.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_blue2.png");
+		}
 	}
-	if (color == "Xblue3")
+	else if (color == "Xblue3")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_blue3.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_blue3.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_blue3.png");
+		}
 	}
-	if (color == "Xgreen1")
+	else if (color == "Xgreen1")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_green1.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_green1.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_green1.png");
+		}
 	}
-	if (color == "Xgreen2")
+	else if (color == "Xgreen2")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_green2.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_green2.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_green2.png");
+		}
 	}
-	if (color == "Xgreen3")
+	else if (color == "Xgreen3")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_green3.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_green3.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_green3.png");
+		}
 	}
-	if (color == "Xgrey1")
+	else if (color == "Xgrey1")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_grey1.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_grey1.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_grey1.png");
+		}
 	}
-	if (color == "Xgrey2")
+	else if (color == "Xgrey2")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_grey2.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_grey2.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_grey2.png");
+		}
 	}
-	if (color == "Xwhite")
+	else if (color == "Xwhite")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_white.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_white.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_white.png");
+		}
 	}
-	if (color == "Xred1")
+	else if (color == "Xred1")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_red1.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_red1.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_red1.png");
+		}
 	}
-	if (color == "Xred2")
+	else if (color == "Xred2")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_red2.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_red2.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_red2.png");
+		}
 	}
-	if (color == "Xpurple1")
+	else if (color == "Xpurple1")
 	{
-		setTexture("res//sprites//objects//tile_incorrect_wet_purple1.png");
+		if (isDry())
+		{
+			setTexture("res//sprites//objects//tile_incorrect_dry_purple1.png");
+		}
+		else
+		{
+			setTexture("res//sprites//objects//tile_incorrect_wet_purple1.png");
+		}
 	}
 	////////////////////////////////////
 
-	if (color == "clear")
+	else if (color == "clear")
 	{
 		setTexture("res//sprites//paint_overlay_dry.png");
 	}

@@ -818,6 +818,8 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	14. Ptero hit player, unused, unused, player #
 	15. Go to win game, unused, unused, unused	
 	16. Player got bucket, player number, unused, color #
+	17. Player already taken, unused, unused, player #
+	18. Paint tile dried, row, column, unused
 	*/
 	
 	if(msg.messagechar == 0)
@@ -960,6 +962,11 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		_eventDispatcher->removeAllEventListeners();
 		auto scene = ServerConnection::createServerConnection(ipaddress, activechars);
 		CCDirector::getInstance()->replaceScene(scene);
+	}
+	else if (msg.messagechar == 18)
+	{
+		tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(true);
+		tilespritevector[(int)msg.xpos][(int)msg.ypos]->refreshColor();
 	}
 }
 

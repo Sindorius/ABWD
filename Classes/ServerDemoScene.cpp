@@ -234,16 +234,24 @@ void ServerDemo::update(float dt)
 	serversam->setLocalZOrder(-serversam->getPositionY());
 	pterodactyl->setLocalZOrder(-pterodactyl->getPositionY());
 
+	//drying code
+
+	//moved this outside if(notlvl1) block because paint should dry
+	//on lvl 1 as well OR not be wet at all on lvl1
+	if (dry_time < 15) {
+		dry_time++;
+	}
+	else {
+		int a = (rand() % levelmanager.puzzle.drytilevector.size());
+		int b = (rand() % levelmanager.puzzle.drytilevector[0].size());
+		levelmanager.puzzle.drytilevector[a][b] = 1;
+		tilespritevector[a][b]->setDry(true); //only useful for visual-based server
+		tilespritevector[a][b]->refreshColor(); //only useful for visual-based server
+		enqueueMessage(ServerMessage(18, (float)a, (float)b, 0)); //tells client a tile has dried
+		dry_time = 0;
+	} //end of drying code
+	
 	if (levelmanager.currentlevel != 1) {
-		if (dry_time < 15) {
-			dry_time++;
-		}
-		else {
-			int a = (rand() % levelmanager.puzzle.drytilevector.size());
-			int b = (rand() % levelmanager.puzzle.drytilevector[0].size());
-			levelmanager.puzzle.drytilevector[a][b] = 1;
-			dry_time = 0;
-		}
 		for (Player* p : players)
 		{
 			if (abs(serversam->getPositionX() - p->getPositionX()) < 5 && abs(serversam->getPositionY() - p->getPositionY()) < 5)
