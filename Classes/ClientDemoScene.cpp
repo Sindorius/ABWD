@@ -4,11 +4,9 @@ USING_NS_CC;
 //using boost::asio::ip::udp;
 using boost::asio::ip::tcp;
 
-///////////////////////// NEW CODE TO TRY
 int port = 10001;
 std::string ipaddress;
 int playerNumber;
-////////////////////////////////////////
 
 //**** IMPORTANT: MUSIC_ON is also defined in MenuScene.h so remember to toggle that one too to turn off menu music!
 
