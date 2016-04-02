@@ -36,7 +36,7 @@ WET_WHITE = {
 	'blue3'    : 1,
 	'green1'   : 1,
 	'green2'   : 1,
-	'green3'   : 1,
+	'green3'   : 0,
 	'white'    : 0,
 	'red2'     : 1,
 	'grey1'    : 1,
