@@ -140,6 +140,8 @@ bool ServerDemo::init()
 	configloader(setupdata);
 	is.close();
 
+	srand(time(NULL)); //for better randomness from rand()
+
 	CCLOG("port is");
 	CCLOG(std::to_string(setupdata.port).c_str());
 
@@ -855,6 +857,8 @@ void ServerDemo::updatePaintTiles(int playernum)
 			 && players[playernum - 1]->getPositionY() < tilespritevector[i][j]->getPositionY() + 12)
 			{
 				tilespritevector[i][j]->setColor(players[playernum - 1]->getColor());
+				tilespritevector[i][j]->setDry(false); //when dry tile repainted it is wet again
+				enqueueMessage(ServerMessage(18, (float)i, (float)j, 1)); //tells client a tile needs to be wet again
 				tilespritevector[i][j]->refreshColor();
 				levelmanager.puzzle.drytilevector[i][j] = 0;
 				if (players[playernum - 1]->getColor() == "red")

@@ -28,11 +28,10 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 			pSprite->getTexture()->setAliasTexParameters();
-			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
-	if (color == "blue")
+	else if (color == "blue")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_blue1.png"))
 		{
@@ -44,7 +43,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "yellow")
+	else if (color == "yellow")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_yellow1.png"))
 		{
@@ -56,7 +55,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "orange")
+	else if (color == "orange")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_orange.png"))
 		{
@@ -68,7 +67,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "black")
+	else if (color == "black")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_black.png"))
 		{
@@ -81,7 +80,7 @@ PaintTile* PaintTile::create(std::string color)
 		}
 	}
 	/// The Tera picture colors
-	if (color == "blue2")
+	else if (color == "blue2")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_blue2.png"))
 		{
@@ -93,7 +92,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "blue3")
+	else if (color == "blue3")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_blue3.png"))
 		{
@@ -105,7 +104,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "green1")
+	else if (color == "green1")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_green1.png"))
 		{
@@ -117,7 +116,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "green2")
+	else if (color == "green2")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_green2.png"))
 		{
@@ -129,7 +128,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "green3")
+	else if (color == "green3")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_green3.png"))
 		{
@@ -143,7 +142,7 @@ PaintTile* PaintTile::create(std::string color)
 	}
 	/////////////////////////////
 	////// THE SAM IMAGE COLORS
-	if (color == "grey1")
+	else if (color == "grey1")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_grey1.png"))
 		{
@@ -155,7 +154,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "grey2")
+	else if (color == "grey2")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_grey2.png"))
 		{
@@ -167,7 +166,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "white")
+	else if (color == "white")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_white.png"))
 		{
@@ -179,7 +178,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "red1")
+	else if (color == "red1")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_red1.png"))
 		{
@@ -191,7 +190,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "red2")
+	else if (color == "red2")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_red2.png"))
 		{
@@ -203,7 +202,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "purple1")
+	else if (color == "purple1")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_correct_wet_purple1.png"))
 		{
@@ -230,7 +229,7 @@ PaintTile* PaintTile::create(std::string color)
 		}
 	}
 	*/
-	if (color == "Xblue")
+	else if (color == "Xblue")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_blue1.png"))
 		{
@@ -242,7 +241,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "Xyellow")
+	else if (color == "Xyellow")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_yellow1.png"))
 		{
@@ -254,7 +253,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "Xorange")
+	else if (color == "Xorange")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_orange.png"))
 		{
@@ -266,7 +265,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "Xblack")
+	else if (color == "Xblack")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_black.png"))
 		{
@@ -279,7 +278,7 @@ PaintTile* PaintTile::create(std::string color)
 		}
 	}
 	// The Tera picture colors
-	if (color == "Xblue2")
+	else if (color == "Xblue2")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_blue2.png"))
 		{
@@ -291,7 +290,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "Xblue3")
+	else if (color == "Xblue3")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_blue3.png"))
 		{
@@ -303,7 +302,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "Xgreen1")
+	else if (color == "Xgreen1")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_green1.png"))
 		{
@@ -315,7 +314,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "Xgreen2")
+	else if (color == "Xgreen2")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_green2.png"))
 		{
@@ -327,7 +326,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "Xgreen3")
+	else if (color == "Xgreen3")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_green3.png"))
 		{
@@ -341,7 +340,7 @@ PaintTile* PaintTile::create(std::string color)
 	}
 	/////////////////////////////
 	// SAMS INCORRECT TILE COLORS
-	if (color == "Xgrey1")
+	else if (color == "Xgrey1")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_grey1.png"))
 		{
@@ -353,7 +352,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "Xgrey2")
+	else if (color == "Xgrey2")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_grey2.png"))
 		{
@@ -365,7 +364,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "Xwhite")
+	else if (color == "Xwhite")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_white.png"))
 		{
@@ -377,7 +376,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "Xred1")
+	else if (color == "Xred1")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_red1.png"))
 		{
@@ -389,7 +388,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "Xred2")
+	else if (color == "Xred2")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_red2.png"))
 		{
@@ -401,7 +400,7 @@ PaintTile* PaintTile::create(std::string color)
 			return pSprite;
 		}
 	}
-	if (color == "Xpurple1")
+	else if (color == "Xpurple1")
 	{
 		if (pSprite->initWithFile("res//sprites//objects//tile_incorrect_wet_purple1.png"))
 		{

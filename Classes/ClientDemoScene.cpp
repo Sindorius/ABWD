@@ -817,7 +817,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	15. Go to win game, unused, unused, unused	
 	16. Player got bucket, player number, unused, color #
 	17. Player already taken, unused, unused, player #
-	18. Paint tile dried, row, column, unused
+	18. Paint tile dried/wet, row, column, wet = 0/dry = 1
 	*/
 	
 	if(msg.messagechar == 0)
@@ -963,7 +963,15 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	}
 	else if (msg.messagechar == 18)
 	{
-		tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(true);
+		
+		if (msg.status == 0) //paint tile wet
+		{
+			tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(true);
+		}
+		else if (msg.status == 1) //paint tile dry
+		{
+			tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(false);
+		}
 		tilespritevector[(int)msg.xpos][(int)msg.ypos]->refreshColor();
 	}
 }
