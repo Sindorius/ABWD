@@ -9,6 +9,7 @@ PaintTile* PaintTile::create()
 		pSprite->setColor("clear");
 		pSprite->autorelease();
 
+		pSprite->getTexture()->setAliasTexParameters();
 		return pSprite;
 	}
 
@@ -26,7 +27,8 @@ PaintTile* PaintTile::create(std::string color)
 			pSprite->setColor("red");
 
 			pSprite->autorelease();
-
+			pSprite->getTexture()->setAliasTexParameters();
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -38,6 +40,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -49,6 +52,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -60,6 +64,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -71,6 +76,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -83,6 +89,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -94,6 +101,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -105,6 +113,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -116,6 +125,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -127,6 +137,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -140,6 +151,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -151,6 +163,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -162,6 +175,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -173,6 +187,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -184,6 +199,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -195,6 +211,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -209,7 +226,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
-			return pSprite;
+			pSprite->getTexture()->setAliasTexParameters();return pSprite;
 		}
 	}
 	*/
@@ -221,6 +238,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -232,6 +250,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -243,6 +262,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -254,6 +274,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -266,6 +287,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -277,6 +299,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -288,6 +311,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -299,6 +323,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -310,6 +335,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -323,6 +349,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -334,6 +361,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -345,6 +373,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -356,6 +385,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -367,6 +397,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -378,6 +409,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 	}
@@ -390,6 +422,7 @@ PaintTile* PaintTile::create(std::string color)
 
 			pSprite->autorelease();
 
+			pSprite->getTexture()->setAliasTexParameters();
 			return pSprite;
 		}
 
@@ -769,5 +802,6 @@ void PaintTile::refreshColor()
 	{
 		setTexture("res//sprites//paint_overlay_dry.png");
 	}
+	getTexture()->setAliasTexParameters();
 }
 
