@@ -1172,22 +1172,22 @@ void ClientDemo::Joystick(cocos2d::Event* event)
 			//CCLOG(std::to_string(yval).c_str());
 			bool nox = false;
 			bool noy = false;
-			if (yval > 0.2)
+			if (yval > 0.5)
 			{
 				ymove = -2;
 			}
-			else if (yval < -0.2)
+			else if (yval < -0.5)
 			{
 				ymove = 2;
 			}
 			else {
 				ymove = 0;
 			}
-			if (xval > 0.2)
+			if (xval > 0.5)
 			{
 				xmove = 2;
 			}
-			else if (xval < -0.2)
+			else if (xval < -0.5)
 			{
 				xmove = -2;
 			}
