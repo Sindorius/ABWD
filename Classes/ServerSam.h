@@ -95,8 +95,8 @@ private:
 	int secondary_time = 0;
 	int idle_time = 50;
 	int walk_time = 100;
-	int charge_teleport_time = 100;
-	int teleport_arrival_time = 50;
+	int charge_teleport_time = 50;
+	int teleport_arrival_time = 25;
 	int teleport_fail_timer = 50;
 	int munch_time = 100;
 

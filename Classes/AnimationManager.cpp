@@ -594,10 +594,10 @@ AnimationManager::AnimationManager()
 	Animation* samrightanimation = Animation::createWithSpriteFrames(samrightanimFrames, 0.1f);
 	cocos2d::Animate* samrightanim = Animate::create(samrightanimation);
 	samrightanim->retain();
-	Animation* samteleportanimation = Animation::createWithSpriteFrames(samTeleportFrames, 0.1f);
+	Animation* samteleportanimation = Animation::createWithSpriteFrames(samTeleportFrames, 0.05f);
 	cocos2d::Animate* samteleportanim = Animate::create(samteleportanimation);
 	samteleportanim->retain();
-	Animation* samappearanimation = Animation::createWithSpriteFrames(samAppearFrames, 0.1f);
+	Animation* samappearanimation = Animation::createWithSpriteFrames(samAppearFrames, 0.05f);
 	cocos2d::Animate* samappearanim = Animate::create(samappearanimation);
 	samappearanim->retain();
 	Animation* samwhistleanimation = Animation::createWithSpriteFrames(samWhistleFrames, 0.2f);
