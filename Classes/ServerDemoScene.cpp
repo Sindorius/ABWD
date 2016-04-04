@@ -131,7 +131,7 @@ bool ServerDemo::init()
 	
 	serversam->linkPtera(pterodactyl);
 	serversam->linkCandy(candy);
-
+	serversam->setLevel(levelmanager);
 	loadLevel(1);
 
 	std::ifstream is("config.json");
@@ -691,16 +691,22 @@ void ServerDemo::loadLevel(int level)
 		serversam->setPosition(-1000, -1000);
 	}
 	else if (level == 2) {
+		serversam->teleportOn();
+		serversam->walkOn();
 		serversam->pteraOff();
 		serversam->candyOff();
 	}
 	else if (level == 3) {
+		serversam->teleportOn();
+		serversam->walkOn();
 		serversam->pteraOff();
 		serversam->candyOn();
 	}
 	else if (level == 4) {
 		serversam->pteraOn();
 		serversam->candyOn();
+		serversam->teleportOn();
+		serversam->walkOn();
 	}
 
 	

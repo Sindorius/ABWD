@@ -359,69 +359,99 @@ void ServerSam::pteraSummon() {
 		ptera->peace();
 	}
 }
-
+//munchFunction
 void ServerSam::munch() {
+	bool resume = true;
 	if (flag) {
-		int temp = -1;
-		for (unsigned int i = 0; i < distance.size(); i++) {
-			int temp1 = distance[i];
-			if (temp < temp1 && priority[i] > 0) { temp = temp1; target = i; }
-		}
-		flag = false;
-		candy->setPosition(this->getPositionX() - (this->getPositionX() - player_list->at(target)->getPositionX()) / 1.5, this->getPositionY() - (this->getPositionY() - player_list->at(target)->getPositionY()) / 1.5);
-		candy->setStatus(true);
-	}
+		
+		int theta = (rand() % 360);
+		int testx = this->getPositionX() - candy_spawn_distance*(cos(theta * 3.14159 / 180));
+		int testy = this->getPositionY() - candy_spawn_distance*(sin(theta * 3.14159 / 180));
+		Vec2 tileCoord = Vec2(testx, testy);
+		
+		blockage = lvm.levelmap->getLayer("Collision");
+		/*
+		if (blockage != NULL)
+		{
+			int bkTile = blockage->getTileGIDAt(tileCoord);
+			if (bkTile)
+			{
+				auto tilemapvals = lvm.levelmap->getPropertiesForGID(bkTile).asValueMap();
+				if (!tilemapvals.empty())
+				{
+					auto w = tilemapvals["Collidable"].asString();
 
-	double theta;
-	if (candy->getPositionX() >= this->getPositionX()) {
-		theta = atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159;
+					if ("true" == w) {
+						resume = false;
+					}
+				}
+			}
+		}
+		else {
+			resume = false;
+		}
+		*/
+		if (resume) {
+			flag = false;
+			candy->setPosition(testx, testy);
+			candy->setStatus(true);
+		}
 	}
-	else if (candy->getPositionX() > this->getPositionY()) {
-		theta = 180 + (atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159);
+	if (resume) {
+		double theta = 0;
+		if (candy->getPositionX() >= this->getPositionX()) {
+			theta = atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159;
+		}
+		else if (candy->getPositionX() > this->getPositionY()) {
+			theta = 180 + (atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159);
+		}
+		else {
+			theta = -180 + atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159;
+		}
+
+		this->setPositionX(this->getPositionX() + walk_speed*(cos(theta * 3.14159 / 180)));
+		this->setPositionY(this->getPositionY() + walk_speed*(sin(theta * 3.14159 / 180)));
+
+		if (theta > 45 && theta < 135) {
+			setAnim("samup");
+		}
+		else if (theta >= 135 || theta <= -135) {
+			setAnim("samleft");
+		}
+		else if (theta <= 45 && theta >= -45) {
+			setAnim("samright");
+		}
+		else if (theta < -45 && theta > -135) {
+			setAnim("samdown");
+		}
+
+
+		for (unsigned int i = 0; i < player_list->size(); i++) {
+			if (abs(player_list->at(i)->getPositionX() - candy->getPositionX()) < 10 && abs(player_list->at(i)->getPositionY() - candy->getPositionY()) < 10 && candy->notCollected()) {
+				candy->setStatus(false);
+				candy->setOwner(i);
+				candy->start();
+				candy->setPosition(-1000, -1000);
+				flag = true;
+				behavior_timer = 150;
+				behavior = 0;
+				candyOff();
+				serverptr->enqueueMessage(ServerMessage(8, 0, 0, i + 1));
+			}
+		}
+		if (abs(this->getPositionX() - candy->getPositionX()) < 10 && abs(this->getPositionY() - candy->getPositionY()) < 10 && candy->notCollected()) {
+			candy->setStatus(false);
+			candy->setPosition(-1000, -1000);
+			behavior = 7;
+			behavior_timer = 150;
+			flag = true;
+			walk_speed = 4;
+		}
 	}
 	else {
-		theta = -180 + atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159;
-	}
-
-	this->setPositionX(this->getPositionX() + walk_speed*(cos(theta * 3.14159 / 180)));
-	this->setPositionY(this->getPositionY() + walk_speed*(sin(theta * 3.14159 / 180)));
-
-	if (theta > 45 && theta < 135) {
-		setAnim("samup");
-	}
-	else if (theta >= 135 || theta <= -135) {
-		setAnim("samleft");
-	}
-	else if (theta <= 45 && theta >= -45) {
-		setAnim("samright");
-	}
-	else if (theta < -45 && theta > -135) {
-		setAnim("samdown");
-	}
-
-
-	for (unsigned int i = 0; i < player_list->size(); i++) {
-		if (abs(player_list->at(i)->getPositionX() - candy->getPositionX()) < 10 && abs(player_list->at(i)->getPositionY() - candy->getPositionY()) < 10 && candy->notCollected()) {
-			candy->setStatus(false);
-			candy->setOwner(i);
-			candy->start();
-			candy->setPosition(-1000, -1000);
-			flag = true;
-			behavior_timer = 150;
-			behavior = 0;
-			candyOff();
-			serverptr->enqueueMessage(ServerMessage(8, 0, 0, i + 1));
-		}
-	}
-	if (abs(this->getPositionX() - candy->getPositionX()) < 10 && abs(this->getPositionY() - candy->getPositionY()) < 10 && candy->notCollected()) {
-		candy->setStatus(false);
-		candy->setPosition(-1000, -1000);
-		behavior = 7;
-		behavior_timer = 150;
+		behavior_unlocked = true;
 		flag = true;
-		walk_speed = 4;
 	}
-
 }
 
 void ServerSam::munching() {
@@ -430,7 +460,7 @@ void ServerSam::munching() {
 		setAnim("sammunch");
 	}
 	else {
-		behavior_timer = 60;
+		behavior_timer = sprint_timer;
 		behavior = 0;
 	}
 }
@@ -455,6 +485,19 @@ void ServerSam::linkPtera(Pterodactyl* pterodactyl) {
 void ServerSam::linkCandy(Candy* candies) {
 	candy = candies;
 }
+
+void ServerSam::walkOff() {
+	if (b_walk) {
+		b_walk = false;
+		for (int i = 0; i < behaviors.size(); i++) {
+			if (behaviors[i] == 1) {
+				behaviors.erase(behaviors.begin() + i);
+				break;
+			}
+		}
+	}
+}
+
 
 void ServerSam::pteraOff() {
 	if (b_ptera) {
@@ -491,6 +534,17 @@ void ServerSam::candyOff() {
 				break;
 			}
 		}
+	}
+}
+
+void ServerSam::setLevel(LevelManager levelmanager) {
+	lvm = levelmanager;
+}
+
+void ServerSam::walkOn() {
+	if (!b_walk) {
+		b_walk = true;
+		behaviors.push_back(1);
 	}
 }
 

@@ -9,6 +9,7 @@
 #include "Candy.h"
 #include "ServerMessage.hpp"
 #include "ServerDemoScene.h" 
+#include "LevelManager.hpp"
 
 class ServerDemo;
 
@@ -62,10 +63,13 @@ public:
 	std::string getAnim() { return animstate; }
 	void linkPtera(Pterodactyl* pterodactyl);
 	void linkCandy(Candy* candies);
+	void setLevel(LevelManager levelmanager);
 
+	void walkOn();
 	void teleportOn();
 	void candyOn();
 	void pteraOn();
+	void walkOff();
 	void teleportOff();
 	void candyOff();
 	void pteraOff();
@@ -83,7 +87,8 @@ private:
 	float walk_speed = 2;
 	int charge_speed = 4;
 	int x = 0, y = 0;
-	int teleport_cd = 150;
+	int candy_spawn_distance = 200;
+
 	std::vector<Player*>* player_list;
 	std::vector<int> distance;
 	bool behavior_unlocked = true;
@@ -92,6 +97,8 @@ private:
 	bool flag = true;
 	bool pteraphase = 0;
 
+	//timers
+	int teleport_cd = 150;
 	int secondary_time = 0;
 	int idle_time = 50;
 	int walk_time = 100;
@@ -99,6 +106,7 @@ private:
 	int teleport_arrival_time = 25;
 	int teleport_fail_timer = 50;
 	int munch_time = 100;
+	int sprint_timer = 60;
 
 	std::string animstate = "";
 
@@ -108,16 +116,14 @@ private:
 	bool b_candy = false;
 	bool b_ptera = false;
 
+	//external items
+	cocos2d::CCTMXLayer* blockage;
+	LevelManager lvm;
 
 	//links
 	Pterodactyl* ptera;
 	Candy* candy;
 
 };
-/*
-behavior code
-code 0 - ai will walk towards the specified target parameter with no special actions
-code 1 - ai does a charge sequence
-*/
 
 #endif // _ServerSam_HPP_
