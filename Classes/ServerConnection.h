@@ -25,6 +25,11 @@ private:
 	Sprite* p4;
 	Sprite* p4Chara;
 
+	cocos2d::MenuItemImage* enter_button;
+	EventListenerJoystick* joyListener;
+
+	bool button1 = false;
+
 public:
 	static cocos2d::Scene* createServerConnection(char chosencharacters);
 

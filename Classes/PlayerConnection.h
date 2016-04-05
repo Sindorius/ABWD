@@ -15,6 +15,10 @@ class PlayerConnection : public cocos2d::Layer
 private:
 	Sprite* Directions;
 	CCTMXTiledMap* playerScreen;
+	cocos2d::MenuItemImage* begin_button;
+	EventListenerJoystick* joyListener;
+
+	bool button1 = false;
 
 public:
 	static cocos2d::Scene* createPlayerConnection();

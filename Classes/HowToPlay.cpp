@@ -41,7 +41,7 @@ bool HowToPlay::init()
 	float winSizeWidth = CCDirector::sharedDirector()->getWinSize().width / 2;
 	float winSizeHeight = CCDirector::sharedDirector()->getWinSize().height / 2;
 
-	auto begin_button = MenuItemImage::create("res//sprites//ui//GameBeginNP.png", "res//sprites//ui//GameBeginP.png", CC_CALLBACK_1(HowToPlay::begin, this));
+	begin_button = MenuItemImage::create("res//sprites//ui//GameBeginNP.png", "res//sprites//ui//GameBeginP.png", CC_CALLBACK_1(HowToPlay::begin, this));
 	begin_button->setPosition(Vec2(winSizeWidth + 12, winSizeHeight - 125));
 	begin_button->setScale(0.5f);
 
@@ -59,7 +59,7 @@ bool HowToPlay::init()
 	Directions->setPosition(Vec2((int)winSizeWidth, (int)winSizeHeight));
 	this->addChild(Directions, 0);
 
-	auto joyListener = EventListenerJoystick::create();
+	joyListener = EventListenerJoystick::create();
 	joyListener->onEvent = CC_CALLBACK_1(HowToPlay::Joystick, this);
 	_eventDispatcher->addEventListenerWithFixedPriority(joyListener, 1);
 
@@ -69,16 +69,19 @@ bool HowToPlay::init()
 
 void HowToPlay::begin(cocos2d::Ref* pSender)
 {
+	_eventDispatcher->removeEventListener(joyListener);
+	joyListener->release();
+	joyListener = nullptr;
 	experimental::AudioEngine::stopAll();
 	auto scene = ClientDemo::createScene(IPADDRESS, PLAYERNUM); // CODE TO TRY
 	CCDirector::getInstance()->replaceScene(scene);
 	//CCDirector::getInstance()->replaceScene(TransitionFade::create(0.9, scene, Color3B(255, 255, 255)));
-
 }
 
 
 void HowToPlay::menuCloseCallback(Ref* pSender)
 {
+
 	Director::getInstance()->end();
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -105,8 +108,14 @@ void HowToPlay::Joystick(cocos2d::Event* event)
 
 			if (b0 || b1 || b2 || b3)
 			{
-				_eventDispatcher->removeAllEventListeners();
-				begin(this);
+				begin_button->selected();
+				button1 = true; //for key_release code
+			}
+
+			if (button1 == true && !b0 && !b1 && !b2 && !b3) //button was pushed then released
+			{
+
+				begin_button->activate();
 			}
 		}
 		if (timeDelay > 0)

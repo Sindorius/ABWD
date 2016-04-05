@@ -21,7 +21,7 @@ bool GameOver::init()
 	float winSizeWidth = CCDirector::sharedDirector()->getWinSize().width / 2;
 	float winSizeHeight = CCDirector::sharedDirector()->getWinSize().height / 2;
 
-	auto menu_item = MenuItemImage::create("res//sprites//ui//goToMainNP.png", "res//sprites//ui//goToMainP.png", CC_CALLBACK_1(GameOver::goToMainMenu, this));
+	menu_item = MenuItemImage::create("res//sprites//ui//goToMainNP.png", "res//sprites//ui//goToMainP.png", CC_CALLBACK_1(GameOver::goToMainMenu, this));
 	menu_item->setPosition(Vec2(winSizeWidth - 12, winSizeHeight - 35));
 	menu_item->setScale(0.7f);
 
@@ -39,7 +39,7 @@ bool GameOver::init()
 	gameover->setPosition(Vec2((int)winSizeWidth - 10, (int)winSizeHeight + 120));
 	this->addChild(gameover, 0);
 
-	auto joyListener = EventListenerJoystick::create();
+	joyListener = EventListenerJoystick::create();
 	joyListener->onEvent = CC_CALLBACK_1(GameOver::Joystick, this);
 	_eventDispatcher->addEventListenerWithFixedPriority(joyListener, 1);
 
@@ -53,6 +53,9 @@ bool GameOver::init()
 
 void GameOver::goToMainMenu(cocos2d::Ref* pSender)
 {
+	_eventDispatcher->removeEventListener(joyListener);
+	joyListener->release();
+	joyListener = nullptr;
 	experimental::AudioEngine::stopAll();
 	auto scene = MenuScene::createMenu();
 	CCDirector::getInstance()->replaceScene(scene);
@@ -87,8 +90,13 @@ void GameOver::Joystick(cocos2d::Event* event)
 
 		if (b0 || b1 || b2 || b3)
 		{
-			_eventDispatcher->removeAllEventListeners();
-			goToMainMenu(this);
+			menu_item->selected();
+			button1 = true; //for key_release code
+		}
+
+		if (button1 == true && !b0 && !b1 && !b2 && !b3) //button was pushed then released
+		{
+			menu_item->activate();
 		}
 	}
 }

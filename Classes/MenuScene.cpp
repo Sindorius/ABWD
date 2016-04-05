@@ -19,7 +19,7 @@ bool MenuScene::init()
 	}
 
 	//listeners init
-	auto joyListener = EventListenerJoystick::create();
+	joyListener = EventListenerJoystick::create();
 	joyListener->onEvent = CC_CALLBACK_1(MenuScene::Joystick, this);
 	_eventDispatcher->addEventListenerWithFixedPriority(joyListener, 1);
 
@@ -33,11 +33,11 @@ bool MenuScene::init()
 	float winSizeWidth = CCDirector::sharedDirector()->getWinSize().width / 2;
 	float winSizeHeight = CCDirector::sharedDirector()->getWinSize().height / 2;
 
-	auto server_button = MenuItemImage::create("res//sprites//ui//serverNP.png", "res//sprites//ui//serverP.png", CC_CALLBACK_1(MenuScene::server, this));
+	server_button = MenuItemImage::create("res//sprites//ui//serverNP.png", "res//sprites//ui//serverP.png", CC_CALLBACK_1(MenuScene::server, this));
 	server_button->setPosition(Vec2(winSizeWidth, winSizeHeight - 25));
 	server_button->setScale(0.4f);
 
-	auto player_button = MenuItemImage::create("res//sprites//ui//playerNP.png", "res//sprites//ui//playerP.png", CC_CALLBACK_1(MenuScene::player, this));
+	player_button = MenuItemImage::create("res//sprites//ui//playerNP.png", "res//sprites//ui//playerP.png", CC_CALLBACK_1(MenuScene::player, this));
 	player_button->setPosition(Vec2(winSizeWidth, winSizeHeight - 70));
 	player_button->setScale(0.4f);
 
@@ -65,12 +65,18 @@ bool MenuScene::init()
 
 void MenuScene::server(cocos2d::Ref* pSender)
 {
+	_eventDispatcher->removeEventListener(joyListener);
+	joyListener->release();
+	joyListener = nullptr;
 	auto scene = ServerConnection::createServerConnection(0);
 	CCDirector::getInstance()->replaceScene(scene);
 }
 
 void MenuScene::player(cocos2d::Ref* pSender)
 {
+	_eventDispatcher->removeEventListener(joyListener);
+	joyListener->release();
+	joyListener = nullptr;
 	auto scene = PlayerConnection::createPlayerConnection();
 	CCDirector::getInstance()->replaceScene(scene);
 }
@@ -104,8 +110,14 @@ void MenuScene::Joystick(cocos2d::Event* event)
 
 		if (b0 || b1 || b2 || b3)
 		{
-			_eventDispatcher->removeAllEventListeners();
-			player(this);
+			player_button->selected();
+			button1 = true; //for key_release code
+			//add button to select hidden server button
+		}
+
+		if (button1 == true && !b0 && !b1 && !b2 && !b3) //button was pushed then released
+		{
+			player_button->activate();
 		}
 
 	}

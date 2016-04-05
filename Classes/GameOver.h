@@ -16,6 +16,10 @@ class GameOver : public cocos2d::Layer
 private:
 	Sprite* gameover;
 	CCTMXTiledMap* titleScreen;
+	cocos2d::MenuItemImage* menu_item;
+	EventListenerJoystick* joyListener;
+
+	bool button1 = false;
 
 public:
 	static cocos2d::Scene* createGameOver();

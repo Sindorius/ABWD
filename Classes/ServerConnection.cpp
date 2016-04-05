@@ -34,7 +34,7 @@ bool ServerConnection::init()
 		return false;
 	}
 
-	auto joyListener = EventListenerJoystick::create();
+	joyListener = EventListenerJoystick::create();
 	joyListener->onEvent = CC_CALLBACK_1(ServerConnection::Joystick, this);
 	_eventDispatcher->addEventListenerWithFixedPriority(joyListener, 1);
 
@@ -51,7 +51,7 @@ bool ServerConnection::init()
 	float winSizeWidth = CCDirector::sharedDirector()->getWinSize().width / 2;
 	float winSizeHeight = CCDirector::sharedDirector()->getWinSize().height / 2;
 
-	auto enter_button = MenuItemImage::create("res//sprites//ui//EnterNP.png", "res//sprites//ui//EnterP.png", CC_CALLBACK_1(ServerConnection::beginGame, this));
+	enter_button = MenuItemImage::create("res//sprites//ui//EnterNP.png", "res//sprites//ui//EnterP.png", CC_CALLBACK_1(ServerConnection::beginGame, this));
 	enter_button->setPosition(Vec2(winSizeWidth, winSizeHeight-120));
 	enter_button->setScale(0.5f);
 
@@ -152,6 +152,9 @@ void ServerConnection::beginGame(cocos2d::Ref* pSender)
 {
 	if (aPlayerChosen == true)
 	{
+		_eventDispatcher->removeEventListener(joyListener);
+		joyListener->release();
+		joyListener = nullptr;
 		auto scene = HowToPlay::createHowToPlay(IPAddress, playerNum); 
 		CCDirector::getInstance()->replaceScene(scene);
 	}
@@ -249,6 +252,7 @@ void ServerConnection::player4(cocos2d::Ref* sSender)
 
 void ServerConnection::menuCloseCallback(Ref* pSender)
 {
+
 	Director::getInstance()->end();
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -323,11 +327,14 @@ void ServerConnection::Joystick(cocos2d::Event* event)
 
 			if (b0 || b1 || b2 || b3)
 			{
-				if (aPlayerChosen == true)
-				{
-					_eventDispatcher->removeAllEventListeners();
-					beginGame(this);
-				}
+				enter_button->selected();
+				button1 = true; //for key_release code
+			}
+
+			if (button1 == true && !b0 && !b1 && !b2 && !b3) //button was pushed then released
+			{
+
+				enter_button->activate();
 			}
 		}
 		if (timeDelay > 0)

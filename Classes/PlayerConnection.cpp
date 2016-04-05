@@ -28,7 +28,7 @@ bool PlayerConnection::init()
 	float winSizeWidth = CCDirector::sharedDirector()->getWinSize().width / 2;
 	float winSizeHeight = CCDirector::sharedDirector()->getWinSize().height / 2;
 
-	auto begin_button = MenuItemImage::create("res//sprites//ui//choosePlayerNP.png", "res//sprites//ui//choosePlayerP.png", CC_CALLBACK_1(PlayerConnection::beginGame, this));
+	begin_button = MenuItemImage::create("res//sprites//ui//choosePlayerNP.png", "res//sprites//ui//choosePlayerP.png", CC_CALLBACK_1(PlayerConnection::beginGame, this));
 	begin_button->setPosition(Vec2(winSizeWidth-10, winSizeHeight-100));
 	begin_button->setScale(0.6f);
 
@@ -50,7 +50,7 @@ bool PlayerConnection::init()
 	IPLabel->setPosition(Vec2((int)winSizeWidth - 10, (int)winSizeHeight - 24));
 	this->addChild(IPLabel, 1);
 
-	auto joyListener = EventListenerJoystick::create();
+	joyListener = EventListenerJoystick::create();
 	joyListener->onEvent = CC_CALLBACK_1(PlayerConnection::Joystick, this);
 	_eventDispatcher->addEventListenerWithFixedPriority(joyListener, 1);
 
@@ -68,6 +68,9 @@ void PlayerConnection::beginGame(cocos2d::Ref* pSender)
 {	
 	if (IPAddress != "")
 	{
+		_eventDispatcher->removeEventListener(joyListener);
+		joyListener->release();
+		joyListener = nullptr;
 		keyboard->setEnabled(false);
 		auto scene = ServerConnection::createServerConnection(IPAddress,0); 
 		CCDirector::getInstance()->replaceScene(scene);
@@ -77,6 +80,7 @@ void PlayerConnection::beginGame(cocos2d::Ref* pSender)
 
 void PlayerConnection::menuCloseCallback(Ref* pSender)
 {
+
 	Director::getInstance()->end();
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -199,8 +203,14 @@ void PlayerConnection::Joystick(cocos2d::Event* event)
 
 			if (b0 || b1 || b2 || b3)
 			{
-				_eventDispatcher->removeAllEventListeners();
-				beginGame(this);
+				begin_button->selected();
+				button1 = true;
+			}
+
+			if (button1 == true && !b0 && !b1 && !b2 && !b3) //button was pushed then released
+			{
+
+				begin_button->activate();
 			}
 
 			//add support for typing in the IP address?

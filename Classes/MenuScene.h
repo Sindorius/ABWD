@@ -17,6 +17,11 @@ class MenuScene : public cocos2d::Layer
 private:
 	Sprite* title;
 	CCTMXTiledMap* menuScreen;
+	cocos2d::MenuItemImage* server_button;
+	cocos2d::MenuItemImage* player_button;
+	EventListenerJoystick* joyListener;
+
+	bool button1 = false;
 
 public:
 	static cocos2d::Scene* createMenu();
