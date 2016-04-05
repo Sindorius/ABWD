@@ -246,11 +246,14 @@ void ServerDemo::update(float dt)
 	else {
 		int a = (rand() % levelmanager.puzzle.drytilevector.size());
 		int b = (rand() % levelmanager.puzzle.drytilevector[0].size());
-		levelmanager.puzzle.drytilevector[a][b] = 1;
-		tilespritevector[a][b]->setDry(true); //only useful for visual-based server
-		tilespritevector[a][b]->refreshColor(); //only useful for visual-based server
-		enqueueMessage(ServerMessage(18, (float)a, (float)b, 0)); //tells client a tile has dried
-		dry_time = 0;
+		if (tilespritevector[a][b]->getColor() != "clear")
+		{
+			levelmanager.puzzle.drytilevector[a][b] = 1;
+			tilespritevector[a][b]->setDry(true); //only useful for visual-based server
+			tilespritevector[a][b]->refreshColor(); //only useful for visual-based server
+			enqueueMessage(ServerMessage(18, (float)a, (float)b, 0)); //tells client a tile has dried
+			dry_time = 0;
+		}
 	} //end of drying code
 	
 	if (levelmanager.currentlevel != 1) {
