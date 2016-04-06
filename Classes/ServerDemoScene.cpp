@@ -253,6 +253,35 @@ void ServerDemo::update(float dt)
 
 		//moved this outside if(notlvl1) block because paint should dry
 		//on lvl 1 as well OR not be wet at all on lvl1
+
+
+		//if (dry_y == levelmanager.puzzle.currenttilevector[0].size() - 1 && dry_x == levelmanager.puzzle.currenttilevector.size() - 1) {
+		//	dry_y = 0;
+		//	dry_x = 0;
+		//}
+		if (dry_x == levelmanager.puzzle.currenttilevector.size()) {
+			dry_x = 0;
+			dry_y++;
+		}
+		if (dry_y == levelmanager.puzzle.currenttilevector[0].size())
+		{
+			dry_y = 0;
+		}
+
+		if (levelmanager.puzzle.drytilevector[dry_x][dry_y] < 15) {
+			levelmanager.puzzle.drytilevector[dry_x][dry_y]++;
+		}
+		else if(levelmanager.puzzle.drytilevector[dry_x][dry_y] == 15) {
+			enqueueMessage(ServerMessage(18, (float)dry_x, (float)dry_y, 0)); //tells client a tile has dried
+			if (tilespritevector[dry_x][dry_y]->getColor() != "clear")
+			{
+				levelmanager.puzzle.drytilevector[dry_x][dry_y]++;
+			}
+		}
+
+		dry_x++;
+
+		/*
 		if (dry_time < 15) {
 			dry_time++;
 		}
@@ -268,7 +297,7 @@ void ServerDemo::update(float dt)
 				dry_time = 0;
 			}
 		} //end of drying code
-
+		*/
 		if (levelmanager.currentlevel != 1) {
 			for (Player* p : players)
 			{
@@ -301,7 +330,7 @@ void ServerDemo::update(float dt)
 					{
 						for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 						{
-							if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != 1)
+							if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != 15)
 							{
 								levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
 								levelmanager.puzzle.currenttilevector[i][j] = 1;

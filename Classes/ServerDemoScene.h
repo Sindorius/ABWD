@@ -39,6 +39,8 @@ private:
 	int swapframes = 1;
 	int swapframecounter = 1;
 	int dry_time = 0;
+	int dry_x = 0;
+	int dry_y = 0;
 	int transitionTimer = 0;
 	bool eventActive = false; //true when scripted game events are happening
 	Vec2 samTile;
