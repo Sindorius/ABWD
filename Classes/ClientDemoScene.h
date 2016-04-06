@@ -46,7 +46,7 @@ private:
 	//CCTMXTiledMap* levelmap; 
 	cocos2d::CCTMXLayer* bucketlayer;
 	cocos2d::CCTMXLayer* blockage;
-
+	cocos2d::CCTMXLayer* blankCanvas;
 	cocos2d::CCTMXObjectGroup* spawnObjs;
 	Sprite* redBucket;
 	Sprite* blueBucket;
@@ -69,6 +69,8 @@ private:
 	std::vector<cocos2d::Sprite*> objects;
 
 	AnimationManager animationmanager;
+
+	bool eventActive = false; //true when scripted game events are happening
 
 
 public:
@@ -199,6 +201,7 @@ public:
 	void loadLevel(int level);
 	void setupPaintTiles();
 	void centerCamera();
+	void samCam();
 	void updateTilesFromPacket(ServerPositionPacket p);
 	
 	void goToMainMenu(cocos2d::Ref* pSender);

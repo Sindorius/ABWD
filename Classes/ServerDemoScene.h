@@ -2,6 +2,7 @@
 #define __SERVERDEMO_SCENE_H__
 
 #include "cocos2d.h"
+#include "AudioEngine.h"
 #include "Player.h"
 #include "ServerSam.h"
 #include "Pterodactyl.h"
@@ -36,10 +37,25 @@ private:
 	int swapframes = 1;
 	int swapframecounter = 1;
 	int dry_time = 0;
+	int transitionTimer = 0;
+	bool eventActive = false; //true when scripted game events are happening
+	Vec2 samTile;
+	std::string samHitWall;
+	int wallYCoord;
+
+	struct scriptEvent {
+		int eventTimer = 0;
+		bool isActive = false;
+		bool phase1 = false;
+		bool phase2 = false;
+		bool init = false;
+	};
+	scriptEvent paintEvent; //new level sam painting event
 	//cocos2d::CCTMXTiledMap* tileMap;
 	
 	cocos2d::CCTMXLayer* bucketlayer;
 	cocos2d::CCTMXLayer* blockage;
+	cocos2d::CCTMXLayer* blankCanvas;
 	cocos2d::CCTMXObjectGroup* spawnObjs;
 
 	Player* player1;
@@ -107,6 +123,8 @@ public:
 	bool sessionmapped[5] = { false };
 	char getActiveChars();
 
+	void runEvent(int e);
+	bool runPaintEvent(void);
 };
 
 #endif // __SERVERDEMO_SCENE_H__

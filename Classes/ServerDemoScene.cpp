@@ -177,6 +177,17 @@ void ServerDemo::update(float dt)
 	{
 		alternate = true;
 		io_service_p->poll();
+		/*if (eventActive == true)
+		{
+			if (transitionTimer == 0) //wait till transition is over to start event
+			{
+				runPaintEvent();
+			}
+			else
+			{
+				transitionTimer--;
+			}
+		}*/
 		return;
 	}
 	else
@@ -197,77 +208,126 @@ void ServerDemo::update(float dt)
 	//CCLOG("UPDATE DT");
 	//CCLOG(std::to_string(dt).c_str());
 	io_service_p->poll();
-	
-	idle1--;
-	idle2--;
-	idle3--;
-	idle4--;
-	if (idle1 < 0) {
-		player1->setAnim("p1idle");
-		idle1++;
-	}
-	if (idle2 < 0) {
-		idle2++;
-		player2->setAnim("p2idle");
-	}
-	if (idle3 < 0) {
-		player3->setAnim("p3idle");
-		idle3++;
-	}
-	if (idle4 < 0) {
-		player4->setAnim("p4idle");
-		idle4++;
-	}
-	//player1->setPosition(p1pos);
-	//player2->setPosition(p2pos);
-	//player3->setPosition(p3pos);
-	//player4->setPosition(p4pos);
 
-	if (levelmanager.currentlevel != 1) 
+	if (eventActive == false)
 	{
-		serversam->setPriority(levelmanager.puzzle.whichplayertilesvector, levelmanager.puzzle.drytilevector);
-		serversam->runAI(&players);
-	}
-
-	player1->setLocalZOrder(-player1->getPositionY());
-	player2->setLocalZOrder(-player2->getPositionY());
-	player3->setLocalZOrder(-player3->getPositionY());
-	player4->setLocalZOrder(-player4->getPositionY());
-	serversam->setLocalZOrder(-serversam->getPositionY());
-	pterodactyl->setLocalZOrder(-pterodactyl->getPositionY());
-
-	//drying code
-
-	//moved this outside if(notlvl1) block because paint should dry
-	//on lvl 1 as well OR not be wet at all on lvl1
-	if (dry_time < 15) {
-		dry_time++;
-	}
-	else {
-		int a = (rand() % levelmanager.puzzle.drytilevector.size());
-		int b = (rand() % levelmanager.puzzle.drytilevector[0].size());
-		if (tilespritevector[a][b]->getColor() != "clear")
-		{
-			levelmanager.puzzle.drytilevector[a][b] = 1;
-			tilespritevector[a][b]->setDry(true); //only useful for visual-based server
-			tilespritevector[a][b]->refreshColor(); //only useful for visual-based server
-			enqueueMessage(ServerMessage(18, (float)a, (float)b, 0)); //tells client a tile has dried
-			dry_time = 0;
+		idle1--;
+		idle2--;
+		idle3--;
+		idle4--;
+		if (idle1 < 0) {
+			player1->setAnim("p1idle");
+			idle1++;
 		}
-	} //end of drying code
-	
-	if (levelmanager.currentlevel != 1) {
+		if (idle2 < 0) {
+			idle2++;
+			player2->setAnim("p2idle");
+		}
+		if (idle3 < 0) {
+			player3->setAnim("p3idle");
+			idle3++;
+		}
+		if (idle4 < 0) {
+			player4->setAnim("p4idle");
+			idle4++;
+		}
+		//player1->setPosition(p1pos);
+		//player2->setPosition(p2pos);
+		//player3->setPosition(p3pos);
+		//player4->setPosition(p4pos);
+
+		if (levelmanager.currentlevel != 1)
+		{
+			serversam->setPriority(levelmanager.puzzle.whichplayertilesvector, levelmanager.puzzle.drytilevector);
+			serversam->runAI(&players);
+		}
+
+		player1->setLocalZOrder(-player1->getPositionY());
+		player2->setLocalZOrder(-player2->getPositionY());
+		player3->setLocalZOrder(-player3->getPositionY());
+		player4->setLocalZOrder(-player4->getPositionY());
+		serversam->setLocalZOrder(-serversam->getPositionY());
+		pterodactyl->setLocalZOrder(-pterodactyl->getPositionY());
+
+		//drying code
+
+		//moved this outside if(notlvl1) block because paint should dry
+		//on lvl 1 as well OR not be wet at all on lvl1
+		if (dry_time < 15) {
+			dry_time++;
+		}
+		else {
+			int a = (rand() % levelmanager.puzzle.drytilevector.size());
+			int b = (rand() % levelmanager.puzzle.drytilevector[0].size());
+			if (tilespritevector[a][b]->getColor() != "clear")
+			{
+				levelmanager.puzzle.drytilevector[a][b] = 1;
+				tilespritevector[a][b]->setDry(true); //only useful for visual-based server
+				tilespritevector[a][b]->refreshColor(); //only useful for visual-based server
+				enqueueMessage(ServerMessage(18, (float)a, (float)b, 0)); //tells client a tile has dried
+				dry_time = 0;
+			}
+		} //end of drying code
+
+		if (levelmanager.currentlevel != 1) {
+			for (Player* p : players)
+			{
+				if (abs(serversam->getPositionX() - p->getPositionX()) < 5 && abs(serversam->getPositionY() - p->getPositionY()) < 5)
+				{
+					sendmap = true;
+					enqueueMessage(ServerMessage(13, 0, 0, p->getPlayernum())); //SFX triger for sam hitting player
+					for (unsigned int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
+					{
+						for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
+						{
+							if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != 1)
+							{
+								levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
+								levelmanager.puzzle.currenttilevector[i][j] = 1;
+								tilespritevector[i][j]->setColor("clear");
+								tilespritevector[i][j]->refreshColor();
+
+							}
+						}
+					}
+
+				}
+
+				if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p->getPositionX()) < 10 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 10)
+				{
+					sendmap = true;
+					enqueueMessage(ServerMessage(14, 0, 0, p->getPlayernum())); //SFX triger for pterodactyl hitting player
+					for (unsigned int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
+					{
+						for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
+						{
+							if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != 1)
+							{
+								levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
+								levelmanager.puzzle.currenttilevector[i][j] = 1;
+								tilespritevector[i][j]->setColor("clear");
+								tilespritevector[i][j]->refreshColor();
+
+							}
+						}
+					}
+
+				}
+			}
+		}
+
+		/*
+		// serversam checks if she's on a player, messes everything up if she's on them
 		for (Player* p : players)
 		{
 			if (abs(serversam->getPositionX() - p->getPositionX()) < 5 && abs(serversam->getPositionY() - p->getPositionY()) < 5)
 			{
 				sendmap = true;
-				enqueueMessage(ServerMessage(13, 0, 0, p->getPlayernum())); //SFX triger for sam hitting player
-				for (unsigned int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
+				for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 				{
-					for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
+					for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 					{
-						if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != 1)
+						if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
 						{
 							levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
 							levelmanager.puzzle.currenttilevector[i][j] = 1;
@@ -280,15 +340,14 @@ void ServerDemo::update(float dt)
 
 			}
 
-			if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p->getPositionX()) < 10 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 10 )
+			if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p->getPositionX()) < 10 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 10)
 			{
 				sendmap = true;
-				enqueueMessage(ServerMessage(14, 0, 0, p->getPlayernum())); //SFX triger for pterodactyl hitting player
-				for (unsigned int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
+				for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 				{
-					for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
+					for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 					{
-						if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != 1)
+						if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
 						{
 							levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
 							levelmanager.puzzle.currenttilevector[i][j] = 1;
@@ -301,78 +360,42 @@ void ServerDemo::update(float dt)
 
 			}
 		}
-	}
+		*/
 
-	/*
-	// serversam checks if she's on a player, messes everything up if she's on them
-	for (Player* p : players)
-	{
-		if (abs(serversam->getPositionX() - p->getPositionX()) < 5 && abs(serversam->getPositionY() - p->getPositionY()) < 5)
+
+		if (levelmanager.puzzle.isSolved())
 		{
-			sendmap = true;
-			for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
+			if (levelmanager.currentlevel == 1)
 			{
-				for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
-				{
-					if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
-					{
-						levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
-						levelmanager.puzzle.currenttilevector[i][j] = 1;
-						tilespritevector[i][j]->setColor("clear");
-						tilespritevector[i][j]->refreshColor();
-						
-					}
-				}
+				loadLevel(2);
 			}
-
-		}
-
-		if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p->getPositionX()) < 10 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 10)
-		{
-			sendmap = true;
-			for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
+			else if (levelmanager.currentlevel == 2)
 			{
-				for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
-				{
-					if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
-					{
-						levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
-						levelmanager.puzzle.currenttilevector[i][j] = 1;
-						tilespritevector[i][j]->setColor("clear");
-						tilespritevector[i][j]->refreshColor();
-						
-					}
-				}
+				loadLevel(3);
 			}
-
+			else if (levelmanager.currentlevel == 3)
+			{
+				loadLevel(4);
+			}
+			else if (levelmanager.currentlevel == 4)
+			{
+				servermessagequeue.emplace_back(ServerMessage(15, 0, 0, 0));
+				loadLevel(1);
+			}
+			sendmap = true;
 		}
 	}
-	*/
-
-
-	if (levelmanager.puzzle.isSolved())
+	else
 	{
-		if (levelmanager.currentlevel == 1)
+		if (transitionTimer == 0) //wait till transition is over to start event
 		{
-			loadLevel(2);
+			runEvent(1); //1 is when sam paints on new level
 		}
-		else if (levelmanager.currentlevel == 2)
+		else
 		{
-			loadLevel(3);
+			transitionTimer--;
 		}
-		else if (levelmanager.currentlevel == 3)
-		{
-			loadLevel(4);
-		}
-		else if (levelmanager.currentlevel == 4)
-		{
-			servermessagequeue.emplace_back(ServerMessage(15, 0, 0, 0));
-			loadLevel(1);
-		}
-
-		sendmap = true;
 	}
-
 	mytcpserverp->sendPacket(createPacket());
 
 	io_service_p->poll();
@@ -698,18 +721,30 @@ void ServerDemo::loadLevel(int level)
 		serversam->walkOn();
 		serversam->pteraOff();
 		serversam->candyOff();
+		serversam->setPosition(Vec2(238, 150));
+		wallYCoord = 302;
+		eventActive = paintEvent.phase1 = true;
+		transitionTimer = 90; //little more than time in clientdemoscene
 	}
 	else if (level == 3) {
 		serversam->teleportOn();
 		serversam->walkOn();
 		serversam->pteraOff();
 		serversam->candyOn();
+		serversam->setPosition(Vec2(300, 150));
+		wallYCoord = 278;
+		eventActive = paintEvent.phase1 = true;
+		transitionTimer = 90;
 	}
 	else if (level == 4) {
 		serversam->pteraOn();
 		serversam->candyOn();
 		serversam->teleportOn();
 		serversam->walkOn();
+		serversam->setPosition(Vec2(376, 150));
+		wallYCoord = 496;
+		eventActive = paintEvent.phase1 = true;
+		transitionTimer = 90;
 	}
 
 	
@@ -744,7 +779,7 @@ void ServerDemo::loadLevel(int level)
 		blockage->setVisible(false);
 	}
 	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
-	serversam->setPosition(Vec2(250, 150));
+	blankCanvas = levelmanager.levelmap->getLayer("BlankCanvas");
 	
 
 	if (spawnObjs == NULL) {
@@ -1137,6 +1172,101 @@ void ServerDemo::enqueueMessage(ServerMessage msg)
 	servermessagequeue.emplace_back(msg);
 }
 
+void ServerDemo::runEvent(int e)
+{
+	//e = 1: new level sam painting event
+	//e = 2: ...
+
+	if (e == 1)
+	{
+		//run paint event, if it returns false event is over
+		if (false == runPaintEvent())
+		{
+			eventActive = false;
+			enqueueMessage(ServerMessage(19, e, 0, 4)); //tell client event is over
+		}
+	}
+}
+
+//event for sam making painting on each new level
+bool ServerDemo::runPaintEvent(void)
+{
+	if (paintEvent.eventTimer == 0)
+	{
+		
+		/*// Convert sam's position into tile coordinates
+		int samTileX = (serversam->getPositionX()) / (levelmanager.levelmap->getTileSize().width);
+		int samTileY = ((levelmanager.levelmap->getMapSize().height * levelmanager.levelmap->getTileSize().height) - serversam->getPositionY()) / (levelmanager.levelmap->getTileSize().height);
+		samTile = Vec2(samTileX, samTileY);
+		if (blockage != NULL)
+		{
+			int bkTile = blockage->getTileGIDAt(samTile);
+			if (bkTile)
+			{
+				auto tilemapvals = levelmanager.levelmap->getPropertiesForGID(bkTile).asValueMap();
+				if (!tilemapvals.empty())
+				{
+					samHitWall = tilemapvals["Collidable"].asString();
+				}
+			}
+		}*/
+
+		//phase1:sam walks to painting + paints it
+		if (paintEvent.phase1 == true)
+		{
+			//if sam has not yet reached painting
+			if (serversam->getPositionY() < wallYCoord) //see if i can remove hardcoding of pos
+			//if ("true" != samHitWall)
+			{
+				if (paintEvent.init == false) //if phase1 initilization hasnt happened yet
+				{
+					serversam->setAnim("samup");
+					paintEvent.init = true;
+				}
+				serversam->setPositionY(serversam->getPositionY() + 2.0f);
+				//paintEvent.eventTimer = 15;
+			}
+			else //sam has reached painting
+			{
+				paintEvent.phase1 = false;
+				paintEvent.phase2 = true;
+				paintEvent.init = false;
+				enqueueMessage(ServerMessage(19, 1, 0, 2)); //tell client to play painting sound
+				paintEvent.eventTimer = 90;
+			}
+		}
+		//phase2:sam walks back to spawn point
+		else if (paintEvent.phase2 == true)
+		{
+			//if sam has not yet reached spawn point
+			if (serversam->getPositionY() > 150)
+			{
+				if (paintEvent.init == false) //if phase2 initilization hasnt happened yet
+				{
+					blankCanvas->setVisible(false); //only needed for visual-based server
+					enqueueMessage(ServerMessage(19, 1, 0, 3)); //tell client to stop playing brushing sound
+					enqueueMessage(ServerMessage(19, 1, 0, 1)); //client needs to hide blank canvas layer too
+					serversam->setAnim("samdown");
+					paintEvent.init = true;
+				}
+				serversam->setPositionY(serversam->getPositionY() - 2.0f);
+				//paintEvent.eventTimer = 15;
+			}
+			else
+			{
+				paintEvent.phase2 = false;
+				paintEvent.init = false;
+				paintEvent.isActive = false;
+				return false; //event is over
+			}
+		}
+	}
+	else
+	{
+		paintEvent.eventTimer--;
+	}
+	return true;
+}
 
 ServerDemo::~ServerDemo()
 {

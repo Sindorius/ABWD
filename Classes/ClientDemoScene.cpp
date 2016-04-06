@@ -309,7 +309,6 @@ bool ClientDemo::init()
 void ClientDemo::update(float dt)
 {
 
-	
 	/*if(!alternate)
 	{
 		alternate = true;
@@ -337,106 +336,174 @@ void ClientDemo::update(float dt)
 //		CCDirector::getInstance()->replaceScene(GOScene);
 //	}
 	//////////////////
-	
-	players[playernum - 1]->setPositionX(players[playernum - 1]->getPositionX() + xmove * players[playernum - 1]->speedboost);
-	players[playernum - 1]->setPositionY(players[playernum - 1]->getPositionY() + ymove * players[playernum - 1]->speedboost);
+
+	if (eventActive == false)
+	{
+		players[playernum - 1]->setPositionX(players[playernum - 1]->getPositionX() + xmove * players[playernum - 1]->speedboost);
+		players[playernum - 1]->setPositionY(players[playernum - 1]->getPositionY() + ymove * players[playernum - 1]->speedboost);
+	}
 
 	CCLOG("UPDATE DT");
 	CCLOG(std::to_string(dt).c_str());
 
 	io_service_p->poll();
 	//CCLOG("POLLING");
-	
-
-	if (xmove || ymove || button1)
+	if (eventActive == false)
 	{
 
-		PlayerInputPacket p2 = PlayerInputPacket(playernum, xmove, ymove, button1);
-		std::ostringstream os2;
-		cereal::BinaryOutputArchive outar(os2);
-		outar(p2);
-		outstringbuffer = os2.str();
-	
-		CCLOG("outstringbuffer length");
-		CCLOG(std::to_string(outstringbuffer.length()).c_str());
-		CCLOG("sending packet");
-		tcpsessionptr->writewithstringbuffer(outstringbuffer);
-		io_service_p->poll_one();
-	}
-
-
-	tileHighlight->setOpacity(0);
-
-	for (unsigned int i = 0; i < tilespritevector.size(); i++)
-	{
-		for (unsigned int j = 0; j < tilespritevector[i].size(); j++)
+		if (xmove || ymove || button1)
 		{
-			if (players[playernum - 1]->getPositionX() > tilespritevector[i][j]->getPositionX() - 12 && players[playernum - 1]->getPositionX() < tilespritevector[i][j]->getPositionX() + 12 && players[playernum - 1]->getPositionY() > tilespritevector[i][j]->getPositionY() - 12 && players[playernum - 1]->getPositionY() < tilespritevector[i][j]->getPositionY() + 12)
+
+			PlayerInputPacket p2 = PlayerInputPacket(playernum, xmove, ymove, button1);
+			std::ostringstream os2;
+			cereal::BinaryOutputArchive outar(os2);
+			outar(p2);
+			outstringbuffer = os2.str();
+
+			CCLOG("outstringbuffer length");
+			CCLOG(std::to_string(outstringbuffer.length()).c_str());
+			CCLOG("sending packet");
+			tcpsessionptr->writewithstringbuffer(outstringbuffer);
+			io_service_p->poll_one();
+		}
+
+
+		tileHighlight->setOpacity(0);
+
+		for (unsigned int i = 0; i < tilespritevector.size(); i++)
+		{
+			for (unsigned int j = 0; j < tilespritevector[i].size(); j++)
 			{
-				tileHighlight->setOpacity(255);
-				tileHighlight->setPosition(tilespritevector[i][j]->getPositionX(), tilespritevector[i][j]->getPositionY());
-				gSound.pTrigs[playernum - 1].onGrid = true;
+				if (players[playernum - 1]->getPositionX() > tilespritevector[i][j]->getPositionX() - 12 && players[playernum - 1]->getPositionX() < tilespritevector[i][j]->getPositionX() + 12 && players[playernum - 1]->getPositionY() > tilespritevector[i][j]->getPositionY() - 12 && players[playernum - 1]->getPositionY() < tilespritevector[i][j]->getPositionY() + 12)
+				{
+					tileHighlight->setOpacity(255);
+					tileHighlight->setPosition(tilespritevector[i][j]->getPositionX(), tilespritevector[i][j]->getPositionY());
+					gSound.pTrigs[playernum - 1].onGrid = true;
+				}
 			}
 		}
 	}
 
-
-	for (Player* p : players)
-	{
-		p->setZOrder(-p->getPositionY());
-	}
-
-	if (levelmanager.currentlevel != 1) {
-		villain->setOpacity(255);
-		villain->setZOrder(-villain->getPositionY());
-		pterodactyl->setOpacity(255);
-		pterodactyl->setZOrder(-pterodactyl->getPositionY());
-		candy->setZOrder(-candy->getPositionY());
-	}
-
-	////////// NEW CODE HERE!!!
-	/*if (playerOneActive == false) {
-		if (player1->getPositionX() != playerOneSP["x"].asInt() || player1->getPositionY() != playerOneSP["y"].asInt()) {
-			playerOneActive = true;
-			player1->setOpacity(255);
-			p1CLabel->setOpacity(255);
-		}
-	}
-	if (playerTwoActive == false) {
-		if (player2->getPositionX() != playerTwoSP["x"].asInt() || player2->getPositionY() != playerTwoSP["y"].asInt()) {
-			playerTwoActive = true;
-			player2->setOpacity(255);
-			p2CLabel->setOpacity(255);
-		}
-	}
-	if (playerThreeActive == false) {
-		if (player3->getPositionX() != playerThreeSP["x"].asInt() || player3->getPositionY() != playerThreeSP["y"].asInt()) {
-			playerThreeActive = true;
-			player3->setOpacity(255);
-			p3CLabel->setOpacity(255);
-		}
-	}
-	if (playerFourActive == false) {
-		if (player4->getPositionX() != playerFourSP["x"].asInt() || player4->getPositionY() != playerFourSP["y"].asInt()) {
-			playerFourActive = true;
-			player4->setOpacity(255);
-			p4CLabel->setOpacity(255);
-		}
-	}*/
-	//////////////////////
-
-	////////////////////////////////////////////////////// NEW CODE
-	if (transitionManager.timer_status())
-	{
-		NotInTransition = true;
-
-		for (Sprite* ts : transitionManager.transitionSprite)
+		for (Player* p : players)
 		{
-			removeChild(ts);
+			p->setZOrder(-p->getPositionY());
 		}
-	}
-	//////////
-	centerCamera();
+
+		if (levelmanager.currentlevel != 1) {
+			villain->setOpacity(255);
+			villain->setZOrder(-villain->getPositionY());
+			pterodactyl->setOpacity(255);
+			pterodactyl->setZOrder(-pterodactyl->getPositionY());
+			candy->setZOrder(-candy->getPositionY());
+		}
+	
+		////////// NEW CODE HERE!!!
+		/*if (playerOneActive == false) {
+			if (player1->getPositionX() != playerOneSP["x"].asInt() || player1->getPositionY() != playerOneSP["y"].asInt()) {
+				playerOneActive = true;
+				player1->setOpacity(255);
+				p1CLabel->setOpacity(255);
+			}
+		}
+		if (playerTwoActive == false) {
+			if (player2->getPositionX() != playerTwoSP["x"].asInt() || player2->getPositionY() != playerTwoSP["y"].asInt()) {
+				playerTwoActive = true;
+				player2->setOpacity(255);
+				p2CLabel->setOpacity(255);
+			}
+		}
+		if (playerThreeActive == false) {
+			if (player3->getPositionX() != playerThreeSP["x"].asInt() || player3->getPositionY() != playerThreeSP["y"].asInt()) {
+				playerThreeActive = true;
+				player3->setOpacity(255);
+				p3CLabel->setOpacity(255);
+			}
+		}
+		if (playerFourActive == false) {
+			if (player4->getPositionX() != playerFourSP["x"].asInt() || player4->getPositionY() != playerFourSP["y"].asInt()) {
+				playerFourActive = true;
+				player4->setOpacity(255);
+				p4CLabel->setOpacity(255);
+			}
+		}*/
+		//////////////////////
+
+		////////////////////////////////////////////////////// NEW CODE
+		if (transitionManager.timer_status())
+		{
+			NotInTransition = true;
+
+			for (Sprite* ts : transitionManager.transitionSprite)
+			{
+				removeChild(ts);
+			}
+		}
+		//////////
+		if (eventActive == false)
+		{
+			centerCamera();
+		}
+		else
+		{
+			samCam();
+		}
+	/*else
+	{
+		if (transitionManager.timer_status())
+		{
+			NotInTransition = true;
+
+			for (Sprite* ts : transitionManager.transitionSprite)
+			{
+				removeChild(ts);
+			}
+		}
+		//////////
+		centerCamera();
+		if (eventTimer == 0 && NotInTransition == true)
+		{
+			villain->stopAllActions();
+			villain->runAction(RepeatForever::create(animationmanager.animationmap.at("samup")));
+			villain->setAnim("samup");
+			//if sam has not yet reached painting
+			if (phase2 == false && phase3 == false && villain->getPositionY() < 302)
+			{
+				phase1 = true;
+				villain->setPositionY(villain->getPositionY() + 2.0f);
+			}
+			else
+			{
+				phase1 = false;
+				phase2 = true;
+				while (blankCanvas->getOpacity() > 0)
+				{
+					blankCanvas->setOpacity(blankCanvas->getOpacity() - 5);
+					//villain->stopAllActions();
+					//villain->runAction(RepeatForever::create(animationmanager.animationmap.at("samdown")));
+					//villain->setAnim("samdown");
+				}
+				/*else
+				{
+					phase2 = false;
+					phase3 = true;
+				}
+				if (phase3 == true && villain->getPositionY() > 228)
+				{
+					villain->setPositionY(villain->getPositionY() - 2.0f);
+				}
+				else 
+				{
+					phase3 = false;
+				}
+				if (phase1 == false && phase2 == false && phase3 == false)
+				{
+					newLevelEvent = false;
+				}
+			}
+			//eventTimer = 15;
+		}
+		//eventTimer--;
+	}*/
 }
 
 
@@ -461,7 +528,11 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	}
 	
 	activechars = p.activeplayers;
-	setVisiblePlayers(activechars);
+	
+	if (eventActive == false)
+	{
+		setVisiblePlayers(activechars);
+	}
 		
 	/* move players, with some client side prediction of your own character*/
 	if (playernum == 1)
@@ -631,161 +702,161 @@ void ClientDemo::updateTilesFromPacket(ServerPositionPacket p)
 					tilespritevector[i][j]->setColor("clear");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 2)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 2)
 				{
 					tilespritevector[i][j]->setColor("red");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 3)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 3)
 				{
 					tilespritevector[i][j]->setColor("blue");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 4)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 4)
 				{
 					tilespritevector[i][j]->setColor("yellow");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 5)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 5)
 				{
 					tilespritevector[i][j]->setColor("orange");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 6)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 6)
 				{
 					tilespritevector[i][j]->setColor("black");
 					tilespritevector[i][j]->refreshColor();
 				}
 
-				if (levelmanager.puzzle.currenttilevector[i][j] == 7)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 7)
 				{
 					tilespritevector[i][j]->setColor("blue2");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 8)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 8)
 				{
 					tilespritevector[i][j]->setColor("blue3");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 9)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 9)
 				{
 					tilespritevector[i][j]->setColor("green1");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 10)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 10)
 				{
 					tilespritevector[i][j]->setColor("green2");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 11)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 11)
 				{
 					tilespritevector[i][j]->setColor("green3");
 					tilespritevector[i][j]->refreshColor();
 				}
 				// NEW CODE HERE
-				if (levelmanager.puzzle.currenttilevector[i][j] == 12)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 12)
 				{
 					tilespritevector[i][j]->setColor("white");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 13)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 13)
 				{
 					tilespritevector[i][j]->setColor("grey1");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 14)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 14)
 				{
 					tilespritevector[i][j]->setColor("grey2");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 15)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 15)
 				{
 					tilespritevector[i][j]->setColor("red2");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 16)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 16)
 				{
 					tilespritevector[i][j]->setColor("purple1");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 17)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 17)
 				{
 					tilespritevector[i][j]->setColor("red1");
 					tilespritevector[i][j]->refreshColor();
 				}
 				///////////////
-				if (levelmanager.puzzle.currenttilevector[i][j] == 20)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 20)
 				{
 					tilespritevector[i][j]->setColor("Xred1");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 30)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 30)
 				{
 					tilespritevector[i][j]->setColor("Xblue");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 40)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 40)
 				{
 					tilespritevector[i][j]->setColor("Xyellow");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 50)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 50)
 				{
 					tilespritevector[i][j]->setColor("Xorange");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 60)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 60)
 				{
 					tilespritevector[i][j]->setColor("Xblack");
 					tilespritevector[i][j]->refreshColor();
 				}
 
-				if (levelmanager.puzzle.currenttilevector[i][j] == 70)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 70)
 				{
 					tilespritevector[i][j]->setColor("Xblue2");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 71)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 71)
 				{
 					tilespritevector[i][j]->setColor("Xblue3");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 72)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 72)
 				{
 					tilespritevector[i][j]->setColor("Xgreen1");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 73)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 73)
 				{
 					tilespritevector[i][j]->setColor("Xgreen2");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 74)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 74)
 				{
 					tilespritevector[i][j]->setColor("Xgreen3");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 75)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 75)
 				{
 					tilespritevector[i][j]->setColor("Xwhite");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 76)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 76)
 				{
 					tilespritevector[i][j]->setColor("Xgrey1");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 77)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 77)
 				{
 					tilespritevector[i][j]->setColor("Xgrey2");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 78)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 78)
 				{
 					tilespritevector[i][j]->setColor("Xred2");
 					tilespritevector[i][j]->refreshColor();
 				}
-				if (levelmanager.puzzle.currenttilevector[i][j] == 79)
+				else if (levelmanager.puzzle.currenttilevector[i][j] == 79)
 				{
 					tilespritevector[i][j]->setColor("Xpurple1");
 					tilespritevector[i][j]->refreshColor();
@@ -818,6 +889,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	16. Player got bucket, player number, unused, color #
 	17. Player already taken, unused, unused, player #
 	18. Paint tile dried/wet, row, column, wet = 0/dry = 1
+	19. Event change, event #, phase #, event status
 	*/
 	
 	if(msg.messagechar == 0)
@@ -973,6 +1045,33 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 			tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(false);
 		}
 		tilespritevector[(int)msg.xpos][(int)msg.ypos]->refreshColor();
+	}
+	//Event #1: Sam Painting
+	//Event #2: TBA
+	//Event #3: TBA
+	//etc etc
+	else if (msg.messagechar == 19)
+	{
+		if (msg.xpos == 1) //sam painting event
+		{
+			if (msg.status == 1) //blank canvas removed
+			{
+				blankCanvas->setVisible(false);
+			}
+			else if (msg.status == 2)
+			{
+				soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3", true);
+			}
+			else if (msg.status == 3)
+			{
+				experimental::AudioEngine::stop(soundIDList[0]);
+				soundIDList[15] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_laugh.mp3");
+			}
+			else if (msg.status == 4) //event is over
+			{
+				eventActive = false;
+			}
+		}
 	}
 }
 
@@ -1689,9 +1788,15 @@ void ClientDemo::loadLevel(int level)
 	{
 		blockage->setVisible(false);
 	}
-	villain->setPosition(Vec2(250, 150));
 	
 	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
+
+	blankCanvas = levelmanager.levelmap->getLayer("BlankCanvas");
+	
+	if (blankCanvas != NULL)
+	{
+		blankCanvas->setCascadeOpacityEnabled(true);
+	}
 
 	spawnObjs = levelmanager.levelmap->objectGroupNamed("SpawnObjects");
 
@@ -1717,7 +1822,7 @@ void ClientDemo::loadLevel(int level)
 
 	if (level != 1)
 	{
-		gSound.levelChange = true;
+		gSound.levelChange = true; //can probably put transition sfx in transitionmanager
 	}
 	
 	if (level == 5)
@@ -1739,18 +1844,37 @@ void ClientDemo::loadLevel(int level)
 
 	}
 	else if (level == 1) {
+		for (unsigned int i = 0; i < players.size(); i++)
+		{
+			players[i]->setVisible(false);
+		}
 		pterodactyl->setVisible(false);
 		villain->setVisible(false);
 	}
 	else if (level == 2) {
+		for (unsigned int i = 0; i < players.size(); i++)
+		{
+			players[i]->setVisible(false);
+		}
+		eventActive = true;
 		pterodactyl->setVisible(false);
 		villain->setVisible(true);
 	}
 	else if (level == 3) {
+		for (unsigned int i = 0; i < players.size(); i++)
+		{
+			players[i]->setVisible(false);
+		}
+		eventActive = true;
 		pterodactyl->setVisible(false);
 		villain->setVisible(true);
 	}
 	else if (level == 4) {
+		for (unsigned int i = 0; i < players.size(); i++)
+		{
+			players[i]->setVisible(false);
+		}
+		eventActive = true;
 		pterodactyl->setVisible(true);
 		villain->setVisible(true);
 	}
@@ -1788,6 +1912,20 @@ void ClientDemo::centerCamera()
 		transitionManager.start_timer = 60;
 		//if((players[playernum -1]->getPositionX() > 320 && players[playernum - 1]->getPositionX() < (levelmanager.levelmap->getMapSize().width*24)-320) || (players[playernum - 1]->getPositionY() > 180 && players[playernum - 1]->getPositionY() < (levelmanager.levelmap->getMapSize().height * 24) - 180))
 		CCCamera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
+	}
+	else
+	{
+		CCCamera::getDefaultCamera()->setPosition(winSizeWidth, winSizeHeight);
+	}
+}
+
+void ClientDemo::samCam()
+{
+	if (NotInTransition && levelmanager.currentlevel != 5) // CODE TO TRY
+	{
+		transitionManager.start_timer = 60;
+		//if((players[playernum -1]->getPositionX() > 320 && players[playernum - 1]->getPositionX() < (levelmanager.levelmap->getMapSize().width*24)-320) || (players[playernum - 1]->getPositionY() > 180 && players[playernum - 1]->getPositionY() < (levelmanager.levelmap->getMapSize().height * 24) - 180))
+		CCCamera::getDefaultCamera()->setPosition(villain->getPosition());
 	}
 	else
 	{
@@ -1842,6 +1980,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	// soundIDList[12] = ptero_playerhit
 	// soundIDList[13] = player_footsteps
 	// soundIDList[14] = music
+	// soundIDList[15] = sam_laugh
 
 	//these callbacks only work if theyre outside for loops.
 	experimental::AudioEngine::setFinishCallback(soundIDList[1], [&](int id, const std::string& filePath)
@@ -2004,22 +2143,6 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	//===========================================================
 	//        ANIMATION-BASED AUDIO
 	//===========================================================
-
-	// soundIDList[0] = paint
-	// soundIDList[1] = sam_playerhit
-	// soundIDList[2] = sam_teleport
-	// soundIDList[3] = sam_reappear
-	// soundIDList[4] = sam_whistle
-	// soundIDList[5] = ptero_swoop
-	// soundIDList[6] = get_paintc
-	// soundIDList[7] = player_candy_pickup
-	// soundIDList[8] = sam munch
-	// soundIDList[9] = player_candy_lost
-	// soundIDList[10] = puzzle_solved
-	// soundIDList[11] = ptero_swoop_fast
-	// soundIDList[12] = ptero_playerhit
-	// soundIDList[13] = player_footsteps
-	// soundIDList[14] = music
 
 
 	//switch used here in case further animation states are created. modular switch-cases superior.
@@ -2479,6 +2602,8 @@ void ClientDemo::initializeSound()
 		// soundIDList[11] = ptero_swoop_fast
 		// soundIDList[12] = ptero_playerhit
 		// soundIDList[13] = player_footsteps
+		// soundIDList[14] = music
+		// soundIDList[15] = sam_laugh
 
 		if (gSound.sfxOn)
 		{
@@ -2506,6 +2631,7 @@ void ClientDemo::initializeSound()
 			experimental::AudioEngine::preload("\\res\\sound\\sfx\\ptero_swoop_fast.mp3");
 			experimental::AudioEngine::preload("\\res\\sound\\sfx\\ptero_playerhit.mp3");
 			experimental::AudioEngine::preload("\\res\\sound\\sfx\\player_footsteps.mp3");
+			experimental::AudioEngine::preload("\\res\\sound\\sfx\\sam_laugh.mp3");
 
 
 			//can probably remove code chunk below by initialzing soundIDList to AudioEngine::INVALID_AUDIO_ID
@@ -2525,6 +2651,7 @@ void ClientDemo::initializeSound()
 			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.0f));
 			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", false, 0.0f));
 			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", false, 0.0f)); //part of hackfix to get lvl 1 music to play
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_laugh.mp3", false, 0.0f));
 
 			for (unsigned int i = 0; i < soundIDList.size(); i++)
 			{
