@@ -38,6 +38,10 @@ bool ServerConnection::init()
 	joyListener->onEvent = CC_CALLBACK_1(ServerConnection::Joystick, this);
 	_eventDispatcher->addEventListenerWithFixedPriority(joyListener, 1);
 
+	keyListener = EventListenerKeyboard::create();
+	keyListener->onKeyPressed = CC_CALLBACK_2(ServerConnection::KeyDown, this);
+	_eventDispatcher->addEventListenerWithFixedPriority(keyListener, 2);
+
 	char p1mask = 1;
 	char p2mask = 2;
 	char p3mask = 4;
@@ -155,6 +159,11 @@ void ServerConnection::beginGame(cocos2d::Ref* pSender)
 		_eventDispatcher->removeEventListener(joyListener);
 		joyListener->release();
 		joyListener = nullptr;
+
+		_eventDispatcher->removeEventListener(keyListener);
+		keyListener->release();
+		keyListener = nullptr;
+
 		auto scene = HowToPlay::createHowToPlay(IPAddress, playerNum); 
 		CCDirector::getInstance()->replaceScene(scene);
 	}
@@ -344,3 +353,18 @@ void ServerConnection::Joystick(cocos2d::Event* event)
 	}
 }
 
+void ServerConnection::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
+{
+	switch (keyCode) {
+	case EventKeyboard::KeyCode::KEY_1:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);
+		break;
+	case EventKeyboard::KeyCode::KEY_2:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(2.0f);
+		break;
+	case EventKeyboard::KeyCode::KEY_3:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(3.0f);
+		break;
+	}
+	event->stopPropagation();
+}

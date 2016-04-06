@@ -23,11 +23,11 @@ bool MenuScene::init()
 	joyListener->onEvent = CC_CALLBACK_1(MenuScene::Joystick, this);
 	_eventDispatcher->addEventListenerWithFixedPriority(joyListener, 1);
 
-	//auto keyListener = EventListenerKeyboard::create();
-	//keyListener->onKeyPressed = CC_CALLBACK_2(ClientDemo::KeyDown, this);
-	//keyListener->onKeyReleased = CC_CALLBACK_2(ClientDemo::KeyRelease, this);
+	keyListener = EventListenerKeyboard::create();
+	keyListener->onKeyPressed = CC_CALLBACK_2(MenuScene::KeyDown, this);
+	//keyListener->onKeyReleased = CC_CALLBACK_2(MenuScene::KeyRelease, this);
 
-	//_eventDispatcher->addEventListenerWithFixedPriority(keyListener, 2);
+	_eventDispatcher->addEventListenerWithFixedPriority(keyListener, 2);
 	//listeners init end
 
 	float winSizeWidth = CCDirector::sharedDirector()->getWinSize().width / 2;
@@ -68,6 +68,11 @@ void MenuScene::server(cocos2d::Ref* pSender)
 	_eventDispatcher->removeEventListener(joyListener);
 	joyListener->release();
 	joyListener = nullptr;
+
+	_eventDispatcher->removeEventListener(keyListener);
+	keyListener->release();
+	keyListener = nullptr;
+
 	auto scene = ServerConnection::createServerConnection(0);
 	CCDirector::getInstance()->replaceScene(scene);
 }
@@ -77,6 +82,11 @@ void MenuScene::player(cocos2d::Ref* pSender)
 	_eventDispatcher->removeEventListener(joyListener);
 	joyListener->release();
 	joyListener = nullptr;
+
+	_eventDispatcher->removeEventListener(keyListener);
+	keyListener->release();
+	keyListener = nullptr;
+
 	auto scene = PlayerConnection::createPlayerConnection();
 	CCDirector::getInstance()->replaceScene(scene);
 }
@@ -123,17 +133,24 @@ void MenuScene::Joystick(cocos2d::Event* event)
 	}
 }
 
-/*This stuff could be useful later on if we want keys to trigger things during menus
+
 void MenuScene::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	switch (keyCode) {
-	case EventKeyboard::KeyCode::KEY_UP_ARROW:
+	case EventKeyboard::KeyCode::KEY_1:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);
+		break;
+	case EventKeyboard::KeyCode::KEY_2:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(2.0f);
+		break;
+	case EventKeyboard::KeyCode::KEY_3:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(3.0f);
 		break;
 	}
 	event->stopPropagation();
 }
 
-void MenuScene::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
+/*void MenuScene::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 {
 
 	switch (keyCode) {

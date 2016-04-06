@@ -63,6 +63,10 @@ bool HowToPlay::init()
 	joyListener->onEvent = CC_CALLBACK_1(HowToPlay::Joystick, this);
 	_eventDispatcher->addEventListenerWithFixedPriority(joyListener, 1);
 
+	keyListener = EventListenerKeyboard::create();
+	keyListener->onKeyPressed = CC_CALLBACK_2(HowToPlay::KeyDown, this);
+	_eventDispatcher->addEventListenerWithFixedPriority(keyListener, 2);
+
 	return true;
 }
 
@@ -72,6 +76,11 @@ void HowToPlay::begin(cocos2d::Ref* pSender)
 	_eventDispatcher->removeEventListener(joyListener);
 	joyListener->release();
 	joyListener = nullptr;
+
+	_eventDispatcher->removeEventListener(keyListener);
+	keyListener->release();
+	keyListener = nullptr;
+
 	experimental::AudioEngine::stopAll();
 	auto scene = ClientDemo::createScene(IPADDRESS, PLAYERNUM); // CODE TO TRY
 	CCDirector::getInstance()->replaceScene(scene);
@@ -97,8 +106,8 @@ void HowToPlay::Joystick(cocos2d::Event* event)
 	//CCLOG(std::to_string(present).c_str());
 	if (present)
 	{
-		if (timeDelay == 0)
-		{
+//		if (timeDelay == 0)
+//		{
 			int forbutton;
 			const unsigned char* buttonval = e->getButtonValues(&forbutton);
 			unsigned char b0 = buttonval[0];
@@ -117,10 +126,26 @@ void HowToPlay::Joystick(cocos2d::Event* event)
 
 				begin_button->activate();
 			}
-		}
-		if (timeDelay > 0)
-		{
-			timeDelay--;
-		}
+//		}
+//		if (timeDelay > 0)
+//		{
+//			timeDelay--;
+//		}
 	}
+}
+
+void HowToPlay::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
+{
+	switch (keyCode) {
+	case EventKeyboard::KeyCode::KEY_1:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);
+		break;
+	case EventKeyboard::KeyCode::KEY_2:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(2.0f);
+		break;
+	case EventKeyboard::KeyCode::KEY_3:
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(3.0f);
+		break;
+	}
+	event->stopPropagation();
 }

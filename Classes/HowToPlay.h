@@ -22,6 +22,7 @@ private:
 
 	cocos2d::MenuItemImage* begin_button;
 	EventListenerJoystick* joyListener;
+	EventListenerKeyboard* keyListener;
 
 	bool button1 = false;
 
@@ -33,8 +34,9 @@ public:
 	void begin(cocos2d::Ref* sSender);
 
 	void Joystick(cocos2d::Event*);
+	void KeyDown(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 
-	int timeDelay = 20;
+	//int timeDelay = 20;
 
 	CREATE_FUNC(HowToPlay);
 

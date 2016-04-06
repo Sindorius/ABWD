@@ -27,6 +27,7 @@ private:
 
 	cocos2d::MenuItemImage* enter_button;
 	EventListenerJoystick* joyListener;
+	EventListenerKeyboard* keyListener;
 
 	bool button1 = false;
 
@@ -48,8 +49,9 @@ public:
 	int playerNum = 1;
 
 	void Joystick(cocos2d::Event*);
+	void KeyDown(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 
-	int timeDelay = 20; //so you dont skip screens if you hold down button too long on previous screen
+	int timeDelay = 0; //so you dont skip screens if you hold down button too long on previous screen
 
 	CREATE_FUNC(ServerConnection);
 

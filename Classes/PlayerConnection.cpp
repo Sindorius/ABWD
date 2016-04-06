@@ -191,8 +191,8 @@ void PlayerConnection::Joystick(cocos2d::Event* event)
 	//CCLOG(std::to_string(present).c_str());
 	if (present)
 	{
-		if (timeDelay == 0)
-		{//CCLOG(e->getName());
+//		if (timeDelay == 0)
+//		{//CCLOG(e->getName());
 
 			int forbutton;
 			const unsigned char* buttonval = e->getButtonValues(&forbutton);
@@ -214,10 +214,10 @@ void PlayerConnection::Joystick(cocos2d::Event* event)
 			}
 
 			//add support for typing in the IP address?
-		}
-		if (timeDelay > 0)
-		{
-			timeDelay--;
-		}
+//		}
+//		if (timeDelay > 0)
+//		{
+//			timeDelay--;
+//		}
 	}
 }
