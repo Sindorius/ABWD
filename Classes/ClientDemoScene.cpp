@@ -1844,10 +1844,6 @@ void ClientDemo::loadLevel(int level)
 
 	}
 	else if (level == 1) {
-		for (unsigned int i = 0; i < players.size(); i++)
-		{
-			players[i]->setVisible(false);
-		}
 		pterodactyl->setVisible(false);
 		villain->setVisible(false);
 	}
