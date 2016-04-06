@@ -368,12 +368,12 @@ void ServerSam::munch() {
 		//newX cannot be outside collision/blockage map x-boundaries or game will crash (0-600)
 		int newX = abs((this->getPositionX() - candy_spawn_distance*(cos(theta * 3.14159 / 180))));
 		//normalizedX below cannot be above blockage._layerSize.width-1 which is 24
-		//the - 1 prevents normalizedX = (600 - 0) / 24 = 25 and truncates it to 24 via integer division
+		//the - 1 below prevents normalizedX = (600 - 0) / 24 = 25 and truncates it to 24 via integer division
 		int normalizedX = abs((lvm->levelmap->getMapSize().width * lvm->levelmap->getTileSize().width) - newX - 1) / (lvm->levelmap->getTileSize().width); 
 		//newY cannot be outside collision/blockage map y-boundaries or game will crash (0-360)
 		int newY = abs(this->getPositionY() - candy_spawn_distance*(sin(theta * 3.14159 / 180)));
 		//normalizedY below cannot be above blockage._layerSize.height-1 which is 14
-		//the - 1 prevents normalizedX = (360 - 0) / 24 = 15 and truncates it to 14 via integer division
+		//the - 1 below prevents normalizedX = (360 - 0) / 24 = 15 and truncates it to 14 via integer division
 		int normalizedY = abs((lvm->levelmap->getMapSize().height * lvm->levelmap->getTileSize().height) - newY - 1) / (lvm->levelmap->getTileSize().height);
 		//normalizedX,normalizedY are tile coords and need to be within the actual tile (not pixel) dimensions of the collision/blockage map, or game will crash
 		Vec2 tileCoord = Vec2(normalizedX, normalizedY);
