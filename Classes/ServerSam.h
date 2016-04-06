@@ -25,7 +25,7 @@ public:
 	static ServerSam* create(ServerDemo* ptr);
 	//static ServerSam* create(int playernum);
 	
-	void setPriority(std::vector<std::vector<char>> tiles, std::vector<std::vector<char>> dry);
+	void setPriority(std::vector<std::vector<char>> tiles, std::vector<std::vector<char>> dry, int time);
 
 	//gameloop ServerSam function
 	void runAI(std::vector<Player*>* players);

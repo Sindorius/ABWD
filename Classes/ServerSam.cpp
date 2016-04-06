@@ -38,26 +38,26 @@ ServerSam* ServerSam::create(ServerDemo* ptr)
 }
 
 
-void ServerSam::setPriority(std::vector<std::vector<char>> tiles, std::vector<std::vector<char>> dry) {
+void ServerSam::setPriority(std::vector<std::vector<char>> tiles, std::vector<std::vector<char>> dry, int time) {
 	for (int i = 0; i < 4; i++) {
 		priority[i] = 0;
 		idle = true;
 	}
 	for (unsigned int i = 0; i < tiles.size(); i++) {
 		for (unsigned int j = 0; j < tiles[i].size(); j++ ) {
-			if (tiles[i][j] == 1 && dry[i][j] != 10) {
+			if (tiles[i][j] == 1 && dry[i][j] != time) {
 				priority[0]++;
 				idle = false;
 			}
-			else if (tiles[i][j] == 2 && dry[i][j] != 10) {
+			else if (tiles[i][j] == 2 && dry[i][j] != time) {
 				priority[1]++;
 				idle = false;
 			}
-			else if (tiles[i][j] == 3 && dry[i][j] != 10) {
+			else if (tiles[i][j] == 3 && dry[i][j] != time) {
 				priority[2]++;
 				idle = false;
 			}
-			else if (tiles[i][j] == 4 && dry[i][j] != 10) {
+			else if (tiles[i][j] == 4 && dry[i][j] != time) {
 				priority[3]++;
 				idle = false;
 			}

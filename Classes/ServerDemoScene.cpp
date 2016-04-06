@@ -238,7 +238,7 @@ void ServerDemo::update(float dt)
 
 		if (levelmanager.currentlevel != 1)
 		{
-			serversam->setPriority(levelmanager.puzzle.whichplayertilesvector, levelmanager.puzzle.drytilevector);
+			serversam->setPriority(levelmanager.puzzle.whichplayertilesvector, levelmanager.puzzle.drytilevector, dried);
 			serversam->runAI(&players);
 		}
 
@@ -271,7 +271,7 @@ void ServerDemo::update(float dt)
 		if (levelmanager.puzzle.drytilevector[dry_x][dry_y] < dried) {
 			levelmanager.puzzle.drytilevector[dry_x][dry_y]++;
 		}
-		else if(levelmanager.puzzle.drytilevector[dry_x][dry_y] == dried) {
+		if(levelmanager.puzzle.drytilevector[dry_x][dry_y] == dried) {
 			if (tilespritevector[dry_x][dry_y]->getColor() != "clear")
 			{
 				enqueueMessage(ServerMessage(18, (float)dry_x, (float)dry_y, 0)); //tells client a tile has dried
