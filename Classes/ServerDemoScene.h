@@ -42,6 +42,7 @@ private:
 	int dry_x = 0;
 	int dry_y = 0;
 	int transitionTimer = 0;
+	int dried = 10;
 	bool eventActive = false; //true when scripted game events are happening
 	Vec2 samTile;
 	std::string samHitWall;

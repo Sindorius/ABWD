@@ -268,14 +268,14 @@ void ServerDemo::update(float dt)
 			dry_y = 0;
 		}
 
-		if (levelmanager.puzzle.drytilevector[dry_x][dry_y] < 15) {
+		if (levelmanager.puzzle.drytilevector[dry_x][dry_y] < dried) {
 			levelmanager.puzzle.drytilevector[dry_x][dry_y]++;
 		}
-		else if(levelmanager.puzzle.drytilevector[dry_x][dry_y] == 15) {
-			enqueueMessage(ServerMessage(18, (float)dry_x, (float)dry_y, 0)); //tells client a tile has dried
+		else if(levelmanager.puzzle.drytilevector[dry_x][dry_y] == dried) {
 			if (tilespritevector[dry_x][dry_y]->getColor() != "clear")
 			{
-				levelmanager.puzzle.drytilevector[dry_x][dry_y]++;
+				enqueueMessage(ServerMessage(18, (float)dry_x, (float)dry_y, 0)); //tells client a tile has dried
+
 			}
 		}
 
@@ -309,7 +309,7 @@ void ServerDemo::update(float dt)
 					{
 						for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 						{
-							if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != 1)
+							if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != dried)
 							{
 								levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
 								levelmanager.puzzle.currenttilevector[i][j] = 1;
