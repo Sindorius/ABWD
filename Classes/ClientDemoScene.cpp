@@ -1054,20 +1054,24 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	{
 		if (msg.xpos == 1) //sam painting event
 		{
-			if (msg.status == 1) //blank canvas removed
+			if (msg.status == 1) //event started
+			{
+				eventActive = true;
+			}
+			else if (msg.status == 2) //blank canvas removed
 			{
 				blankCanvas->setVisible(false);
 			}
-			else if (msg.status == 2)
+			else if (msg.status == 3)
 			{
 				soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3", true);
 			}
-			else if (msg.status == 3)
+			else if (msg.status == 4)
 			{
 				experimental::AudioEngine::stop(soundIDList[0]);
 				soundIDList[15] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_laugh.mp3");
 			}
-			else if (msg.status == 4) //event is over
+			else if (msg.status == 5) //event is over
 			{
 				eventActive = false;
 			}
@@ -1852,7 +1856,11 @@ void ClientDemo::loadLevel(int level)
 		{
 			players[i]->setVisible(false);
 		}
-		eventActive = true;
+		//eventActive = true;
+		if (EVENTS_ON == 0)
+		{
+			blankCanvas->setVisible(false);
+		}
 		pterodactyl->setVisible(false);
 		villain->setVisible(true);
 	}
@@ -1861,7 +1869,11 @@ void ClientDemo::loadLevel(int level)
 		{
 			players[i]->setVisible(false);
 		}
-		eventActive = true;
+		//eventActive = true;
+		if (EVENTS_ON == 0)
+		{
+			blankCanvas->setVisible(false);
+		}
 		pterodactyl->setVisible(false);
 		villain->setVisible(true);
 	}
@@ -1870,7 +1882,11 @@ void ClientDemo::loadLevel(int level)
 		{
 			players[i]->setVisible(false);
 		}
-		eventActive = true;
+		//eventActive = true;
+		if (EVENTS_ON == 0)
+		{
+			blankCanvas->setVisible(false);
+		}
 		pterodactyl->setVisible(true);
 		villain->setVisible(true);
 	}

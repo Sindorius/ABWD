@@ -27,6 +27,8 @@
 #include "Puzzle.hpp"
 #include "LevelManager.hpp"
 
+#define EVENTS_ON 0 //turns scripted events on/off
+
 class TCPServer;
 class ServerSam;
 

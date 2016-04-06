@@ -63,7 +63,7 @@ public:
 	std::string getAnim() { return animstate; }
 	void linkPtera(Pterodactyl* pterodactyl);
 	void linkCandy(Candy* candies);
-	void setLevel(LevelManager levelmanager);
+	void setLevel(LevelManager* levelmanager);
 
 	void walkOn();
 	void teleportOn();
@@ -118,7 +118,7 @@ private:
 
 	//external items
 	cocos2d::CCTMXLayer* blockage;
-	LevelManager lvm;
+	LevelManager* lvm;
 
 	//links
 	Pterodactyl* ptera;

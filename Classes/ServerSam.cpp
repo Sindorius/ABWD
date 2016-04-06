@@ -365,18 +365,29 @@ void ServerSam::munch() {
 	if (flag) {
 		
 		int theta = (rand() % 360);
-		int testx = this->getPositionX() - candy_spawn_distance*(cos(theta * 3.14159 / 180));
-		int testy = this->getPositionY() - candy_spawn_distance*(sin(theta * 3.14159 / 180));
-		Vec2 tileCoord = Vec2(testx, testy);
+		//testx1 cannot be outside collision/blockage map x-boundaries or game will crash (0-600)
+		int newX = abs((this->getPositionX() - candy_spawn_distance*(cos(theta * 3.14159 / 180))));
+		//testx below cannot be above blockage._layerSize.width-1 which is 24
+		//the - 1 prevents normalizedX = (600 - 0) / 24 = 25 and truncates it to 24 via integer division
+		int normalizedX = abs((lvm->levelmap->getMapSize().width * lvm->levelmap->getTileSize().width) - newX - 1) / (lvm->levelmap->getTileSize().width); 
+		//testy1 cannot be outside collision/blockage map y-boundaries or game will crash (0-360)
+		int newY = abs(this->getPositionY() - candy_spawn_distance*(sin(theta * 3.14159 / 180)));
+		//testy below cannot be above blockage._layerSize.height-1 which is 14
+		//the - 1 prevents normalizedX = (360 - 0) / 24 = 15 and truncates it to 14 via integer division
+		int normalizedY = abs((lvm->levelmap->getMapSize().height * lvm->levelmap->getTileSize().height) - newY - 1) / (lvm->levelmap->getTileSize().height);
+		//testx1,testy1 are tile coords and need to be within the actual tile (not pixel) dimensions of the collision/blockage map, or game will crash
+		Vec2 tileCoord = Vec2(normalizedX, normalizedY);
 		
-		blockage = lvm.levelmap->getLayer("Collision");
-		/*
+		//if (normalizedX > 24 || normalizedX < 0 || normalizedY > 14 || normalizedY < 0)
+		//{
+		//	int test = 50; //using as breakpoint to test code
+		//}
 		if (blockage != NULL)
 		{
 			int bkTile = blockage->getTileGIDAt(tileCoord);
 			if (bkTile)
 			{
-				auto tilemapvals = lvm.levelmap->getPropertiesForGID(bkTile).asValueMap();
+				auto tilemapvals = lvm->levelmap->getPropertiesForGID(bkTile).asValueMap();
 				if (!tilemapvals.empty())
 				{
 					auto w = tilemapvals["Collidable"].asString();
@@ -390,10 +401,10 @@ void ServerSam::munch() {
 		else {
 			resume = false;
 		}
-		*/
+		
 		if (resume) {
 			flag = false;
-			candy->setPosition(testx, testy);
+			candy->setPosition(newX, newY);
 			candy->setStatus(true);
 		}
 	}
@@ -537,8 +548,9 @@ void ServerSam::candyOff() {
 	}
 }
 
-void ServerSam::setLevel(LevelManager levelmanager) {
+void ServerSam::setLevel(LevelManager* levelmanager) {
 	lvm = levelmanager;
+	blockage = lvm->levelmap->getLayer("Collision");
 }
 
 void ServerSam::walkOn() {
