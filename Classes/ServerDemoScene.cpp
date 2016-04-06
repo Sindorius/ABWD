@@ -1201,7 +1201,7 @@ void ServerDemo::runEvent(int e)
 		if (false == runPaintEvent())
 		{
 			eventActive = false;
-			enqueueMessage(ServerMessage(19, e, 0, 5)); //tell client event is over
+			enqueueMessage(ServerMessage(19, e, 0, 4)); //tell client event is over
 		}
 	}
 }
@@ -1238,7 +1238,7 @@ bool ServerDemo::runPaintEvent(void)
 			{
 				if (paintEvent.init == false) //if phase1 initilization hasnt happened yet
 				{
-					enqueueMessage(ServerMessage(19, 1, 0, 1)); //tell client event started
+					//enqueueMessage(ServerMessage(19, 1, 0, 1)); //tell client event started
 					serversam->setAnim("samup");
 					paintEvent.init = true;
 				}
@@ -1250,7 +1250,7 @@ bool ServerDemo::runPaintEvent(void)
 				paintEvent.phase1 = false;
 				paintEvent.phase2 = true;
 				paintEvent.init = false;
-				enqueueMessage(ServerMessage(19, 1, 0, 3)); //tell client to play painting sound
+				enqueueMessage(ServerMessage(19, 1, 0, 2)); //tell client to play painting sound
 				paintEvent.eventTimer = 90;
 			}
 		}
@@ -1263,8 +1263,8 @@ bool ServerDemo::runPaintEvent(void)
 				if (paintEvent.init == false) //if phase2 initilization hasnt happened yet
 				{
 					blankCanvas->setVisible(false); //only needed for visual-based server
-					enqueueMessage(ServerMessage(19, 1, 0, 4)); //tell client to stop playing brushing sound
-					enqueueMessage(ServerMessage(19, 1, 0, 2)); //client needs to hide blank canvas layer too
+					enqueueMessage(ServerMessage(19, 1, 0, 3)); //tell client to stop playing brushing sound
+					enqueueMessage(ServerMessage(19, 1, 0, 1)); //client needs to hide blank canvas layer too
 					serversam->setAnim("samdown");
 					paintEvent.init = true;
 				}

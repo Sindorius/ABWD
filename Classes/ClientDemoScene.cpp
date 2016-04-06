@@ -1054,24 +1054,20 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	{
 		if (msg.xpos == 1) //sam painting event
 		{
-			if (msg.status == 1) //event started
-			{
-				eventActive = true;
-			}
-			else if (msg.status == 2) //blank canvas removed
+			if (msg.status == 1) //blank canvas removed
 			{
 				blankCanvas->setVisible(false);
 			}
-			else if (msg.status == 3)
+			else if (msg.status == 2)
 			{
 				soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3", true);
 			}
-			else if (msg.status == 4)
+			else if (msg.status == 3)
 			{
 				experimental::AudioEngine::stop(soundIDList[0]);
 				soundIDList[15] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_laugh.mp3");
 			}
-			else if (msg.status == 5) //event is over
+			else if (msg.status == 4) //event is over
 			{
 				eventActive = false;
 			}
@@ -1829,7 +1825,7 @@ void ClientDemo::loadLevel(int level)
 		gSound.levelChange = true; //can probably put transition sfx in transitionmanager
 	}
 	
-	if (level == 5)
+	/*if (level == 5)
 	{
 		auto menu_item = MenuItemImage::create("res//sprites//ui//goToMainNP.png", "res//sprites//ui//goToMainP.png", CC_CALLBACK_1(ClientDemo::goToMainMenu, this));
 		menu_item->setPosition(Vec2(winSizeWidth + 20, winSizeHeight));
@@ -1846,8 +1842,8 @@ void ClientDemo::loadLevel(int level)
 		gameover->setPosition(Vec2((int)winSizeWidth - 10, (int)winSizeHeight + 120));
 		addChild(gameover, 1001);
 
-	}
-	else if (level == 1) {
+	}*/
+	if (level == 1) {
 		pterodactyl->setVisible(false);
 		villain->setVisible(false);
 	}
@@ -1856,10 +1852,13 @@ void ClientDemo::loadLevel(int level)
 		{
 			players[i]->setVisible(false);
 		}
-		//eventActive = true;
 		if (EVENTS_ON == 0)
 		{
 			blankCanvas->setVisible(false);
+		}
+		else
+		{
+			eventActive = true;
 		}
 		pterodactyl->setVisible(false);
 		villain->setVisible(true);
@@ -1869,10 +1868,13 @@ void ClientDemo::loadLevel(int level)
 		{
 			players[i]->setVisible(false);
 		}
-		//eventActive = true;
 		if (EVENTS_ON == 0)
 		{
 			blankCanvas->setVisible(false);
+		}
+		else
+		{
+			eventActive = true;
 		}
 		pterodactyl->setVisible(false);
 		villain->setVisible(true);
@@ -1882,10 +1884,13 @@ void ClientDemo::loadLevel(int level)
 		{
 			players[i]->setVisible(false);
 		}
-		//eventActive = true;
 		if (EVENTS_ON == 0)
 		{
 			blankCanvas->setVisible(false);
+		}
+		else
+		{
+			eventActive = true;
 		}
 		pterodactyl->setVisible(true);
 		villain->setVisible(true);
