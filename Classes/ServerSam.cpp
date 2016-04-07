@@ -445,8 +445,7 @@ void ServerSam::munch() {
 				candy->setPosition(-1000, -1000);
 				flag = true;
 				behavior_timer = 150;
-				behavior = 0;
-				candyOff();
+				behavior = 5;
 				serverptr->enqueueMessage(ServerMessage(8, 0, 0, i + 1));
 			}
 		}
