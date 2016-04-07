@@ -1035,16 +1035,18 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	}
 	else if (msg.messagechar == 18)
 	{
-		
-		if (msg.status == 0) //paint tile wet
+		if ((int)msg.xpos <= tilespritevector.size() && (int)msg.ypos <= tilespritevector[0].size()) //prevents out of bounds vector subscript, but essentially skips over servermessage?
 		{
-			tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(true);
+			if (msg.status == 0) //paint tile wet
+			{
+				tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(true);
+			}
+			else if (msg.status == 1) //paint tile dry
+			{
+				tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(false);
+			}
+			tilespritevector[(int)msg.xpos][(int)msg.ypos]->refreshColor();
 		}
-		else if (msg.status == 1) //paint tile dry
-		{
-			tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(false);
-		}
-		tilespritevector[(int)msg.xpos][(int)msg.ypos]->refreshColor();
 	}
 	//Event #1: Sam Painting
 	//Event #2: TBA
