@@ -66,12 +66,12 @@ bool MenuScene::init()
 void MenuScene::server(cocos2d::Ref* pSender)
 {
 	_eventDispatcher->removeEventListener(joyListener);
-	joyListener->release();
-	joyListener = nullptr;
+	//joyListener->release();
+	//joyListener = nullptr;
 
 	_eventDispatcher->removeEventListener(keyListener);
-	keyListener->release();
-	keyListener = nullptr;
+	//keyListener->release();
+	//keyListener = nullptr;
 
 	auto scene = ServerConnection::createServerConnection(0);
 	CCDirector::getInstance()->replaceScene(scene);
@@ -80,12 +80,12 @@ void MenuScene::server(cocos2d::Ref* pSender)
 void MenuScene::player(cocos2d::Ref* pSender)
 {
 	_eventDispatcher->removeEventListener(joyListener);
-	joyListener->release();
-	joyListener = nullptr;
+	//joyListener->release();
+	//joyListener = nullptr;
 
 	_eventDispatcher->removeEventListener(keyListener);
-	keyListener->release();
-	keyListener = nullptr;
+	//keyListener->release();
+	//keyListener = nullptr;
 
 	auto scene = PlayerConnection::createPlayerConnection();
 	CCDirector::getInstance()->replaceScene(scene);
@@ -131,6 +131,7 @@ void MenuScene::Joystick(cocos2d::Event* event)
 		}
 
 	}
+	event->stopPropagation();
 }
 
 

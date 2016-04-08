@@ -157,12 +157,12 @@ void ServerConnection::beginGame(cocos2d::Ref* pSender)
 	if (aPlayerChosen == true)
 	{
 		_eventDispatcher->removeEventListener(joyListener);
-		joyListener->release();
-		joyListener = nullptr;
+		//joyListener->release();
+		//joyListener = nullptr;
 
 		_eventDispatcher->removeEventListener(keyListener);
-		keyListener->release();
-		keyListener = nullptr;
+		//keyListener->release();
+		//keyListener = nullptr;
 
 		auto scene = HowToPlay::createHowToPlay(IPAddress, playerNum); 
 		CCDirector::getInstance()->replaceScene(scene);
@@ -351,6 +351,7 @@ void ServerConnection::Joystick(cocos2d::Event* event)
 			timeDelay--;
 		}
 	}
+	event->stopPropagation();
 }
 
 void ServerConnection::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)

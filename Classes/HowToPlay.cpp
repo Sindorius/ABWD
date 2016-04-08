@@ -74,12 +74,12 @@ bool HowToPlay::init()
 void HowToPlay::begin(cocos2d::Ref* pSender)
 {
 	_eventDispatcher->removeEventListener(joyListener);
-	joyListener->release();
-	joyListener = nullptr;
+	//joyListener->release();
+	//joyListener = nullptr;
 
 	_eventDispatcher->removeEventListener(keyListener);
-	keyListener->release();
-	keyListener = nullptr;
+	//keyListener->release();
+	//keyListener = nullptr;
 
 	experimental::AudioEngine::stopAll();
 	auto scene = ClientDemo::createScene(IPADDRESS, PLAYERNUM); // CODE TO TRY
@@ -132,6 +132,7 @@ void HowToPlay::Joystick(cocos2d::Event* event)
 //			timeDelay--;
 //		}
 	}
+	event->stopPropagation();
 }
 
 void HowToPlay::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)

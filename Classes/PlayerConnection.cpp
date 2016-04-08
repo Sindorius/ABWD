@@ -69,9 +69,13 @@ void PlayerConnection::beginGame(cocos2d::Ref* pSender)
 	if (IPAddress != "")
 	{
 		_eventDispatcher->removeEventListener(joyListener);
-		joyListener->release();
-		joyListener = nullptr;
-		keyboard->setEnabled(false);
+		//joyListener->release();
+		//joyListener = nullptr;
+
+		_eventDispatcher->removeEventListener(keyboard);
+		//keyboard->release();
+		//keyboard = nullptr;
+
 		auto scene = ServerConnection::createServerConnection(IPAddress,0); 
 		CCDirector::getInstance()->replaceScene(scene);
 	}
@@ -220,4 +224,5 @@ void PlayerConnection::Joystick(cocos2d::Event* event)
 //			timeDelay--;
 //		}
 	}
+	event->stopPropagation();
 }
