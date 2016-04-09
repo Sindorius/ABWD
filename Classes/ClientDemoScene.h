@@ -93,6 +93,7 @@ public:
 	bool needssync = false;
 	int playernum;
 	char currentlevel = 1;
+	int gameTimer = 15;
 	ConfigFileInput setupdata;
 
 	boost::asio::io_service* io_service_p;

@@ -441,7 +441,14 @@ void ClientDemo::update(float dt)
 		//////////
 		if (eventActive == false)
 		{
-			centerCamera();
+			if (gameTimer == 0)
+			{
+				centerCamera();
+			}
+			else
+			{
+				gameTimer--;
+			}
 		}
 		else
 		{

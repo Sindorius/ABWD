@@ -274,6 +274,8 @@ void ServerDemo::update(float dt)
 		if(levelmanager.puzzle.drytilevector[dry_x][dry_y] == dried) {
 			if (tilespritevector[dry_x][dry_y]->getColor() != "clear")
 			{
+				tilespritevector[dry_x][dry_y]->setDry(true); //only useful for visual-based server
+				tilespritevector[dry_x][dry_y]->refreshColor(); //only useful for visual-based server
 				enqueueMessage(ServerMessage(18, (float)dry_x, (float)dry_y, 0)); //tells client a tile has dried
 
 			}

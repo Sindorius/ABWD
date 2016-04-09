@@ -77,7 +77,7 @@ void PlayerConnection::beginGame(cocos2d::Ref* pSender)
 		//keyboard = nullptr;
 
 		auto scene = ServerConnection::createServerConnection(IPAddress,0); 
-		CCDirector::getInstance()->replaceScene(scene);
+		CCDirector::getInstance()->replaceScene(TransitionFade::create(0.5f, scene));
 	}
 }
 

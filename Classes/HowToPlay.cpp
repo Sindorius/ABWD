@@ -83,8 +83,8 @@ void HowToPlay::begin(cocos2d::Ref* pSender)
 
 	experimental::AudioEngine::stopAll();
 	auto scene = ClientDemo::createScene(IPADDRESS, PLAYERNUM); // CODE TO TRY
-	CCDirector::getInstance()->replaceScene(scene);
-	//CCDirector::getInstance()->replaceScene(TransitionFade::create(0.9, scene, Color3B(255, 255, 255)));
+	//CCDirector::getInstance()->replaceScene(scene);
+	Director::getInstance()->replaceScene(TransitionFade::create(2.0f, scene));
 }
 
 

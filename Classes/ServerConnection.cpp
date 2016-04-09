@@ -165,7 +165,7 @@ void ServerConnection::beginGame(cocos2d::Ref* pSender)
 		//keyListener = nullptr;
 
 		auto scene = HowToPlay::createHowToPlay(IPAddress, playerNum); 
-		CCDirector::getInstance()->replaceScene(scene);
+		CCDirector::getInstance()->replaceScene(TransitionFade::create(0.5f, scene));
 	}
 }
 

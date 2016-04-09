@@ -74,7 +74,7 @@ void MenuScene::server(cocos2d::Ref* pSender)
 	//keyListener = nullptr;
 
 	auto scene = ServerConnection::createServerConnection(0);
-	CCDirector::getInstance()->replaceScene(scene);
+	CCDirector::getInstance()->replaceScene(TransitionFade::create(0.5f,scene));
 }
 
 void MenuScene::player(cocos2d::Ref* pSender)
@@ -88,7 +88,7 @@ void MenuScene::player(cocos2d::Ref* pSender)
 	//keyListener = nullptr;
 
 	auto scene = PlayerConnection::createPlayerConnection();
-	CCDirector::getInstance()->replaceScene(scene);
+	CCDirector::getInstance()->replaceScene(TransitionFade::create(0.5f, scene));
 }
 
 
