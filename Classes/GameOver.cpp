@@ -58,7 +58,7 @@ void GameOver::goToMainMenu(cocos2d::Ref* pSender)
 	joyListener = nullptr;
 	experimental::AudioEngine::stopAll();
 	auto scene = MenuScene::createMenu();
-	CCDirector::getInstance()->replaceScene(TransitionFade::create(0.5f, scene));
+	CCDirector::getInstance()->replaceScene(TransitionFade::create(3.0f, scene));
 }
 
 
