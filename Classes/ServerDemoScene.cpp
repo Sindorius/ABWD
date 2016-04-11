@@ -774,6 +774,11 @@ void ServerDemo::loadLevel(int level)
 	}
 	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
 	blankCanvas = levelmanager.levelmap->getLayer("BlankCanvas");
+
+	if (blankCanvas != NULL)
+	{
+		blankCanvas->setCascadeOpacityEnabled(true);
+	}
 	
 
 	if (spawnObjs == NULL) {
@@ -812,7 +817,8 @@ void ServerDemo::loadLevel(int level)
 		serversam->walkOn();
 		serversam->pteraOff();
 		serversam->candyOff();
-		serversam->setPosition(Vec2(238, 150));
+		samInitPos.set(Vec2(238, 150));
+		serversam->setPosition(samInitPos);
 		wallYCoord = 302;
 		if (EVENTS_ON == 1)
 		{
@@ -830,7 +836,8 @@ void ServerDemo::loadLevel(int level)
 		serversam->walkOn();
 		serversam->pteraOff();
 		serversam->candyOn();
-		serversam->setPosition(Vec2(300, 150));
+		samInitPos.set(Vec2(300, 150));
+		serversam->setPosition(samInitPos);
 		wallYCoord = 278;
 		if (EVENTS_ON == 1)
 		{
@@ -848,7 +855,8 @@ void ServerDemo::loadLevel(int level)
 		serversam->candyOn();
 		serversam->teleportOn();
 		serversam->walkOn();
-		serversam->setPosition(Vec2(376, 150));
+		samInitPos.set(Vec2(376, 300));
+		serversam->setPosition(samInitPos);
 		wallYCoord = 496;
 		if (EVENTS_ON == 1)
 		{
@@ -1285,11 +1293,24 @@ bool ServerDemo::runPaintEvent(void)
 				paintEvent.eventTimer = 90;
 			}
 		}
-		//phase2:sam walks back to spawn point
+		//phase2:painting gradually comes into view
 		else if (paintEvent.phase2 == true)
 		{
+			//if (blankCanvas->getOpacity() > 0)
+			//{
+			//	blankCanvas->setOpacity((blankCanvas->getOpacity() - 5));
+			//}
+			//else
+			//{
+				paintEvent.phase2 = false;
+				paintEvent.phase3 = true;
+				paintEvent.init = false;
+			//}
+		}
+		else if (paintEvent.phase3 == true)
+		{
 			//if sam has not yet reached spawn point
-			if (serversam->getPositionY() > 150)
+			if (serversam->getPositionY() > samInitPos.y)
 			{
 				if (paintEvent.init == false) //if phase2 initilization hasnt happened yet
 				{
@@ -1304,7 +1325,7 @@ bool ServerDemo::runPaintEvent(void)
 			}
 			else
 			{
-				paintEvent.phase2 = false;
+				paintEvent.phase3 = false;
 				paintEvent.init = false;
 				paintEvent.isActive = false;
 				return false; //event is over

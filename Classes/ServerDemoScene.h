@@ -45,6 +45,7 @@ private:
 	int dried = 10;
 	bool eventActive = false; //true when scripted game events are happening
 	Vec2 samTile;
+	Vec2 samInitPos;
 	std::string samHitWall;
 	int wallYCoord;
 
@@ -53,6 +54,7 @@ private:
 		bool isActive = false;
 		bool phase1 = false;
 		bool phase2 = false;
+		bool phase3 = false;
 		bool init = false;
 	};
 	scriptEvent paintEvent; //new level sam painting event
