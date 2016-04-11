@@ -1829,6 +1829,8 @@ void ClientDemo::loadLevel(int level)
 	setupPaintTiles();
 	currentlevel = level;
 
+	tileHighlight->setOpacity(0);
+
 	if (level != 1)
 	{
 		gSound.levelChange = true; //can probably put transition sfx in transitionmanager
