@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <cstring>
 #include "cocos2d.h"
+#include "AudioEngine.h"
 
 USING_NS_CC;
 

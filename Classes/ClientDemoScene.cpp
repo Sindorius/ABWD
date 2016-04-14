@@ -1777,12 +1777,16 @@ void ClientDemo::loadLevel(int level)
 	removeChild(levelmanager.levelmap);
 
 	// NEW CODE ADDED
-	NotInTransition = false;
-
-	transitionManager.loadTransition(level);
-	for (Sprite* ts : transitionManager.transitionSprite)
+	
+	if (transitionManager.start_timer == 60) //if not in transition and centercamera() has been called before (not new game, not player joining game in progress)
 	{
-		addChild(ts, 10);
+		NotInTransition = false;
+
+		transitionManager.loadTransition(level);
+		for (Sprite* ts : transitionManager.transitionSprite)
+		{
+			addChild(ts, 10);
+		}
 	}
 	////////////////
 
@@ -1858,7 +1862,7 @@ void ClientDemo::loadLevel(int level)
 		villain->setVisible(false);
 	}
 	else if (level == 2) {
-		gSound.levelChange = true; //can probably put transition sfx in transitionmanager
+		gSound.levelChange = true;
 		pterodactyl->setVisible(false);
 		villain->setVisible(true);
 	}
@@ -2102,16 +2106,16 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	//If level solved
 	if (gSound.levelChange == true)
 	{
-		//play level completed sfx
-		if (isSFXPlaying[10] == false)
-		{
-			soundIDList[10] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\puzzle_solved.mp3");
-			isSFXPlaying[10] = true;
-			experimental::AudioEngine::setFinishCallback(soundIDList[10], [&](int id, const std::string& filePath)
-			{
+		//play level completed sfx - DEPRECATED: TransitionManager now handles lvl completed sfx
+		//if (isSFXPlaying[10] == false)
+		//{
+		//	soundIDList[10] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\puzzle_solved.mp3");
+		//	isSFXPlaying[10] = true;
+		//	experimental::AudioEngine::setFinishCallback(soundIDList[10], [&](int id, const std::string& filePath)
+		//	{
 				experimental::AudioEngine::stop(soundIDList[14]);
-				isSFXPlaying[10] = false;
-				if (gSound.musicOn)
+		//		isSFXPlaying[10] = false;
+				if (gSound.musicOn && NotInTransition)
 				{//play new level's music
 					if (currentlevel == 1)
 					{
@@ -2133,11 +2137,11 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 					//{
 					//	soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\win_music.mp3", true, 0.4f);
 					//}
+					gSound.levelChange = false;
 				}
-			});
-			gSound.levelChange = false;
-		}
+//			});	
 	}
+	//}
 	//If level solved - end
 
 	//===========================================================

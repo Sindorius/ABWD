@@ -2,7 +2,7 @@
 
 void TransitionManager::loadTransition(int level)
 {
-
+	experimental::AudioEngine::play2d("\\res\\sound\\sfx\\puzzle_solved.mp3");
 	if (level == 1)
 	{
 		transitionSprite.clear();

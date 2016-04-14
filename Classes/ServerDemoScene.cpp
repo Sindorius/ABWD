@@ -267,20 +267,21 @@ void ServerDemo::update(float dt)
 		{
 			dry_y = 0;
 		}
+		if (dry_x <= levelmanager.puzzle.drytilevector.size() && dry_y <= levelmanager.puzzle.drytilevector[0].size()) //prevents out of bounds vector subscript
+		{
+			if (levelmanager.puzzle.drytilevector[dry_x][dry_y] < dried) {
+				levelmanager.puzzle.drytilevector[dry_x][dry_y]++;
+			}
+			if (levelmanager.puzzle.drytilevector[dry_x][dry_y] == dried) {
+				if (tilespritevector[dry_x][dry_y]->getColor() != "clear")
+				{
+					tilespritevector[dry_x][dry_y]->setDry(true); //only useful for visual-based server
+					tilespritevector[dry_x][dry_y]->refreshColor(); //only useful for visual-based server
+					enqueueMessage(ServerMessage(18, (float)dry_x, (float)dry_y, 0)); //tells client a tile has dried
 
-		if (levelmanager.puzzle.drytilevector[dry_x][dry_y] < dried) {
-			levelmanager.puzzle.drytilevector[dry_x][dry_y]++;
-		}
-		if(levelmanager.puzzle.drytilevector[dry_x][dry_y] == dried) {
-			if (tilespritevector[dry_x][dry_y]->getColor() != "clear")
-			{
-				tilespritevector[dry_x][dry_y]->setDry(true); //only useful for visual-based server
-				tilespritevector[dry_x][dry_y]->refreshColor(); //only useful for visual-based server
-				enqueueMessage(ServerMessage(18, (float)dry_x, (float)dry_y, 0)); //tells client a tile has dried
-
+				}
 			}
 		}
-
 		dry_x++;
 
 		/*
@@ -398,22 +399,19 @@ void ServerDemo::update(float dt)
 		{
 			if (levelmanager.currentlevel == 1)
 			{
-				servermessagequeue.emplace_back(ServerMessage(19, 1, 0, 5));
 				loadLevel(2);
 			}
 			else if (levelmanager.currentlevel == 2)
 			{
-				servermessagequeue.emplace_back(ServerMessage(19, 1, 0, 5));
 				loadLevel(3);
 			}
 			else if (levelmanager.currentlevel == 3)
 			{
-				servermessagequeue.emplace_back(ServerMessage(19, 1, 0, 5));
 				loadLevel(4);
 			}
 			else if (levelmanager.currentlevel == 4)
 			{
-				servermessagequeue.emplace_back(ServerMessage(15, 0, 0, 0));
+				enqueueMessage(ServerMessage(15, 0, 0, 0));
 				loadLevel(1);
 			}
 			sendmap = true;
@@ -831,8 +829,9 @@ void ServerDemo::loadLevel(int level)
 		{
 			blankCanvas->setVisible(false);
 		}
-		transitionTimer = 90; //little more than time in clientdemoscene
+		transitionTimer = 90; //little more than transition time in clientdemoscene
 		this->setScale(1.0f);
+		enqueueMessage(ServerMessage(19, 1, 0, 5)); //tells client to start sam painting event
 	}
 	else if (level == 3) {
 		serversam->teleportOn();
@@ -852,6 +851,7 @@ void ServerDemo::loadLevel(int level)
 		}
 		transitionTimer = 90;
 		this->setScale(.6f);
+		enqueueMessage(ServerMessage(19, 1, 0, 5)); //tells client to start sam painting event
 	}
 	else if (level == 4) {
 		serversam->pteraOn();
@@ -871,6 +871,7 @@ void ServerDemo::loadLevel(int level)
 		}
 		transitionTimer = 90;
 		this->setScale(.6f);
+		enqueueMessage(ServerMessage(19, 1, 0, 5)); //tells client to start sam painting event
 	}
 
 }
