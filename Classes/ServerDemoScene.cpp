@@ -403,10 +403,12 @@ void ServerDemo::update(float dt)
 			}
 			else if (levelmanager.currentlevel == 2)
 			{
+				servermessagequeue.emplace_back(ServerMessage(19, 1, 0, 5));
 				loadLevel(3);
 			}
 			else if (levelmanager.currentlevel == 3)
 			{
+				servermessagequeue.emplace_back(ServerMessage(19, 1, 0, 5));
 				loadLevel(4);
 			}
 			else if (levelmanager.currentlevel == 4)
