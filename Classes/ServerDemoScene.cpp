@@ -398,6 +398,7 @@ void ServerDemo::update(float dt)
 		{
 			if (levelmanager.currentlevel == 1)
 			{
+				servermessagequeue.emplace_back(ServerMessage(19, 1, 0, 5));
 				loadLevel(2);
 			}
 			else if (levelmanager.currentlevel == 2)

@@ -1080,6 +1080,10 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 			{
 				eventActive = false;
 			}
+			else if (msg.status == 5) //event started
+			{
+				eventActive = true;
+			}
 		}
 	}
 }
@@ -1830,11 +1834,6 @@ void ClientDemo::loadLevel(int level)
 	currentlevel = level;
 
 	tileHighlight->setOpacity(0);
-
-	if (level != 1)
-	{
-		gSound.levelChange = true; //can probably put transition sfx in transitionmanager
-	}
 	
 	/*if (level == 5)
 	{
@@ -1859,53 +1858,34 @@ void ClientDemo::loadLevel(int level)
 		villain->setVisible(false);
 	}
 	else if (level == 2) {
-		for (unsigned int i = 0; i < players.size(); i++)
-		{
-			players[i]->setVisible(false);
-		}
-		if (EVENTS_ON == 0)
-		{
-			blankCanvas->setVisible(false);
-		}
-		else
-		{
-			eventActive = true;
-		}
+		gSound.levelChange = true; //can probably put transition sfx in transitionmanager
 		pterodactyl->setVisible(false);
 		villain->setVisible(true);
 	}
 	else if (level == 3) {
-		for (unsigned int i = 0; i < players.size(); i++)
-		{
-			players[i]->setVisible(false);
-		}
-		if (EVENTS_ON == 0)
-		{
-			blankCanvas->setVisible(false);
-		}
-		else
-		{
-			eventActive = true;
-		}
+		gSound.levelChange = true;
 		pterodactyl->setVisible(false);
 		villain->setVisible(true);
 	}
 	else if (level == 4) {
-		for (unsigned int i = 0; i < players.size(); i++)
-		{
-			players[i]->setVisible(false);
-		}
-		if (EVENTS_ON == 0)
-		{
-			blankCanvas->setVisible(false);
-		}
-		else
-		{
-			eventActive = true;
-		}
+		gSound.levelChange = true;
 		pterodactyl->setVisible(true);
 		villain->setVisible(true);
 	}
+
+	for (unsigned int i = 0; i < players.size(); i++)
+	{
+		players[i]->setVisible(false);
+	}
+	if (EVENTS_ON == 0)
+	{
+		blankCanvas->setVisible(false);
+	}
+	else
+	{
+		//eventActive = true;
+	}
+
 	button1 = false;
 }
 
