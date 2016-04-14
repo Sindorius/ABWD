@@ -333,7 +333,7 @@ void ServerDemo::update(float dt)
 					{
 						for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 						{
-							if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != 15)
+							if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != dried)
 							{
 								levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
 								levelmanager.puzzle.currenttilevector[i][j] = 1;
