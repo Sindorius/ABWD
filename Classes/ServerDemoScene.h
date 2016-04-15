@@ -46,6 +46,7 @@ private:
 	bool eventActive = false; //true when scripted game events are happening
 	Vec2 samTile;
 	Vec2 samInitPos;
+	std::vector<Sprite*> pSprites;
 	std::string samHitWall;
 	int wallYCoord;
 

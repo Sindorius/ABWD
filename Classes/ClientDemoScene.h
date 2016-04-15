@@ -69,8 +69,14 @@ private:
 	std::vector<cocos2d::Sprite*> objects;
 
 	AnimationManager animationmanager;
+	struct paintEvent {
+		bool active = false; //true when scripted game event is happening
+		bool canvasFade = false;
+		bool init = false;
+		std::vector<Sprite*> tileSprites;
+	};
 
-	bool eventActive = false; //true when scripted game events are happening
+	paintEvent pEvent;
 
 
 public:
@@ -93,7 +99,8 @@ public:
 	bool needssync = false;
 	int playernum;
 	char currentlevel = 1;
-	int gameTimer = 15;
+	int gameTimer = 15; //helps with camera jerking at game start
+	int opacity = 250;
 	ConfigFileInput setupdata;
 
 	boost::asio::io_service* io_service_p;

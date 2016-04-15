@@ -1294,36 +1294,141 @@ bool ServerDemo::runPaintEvent(void)
 				paintEvent.phase2 = true;
 				paintEvent.init = false;
 				enqueueMessage(ServerMessage(19, 1, 0, 2)); //tell client to play painting sound
-				paintEvent.eventTimer = 90;
+				//paintEvent.eventTimer = 90;
 			}
 		}
 		//phase2:painting gradually comes into view
 		else if (paintEvent.phase2 == true)
 		{
-			//if (blankCanvas->getOpacity() > 0)
-			//{
-			//	blankCanvas->setOpacity((blankCanvas->getOpacity() - 5));
-			//}
-			//else
-			//{
+			if (paintEvent.init == false) //if phase2 initilization hasnt happened yet
+			{
+				//find better way to do below
+				//possibly get all tiles in a layer somehow
+				//tmxlayer->getTiles() and tmxlayer->setopacity() dont work...
+				//should also move event code to client-side, but have it be triggered server-side
+
+				enqueueMessage(ServerMessage(19, 1, 2, 1)); //tell client to gradually remove blankcanvas layer
+
+				if (levelmanager.currentlevel == 2)
+				{
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(9, 0)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(9, 1)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(9, 2)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(10, 0)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(10, 1)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(10, 2)));
+				}
+				else if (levelmanager.currentlevel == 3)
+				{
+					//top painting
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(11, 0)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(11, 1)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(11, 2)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(12, 0)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(12, 1)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(12, 2)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(13, 0)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(13, 1)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(13, 2)));
+
+					//left painting
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(1, 7)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(1, 8)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(1, 9)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(2, 7)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(2, 8)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(2, 9)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(3, 7)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(3, 8)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(3, 9)));
+
+					//right painting
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(21, 7)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(21, 8)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(21, 9)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(22, 7)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(22, 8)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(22, 9)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(23, 7)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(23, 8)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(23, 9)));
+				}
+				else if (levelmanager.currentlevel == 4)
+				{
+					//top painting
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(14, 0)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(14, 1)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(14, 2)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(15, 0)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(15, 1)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(15, 2)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(16, 0)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(16, 1)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(16, 2)));
+
+					//left painting
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(3, 8)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(3, 9)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(3, 10)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(4, 8)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(4, 9)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(4, 10)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(5, 8)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(5, 9)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(5, 10)));
+
+					//right painting
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(25, 8)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(25, 9)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(25, 10)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(26, 8)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(26, 9)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(26, 10)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(27, 8)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(27, 9)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(27, 10)));
+
+					//bottom painting
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(14, 18)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(14, 19)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(14, 20)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(15, 18)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(15, 19)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(15, 20)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(16, 18)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(16, 19)));
+					pSprites.push_back(blankCanvas->getTileAt(Vec2(16, 20)));
+				}
+				paintEvent.init = true;
+			}
+			if (pSprites[0]->getOpacity() > 0)
+			{
+				for (unsigned int i = 0; i < pSprites.size(); i++)
+				{
+					pSprites[i]->setOpacity(pSprites[i]->getOpacity() - 5);
+				}
+			}
+			else
+			{
+				pSprites.clear();
 				paintEvent.phase2 = false;
 				paintEvent.phase3 = true;
 				paintEvent.init = false;
-			//}
+			}
 		}
 		else if (paintEvent.phase3 == true)
 		{
+			if (paintEvent.init == false) //if phase3 initilization hasnt happened yet
+			{
+				blankCanvas->setVisible(false); //only needed for visual-based server
+				enqueueMessage(ServerMessage(19, 1, 0, 3)); //tell client to stop playing brushing sound
+				enqueueMessage(ServerMessage(19, 1, 0, 1)); //client needs to hide blank canvas layer too
+				serversam->setAnim("samdown");
+				paintEvent.init = true;
+			}
 			//if sam has not yet reached spawn point
 			if (serversam->getPositionY() > samInitPos.y)
 			{
-				if (paintEvent.init == false) //if phase2 initilization hasnt happened yet
-				{
-					blankCanvas->setVisible(false); //only needed for visual-based server
-					enqueueMessage(ServerMessage(19, 1, 0, 3)); //tell client to stop playing brushing sound
-					enqueueMessage(ServerMessage(19, 1, 0, 1)); //client needs to hide blank canvas layer too
-					serversam->setAnim("samdown");
-					paintEvent.init = true;
-				}
 				serversam->setPositionY(serversam->getPositionY() - 2.0f);
 				//paintEvent.eventTimer = 15;
 			}

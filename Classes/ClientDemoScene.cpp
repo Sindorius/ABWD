@@ -337,7 +337,7 @@ void ClientDemo::update(float dt)
 //	}
 	//////////////////
 
-	if (eventActive == false)
+	if (pEvent.active == false)
 	{
 		players[playernum - 1]->setPositionX(players[playernum - 1]->getPositionX() + xmove * players[playernum - 1]->speedboost);
 		players[playernum - 1]->setPositionY(players[playernum - 1]->getPositionY() + ymove * players[playernum - 1]->speedboost);
@@ -348,7 +348,7 @@ void ClientDemo::update(float dt)
 
 	io_service_p->poll();
 	//CCLOG("POLLING");
-	if (eventActive == false)
+	if (pEvent.active == false)
 	{
 
 		if (xmove || ymove || button1)
@@ -439,7 +439,7 @@ void ClientDemo::update(float dt)
 			}
 		}
 		//////////
-		if (eventActive == false)
+		if (pEvent.active == false)
 		{
 			if (gameTimer == 0)
 			{
@@ -453,6 +453,118 @@ void ClientDemo::update(float dt)
 		else
 		{
 			samCam();
+			if (pEvent.canvasFade == true) //if phase 2 started
+			{
+				if (pEvent.init == false) //if phase 2 has not been initialized yet (getting blank canvas sprites)
+				{
+					if (levelmanager.currentlevel == 2)
+					{
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(9, 0)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(9, 1)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(9, 2)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(10, 0)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(10, 1)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(10, 2)));
+					}
+					else if (levelmanager.currentlevel == 3)
+					{
+						//top painting
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(11, 0)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(11, 1)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(11, 2)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(12, 0)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(12, 1)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(12, 2)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(13, 0)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(13, 1)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(13, 2)));
+
+						//left painting
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(1, 7)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(1, 8)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(1, 9)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(2, 7)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(2, 8)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(2, 9)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(3, 7)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(3, 8)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(3, 9)));
+
+						//right painting
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(21, 7)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(21, 8)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(21, 9)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(22, 7)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(22, 8)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(22, 9)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(23, 7)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(23, 8)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(23, 9)));
+					}
+					else if (levelmanager.currentlevel == 4)
+					{
+						//top painting
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(14, 0)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(14, 1)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(14, 2)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(15, 0)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(15, 1)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(15, 2)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(16, 0)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(16, 1)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(16, 2)));
+
+						//left painting
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(3, 8)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(3, 9)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(3, 10)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(4, 8)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(4, 9)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(4, 10)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(5, 8)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(5, 9)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(5, 10)));
+
+						//right painting
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(25, 8)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(25, 9)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(25, 10)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(26, 8)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(26, 9)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(26, 10)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(27, 8)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(27, 9)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(27, 10)));
+
+						//bottom painting
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(14, 18)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(14, 19)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(14, 20)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(15, 18)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(15, 19)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(15, 20)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(16, 18)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(16, 19)));
+						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(16, 20)));
+					}
+					pEvent.init == true;
+				}
+				//gradually make blank canvases fade
+				if (pEvent.tileSprites[0]->getOpacity() > 0)
+				{
+					for (unsigned int i = 0; i < pEvent.tileSprites.size(); i++)
+					{
+						//pEvent.tileSprites[i]->setOpacity(pEvent.tileSprites[i]->getOpacity() - 5); <-- makes blank canvas layer blink
+						pEvent.tileSprites[i]->setOpacity(opacity);
+					}
+					opacity -= 5; 
+				}
+				else
+				{
+					pEvent.tileSprites.clear();
+					pEvent.canvasFade = false;
+				}
+			}
 		}
 	/*else
 	{
@@ -536,7 +648,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	
 	activechars = p.activeplayers;
 	
-	if (eventActive == false)
+	if (pEvent.active == false)
 	{
 		setVisiblePlayers(activechars);
 	}
@@ -1063,26 +1175,33 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	{
 		if (msg.xpos == 1) //sam painting event
 		{
-			if (msg.status == 1) //blank canvas removed
+			if (msg.ypos == 0) //not phase specific
 			{
-				blankCanvas->setVisible(false);
+				if (msg.status == 1) //blank canvas removed
+				{
+					blankCanvas->setVisible(false);
+				}
+				else if (msg.status == 2)
+				{
+					soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3", true);
+				}
+				else if (msg.status == 3)
+				{
+					experimental::AudioEngine::stop(soundIDList[0]);
+					soundIDList[15] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_laugh.mp3");
+				}
+				else if (msg.status == 4) //event is over
+				{
+					pEvent.active = false;
+				}
+				else if (msg.status == 5) //event started
+				{
+					pEvent.active = true;
+				}
 			}
-			else if (msg.status == 2)
+			if (msg.ypos == 2) //phase-2 specific
 			{
-				soundIDList[0] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\paint.mp3", true);
-			}
-			else if (msg.status == 3)
-			{
-				experimental::AudioEngine::stop(soundIDList[0]);
-				soundIDList[15] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_laugh.mp3");
-			}
-			else if (msg.status == 4) //event is over
-			{
-				eventActive = false;
-			}
-			else if (msg.status == 5) //event started
-			{
-				eventActive = true;
+				pEvent.canvasFade = true;
 			}
 		}
 	}
@@ -1887,7 +2006,7 @@ void ClientDemo::loadLevel(int level)
 	}
 	else
 	{
-		//eventActive = true;
+		//pEvent.active = true;
 	}
 
 	button1 = false;
