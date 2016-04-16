@@ -47,6 +47,7 @@ private:
 	Vec2 samTile;
 	Vec2 samInitPos;
 	std::vector<Sprite*> pSprites;
+	int opacity = 0;
 	std::string samHitWall;
 	int wallYCoord;
 

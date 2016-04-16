@@ -99,8 +99,8 @@ public:
 	bool needssync = false;
 	int playernum;
 	char currentlevel = 1;
-	int gameTimer = 15; //helps with camera jerking at game start
-	int opacity = 250;
+	int gameTimer = 65; //prevents camera jerking at start
+	int opacity = 255;
 	ConfigFileInput setupdata;
 
 	boost::asio::io_service* io_service_p;

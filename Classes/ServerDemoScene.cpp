@@ -880,7 +880,7 @@ void ServerDemo::loadLevel(int level)
 		serversam->candyOn();
 		serversam->teleportOn();
 		serversam->walkOn();
-		samInitPos.set(Vec2(376, 300));
+		samInitPos.set(Vec2(370, 320));
 		serversam->setPosition(samInitPos);
 		wallYCoord = 496;
 		if (EVENTS_ON == 1)
@@ -1421,14 +1421,16 @@ bool ServerDemo::runPaintEvent(void)
 					pSprites.push_back(blankCanvas->getTileAt(Vec2(16, 19)));
 					pSprites.push_back(blankCanvas->getTileAt(Vec2(16, 20)));
 				}
+				opacity = 252;
 				paintEvent.init = true;
 			}
-			if (pSprites[0]->getOpacity() > 0)
+			if (pSprites[0]->getDisplayedOpacity() > 0)
 			{
 				for (unsigned int i = 0; i < pSprites.size(); i++)
 				{
-					pSprites[i]->setOpacity(pSprites[i]->getOpacity() - 5);
+					pSprites[i]->setOpacity(opacity);
 				}
+				opacity -= 4;
 			}
 			else
 			{

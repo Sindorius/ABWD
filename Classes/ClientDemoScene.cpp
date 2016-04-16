@@ -547,22 +547,24 @@ void ClientDemo::update(float dt)
 						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(16, 19)));
 						pEvent.tileSprites.push_back(blankCanvas->getTileAt(Vec2(16, 20)));
 					}
-					pEvent.init == true;
+					opacity = 252;
+					pEvent.init = true;
 				}
 				//gradually make blank canvases fade
-				if (pEvent.tileSprites[0]->getOpacity() > 0)
+				if (pEvent.tileSprites[0]->getDisplayedOpacity() > 0)
 				{
 					for (unsigned int i = 0; i < pEvent.tileSprites.size(); i++)
 					{
 						//pEvent.tileSprites[i]->setOpacity(pEvent.tileSprites[i]->getOpacity() - 5); <-- makes blank canvas layer blink
 						pEvent.tileSprites[i]->setOpacity(opacity);
 					}
-					opacity -= 5; 
+					opacity -= 4; 
 				}
 				else
 				{
 					pEvent.tileSprites.clear();
 					pEvent.canvasFade = false;
+					pEvent.init = false;
 				}
 			}
 		}
@@ -1197,6 +1199,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 				else if (msg.status == 5) //event started
 				{
 					pEvent.active = true;
+					blankCanvas->setVisible(true);
 				}
 			}
 			if (msg.ypos == 2) //phase-2 specific
@@ -1932,6 +1935,8 @@ void ClientDemo::loadLevel(int level)
 	if (blankCanvas != NULL)
 	{
 		blankCanvas->setCascadeOpacityEnabled(true);
+		//below is hack fix until check for client joining game in progress is coded in
+		blankCanvas->setVisible(false); //so players joining game in progress see paintings
 	}
 
 	spawnObjs = levelmanager.levelmap->objectGroupNamed("SpawnObjects");
