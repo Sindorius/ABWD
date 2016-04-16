@@ -64,6 +64,8 @@ public:
 	void linkPtera(Pterodactyl* pterodactyl);
 	void linkCandy(Candy* candies);
 	void setLevel(LevelManager* levelmanager);
+	void lowerReactW(void);
+	void incReactW(void);
 
 	void walkOn();
 	void teleportOn();
@@ -97,6 +99,19 @@ private:
 	bool flag = true;
 	bool pteraphase = 0;
 
+	//new vals for wait time before sam pursues candy
+	int sam_candy_dist = 0;
+	int player_candy_dist = 9999;
+	int player_dist_check = 0;
+	int reaction_time_weight = 8; //weight for player reaction time, default is avg human reaction time of 0.25s
+
+	//statistics
+
+	//how many times sam/player get candy
+	int sam_candy_score = 0;
+	int pl_candy_score = 0;
+
+
 	//timers
 	int teleport_cd = 150;
 	int secondary_time = 0;
@@ -107,6 +122,7 @@ private:
 	int teleport_fail_timer = 50;
 	int munch_time = 100;
 	int sprint_timer = 60;
+	int candy_wait = 0;
 
 	std::string animstate = "";
 

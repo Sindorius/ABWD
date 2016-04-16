@@ -16,16 +16,21 @@ public:
 	void setPlayernum(int playernum){ playernumber = playernum; };
 	void setHitpoints(int hp){ hitpoints = hp; }
 	int getHitpoints(){ return hitpoints; }
-
 	void setColor(std::string c) { color = c; }
 	std::string getColor() { return color; }
 	void setAnim(std::string s) { animstate = s; }
 	std::string getAnim() { return animstate; }
+	void setSpeed(int s) { speed = s; }
+	int getSpeed(void) { return speed; }
+
+	int speedboost = 1;
+
+private:
 
 	int playernumber = 0;
 	int inventoryitem = 0;
+	int speed = 2;
 	int hitpoints = 1;
-	int speedboost = 1;
 
 	std::string color = "";
 	std::string animstate = "";

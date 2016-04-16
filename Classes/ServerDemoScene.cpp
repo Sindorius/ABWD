@@ -101,15 +101,15 @@ bool ServerDemo::init()
 	player4->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(player4, 0);
 
+	player1->setVisible(false);
+	player2->setVisible(false);
+	player3->setVisible(false);
+	player4->setVisible(false);
+
 	players.push_back(player1);
 	players.push_back(player2);
 	players.push_back(player3);
 	players.push_back(player4);
-
-	//player1->setVisible(false);
-	//player2->setVisible(false);
-	//player3->setVisible(false);
-	//player4->setVisible(false);
 
 	serversam = ServerSam::create(this);
 	serversam->getTexture()->setAliasTexParameters();
@@ -446,16 +446,38 @@ char ServerDemo::getActiveChars()
 	if (sessionmapped[1])
 	{
 		returnchar = returnchar | p1mask;
+		player1->setVisible(true);
+	}
+	else
+	{
+		player1->setVisible(false);
 	}
 	if (sessionmapped[2])
 	{
 		returnchar = returnchar | p2mask;
-	}if (sessionmapped[3])
+		player2->setVisible(true);
+	}
+	else
+	{
+		player2->setVisible(false);
+	}
+	if (sessionmapped[3])
 	{
 		returnchar = returnchar | p3mask;
-	}if (sessionmapped[4])
+		player3->setVisible(true);
+	}
+	else
+	{
+		player3->setVisible(false);
+	}
+	if (sessionmapped[4])
 	{
 		returnchar = returnchar | p4mask;
+		player4->setVisible(true);
+	}
+	else
+	{
+		player4->setVisible(false);
 	}
 	return returnchar;
 }
@@ -854,9 +876,9 @@ void ServerDemo::loadLevel(int level)
 		enqueueMessage(ServerMessage(19, 1, 0, 5)); //tells client to start sam painting event
 	}
 	else if (level == 4) {
-		serversam->pteraOn();
+		serversam->pteraOff();
 		serversam->candyOn();
-		serversam->teleportOn();
+		serversam->teleportOff();
 		serversam->walkOn();
 		samInitPos.set(Vec2(376, 300));
 		serversam->setPosition(samInitPos);

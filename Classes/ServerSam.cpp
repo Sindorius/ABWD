@@ -365,23 +365,19 @@ void ServerSam::munch() {
 	if (flag) {
 		
 		int theta = (rand() % 360);
-		//newX cannot be outside collision/blockage map x-boundaries or game will crash (0-600)
+		//newX cannot be outside collision/blockage map x-boundaries or game will crash
 		int newX = abs((this->getPositionX() - candy_spawn_distance*(cos(theta * 3.14159 / 180))));
-		//normalizedX below cannot be above blockage._layerSize.width-1 which is 24
-		//the - 1 below prevents normalizedX = (600 - 0) / 24 = 25 and truncates it to 24 via integer division
+		//normalizedX below cannot be above blockage._layerSize.width-1
+		//the - 1 below prevents normalizedX from reaching blockage map bounadries and crashing game
 		int normalizedX = abs((lvm->levelmap->getMapSize().width * lvm->levelmap->getTileSize().width) - newX - 1) / (lvm->levelmap->getTileSize().width); 
-		//newY cannot be outside collision/blockage map y-boundaries or game will crash (0-360)
+		//newY cannot be outside collision/blockage map y-boundaries or game will crash 
 		int newY = abs(this->getPositionY() - candy_spawn_distance*(sin(theta * 3.14159 / 180)));
-		//normalizedY below cannot be above blockage._layerSize.height-1 which is 14
-		//the - 1 below prevents normalizedX = (360 - 0) / 24 = 15 and truncates it to 14 via integer division
+		//normalizedY below cannot be above blockage._layerSize.height-1
+		//the - 1 below prevents normalizedY from reaching blockage map bounadries and crashing game
 		int normalizedY = abs((lvm->levelmap->getMapSize().height * lvm->levelmap->getTileSize().height) - newY - 1) / (lvm->levelmap->getTileSize().height);
 		//normalizedX,normalizedY are tile coords and need to be within the actual tile (not pixel) dimensions of the collision/blockage map, or game will crash
 		Vec2 tileCoord = Vec2(normalizedX, normalizedY);
 		
-		//if (normalizedX > 24 || normalizedX < 0 || normalizedY > 14 || normalizedY < 0)
-		//{
-		//	int test = 50; //using as breakpoint to test code
-		//}
 		if (blockage != NULL)
 		{
 			int bkTile = blockage->getTileGIDAt(tileCoord);
@@ -406,37 +402,75 @@ void ServerSam::munch() {
 			flag = false;
 			candy->setPosition(newX, newY);
 			candy->setStatus(true);
-		}
+
+			//If sam is closer to candy cane, make her wait long enough for closest player to catch up:
+
+			//get sam's distance from candy; d=sqrt((x_2 - x_1)^2 + (y_2 - y_1)^2)
+			sam_candy_dist = (int)(sqrt((int)(pow((newX - this->getPositionX()), 2)) + (int)(pow((newY - this->getPositionY()), 2))));
+			//find player closest to candy cane
+			for (unsigned int i = 0; i < player_list->size(); i++) 
+			{
+				if (player_list->at(i)->isVisible())
+				{
+					player_dist_check = sqrt(pow((newX - player_list->at(i)->getPositionX()), 2) + pow((newY - player_list->at(i)->getPositionY()), 2));
+					//if player i is closer to candy than anyone checked previously, 
+					//set as closest player distance to candy
+					if (player_dist_check < player_candy_dist)
+					{
+						player_candy_dist = player_dist_check;
+					}
+				}
+			}
+			//if sam is closer to candy than any player, make sam wait
+			//to pursue candy for the amount of time it would take the
+			//closest player to catch up
+            if (sam_candy_dist < player_candy_dist) 
+			{
+				//candy_wait = (how much closer sam is to candy than player) / how many pixels a player can move per frame
+				candy_wait = ((player_candy_dist - sam_candy_dist) / 2) + reaction_time_weight;
+			}
+			else
+			{
+				//below is a multipler that makes sam's speed fast enough to get to candy at the same time as player
+				walk_speed *= ((player_list->at(0)->getSpeed() * sam_candy_dist) / (player_candy_dist * walk_speed));
+				candy_wait = reaction_time_weight;
+			}
+			}
 	}
 	if (resume) {
-		double theta = 0;
-		if (candy->getPositionX() >= this->getPositionX()) {
-			theta = atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159;
-		}
-		else if (candy->getPositionX() > this->getPositionY()) {
-			theta = 180 + (atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159);
-		}
-		else {
-			theta = -180 + atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159;
-		}
+		if (candy_wait <= 0)
+		{
+			double theta = 0;
+			if (candy->getPositionX() >= this->getPositionX()) {
+				theta = atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159;
+			}
+			else if (candy->getPositionX() > this->getPositionY()) {
+				theta = 180 + (atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159);
+			}
+			else {
+				theta = -180 + atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159;
+			}
 
-		this->setPositionX(this->getPositionX() + walk_speed*(cos(theta * 3.14159 / 180)));
-		this->setPositionY(this->getPositionY() + walk_speed*(sin(theta * 3.14159 / 180)));
+			this->setPositionX(this->getPositionX() + walk_speed*(cos(theta * 3.14159 / 180)));
+			this->setPositionY(this->getPositionY() + walk_speed*(sin(theta * 3.14159 / 180)));
 
-		if (theta > 45 && theta < 135) {
-			setAnim("samup");
+			if (theta > 45 && theta < 135) {
+				setAnim("samup");
+			}
+			else if (theta >= 135 || theta <= -135) {
+				setAnim("samleft");
+			}
+			else if (theta <= 45 && theta >= -45) {
+				setAnim("samright");
+			}
+			else if (theta < -45 && theta > -135) {
+				setAnim("samdown");
+			}
 		}
-		else if (theta >= 135 || theta <= -135) {
-			setAnim("samleft");
+		else
+		{
+			candy_wait--;
 		}
-		else if (theta <= 45 && theta >= -45) {
-			setAnim("samright");
-		}
-		else if (theta < -45 && theta > -135) {
-			setAnim("samdown");
-		}
-
-
 		for (unsigned int i = 0; i < player_list->size(); i++) {
 			if (abs(player_list->at(i)->getPositionX() - candy->getPositionX()) < 10 && abs(player_list->at(i)->getPositionY() - candy->getPositionY()) < 10 && candy->notCollected()) {
 				candy->setStatus(false);
@@ -446,6 +480,24 @@ void ServerSam::munch() {
 				flag = true;
 				behavior_timer = 150;
 				behavior = 5;
+				pl_candy_score++;
+				walk_speed = 2; //set sam speed back to normal
+				player_candy_dist = 9999; //set this back to default value
+				//check sam-player candy acquisition ratio + adjust reaction time weight
+				//every 2 times the candy is picked up
+				if (sam_candy_score + pl_candy_score % 2 == 0)
+				{
+					int check = sam_candy_score - pl_candy_score;
+					//if sam is getting more candy than players, 
+					//make her wait longer before running to candy
+					if (check > 0) {
+						incReactW();
+					}
+					//if sam is getting less candy, make her wait less
+					else if (check < 0) {
+						lowerReactW();
+					}
+				}
 				serverptr->enqueueMessage(ServerMessage(8, 0, 0, i + 1));
 			}
 		}
@@ -456,6 +508,23 @@ void ServerSam::munch() {
 			behavior_timer = 150;
 			flag = true;
 			walk_speed = 4;
+			sam_candy_score++;
+			player_candy_dist = 9999; //set this back to default value
+			//check sam-player candy acquisition ratio + adjust reaction time weight
+			//every 2 times the candy is picked up
+			if (sam_candy_score + pl_candy_score % 2 == 0)
+			{
+				int check = sam_candy_score - pl_candy_score;
+				//if sam is getting more candy than players, 
+				//make her wait longer before running to candy
+				if (check > 0) {
+					incReactW();
+				}
+				//if sam is getting less candy, make her wait less
+				else if (check < 0) {
+					lowerReactW();
+				}
+			}
 		}
 	}
 	else {
@@ -580,3 +649,22 @@ void ServerSam::pteraOn() {
 		behaviors.push_back(2);
 	}
 }
+
+void ServerSam::lowerReactW(void) {
+	//5 frames is bottom limt of reaction time weight.
+	//5 frames at 30 fps is 0.167s and fastest possible human reaction time is 0.15s
+	if (reaction_time_weight > 5) {
+		reaction_time_weight--;
+	}
+}
+
+void ServerSam::incReactW(void) {
+	//15 frames is upper limt of reaction time weight.
+	//15 frames at 30 fps is 0.5s which is kind of the upper outlier of normal human reaction time
+	if (reaction_time_weight < 15) {
+		reaction_time_weight++;
+	}
+}
+
+//For lovely statistics on human reaction time, check out
+//http://www.humanbenchmark.com/tests/reactiontime/statistics
