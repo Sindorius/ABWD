@@ -876,9 +876,9 @@ void ServerDemo::loadLevel(int level)
 		enqueueMessage(ServerMessage(19, 1, 0, 5)); //tells client to start sam painting event
 	}
 	else if (level == 4) {
-		serversam->pteraOff();
+		serversam->pteraOn();
 		serversam->candyOn();
-		serversam->teleportOff();
+		serversam->teleportOn();
 		serversam->walkOn();
 		samInitPos.set(Vec2(376, 300));
 		serversam->setPosition(samInitPos);
