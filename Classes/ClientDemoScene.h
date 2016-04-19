@@ -54,6 +54,7 @@ private:
 	Sprite* orangeBucket;
 
 	Sprite* tileHighlight;
+	Sprite* bucketHighlight;
 	
 
 	Player* player1;
@@ -170,6 +171,8 @@ public:
 	unsigned int pIFrames[4] = { 0,0,0,0 }; //temporary iframes fix for sfx until real iframes implemented
 	void processSound(ServerPositionPacket &p);
 	void initializeSound();
+
+	void highlightBuckets(void);
 	
 	//currentarray = keytilevalues;
 	
