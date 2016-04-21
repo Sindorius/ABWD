@@ -443,7 +443,7 @@ void ClientDemo::update(float dt)
 		//////////////////////
 
 		////////////////////////////////////////////////////// NEW CODE
-		if (transitionManager.timer_status())
+		if (transitionManager.timer_status()) //check if transition is over, timer at 0
 		{
 			NotInTransition = true;
 

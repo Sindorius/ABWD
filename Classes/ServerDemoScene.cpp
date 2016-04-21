@@ -393,28 +393,40 @@ void ServerDemo::update(float dt)
 			}
 		}
 		*/
-
-
-		if (levelmanager.puzzle.isSolved())
+		//let players admire their finished puzzles for a few seconds
+		if (solved_timer_start == true)
 		{
-			if (levelmanager.currentlevel == 1)
+			if (solved_timer <= 0)
 			{
-				loadLevel(2);
+				if (levelmanager.currentlevel == 1)
+				{
+					loadLevel(2);
+				}
+				else if (levelmanager.currentlevel == 2)
+				{
+					loadLevel(3);
+				}
+				else if (levelmanager.currentlevel == 3)
+				{
+					loadLevel(4);
+				}
+				else if (levelmanager.currentlevel == 4)
+				{
+					enqueueMessage(ServerMessage(15, 0, 0, 0));
+					loadLevel(1);
+				}
+				solved_timer = 60;
+				solved_timer_start = false;
+				sendmap = true;
 			}
-			else if (levelmanager.currentlevel == 2)
+			else
 			{
-				loadLevel(3);
+				solved_timer--;
 			}
-			else if (levelmanager.currentlevel == 3)
-			{
-				loadLevel(4);
-			}
-			else if (levelmanager.currentlevel == 4)
-			{
-				enqueueMessage(ServerMessage(15, 0, 0, 0));
-				loadLevel(1);
-			}
-			sendmap = true;
+		}
+		if (solved_timer_start == false && levelmanager.puzzle.isSolved())
+		{
+			solved_timer_start = true;
 		}
 	}
 	else

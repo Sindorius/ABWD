@@ -60,6 +60,8 @@ private:
 		bool init = false;
 	};
 	scriptEvent paintEvent; //new level sam painting event
+	bool solved_timer_start = false;
+	int solved_timer = 60;
 	//cocos2d::CCTMXTiledMap* tileMap;
 	
 	cocos2d::CCTMXLayer* bucketlayer;
