@@ -2208,7 +2208,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 				gSound.pTrigs[i].samCollide = false;
 			}
 		}
-		else if (gSound.pTrigs[0].ptCollide == true && gSound.pTrigs[0].hasPainted == true)
+		else if (gSound.pTrigs[i].ptCollide == true && gSound.pTrigs[i].hasPainted == true)
 		{
 			if (false == isSFXPlaying[12])
 			{
