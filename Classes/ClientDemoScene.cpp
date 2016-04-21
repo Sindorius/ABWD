@@ -404,7 +404,7 @@ void ClientDemo::update(float dt)
 		}
 
 		if (levelmanager.currentlevel != 1) {
-			villain->setOpacity(255);
+			//villain->setOpacity(255); //turned off for new awesome fadein
 			villain->setZOrder(-villain->getPositionY());
 			pterodactyl->setOpacity(255);
 			pterodactyl->setZOrder(-pterodactyl->getPositionY());
@@ -443,7 +443,7 @@ void ClientDemo::update(float dt)
 		//////////////////////
 
 		////////////////////////////////////////////////////// NEW CODE
-		if (transitionManager.timer_status()) //check if transition is over, timer at 0
+		if (NotInTransition == false && transitionManager.timer_status()) //check if transition is over, timer at 0
 		{
 			NotInTransition = true;
 
@@ -451,6 +451,7 @@ void ClientDemo::update(float dt)
 			{
 				removeChild(ts);
 			}
+			villain->runAction(FadeIn::create(1.0f));
 		}
 		//////////
 		if (pEvent.active == false)
@@ -732,33 +733,45 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	//////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////
 	if (p.p1anim != 0 && player1->getAnim() != p1anims) {
-		player1->stopAllActions();
-		player1->runAction(RepeatForever::create(animationmanager.animationmap.at(p1anims)));
+		player1->stopAllActionsByTag(1);
+		RepeatForever* repeat = RepeatForever::create(animationmanager.animationmap.at(p1anims));
+		repeat->setTag(1);
+		player1->runAction(repeat);
 		player1->setAnim(p1anims);
 	}
 	if (p.p2anim != 0 && player2->getAnim() != p2anims) {
-		player2->stopAllActions();
-		player2->runAction(RepeatForever::create(animationmanager.animationmap.at(p2anims)));
+		player2->stopAllActionsByTag(1);
+		RepeatForever* repeat = RepeatForever::create(animationmanager.animationmap.at(p2anims));
+		repeat->setTag(1);
+		player2->runAction(repeat);
 		player2->setAnim(p2anims);
 	}
 	if (p.p3anim != 0 && player3->getAnim() != p3anims) {
-		player3->stopAllActions();
-		player3->runAction(RepeatForever::create(animationmanager.animationmap.at(p3anims)));
+		player3->stopAllActionsByTag(1);
+		RepeatForever* repeat = RepeatForever::create(animationmanager.animationmap.at(p3anims));
+		repeat->setTag(1);
+		player3->runAction(repeat);
 		player3->setAnim(p3anims);
 	}
 	if (p.p4anim != 0 && player4->getAnim() != p4anims) {
-		player4->stopAllActions();
-		player4->runAction(RepeatForever::create(animationmanager.animationmap.at(p4anims)));
+		player4->stopAllActionsByTag(1);
+		RepeatForever* repeat = RepeatForever::create(animationmanager.animationmap.at(p4anims));
+		repeat->setTag(1);
+		player4->runAction(repeat);
 		player4->setAnim(p4anims);
 	}
 	if (p.vanim != 0 && villain->getAnim() != vanims) {
-		villain->stopAllActions();
-		villain->runAction(RepeatForever::create(animationmanager.animationmap.at(vanims)));
+		villain->stopAllActionsByTag(1);
+		RepeatForever* repeat = RepeatForever::create(animationmanager.animationmap.at(vanims));
+		repeat->setTag(1);
+		villain->runAction(repeat);
 		villain->setAnim(vanims);
 	}
 	if (p.ptanim != 0 && pterodactyl->getAnim() != ptanims) {
-		pterodactyl->stopAllActions();
-		pterodactyl->runAction(RepeatForever::create(animationmanager.animationmap.at(ptanims)));
+		pterodactyl->stopAllActionsByTag(1);
+		RepeatForever* repeat = RepeatForever::create(animationmanager.animationmap.at(ptanims));
+		repeat->setTag(1);
+		pterodactyl->runAction(repeat);
 		pterodactyl->setAnim(ptanims);
 	}
 	
@@ -2007,17 +2020,20 @@ void ClientDemo::loadLevel(int level)
 	else if (level == 2) {
 		gSound.levelChange = true;
 		pterodactyl->setVisible(false);
-		villain->setVisible(true);
+		//villain->setVisible(true);
+		villain->setOpacity(0);
 	}
 	else if (level == 3) {
 		gSound.levelChange = true;
 		pterodactyl->setVisible(false);
-		villain->setVisible(true);
+		//villain->setVisible(true);
+		villain->setOpacity(0);
 	}
 	else if (level == 4) {
 		gSound.levelChange = true;
 		pterodactyl->setVisible(true);
-		villain->setVisible(true);
+		//villain->setVisible(true);
+		villain->setOpacity(0);
 	}
 
 	for (unsigned int i = 0; i < players.size(); i++)
@@ -2869,7 +2885,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 					else if ("true" == b)
@@ -2878,7 +2894,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 					else if ("true" == y) {
@@ -2886,7 +2902,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 					else if ("true" == o) {
@@ -2894,7 +2910,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 					else if ("true" == blk) {
@@ -2902,7 +2918,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 
@@ -2911,7 +2927,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 					else if ("true" == b3) {
@@ -2919,7 +2935,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 					else if ("true" == g1) {
@@ -2927,7 +2943,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 					else if ("true" == g2) {
@@ -2935,7 +2951,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 					else if ("true" == g3) {
@@ -2943,7 +2959,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 					///// ADDED THIS
@@ -2952,7 +2968,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 					else if ("true" == gy1) {
@@ -2960,7 +2976,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 					else if ("true" == gy2) {
@@ -2968,7 +2984,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 					else if ("true" == r2) {
@@ -2976,7 +2992,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 					else if ("true" == p) {
@@ -2984,7 +3000,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 					else if ("true" == r1) {
@@ -2992,7 +3008,7 @@ void ClientDemo::highlightBuckets(void)
 						test.x += 12;
 						test.y += 12;
 						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(255);
+						bucketHighlight->setOpacity(150);
 						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 				}
