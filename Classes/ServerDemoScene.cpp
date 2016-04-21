@@ -490,6 +490,7 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionpt
 		sessionmap.insert(boost::bimap<TCPSSession*, int>::value_type(sessionptr, p.playernum));
 		sessionmapped[p.playernum] = true;
 		players[p.playernum - 1]->setVisible(true);
+		sendmap = true; // hack fix until game-in-progress check made
 		servermessagequeue.emplace_back(ServerMessage(12, 0, 0, p.playernum));
 	}
 	else
