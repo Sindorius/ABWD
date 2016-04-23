@@ -1005,7 +1005,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	}
 	else if (msg.messagechar == 18)
 	{
-		if ((int)msg.xpos <= tilespritevector.size() && (int)msg.ypos <= tilespritevector[0].size()) //prevents out of bounds vector subscript, but essentially skips over servermessage?
+		if ((unsigned int)msg.xpos <= tilespritevector.size() && (unsigned int)msg.ypos <= tilespritevector[0].size()) //prevents out of bounds vector subscript, but essentially skips over servermessage?
 		{
 			if (msg.status == 0) //paint tile wet
 			{

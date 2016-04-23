@@ -568,7 +568,7 @@ void ServerSam::linkCandy(Candy* candies) {
 void ServerSam::walkOff() {
 	if (b_walk) {
 		b_walk = false;
-		for (int i = 0; i < behaviors.size(); i++) {
+		for (unsigned int i = 0; i < behaviors.size(); i++) {
 			if (behaviors[i] == 1) {
 				behaviors.erase(behaviors.begin() + i);
 				break;
@@ -582,8 +582,7 @@ void ServerSam::pteraOff() {
 	if (b_ptera) {
 		ptera->setVisible(false);
 		b_ptera = false;
-		int i;
-		for (i = 0; i < behaviors.size() != 2; i++) {
+		for (unsigned int i = 0; i < behaviors.size() != 2; i++) {
 			if (behaviors[i] == 2) {
 				behaviors.erase(behaviors.begin() + i);
 				break;
@@ -595,7 +594,7 @@ void ServerSam::pteraOff() {
 void ServerSam::teleportOff() {
 	if (b_teleport) {
 		b_teleport = false;
-		for (int i = 0; i < behaviors.size(); i++) {
+		for (unsigned int i = 0; i < behaviors.size(); i++) {
 			if (behaviors[i] == 3) {
 				behaviors.erase(behaviors.begin() + i);
 				break;
@@ -607,7 +606,7 @@ void ServerSam::teleportOff() {
 void ServerSam::candyOff() {
 	if (b_candy) {
 		b_candy = false;
-		for (int i = 0; i < behaviors.size() != 4; i++) {
+		for (unsigned int i = 0; i < behaviors.size() != 4; i++) {
 			if (behaviors[i] == 4) {
 				behaviors.erase(behaviors.begin() + i);
 				break;

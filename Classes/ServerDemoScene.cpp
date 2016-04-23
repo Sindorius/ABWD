@@ -59,17 +59,17 @@ bool ServerDemo::init()
 
 	levelmanager.changeLevel(1);
 	// Check to see if there is an object layer 
-	spawnObjs = levelmanager.levelmap->objectGroupNamed("SpawnObjects");
+	spawnObjs = levelmanager.levelmap->getObjectGroup("SpawnObjects");
 
 	if (spawnObjs == NULL) {
 		CCLOG("TMX map has SpawnObjects layer");
 	}
 
 	// Player spawn coordinates depend on tiled map
-	ValueMap playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
-	ValueMap playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
-	ValueMap playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
-	ValueMap playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
+	ValueMap playerOneSP = spawnObjs->getObject("P1spawnPoint");
+	ValueMap playerTwoSP = spawnObjs->getObject("P2spawnPoint");
+	ValueMap playerThreeSP = spawnObjs->getObject("P3spawnPoint");
+	ValueMap playerFourSP = spawnObjs->getObject("P4spawnPoint");
 		
 	player1 = Player::create(1);
 	player1->setPlayernum(1);
@@ -801,7 +801,7 @@ void ServerDemo::loadLevel(int level)
 	addChild(levelmanager.levelmap, -1000);
 
 	// Check to see if there is an object layer 
-	spawnObjs = levelmanager.levelmap->objectGroupNamed("SpawnObjects");
+	spawnObjs = levelmanager.levelmap->getObjectGroup("SpawnObjects");
 
 	blockage = levelmanager.levelmap->getLayer("Collision");
 	if (blockage != NULL)
@@ -822,10 +822,10 @@ void ServerDemo::loadLevel(int level)
 	}
 	else
 	{
-		ValueMap playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
-		ValueMap playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
-		ValueMap playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
-		ValueMap playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
+		ValueMap playerOneSP = spawnObjs->getObject("P1spawnPoint");
+		ValueMap playerTwoSP = spawnObjs->getObject("P2spawnPoint");
+		ValueMap playerThreeSP = spawnObjs->getObject("P3spawnPoint");
+		ValueMap playerFourSP = spawnObjs->getObject("P4spawnPoint");
 		player1->setPosition(Vec2(playerOneSP["x"].asInt(), playerOneSP["y"].asInt()));
 		player2->setPosition(Vec2(playerTwoSP["x"].asInt(), playerTwoSP["y"].asInt()));
 		player3->setPosition(Vec2(playerThreeSP["x"].asInt(), playerThreeSP["y"].asInt()));
