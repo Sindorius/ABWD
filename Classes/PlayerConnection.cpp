@@ -213,7 +213,7 @@ void PlayerConnection::Joystick(cocos2d::Event* event)
 
 			if (button1 == true && !b0 && !b1 && !b2 && !b3) //button was pushed then released
 			{
-
+				button1 = false;
 				begin_button->activate();
 			}
 

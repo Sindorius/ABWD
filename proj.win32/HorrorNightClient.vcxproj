@@ -153,6 +153,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\ClientAppDelegate.h" />
     <ClInclude Include="..\Classes\ClientDemoScene.h" />
     <ClInclude Include="..\Classes\ConfigFileInput.hpp" />
+    <ClInclude Include="..\Classes\GameMenu.h" />
     <ClInclude Include="..\Classes\GameOver.h" />
     <ClInclude Include="..\Classes\HowToPlay.h" />
     <ClInclude Include="..\Classes\LevelManager.hpp" />
@@ -193,6 +194,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Candy.cpp" />
     <ClCompile Include="..\Classes\ClientAppDelegate.cpp" />
     <ClCompile Include="..\Classes\ClientDemoScene.cpp" />
+    <ClCompile Include="..\Classes\GameMenu.cpp" />
     <ClCompile Include="..\Classes\GameOver.cpp" />
     <ClCompile Include="..\Classes\HowToPlay.cpp" />
     <ClCompile Include="..\Classes\LevelManager.cpp" />

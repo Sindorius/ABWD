@@ -67,6 +67,9 @@
     <ClInclude Include="..\Classes\GameOver.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\GameMenu.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
@@ -129,6 +132,9 @@
     <ClCompile Include="..\cocos2d\cocos\base\EventJoystick.cpp" />
     <ClCompile Include="..\cocos2d\cocos\base\EventListenerJoystick.cpp" />
     <ClCompile Include="..\Classes\GameOver.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameMenu.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

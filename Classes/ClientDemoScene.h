@@ -29,6 +29,9 @@
 #include "TransitionManager.h" // NEW CODE ADDED
 #include "MenuScene.h"
 #include "GameOver.h"
+#include "GameMenu.h"
+
+class GameMenu; //have to forward declare this class for some reason
 
 USING_NS_CC;
 using boost::asio::ip::udp;
@@ -79,6 +82,10 @@ private:
 
 	paintEvent pEvent;
 
+	GameMenu* gameMenuLayer;
+
+	bool isPaused = false;
+
 
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -97,10 +104,12 @@ public:
 	float ymove = 0;
 	bool button1 = false;
 	bool button2 = false; 
+	bool button3 = false;
 	bool needssync = false;
 	int playernum;
 	char currentlevel = 1;
 	int gameTimer = 65; //prevents camera jerking at start
+	bool alreadyPressed = false;
 	int opacity = 255;
 	ConfigFileInput setupdata;
 
@@ -173,6 +182,11 @@ public:
 	void initializeSound();
 
 	void highlightBuckets(void);
+
+	void PauseGame(void);
+	void ResumeGame(void);
+	void updateFromMenu(void);
+	void runEvents(void);
 	
 	//currentarray = keytilevalues;
 	
