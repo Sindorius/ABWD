@@ -2949,6 +2949,23 @@ void ClientDemo::ResumeGame(void)
 
 void ClientDemo::updateFromMenu(void)
 {
+	//check if player clicked resume game
+	if (gameMenuLayer->checkResume())
+	{
+		gameMenuLayer->setResume(false);
+		ResumeGame();
+	}
+	//check if player clicked exit game
+	if (gameMenuLayer->checkExit())
+	{
+		Director::getInstance()->end();
+		exit(0);
+	}
+	if (gameMenuLayer->checkVideo() != Director::getInstance()->getOpenGLView()->getFrameZoomFactor())
+	{
+		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(gameMenuLayer->checkVideo());
+	}
+	//set menu pos to center around camera pos
 	gameMenuLayer->SetMenuCamera(Vec2(Camera::getDefaultCamera()->getPositionX(), Camera::getDefaultCamera()->getPositionY() + 25));
 
 	//check if player turned music on in game menu
@@ -2983,18 +3000,6 @@ void ClientDemo::updateFromMenu(void)
 		gSound.sfxOn = false;
 		experimental::AudioEngine::stop(soundIDList[5]);
 		experimental::AudioEngine::stop(soundIDList[11]);
-	}
-	//check if player clicked resume game
-	if (gameMenuLayer->checkResume())
-	{
-		gameMenuLayer->setResume(false);
-		ResumeGame();
-	}
-	//check if player clicked exit game
-	if (gameMenuLayer->checkExit())
-	{
-		Director::getInstance()->end();
-		exit(0);
 	}
 }
 
