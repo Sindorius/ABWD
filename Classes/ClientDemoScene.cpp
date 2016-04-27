@@ -1929,13 +1929,27 @@ void ClientDemo::centerCamera()
 {
 	if (NotInTransition && levelmanager.currentlevel != 5) // CODE TO TRY
 	{
+		Vec2 camPos = Camera::getDefaultCamera()->getPosition();
+		Vec2 pPos = players[playernum - 1]->getPosition();
+
+		//if camera is further away from player position than normal, smooth camera
+		if (((abs(camPos.x - pPos.x) + abs(camPos.y - pPos.y)) > (players[playernum - 1]->getSpeed()*players[playernum - 1]->speedboost + players[playernum - 1]->getSpeed()*players[playernum - 1]->speedboost)))
+		{
+			//lerping tenth of distance
+			camPos.x += (pPos.x - camPos.x) * 0.1f;
+			camPos.y += (pPos.y - camPos.y) * 0.1f;
+			Camera::getDefaultCamera()->setPosition(camPos);
+		}
+		else
+		{
+			Camera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
+		}
 		transitionManager.start_timer = 60;
 		//if((players[playernum -1]->getPositionX() > 320 && players[playernum - 1]->getPositionX() < (levelmanager.levelmap->getMapSize().width*24)-320) || (players[playernum - 1]->getPositionY() > 180 && players[playernum - 1]->getPositionY() < (levelmanager.levelmap->getMapSize().height * 24) - 180))
-		CCCamera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
 	}
 	else
 	{
-		CCCamera::getDefaultCamera()->setPosition(winSizeWidth, winSizeHeight);
+		Camera::getDefaultCamera()->setPosition(winSizeWidth, winSizeHeight);
 	}
 }
 
@@ -1945,11 +1959,11 @@ void ClientDemo::samCam()
 	{
 		transitionManager.start_timer = 60;
 		//if((players[playernum -1]->getPositionX() > 320 && players[playernum - 1]->getPositionX() < (levelmanager.levelmap->getMapSize().width*24)-320) || (players[playernum - 1]->getPositionY() > 180 && players[playernum - 1]->getPositionY() < (levelmanager.levelmap->getMapSize().height * 24) - 180))
-		CCCamera::getDefaultCamera()->setPosition(villain->getPosition());
+		Camera::getDefaultCamera()->setPosition(villain->getPosition());
 	}
 	else
 	{
-		CCCamera::getDefaultCamera()->setPosition(winSizeWidth, winSizeHeight);
+		Camera::getDefaultCamera()->setPosition(winSizeWidth, winSizeHeight);
 	}
 }
 

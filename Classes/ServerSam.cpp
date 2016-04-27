@@ -365,39 +365,42 @@ void ServerSam::munch() {
 	if (flag) {
 		
 		int theta = (rand() % 360);
-		//newX cannot be outside collision/blockage map x-boundaries or game will crash
 		int newX = abs((this->getPositionX() - candy_spawn_distance*(cos(theta * 3.14159 / 180))));
-		//normalizedX below cannot be above blockage._layerSize.width-1
-		//the - 1 below prevents normalizedX from reaching blockage map bounadries and crashing game
-		int normalizedX = abs((lvm->levelmap->getMapSize().width * lvm->levelmap->getTileSize().width) - newX - 1) / (lvm->levelmap->getTileSize().width); 
-		//newY cannot be outside collision/blockage map y-boundaries or game will crash 
 		int newY = abs(this->getPositionY() - candy_spawn_distance*(sin(theta * 3.14159 / 180)));
-		//normalizedY below cannot be above blockage._layerSize.height-1
-		//the - 1 below prevents normalizedY from reaching blockage map bounadries and crashing game
-		int normalizedY = abs((lvm->levelmap->getMapSize().height * lvm->levelmap->getTileSize().height) - newY - 1) / (lvm->levelmap->getTileSize().height);
-		//normalizedX,normalizedY are tile coords and need to be within the actual tile (not pixel) dimensions of the collision/blockage map, or game will crash
-		Vec2 tileCoord = Vec2(normalizedX, normalizedY);
-		
-		if (blockage != NULL)
-		{
-			int bkTile = blockage->getTileGIDAt(tileCoord);
-			if (bkTile)
-			{
-				auto tilemapvals = lvm->levelmap->getPropertiesForGID(bkTile).asValueMap();
-				if (!tilemapvals.empty())
-				{
-					auto w = tilemapvals["Collidable"].asString();
 
-					if ("true" == w) {
-						resume = false;
+		//make sure new coords are within map boundaries
+		if (newX > ((lvm->levelmap->getMapSize().width - 1) * lvm->levelmap->getTileSize().width) || newY > ((lvm->levelmap->getMapSize().height - 1) * lvm->levelmap->getTileSize().height))
+		{
+			resume = false;
+		}
+		else
+		{
+			//int tileX = abs((lvm->levelmap->getMapSize().width * lvm->levelmap->getTileSize().width) - newX - 1) / (lvm->levelmap->getTileSize().width); 
+			int tileX = newX / lvm->levelmap->getTileSize().width;
+			int tileY = ((lvm->levelmap->getMapSize().height * lvm->levelmap->getTileSize().height) - newY) / (lvm->levelmap->getTileSize().height);
+			Vec2 tileCoord = Vec2(tileX, tileY);
+
+			if (blockage != NULL)
+			{
+				int bkTile = blockage->getTileGIDAt(tileCoord);
+				if (bkTile)
+				{
+					auto tilemapvals = lvm->levelmap->getPropertiesForGID(bkTile).asValueMap();
+					if (!tilemapvals.empty())
+					{
+						auto w = tilemapvals["Collidable"].asString();
+
+						if ("true" == w) {
+							resume = false;
+						}
 					}
 				}
 			}
+			else 
+			{
+				resume = false;
+			}
 		}
-		else {
-			resume = false;
-		}
-		
 		if (resume) {
 			flag = false;
 			candy->setPosition(newX, newY);
