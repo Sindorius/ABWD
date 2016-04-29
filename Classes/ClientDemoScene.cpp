@@ -3002,16 +3002,3 @@ void ClientDemo::runEvents(void)
 		}
 	}
 }
-
-Player* ClientDemo::addPlayer(int playernum)
-{
-	Player* player = Player::create(playernum);
-	player->setPlayernum(playernum);
-	std::string str = "P" + std::to_string(playernum);
-	player->addLabel(str, "fonts/arial.ttf", 9);
-	player->getTexture()->setAliasTexParameters();
-	player->setAnchorPoint(Vec2(0.5, 0.0));
-	players.push_back(player);
-	addChild(player, 0);
-	return player;
-}

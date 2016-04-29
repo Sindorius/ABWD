@@ -123,22 +123,6 @@ public:
 	std::string outstringbuffer;
 	TCPSplitter tcpsplitter;
 	TCPCSession* tcpsessionptr;
-
-	//PaintTile* tileptrarray[7][3];
-	
-	//std::vector<std::vector<PaintTile*>> tilespritevector;
-	/*std::vector<std::vector<int>> currenttilevector =
-	{ {
-		{ 1,1,1,1,1 },
-		{ 1,1,1,1,1 },
-		{ 1,1,1,1,1 },
-		{ 1,1,1,1,1 },
-		{ 1,1,1,1,1 },
-		{ 1,1,1,1,1 },
-		{ 1,1,1,1,1 },
-		{ 1,1,1,1,1 },
-		{ 1,1,1,1,1 }
-	} };*/
 	
 	std::vector<unsigned int> soundIDList; //keeps list of unique sound IDs
 	std::vector<bool> isSFXPlaying; //bools that check whether a certain sfx is playing
@@ -179,27 +163,17 @@ public:
 	void updateFromMenu(void);
 	void runEvents(void);
 
-	Player* addPlayer(int playernum);
-	
-	//currentarray = keytilevalues;
-
-
-	// Create the space function to handle the label color change
 	void space();
 	Point plyrCoordToTileCoord(int playerNum);
 	int getTileProperties(Point tileCoord);
 	void changeLabelColor(int bTile, int playerNum);
-	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	LevelManager levelmanager;
-	// NEW CODE ADDED 
 	TransitionManager transitionManager;
 	bool NotInTransition = true;
 	float winSizeWidth;
 	float winSizeHeight;
-	//////////////////
 
-	//// NEW CODE
 	bool playerOneActive = false;
 	bool playerTwoActive = false;
 	bool playerThreeActive = false;
@@ -208,7 +182,6 @@ public:
 	ValueMap playerTwoSP;
 	ValueMap playerThreeSP;
 	ValueMap playerFourSP;
-	////////////
 
 	void loadLevel(int level);
 	void setupPaintTiles();
