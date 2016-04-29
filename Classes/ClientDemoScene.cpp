@@ -1,17 +1,11 @@
 #include "ClientDemoScene.h"
 
 USING_NS_CC;
-//using boost::asio::ip::udp;
 using boost::asio::ip::tcp;
 
 int port = 10001;
 std::string ipaddress;
 int playerNumber;
-
-//**** IMPORTANT: MUSIC_ON is also defined in MenuScene.h so remember to toggle that one too to turn off menu music!
-
-
-
 
 Scene* ClientDemo::createScene()
 {
@@ -30,10 +24,10 @@ Scene* ClientDemo::createScene()
 
 Scene* ClientDemo::createScene(std::string ipA, int playerNum)
 {
-	ipaddress = ipA; // NEW CODE TO TRY
-	playerNumber = playerNum; // NEW CODE TO TRY
+	ipaddress = ipA;
+	playerNumber = playerNum;
 
-							  // 'scene' is an autorelease object
+	// 'scene' is an autorelease object
 	auto scene = Scene::create();
 
 	// 'layer' is an autorelease object
@@ -63,8 +57,8 @@ bool ClientDemo::init()
 	auto director = Director::getInstance();
 	auto glview = director->getOpenGLView();
 	float animint = director->getAnimationInterval();
-	CCLOG("from animint");
-	CCLOG(std::to_string(animint).c_str());
+	log("from animint");
+	log(std::to_string(animint).c_str());
 	int refreshrate = glview->getRunningRefreshRate();
 	if (refreshrate == 59)
 	{
@@ -74,8 +68,8 @@ bool ClientDemo::init()
 	{
 		refreshrate = 120;
 	}
-	CCLOG("from get refresh rate");
-	CCLOG(std::to_string(refreshrate).c_str());
+	log("from get refresh rate");
+	log(std::to_string(refreshrate).c_str());
 	int newswapinterval = refreshrate*animint;
 	if (newswapinterval < 1)
 	{
@@ -84,8 +78,8 @@ bool ClientDemo::init()
 	swapframes = newswapinterval;
 	swapframecounter = newswapinterval;
 
-	CCLOG("from newswapinterval");
-	CCLOG(std::to_string(newswapinterval).c_str());
+	log("from newswapinterval");
+	log(std::to_string(newswapinterval).c_str());
 	*/
 
 	std::ifstream is("config.json");
@@ -105,13 +99,13 @@ bool ClientDemo::init()
 	strncpy(mycp2, std::to_string(port).c_str(), 32); // NEW CODE TO TRY
 	playernum = playerNumber; // NEW CODE TO TRY
 
-	CCLOG("setting player number");
-	CCLOG(std::to_string(playernum).c_str());
+	log("setting player number");
+	log(std::to_string(playernum).c_str());
 	try
 	{
-		CCLOG("setting up tcp interface");
-		CCLOG(mycp1);
-		CCLOG(mycp2);
+		log("setting up tcp interface");
+		log(mycp1);
+		log(mycp2);
 		//boost::asio::io_service io_service;
 		io_service_p = new boost::asio::io_service;
 
@@ -134,119 +128,39 @@ bool ClientDemo::init()
 	catch (std::exception& e)
 	{
 		std::cerr << "Exception: " << e.what() << "\n";
-		CCLOG("exception");
-		CCLOG(e.what());
+		log("exception");
+		log(e.what());
 	}
-
-
-	levelmanager.changeLevel(1);
-	addChild(levelmanager.levelmap, -1000);
-	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
-	blockage = levelmanager.levelmap->getLayer("Collision");
-	blockage->setVisible(false);
-
-	//////////////////////////////////////////////////////////////////////// NEW CODE HERE!!!
-	spawnObjs = levelmanager.levelmap->objectGroupNamed("SpawnObjects");
-
-	if (spawnObjs == NULL) {
-		CCLOG("TMX map has SpawnObjects layer");
-	}
-
-	playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
-	playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
-	playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
-	playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
-
-	////////////////////
 
 
 	player1 = Player::create(1);
-	player1->setPlayernum(1);
-	player1->getTexture()->setAliasTexParameters();
-	player1->setAnchorPoint(Vec2(0.5, 0.0));
-	player1->setPosition(Vec2(playerOneSP["x"].asInt(), playerOneSP["y"].asInt()));
 	addChild(player1, 0);
-	
 	player2 = Player::create(2);
-	player2->setPlayernum(2);
-	player2->getTexture()->setAliasTexParameters();
-	player2->setAnchorPoint(Vec2(0.5, 0.0));
-	player2->setPosition(Vec2(playerTwoSP["x"].asInt(), playerTwoSP["y"].asInt()));
 	addChild(player2, 0);
-	
 	player3 = Player::create(3);
-	player3->setPlayernum(3);
-	player3->getTexture()->setAliasTexParameters();
-	player3->setAnchorPoint(Vec2(0.5, 0.0));
-	player3->setPosition(Vec2(playerThreeSP["x"].asInt(), playerThreeSP["y"].asInt()));
 	addChild(player3, 0);
-	
 	player4 = Player::create(4);
-	player4->setPlayernum(4);
-	player4->getTexture()->setAliasTexParameters();
-	player4->setAnchorPoint(Vec2(0.5, 0.0));
-	player4->setPosition(Vec2(playerFourSP["x"].asInt(), playerFourSP["y"].asInt()));
 	addChild(player4, 0);
-	
 	players.push_back(player1);
 	players.push_back(player2);
 	players.push_back(player3);
 	players.push_back(player4);
 
-	villain = Villain::create();
-	villain->getTexture()->setAliasTexParameters();
-	villain->setAnchorPoint(Vec2(0.5, 0.0));
-	villain->setPosition(Vec2(-250, -150));
-
-	villain->setOpacity(0); ///////////////// NEW CODE
+	villain = Villain::create(false);
 	addChild(villain, 0);
 
-	pterodactyl = Pterodactyl::create();
-	pterodactyl->getTexture()->setAliasTexParameters();
-	pterodactyl->setAnchorPoint(Vec2(0.5, 0.0));
-	pterodactyl->setPosition(Vec2(50, 50));
-	pterodactyl->setOpacity(0);
+	pterodactyl = Pterodactyl::create(false);
 	addChild(pterodactyl, 0);
 
 	candy = Candy::create();
-	candy->getTexture()->setAliasTexParameters();
-	candy->setPosition(Vec2(-1000, -1000));
-	candy->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(candy, 0);
 
-	// Player Label Creation
-	p1CLabel = CCLabelTTF::create("P1", "fonts/Marker Felt.ttf", 9);
-	p1CLabel->enableStroke(ccColor3B(255, 0, 0), 20.0, true);
-	p1CLabel->enableShadow(CCSize(1, 0), 50.0, 0.0, true);
-	p1CLabel->setPosition(Vec2(player1->getPositionX() - 106, player1->getPositionY() - 108));
-	p1CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
-
-	player1->addChild(p1CLabel, 100);
-
-	p2CLabel = CCLabelTTF::create("P2", "fonts/Marker Felt.ttf", 9);
-	p2CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
-	p2CLabel->setPosition(Vec2(player2->getPositionX() - 58, player2->getPositionY() - 136));
-	p2CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
-	player2->addChild(p2CLabel, 100);
-
-	p3CLabel = CCLabelTTF::create("P3", "fonts/Marker Felt.ttf", 9);
-	p3CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
-	p3CLabel->setPosition(Vec2(player3->getPositionX() - 344, player3->getPositionY() - 114));
-	p3CLabel->setAnchorPoint(Vec2(0.5, 0.0));
-	p3CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
-	player3->addChild(p3CLabel, 100);
-
-	p4CLabel = CCLabelTTF::create("P4", "fonts/Marker Felt.ttf", 9);
-	p4CLabel->enableShadow(CCSize(1, 0), 50.0, 50.0, true);
-	p4CLabel->setPosition(Vec2(player4->getPositionX() - 396, player4->getPositionY() - 136));
-	p4CLabel->setAnchorPoint(Vec2(0.5, 0.0));
-	p4CLabel->setOpacity(0); /////////////////////////////////////////////////////////////// NEW CODE HERE!!!
-	player4->addChild(p4CLabel, 100);
-
 	tileHighlight = Sprite::create("res//sprites//select_tile.png");
-	tileHighlight->setPosition(0, 0);
-	addChild(tileHighlight, -900);
-
+	if (nullptr != tileHighlight)
+	{
+		tileHighlight->setPosition(0, 0);
+		addChild(tileHighlight, -900);
+	}
 	bucketHighlight = Sprite::create("res//sprites//bucket_highlight.png");
 	
 	if (nullptr != bucketHighlight)
@@ -255,22 +169,16 @@ bool ClientDemo::init()
 		addChild(bucketHighlight, -901);
 	}
 
+	loadLevel(1);
+
 	//create Game Menu
 	gameMenuLayer = GameMenu::createGameMenu();
 
 	addChild(gameMenuLayer, 1000); //so its above everything, including transition screen
 
 
-	winSizeWidth = CCDirector::sharedDirector()->getWinSize().width / 2; // CODE TO TRY
-	winSizeHeight = CCDirector::sharedDirector()->getWinSize().height / 2; // CODE TO TRY
-
-	for (Sprite* s : levelmanager.levelsprites)
-	{
-		addChild(s, -999);
-	}
-
-	// Initialize painting area 
-	setupPaintTiles();
+	winSizeWidth = Director::getInstance()->getWinSize().width / 2;
+	winSizeHeight = Director::getInstance()->getWinSize().height / 2;
 
 	//AUDIO INITIALIZATION
 	if (gSound.audioOn)
@@ -278,22 +186,7 @@ bool ClientDemo::init()
 		initializeSound(); //all sound initialization is in here now, cleaner
 	}
 	playernum = playerNumber;
-	if (playernum == 1)
-	{
-		p1CLabel->setOpacity(255);
-	}
-	if (playernum == 2)
-	{
-		p2CLabel->setOpacity(255);
-	}
-	if (playernum == 3)
-	{
-		p3CLabel->setOpacity(255);
-	}
-	if (playernum == 4)
-	{
-		p4CLabel->setOpacity(255);
-	}
+	players[playernum - 1]->getLabel()->setOpacity(255);
 	for (int i = 1; i <= 4; i++)
 	{
 		if(playernum != i)
@@ -347,7 +240,7 @@ void ClientDemo::update(float dt)
 	//if (levelmanager.currentlevel > 4)
 	//{
 //		auto GOScene = GameOver::createGameOver();
-//		CCDirector::getInstance()->replaceScene(GOScene);
+//		Director::getInstance()->replaceScene(GOScene);
 //	}
 	//////////////////
 	if (isPaused == true)
@@ -360,11 +253,11 @@ void ClientDemo::update(float dt)
 		players[playernum - 1]->setPositionY(players[playernum - 1]->getPositionY() + ymove * players[playernum - 1]->speedboost);
 	}
 
-	CCLOG("UPDATE DT");
-	CCLOG(std::to_string(dt).c_str());
+	log("UPDATE DT");
+	log(std::to_string(dt).c_str());
 
 	io_service_p->poll();
-	//CCLOG("POLLING");
+	//log("POLLING");
 	if (pEvent.active == false)
 	{
 		if (isPaused == false)
@@ -378,9 +271,9 @@ void ClientDemo::update(float dt)
 				outar(p2);
 				outstringbuffer = os2.str();
 
-				CCLOG("outstringbuffer length");
-				CCLOG(std::to_string(outstringbuffer.length()).c_str());
-				CCLOG("sending packet");
+				log("outstringbuffer length");
+				log(std::to_string(outstringbuffer.length()).c_str());
+				log("sending packet");
 				tcpsessionptr->writewithstringbuffer(outstringbuffer);
 				io_service_p->poll_one();
 			}
@@ -390,17 +283,17 @@ void ClientDemo::update(float dt)
 		tileHighlight->setOpacity(0);
 		//bucketHighlight->setOpacity(0);
 
-		for (unsigned int i = 0; i < tilespritevector.size(); i++)
+		for (unsigned int i = 0; i < levelmanager.puzzle.tilespritevector.size(); i++)
 		{
-			for (unsigned int j = 0; j < tilespritevector[i].size(); j++)
+			for (unsigned int j = 0; j < levelmanager.puzzle.tilespritevector[i].size(); j++)
 			{
-				if (players[playernum - 1]->getPositionX() > tilespritevector[i][j]->getPositionX() - 12
-					&& players[playernum - 1]->getPositionX() < tilespritevector[i][j]->getPositionX() + 12
-					&& players[playernum - 1]->getPositionY() > tilespritevector[i][j]->getPositionY() - 12
-					&& players[playernum - 1]->getPositionY() < tilespritevector[i][j]->getPositionY() + 12)
+				if (players[playernum - 1]->getPositionX() > levelmanager.puzzle.tilespritevector[i][j]->getPositionX() - 12
+					&& players[playernum - 1]->getPositionX() < levelmanager.puzzle.tilespritevector[i][j]->getPositionX() + 12
+					&& players[playernum - 1]->getPositionY() > levelmanager.puzzle.tilespritevector[i][j]->getPositionY() - 12
+					&& players[playernum - 1]->getPositionY() < levelmanager.puzzle.tilespritevector[i][j]->getPositionY() + 12)
 				{
 					tileHighlight->setOpacity(255);
-					tileHighlight->setPosition(tilespritevector[i][j]->getPositionX(), tilespritevector[i][j]->getPositionY());
+					tileHighlight->setPosition(levelmanager.puzzle.tilespritevector[i][j]->getPositionX(), levelmanager.puzzle.tilespritevector[i][j]->getPositionY());
 					gSound.pTrigs[playernum - 1].onGrid = true;
 				}
 			}
@@ -480,7 +373,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 		//cocos2d::experimental::AudioEngine::end();
 		//return;
 	//}
-	if (currentlevel != p.level)
+	if (levelmanager.currentlevel != p.level)
 	{
 		loadLevel(p.level);
 	}
@@ -598,8 +491,8 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	}
 	
 	updateTilesFromPacket(p);
-	//CCLOG(std::to_string(currenttilevector[0][0]).c_str());
-	//CCLOG(std::to_string(p.tilevector[0][0]).c_str());
+	//log(std::to_string(currenttilevector[0][0]).c_str());
+	//log(std::to_string(p.tilevector[0][0]).c_str());
 
 	if (gSound.audioOn && gSound.sfxOn)
 	{
@@ -621,39 +514,39 @@ void ClientDemo::setVisiblePlayers(char activechars)
 	if (p1there == p1mask || playernum == 1)
 	{
 		player1->setVisible(true);
-		p1CLabel->setOpacity(255);
+		player1->getLabel()->setOpacity(255);
 	}
 	else {
 		player1->setVisible(false);
-		p1CLabel->setOpacity(0);
+		player1->getLabel()->setOpacity(0);
 	}
 	if (p2there == p2mask || playernum == 2)
 	{
 		player2->setVisible(true);
-		p2CLabel->setOpacity(255);
+		player2->getLabel()->setOpacity(255);
 	}
 	else {
 		player2->setVisible(false);
-		p2CLabel->setOpacity(0);
+		player2->getLabel()->setOpacity(0);
 	}
 	if (p3there == p3mask || playernum == 3)
 	{
 		player3->setVisible(true);
-		p3CLabel->setOpacity(255);
+		player3->getLabel()->setOpacity(255);
 	}
 	else {
 		player3->setVisible(false);
-		p3CLabel->setOpacity(0);
+		player3->getLabel()->setOpacity(0);
 
 	}
 	if (p4there == p4mask || playernum == 4)
 	{
 		player4->setVisible(true);
-		p4CLabel->setOpacity(255);
+		player4->getLabel()->setOpacity(255);
 	}
 	else {
 		player4->setVisible(false);
-		p4CLabel->setOpacity(0);
+		player4->getLabel()->setOpacity(0);
 	}
 }
 
@@ -669,167 +562,167 @@ void ClientDemo::updateTilesFromPacket(ServerPositionPacket p)
 				levelmanager.puzzle.currenttilevector[i][j] = p.tilevector[i][j];
 				if (levelmanager.puzzle.currenttilevector[i][j] == 1)
 				{
-					tilespritevector[i][j]->setColor("clear");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("clear");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 2)
 				{
-					tilespritevector[i][j]->setColor("red");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("red");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 3)
 				{
-					tilespritevector[i][j]->setColor("blue");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("blue");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 4)
 				{
-					tilespritevector[i][j]->setColor("yellow");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("yellow");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 5)
 				{
-					tilespritevector[i][j]->setColor("orange");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("orange");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 6)
 				{
-					tilespritevector[i][j]->setColor("black");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("black");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 7)
 				{
-					tilespritevector[i][j]->setColor("blue2");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("blue2");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 8)
 				{
-					tilespritevector[i][j]->setColor("blue3");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("blue3");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 9)
 				{
-					tilespritevector[i][j]->setColor("green1");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("green1");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 10)
 				{
-					tilespritevector[i][j]->setColor("green2");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("green2");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 11)
 				{
-					tilespritevector[i][j]->setColor("green3");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("green3");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				// NEW CODE HERE
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 12)
 				{
-					tilespritevector[i][j]->setColor("white");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("white");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 13)
 				{
-					tilespritevector[i][j]->setColor("grey1");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("grey1");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 14)
 				{
-					tilespritevector[i][j]->setColor("grey2");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("grey2");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 15)
 				{
-					tilespritevector[i][j]->setColor("red2");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("red2");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 16)
 				{
-					tilespritevector[i][j]->setColor("purple1");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("purple1");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 17)
 				{
-					tilespritevector[i][j]->setColor("red1");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("red1");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				///////////////
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 20)
 				{
-					tilespritevector[i][j]->setColor("Xred1");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xred1");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 30)
 				{
-					tilespritevector[i][j]->setColor("Xblue");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xblue");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 40)
 				{
-					tilespritevector[i][j]->setColor("Xyellow");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xyellow");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 50)
 				{
-					tilespritevector[i][j]->setColor("Xorange");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xorange");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 60)
 				{
-					tilespritevector[i][j]->setColor("Xblack");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xblack");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 70)
 				{
-					tilespritevector[i][j]->setColor("Xblue2");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xblue2");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 71)
 				{
-					tilespritevector[i][j]->setColor("Xblue3");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xblue3");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 72)
 				{
-					tilespritevector[i][j]->setColor("Xgreen1");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xgreen1");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 73)
 				{
-					tilespritevector[i][j]->setColor("Xgreen2");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xgreen2");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 74)
 				{
-					tilespritevector[i][j]->setColor("Xgreen3");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xgreen3");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 75)
 				{
-					tilespritevector[i][j]->setColor("Xwhite");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xwhite");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 76)
 				{
-					tilespritevector[i][j]->setColor("Xgrey1");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xgrey1");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 77)
 				{
-					tilespritevector[i][j]->setColor("Xgrey2");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xgrey2");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 78)
 				{
-					tilespritevector[i][j]->setColor("Xred2");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xred2");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 				else if (levelmanager.puzzle.currenttilevector[i][j] == 79)
 				{
-					tilespritevector[i][j]->setColor("Xpurple1");
-					tilespritevector[i][j]->refreshColor();
+					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xpurple1");
+					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				}
 			}
 		}
@@ -884,7 +777,6 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	}
 	else if (msg.messagechar == 10)
 	{
-		currentlevel = msg.status;
 		loadLevel(msg.status);
 	}
 	else if (msg.messagechar == 11)
@@ -916,82 +808,86 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		_eventDispatcher->removeAllEventListeners();
 		cocos2d::experimental::AudioEngine::stopAll();
 		auto scene = GameOver::createGameOver();
-		CCDirector::getInstance()->replaceScene(scene);	
+		Director::getInstance()->replaceScene(scene);	
 	}
 	else if (msg.messagechar == 16)
 	{
-		auto labelcolor(ccc3(255, 255, 255));
+		auto labelcolor(Color3B(255, 255, 255));
 		switch (msg.status)
 		{
 		case 2: // red
-			labelcolor = ccc3(247, 52, 47);
+			labelcolor = Color3B(247, 52, 47);
 			break;
 		case 3: // blue
-			labelcolor = ccc3(49, 58, 197);
+			labelcolor = Color3B(49, 58, 197);
 			break;
 		case 4: // yellow 
-			labelcolor = ccc3(236, 250, 85);
+			labelcolor = Color3B(236, 250, 85);
 			break;
 		case 5: // orange
-			labelcolor = ccc3(234, 152, 26);
+			labelcolor = Color3B(234, 152, 26);
 			break;
 		case 6: // black
-			labelcolor = ccc3(36, 33, 25);
+			labelcolor = Color3B(36, 33, 25);
 			break;
 		case 7: 
-			labelcolor = ccc3(4, 31, 131);
+			labelcolor = Color3B(4, 31, 131);
 			break;
 		case 8: 
-			labelcolor = ccc3(1, 16, 73);
+			labelcolor = Color3B(1, 16, 73);
 			break;
 		case 9: 
-			labelcolor = ccc3(2, 123, 36);
+			labelcolor = Color3B(2, 123, 36);
 			break;
 		case 10: 
-			labelcolor = ccc3(11, 187, 60);
+			labelcolor = Color3B(11, 187, 60);
 			break;
 		case 11: 
-			labelcolor = ccc3(47, 247, 145);
+			labelcolor = Color3B(47, 247, 145);
 			break;
 		case 12: 
-			labelcolor = ccc3(255, 255, 255);
+			labelcolor = Color3B(255, 255, 255);
 			break;
 		case 13: 
-			labelcolor = ccc3(101, 141, 186);
+			labelcolor = Color3B(101, 141, 186);
 			break;
 		case 14: 
-			labelcolor = ccc3(203, 216, 229);
+			labelcolor = Color3B(203, 216, 229);
 			break;
 		case 15: // red2
-			labelcolor = ccc3(187, 11, 44);
+			labelcolor = Color3B(187, 11, 44);
 			break;
 		case 16:  // purple1
-			labelcolor = ccc3(148, 55, 122);
+			labelcolor = Color3B(148, 55, 122);
 			break;
 		case 17: 
-			labelcolor = ccc3(247, 52, 47);
+			labelcolor = Color3B(247, 52, 47);
 			break;
 
 
 		}
 		if (msg.xpos == 1)
 		{
-			p1CLabel->setFontFillColor(labelcolor);
+			//player1->getLabel()->setFontFillColor(labelcolor);
+			player1->getLabel()->setColor(labelcolor);
 			gSound.pTrigs[playernum - 1].onBucket = true;
 		}
 		if (msg.xpos == 2)
 		{
-			p2CLabel->setFontFillColor(labelcolor);
+			//player2->getLabel()->setFontFillColor(labelcolor);
+			player2->getLabel()->setColor(labelcolor);
 			gSound.pTrigs[playernum - 1].onBucket = true;
 		}
 		if (msg.xpos == 3)
 		{
-			p3CLabel->setFontFillColor(labelcolor);
+			//player3->getLabel()->setFontFillColor(labelcolor);
+			player3->getLabel()->setColor(labelcolor);
 			gSound.pTrigs[playernum - 1].onBucket = true;
 		}
 		if (msg.xpos == 4)
 		{
-			p4CLabel->setFontFillColor(labelcolor);
+			//player4->getLabel()->setFontFillColor(labelcolor);
+			player4->getLabel()->setColor(labelcolor);
 			gSound.pTrigs[playernum - 1].onBucket = true;
 		}
 
@@ -1001,21 +897,21 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	{
 		_eventDispatcher->removeAllEventListeners();
 		auto scene = ServerConnection::createServerConnection(ipaddress, activechars);
-		CCDirector::getInstance()->replaceScene(scene);
+		Director::getInstance()->replaceScene(scene);
 	}
 	else if (msg.messagechar == 18)
 	{
-		if ((unsigned int)msg.xpos <= tilespritevector.size() && (unsigned int)msg.ypos <= tilespritevector[0].size()) //prevents out of bounds vector subscript, but essentially skips over servermessage?
+		if ((unsigned int)msg.xpos <= levelmanager.puzzle.tilespritevector.size() && (unsigned int)msg.ypos <= levelmanager.puzzle.tilespritevector[0].size()) //prevents out of bounds vector subscript, but essentially skips over servermessage?
 		{
 			if (msg.status == 0) //paint tile wet
 			{
-				tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(true);
+				levelmanager.puzzle.tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(true);
 			}
 			else if (msg.status == 1) //paint tile dry
 			{
-				tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(false);
+				levelmanager.puzzle.tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(false);
 			}
-			tilespritevector[(int)msg.xpos][(int)msg.ypos]->refreshColor();
+			levelmanager.puzzle.tilespritevector[(int)msg.xpos][(int)msg.ypos]->refreshColor();
 		}
 	}
 	//Event #1: Sam Painting
@@ -1063,10 +959,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 
 void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 {
-	
-	if (levelmanager.currentlevel != 5)
-	{//std::string playerstring = "p";
-	//playerstring += std::to_string(playernum).c_str();
+
 	
 		switch (keyCode) {
 		case EventKeyboard::KeyCode::KEY_UP_ARROW:
@@ -1128,26 +1021,22 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 				{
 					gSound.musicOn = true;
 					gSound.mVolume = gSound.oldMVol;
-					if (currentlevel == 1)
+					if (levelmanager.currentlevel == 1)
 					{
 						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", true, gSound.mVolume);
 					}
-					else if (currentlevel == 2)
+					else if (levelmanager.currentlevel == 2)
 					{
 						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\candylvl_music.mp3", true, gSound.mVolume);
 					}
-					else if (currentlevel == 3)
+					else if (levelmanager.currentlevel == 3)
 					{
 						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\ptlvl_music.mp3", true, gSound.mVolume);
 					}
-					else if (currentlevel == 4)
+					else if (levelmanager.currentlevel == 4)
 					{
 						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\sunlvl_music.mp3", true, gSound.mVolume);
 					}
-					//else if (currentlevel == 5)
-					//{
-					//	soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\win_music.mp3", true, gSound.mVolume);
-					//}
 				}
 			break;
 		//CTRL + S = Toggle SFX On/Off
@@ -1164,7 +1053,7 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 				{
 					gSound.sfxOn = true;
 					//hack fix for now, need to deal with looped sfx properly in processSound()
-					if (currentlevel > 3)
+					if (levelmanager.currentlevel > 3)
 					{
 						soundIDList[5] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop.mp3", true, 0.1f);
 						isSFXPlaying[5] = true;
@@ -1189,8 +1078,6 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 				experimental::AudioEngine::setVolume(soundIDList[14], gSound.mVolume);
 			}
 		}
-		
-	}
 	
 	event->stopPropagation();
 }
@@ -1251,18 +1138,18 @@ void ClientDemo::KeyRelease(EventKeyboard::KeyCode keyCode, Event* event)
 void ClientDemo::Joystick(cocos2d::Event* event)
 {
 	EventJoystick* e = (EventJoystick*)event;
-	//CCLOG("JOYSTICK PRESENT");
+	//log("JOYSTICK PRESENT");
 	bool present = e->isPresent();
-	//CCLOG(std::to_string(present).c_str());
+	//log(std::to_string(present).c_str());
 	if (present)
 	{
-			//CCLOG(e->getName());
+			//log(e->getName());
 			int foraxis;
 			const float* axisval = e->getAxes(&foraxis);
 			float xval = axisval[0];
 			float yval = axisval[1];
-			//CCLOG(std::to_string(xval).c_str());
-			//CCLOG(std::to_string(yval).c_str());
+			//log(std::to_string(xval).c_str());
+			//log(std::to_string(yval).c_str());
 			bool nox = false;
 			bool noy = false;
 			if (yval > 0.5)
@@ -1331,16 +1218,16 @@ void ClientDemo::Joystick(cocos2d::Event* event)
 
 
 // This will convert the players coordinates into tile coordinates
-CCPoint ClientDemo::plyrCoordToTileCoord(int playerNum)
+Point ClientDemo::plyrCoordToTileCoord(int playerNum)
 {
 	int newx = players[playerNum - 1]->getPositionX() + xmove;
 	int newy = (levelmanager.levelmap->getMapSize().height*levelmanager.levelmap->getTileSize().height) - (players[playerNum - 1]->getPositionY() + ymove);
   	int tilex = newx / (levelmanager.levelmap->getTileSize().width);
 	int tiley = newy / (levelmanager.levelmap->getTileSize().height);
-	return(CCPoint(tilex,tiley));
+	return(Point(tilex,tiley));
 }
 
-int ClientDemo::getTileProperties(CCPoint tileCoord)
+int ClientDemo::getTileProperties(Point tileCoord)
 {
 	if (tileCoord.x >= 0 && tileCoord.x <= levelmanager.levelmap->getMapSize().width && tileCoord.y >= 0 && tileCoord.y <= levelmanager.levelmap->getMapSize().height)
 	{
@@ -1380,72 +1267,72 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 				if ("true" == r)
 				{
 					//p1CLabel->setString("Red");
-					p1CLabel->setFontFillColor(ccc3(247, 52, 47));
+					p1CLabel->setFontFillColor(Color3B(247, 52, 47));
 					gSound.pTrigs[0].onBucket = true; //0=p1, 1=p2, 2=p3, 3=p4
 				}
 				if ("true" == b)
 				{
 					//p1CLabel->setString("Blue");
-					p1CLabel->setFontFillColor(ccc3(49, 58, 197));
+					p1CLabel->setFontFillColor(Color3B(49, 58, 197));
 					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == y) {
 					//p1CLabel->setString("Yellow");
-					p1CLabel->setFontFillColor(ccc3(222, 244, 69));
+					p1CLabel->setFontFillColor(Color3B(222, 244, 69));
 					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == o) {
 					//p1CLabel->setString("Orange");
-					p1CLabel->setFontFillColor(ccc3(234, 152, 46));
+					p1CLabel->setFontFillColor(Color3B(234, 152, 46));
 					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == blk) {
-					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
+					p1CLabel->setFontFillColor(Color3B(36, 33, 25));
 					gSound.pTrigs[0].onBucket = true;
 				}
 
 				if ("true" == b2) {
-					p1CLabel->setFontFillColor(ccc3(4, 31, 131));
+					p1CLabel->setFontFillColor(Color3B(4, 31, 131));
 					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == b3) {
-					p1CLabel->setFontFillColor(ccc3(1, 16, 73));
+					p1CLabel->setFontFillColor(Color3B(1, 16, 73));
 					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == g1) {
-					p1CLabel->setFontFillColor(ccc3(2, 123, 36));
+					p1CLabel->setFontFillColor(Color3B(2, 123, 36));
 					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == g2) {
-					p1CLabel->setFontFillColor(ccc3(11, 187, 60));
+					p1CLabel->setFontFillColor(Color3B(11, 187, 60));
 					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == g3) {
-					p1CLabel->setFontFillColor(ccc3(47, 247, 145));
+					p1CLabel->setFontFillColor(Color3B(47, 247, 145));
 					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == w) {
-					p1CLabel->setFontFillColor(ccc3(255, 255, 255));
+					p1CLabel->setFontFillColor(Color3B(255, 255, 255));
 					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == gy1) {
-					p1CLabel->setFontFillColor(ccc3(101, 141, 255));
+					p1CLabel->setFontFillColor(Color3B(101, 141, 255));
 					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == gy2) {
-					p1CLabel->setFontFillColor(ccc3(203, 216, 229));
+					p1CLabel->setFontFillColor(Color3B(203, 216, 229));
 					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == p) {
-					p1CLabel->setFontFillColor(ccc3(148, 55, 122));
+					p1CLabel->setFontFillColor(Color3B(148, 55, 122));
 					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == r2) {
-					p1CLabel->setFontFillColor(ccc3(187, 11, 44));
+					p1CLabel->setFontFillColor(Color3B(187, 11, 44));
 					gSound.pTrigs[0].onBucket = true;
 				}
 				if ("true" == r1) {
-					p1CLabel->setFontFillColor(ccc3(247, 52, 47));
+					p1CLabel->setFontFillColor(Color3B(247, 52, 47));
 					gSound.pTrigs[0].onBucket = true;
 				}
 			}
@@ -1480,69 +1367,69 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 
 				if ("true" == r)
 				{
-					p2CLabel->setFontFillColor(ccc3(247, 52, 47));
+					p2CLabel->setFontFillColor(Color3B(247, 52, 47));
 					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == b)
 				{
-					p2CLabel->setFontFillColor(ccc3(49, 58, 197));
+					p2CLabel->setFontFillColor(Color3B(49, 58, 197));
 					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == y) {
-					p2CLabel->setFontFillColor(ccc3(222, 244, 69));
+					p2CLabel->setFontFillColor(Color3B(222, 244, 69));
 					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == o) {
-					p2CLabel->setFontFillColor(ccc3(234, 152, 46));
+					p2CLabel->setFontFillColor(Color3B(234, 152, 46));
 					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == blk) {
-					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
+					p1CLabel->setFontFillColor(Color3B(36, 33, 25));
 					gSound.pTrigs[1].onBucket = true;
 				}
 
 				if ("true" == b2) {
-					p2CLabel->setFontFillColor(ccc3(4, 31, 131));
+					p2CLabel->setFontFillColor(Color3B(4, 31, 131));
 					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == b3) {
-					p2CLabel->setFontFillColor(ccc3(1, 16, 73));
+					p2CLabel->setFontFillColor(Color3B(1, 16, 73));
 					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == g1) {
-					p2CLabel->setFontFillColor(ccc3(2, 123, 36));
+					p2CLabel->setFontFillColor(Color3B(2, 123, 36));
 					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == g2) {
-					p2CLabel->setFontFillColor(ccc3(11, 187, 60));
+					p2CLabel->setFontFillColor(Color3B(11, 187, 60));
 					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == g3) {
-					p2CLabel->setFontFillColor(ccc3(47, 247, 145));
+					p2CLabel->setFontFillColor(Color3B(47, 247, 145));
 					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == w) {
-					p2CLabel->setFontFillColor(ccc3(255, 255, 255));
+					p2CLabel->setFontFillColor(Color3B(255, 255, 255));
 					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == gy1) {
-					p2CLabel->setFontFillColor(ccc3(101, 141, 255));
+					p2CLabel->setFontFillColor(Color3B(101, 141, 255));
 					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == gy2) {
-					p2CLabel->setFontFillColor(ccc3(203, 216, 229));
+					p2CLabel->setFontFillColor(Color3B(203, 216, 229));
 					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == p) {
-					p2CLabel->setFontFillColor(ccc3(148, 55, 122));
+					p2CLabel->setFontFillColor(Color3B(148, 55, 122));
 					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == r2) {
-					p2CLabel->setFontFillColor(ccc3(187, 11, 44));
+					p2CLabel->setFontFillColor(Color3B(187, 11, 44));
 					gSound.pTrigs[1].onBucket = true;
 				}
 				if ("true" == r1) {
-					p2CLabel->setFontFillColor(ccc3(247, 52, 47));
+					p2CLabel->setFontFillColor(Color3B(247, 52, 47));
 					gSound.pTrigs[1].onBucket = true;
 				}
 			}
@@ -1577,69 +1464,69 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 
 				if ("true" == r)
 				{
-					p3CLabel->setFontFillColor(ccc3(247, 52, 47));
+					p3CLabel->setFontFillColor(Color3B(247, 52, 47));
 					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == b)
 				{
-					p3CLabel->setFontFillColor(ccc3(49, 58, 197));
+					p3CLabel->setFontFillColor(Color3B(49, 58, 197));
 					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == y) {
-					p3CLabel->setFontFillColor(ccc3(222, 244, 69));
+					p3CLabel->setFontFillColor(Color3B(222, 244, 69));
 					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == o) {
-					p3CLabel->setFontFillColor(ccc3(234, 152, 46));
+					p3CLabel->setFontFillColor(Color3B(234, 152, 46));
 					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == blk) {
-					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
+					p1CLabel->setFontFillColor(Color3B(36, 33, 25));
 					gSound.pTrigs[2].onBucket = true;
 				}
 
 				if ("true" == b2) {
-					p3CLabel->setFontFillColor(ccc3(4, 31, 131));
+					p3CLabel->setFontFillColor(Color3B(4, 31, 131));
 					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == b3) {
-					p3CLabel->setFontFillColor(ccc3(1, 16, 73));
+					p3CLabel->setFontFillColor(Color3B(1, 16, 73));
 					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == g1) {
-					p3CLabel->setFontFillColor(ccc3(2, 123, 36));
+					p3CLabel->setFontFillColor(Color3B(2, 123, 36));
 					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == g2) {
-					p3CLabel->setFontFillColor(ccc3(11, 187, 60));
+					p3CLabel->setFontFillColor(Color3B(11, 187, 60));
 					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == g3) {
-					p3CLabel->setFontFillColor(ccc3(47, 247, 145));
+					p3CLabel->setFontFillColor(Color3B(47, 247, 145));
 					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == w) {
-					p3CLabel->setFontFillColor(ccc3(255, 255, 255));
+					p3CLabel->setFontFillColor(Color3B(255, 255, 255));
 					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == gy1) {
-					p3CLabel->setFontFillColor(ccc3(101, 141, 255));
+					p3CLabel->setFontFillColor(Color3B(101, 141, 255));
 					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == gy2) {
-					p3CLabel->setFontFillColor(ccc3(203, 216, 229));
+					p3CLabel->setFontFillColor(Color3B(203, 216, 229));
 					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == p) {
-					p3CLabel->setFontFillColor(ccc3(148, 55, 122));
+					p3CLabel->setFontFillColor(Color3B(148, 55, 122));
 					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == r2) {
-					p3CLabel->setFontFillColor(ccc3(187, 11, 44));
+					p3CLabel->setFontFillColor(Color3B(187, 11, 44));
 					gSound.pTrigs[2].onBucket = true;
 				}
 				if ("true" == r1) {
-					p3CLabel->setFontFillColor(ccc3(247, 52, 47));
+					p3CLabel->setFontFillColor(Color3B(247, 52, 47));
 					gSound.pTrigs[2].onBucket = true;
 				}
 			}
@@ -1675,69 +1562,69 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 
 				if ("true" == r)
 				{
-					p4CLabel->setFontFillColor(ccc3(247, 52, 47));
+					p4CLabel->setFontFillColor(Color3B(247, 52, 47));
 					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == b)
 				{
-					p4CLabel->setFontFillColor(ccc3(49, 58, 197));
+					p4CLabel->setFontFillColor(Color3B(49, 58, 197));
 					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == y) {
-					p4CLabel->setFontFillColor(ccc3(222, 244, 69));
+					p4CLabel->setFontFillColor(Color3B(222, 244, 69));
 					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == o) {
-					p4CLabel->setFontFillColor(ccc3(234, 152, 46));
+					p4CLabel->setFontFillColor(Color3B(234, 152, 46));
 					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == blk) {
-					p1CLabel->setFontFillColor(ccc3(36, 33, 25));
+					p1CLabel->setFontFillColor(Color3B(36, 33, 25));
 					gSound.pTrigs[3].onBucket = true;
 				}
 
 				if ("true" == b2) {
-					p4CLabel->setFontFillColor(ccc3(4, 31, 131));
+					p4CLabel->setFontFillColor(Color3B(4, 31, 131));
 					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == b3) {
-					p4CLabel->setFontFillColor(ccc3(1, 16, 73));
+					p4CLabel->setFontFillColor(Color3B(1, 16, 73));
 					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == g1) {
-					p4CLabel->setFontFillColor(ccc3(2, 123, 36));
+					p4CLabel->setFontFillColor(Color3B(2, 123, 36));
 					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == g2) {
-					p4CLabel->setFontFillColor(ccc3(11, 187, 60));
+					p4CLabel->setFontFillColor(Color3B(11, 187, 60));
 					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == g3) {
-					p4CLabel->setFontFillColor(ccc3(47, 247, 145));
+					p4CLabel->setFontFillColor(Color3B(47, 247, 145));
 					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == w) {
-					p4CLabel->setFontFillColor(ccc3(255, 255, 255));
+					p4CLabel->setFontFillColor(Color3B(255, 255, 255));
 					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == gy1) {
-					p4CLabel->setFontFillColor(ccc3(101, 141, 255));
+					p4CLabel->setFontFillColor(Color3B(101, 141, 255));
 					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == gy2) {
-					p4CLabel->setFontFillColor(ccc3(203, 216, 229));
+					p4CLabel->setFontFillColor(Color3B(203, 216, 229));
 					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == p) {
-					p4CLabel->setFontFillColor(ccc3(148, 55, 122));
+					p4CLabel->setFontFillColor(Color3B(148, 55, 122));
 					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == r2) {
-					p4CLabel->setFontFillColor(ccc3(187, 11, 44));
+					p4CLabel->setFontFillColor(Color3B(187, 11, 44));
 					gSound.pTrigs[3].onBucket = true;
 				}
 				if ("true" == r1) {
-					p3CLabel->setFontFillColor(ccc3(247, 52, 47));
+					p3CLabel->setFontFillColor(Color3B(247, 52, 47));
 					gSound.pTrigs[3].onBucket = true;
 				}
 			}
@@ -1750,7 +1637,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 //UNUSED
 void ClientDemo::space()
 {	
-		CCPoint tileCoord = plyrCoordToTileCoord(playernum);
+		Point tileCoord = plyrCoordToTileCoord(playernum);
 		int bTile = getTileProperties(tileCoord);
 		changeLabelColor(bTile, playernum);
 }
@@ -1758,44 +1645,45 @@ void ClientDemo::space()
 
 void ClientDemo::loadLevel(int level)
 {
-	for (Sprite* s : levelmanager.levelsprites)
+	//code that should be run only after game start (removing previous assets)
+	if (levelmanager.currentlevel != 0) //at game start currentlevel = 0
 	{
-		removeChild(s);
-	}
-
-	for (unsigned int i = 0; i < tilespritevector.size(); i++)
-	{
-		for (unsigned int j = 0; j < tilespritevector[i].size(); j++)
+		for (unsigned int i = 0; i < levelmanager.puzzle.tilespritevector.size(); i++)
 		{
-			removeChild(tilespritevector[i][j]);
+			for (unsigned int j = 0; j < levelmanager.puzzle.tilespritevector[i].size(); j++)
+			{
+				removeChild(levelmanager.puzzle.tilespritevector[i][j]);
+			}
 		}
-	}
 
-	removeChild(levelmanager.levelmap);
+		//remove old map
+		removeChild(levelmanager.levelmap);
 
-	// NEW CODE ADDED
-	
-	if (transitionManager.start_timer == 60) //if not in transition and centercamera() has been called before (not new game, not player joining game in progress)
-	{
-		NotInTransition = false;
-
-		transitionManager.loadTransition(level);
-		for (Sprite* ts : transitionManager.transitionSprite)
+		if (transitionManager.start_timer == 60) //if not in transition and centercamera() has been called before (not new game, not player joining game in progress)
 		{
-			addChild(ts, 10);
-		}
-	}
-	////////////////
+			NotInTransition = false;
 
-	levelmanager.changeLevel(level);
-	if (level != 5)
-	{
-		addChild(levelmanager.levelmap, -1000);
+			transitionManager.loadTransition(level);
+			for (Sprite* ts : transitionManager.transitionSprite)
+			{
+				addChild(ts, 10);
+			}
+		}
+
+		//reset player color+label on new level
+		for (unsigned int i = 0; i < players.size(); i++)
+		{
+			players[i]->setColor("");
+		}
+
 	}
-	else
-	{
-		addChild(levelmanager.levelmap, 1000);
-	}
+
+	levelmanager.setLevel(level);
+
+	addChild(levelmanager.levelmap, -1000);
+
+	setupPaintTiles();
+
 
 	blockage = levelmanager.levelmap->getLayer("Collision");
 	if (blockage != NULL)
@@ -1817,71 +1705,50 @@ void ClientDemo::loadLevel(int level)
 	spawnObjs = levelmanager.levelmap->objectGroupNamed("SpawnObjects");
 
 	if (spawnObjs == NULL) {
-		CCLOG("TMX map has SpawnObjects layer");
+		log("TMX map has SpawnObjects layer");
 	}
 	else {
 		playerOneSP = spawnObjs->objectNamed("P1spawnPoint");
 		playerTwoSP = spawnObjs->objectNamed("P2spawnPoint");
 		playerThreeSP = spawnObjs->objectNamed("P3spawnPoint");
 		playerFourSP = spawnObjs->objectNamed("P4spawnPoint");
+		player1->setPosition(Vec2(playerOneSP["x"].asInt(), playerOneSP["y"].asInt()));
+		player2->setPosition(Vec2(playerTwoSP["x"].asInt(), playerTwoSP["y"].asInt()));
+		player3->setPosition(Vec2(playerThreeSP["x"].asInt(), playerThreeSP["y"].asInt()));
+		player4->setPosition(Vec2(playerFourSP["x"].asInt(), playerFourSP["y"].asInt()));
 	}
-	////////////////////
 
-
-	for (Sprite* s : levelmanager.levelsprites)
+	if (nullptr != tileHighlight)
 	{
-		addChild(s, -999);
+		tileHighlight->setOpacity(0);
 	}
-
-	setupPaintTiles();
-	currentlevel = level;
-
-	tileHighlight->setOpacity(0);
-	
 	if (nullptr != bucketHighlight)
 	{
 		bucketHighlight->setOpacity(0);
 	}
-	
-	/*if (level == 5)
+
+	if (level == 1)
 	{
-		auto menu_item = MenuItemImage::create("res//sprites//ui//goToMainNP.png", "res//sprites//ui//goToMainP.png", CC_CALLBACK_1(ClientDemo::goToMainMenu, this));
-		menu_item->setPosition(Vec2(winSizeWidth + 20, winSizeHeight));
-		menu_item->setScale(0.7f);
-
-		auto menu = Menu::create(menu_item, NULL);
-		menu->setPosition(Point::ZERO);
-		addChild(menu, 1001);
-
-
-
-		auto gameover = Sprite::create("res//sprites//ui//game_overTitle.png");
-		gameover->setScale(0.25f);
-		gameover->setPosition(Vec2((int)winSizeWidth - 10, (int)winSizeHeight + 120));
-		addChild(gameover, 1001);
-
-	}*/
-
-	if (level == 1) {
 		pterodactyl->setVisible(false);
 		villain->setVisible(false);
+		//this->setScale(1.0f);
 	}
 	else if (level == 2) {
 		gSound.levelChange = true;
 		pterodactyl->setVisible(false);
-		//villain->setVisible(true);
+		villain->setVisible(true);
 		villain->setOpacity(0);
 	}
 	else if (level == 3) {
 		gSound.levelChange = true;
 		pterodactyl->setVisible(false);
-		//villain->setVisible(true);
+		villain->setVisible(true);
 		villain->setOpacity(0);
 	}
 	else if (level == 4) {
 		gSound.levelChange = true;
 		pterodactyl->setVisible(true);
-		//villain->setVisible(true);
+		villain->setVisible(true);
 		villain->setOpacity(0);
 	}
 
@@ -1903,22 +1770,20 @@ void ClientDemo::loadLevel(int level)
 
 void ClientDemo::setupPaintTiles()
 {
-
-	tilespritevector.resize(levelmanager.puzzle.currenttilevector.size());
-	for (unsigned int i = 0; i < tilespritevector.size(); i++)
+	levelmanager.puzzle.tilespritevector.resize(levelmanager.puzzle.currenttilevector.size());
+	for (unsigned int i = 0; i < levelmanager.puzzle.tilespritevector.size(); i++)
 	{
-		tilespritevector[i].resize(levelmanager.puzzle.currenttilevector[i].size());
+		levelmanager.puzzle.tilespritevector[i].resize(levelmanager.puzzle.currenttilevector[i].size());
 	}
 
-	for (unsigned int i = 0; i < tilespritevector.size(); i++)
+	for (unsigned int i = 0; i < levelmanager.puzzle.tilespritevector.size(); i++)
 	{
-		for (unsigned int j = 0; j < tilespritevector[i].size(); j++)
+		for (unsigned int j = 0; j < levelmanager.puzzle.tilespritevector[i].size(); j++)
 		{
-			tilespritevector[i][j] = PaintTile::create();
-			tilespritevector[i][j]->setPosition(24 * j + levelmanager.tilestartpoint.x, 24 * i + levelmanager.tilestartpoint.y);
-			//tilespritevector[i][j]->setScale(1);
-			tilespritevector[i][j]->debugDraw(false);
-			addChild(tilespritevector[i][j], -999);
+			levelmanager.puzzle.tilespritevector[i][j] = PaintTile::create();
+			levelmanager.puzzle.tilespritevector[i][j]->setPosition(24 * j + levelmanager.tilestartpoint.x, 24 * i + levelmanager.tilestartpoint.y);
+			levelmanager.puzzle.tilespritevector[i][j]->debugDraw(false);
+			addChild(levelmanager.puzzle.tilespritevector[i][j], -999);
 		}
 	}
 
@@ -1927,7 +1792,7 @@ void ClientDemo::setupPaintTiles()
 
 void ClientDemo::centerCamera()
 {
-	if (NotInTransition && levelmanager.currentlevel != 5) // CODE TO TRY
+	if (NotInTransition)
 	{
 		Vec2 camPos = Camera::getDefaultCamera()->getPosition();
 		Vec2 pPos = players[playernum - 1]->getPosition();
@@ -1955,7 +1820,7 @@ void ClientDemo::centerCamera()
 
 void ClientDemo::samCam()
 {
-	if (NotInTransition && levelmanager.currentlevel != 5) // CODE TO TRY
+	if (NotInTransition)
 	{
 		transitionManager.start_timer = 60;
 		//if((players[playernum -1]->getPositionX() > 320 && players[playernum - 1]->getPositionX() < (levelmanager.levelmap->getMapSize().width*24)-320) || (players[playernum - 1]->getPositionY() > 180 && players[playernum - 1]->getPositionY() < (levelmanager.levelmap->getMapSize().height * 24) - 180))
@@ -2049,26 +1914,22 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	else if (gSound.musicOn == true && gSound.mVolume == 0.0f)
 	{
 		gSound.mVolume = gSound.oldMVol;
-		if (currentlevel == 1)
+		if (levelmanager.currentlevel == 1)
 		{
 			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", true, gSound.mVolume);
 		}
-		else if (currentlevel == 2)
+		else if (levelmanager.currentlevel == 2)
 		{
 			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\candylvl_music.mp3", true, gSound.mVolume);
 		}
-		else if (currentlevel == 3)
+		else if (levelmanager.currentlevel == 3)
 		{
 			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\ptlvl_music.mp3", true, gSound.mVolume);
 		}
-		else if (currentlevel == 4)
+		else if (levelmanager.currentlevel == 4)
 		{
 			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\sunlvl_music.mp3", true, gSound.mVolume);
 		}
-		//else if (currentlevel == 5)
-		//{
-		//	soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\win_music.mp3", true, gSound.mVolume);
-		//}
 	}
 	//end of music toggled on/off */
 
@@ -2139,26 +2000,22 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		//		isSFXPlaying[10] = false;
 				if (gSound.musicOn && NotInTransition)
 				{//play new level's music
-					if (currentlevel == 1)
+					if (levelmanager.currentlevel == 1)
 					{
 						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", true, 0.4f);
 					}
-					else if (currentlevel == 2)
+					else if (levelmanager.currentlevel == 2)
 					{
 						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\candylvl_music.mp3", true, 0.4f);
 					}
-					else if (currentlevel == 3)
+					else if (levelmanager.currentlevel == 3)
 					{
 						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\ptlvl_music.mp3", true, 0.4f);
 					}
-					else if (currentlevel == 4)
+					else if (levelmanager.currentlevel == 4)
 					{
 						soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\sunlvl_music.mp3", true, 0.4f);
 					}
-					//else if (currentlevel == 5)
-					//{
-					//	soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\win_music.mp3", true, 0.4f);
-					//}
 					gSound.levelChange = false;
 				}
 //			});	
@@ -2503,7 +2360,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 	switch (p.ptanim) {
 	case 33: //pteraleft
-		if (false == isSFXPlaying[5] && pterodactyl->isVisible() == true && currentlevel > 3) //shouldnt need 3rd check, hack fix for now
+		if (false == isSFXPlaying[5] && pterodactyl->isVisible() == true && levelmanager.currentlevel > 3) //shouldnt need 3rd check, hack fix for now
 		{
 			if (isSFXPlaying[11] == true)
 			{
@@ -2519,7 +2376,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		}
 		break;
 	case 34: //pteraright
-		if (false == isSFXPlaying[5] && pterodactyl->isVisible() == true && currentlevel > 3) //shouldnt need 3rd check, hack fix for now)
+		if (false == isSFXPlaying[5] && pterodactyl->isVisible() == true && levelmanager.currentlevel > 3) //shouldnt need 3rd check, hack fix for now)
 		{
 			if (isSFXPlaying[11] == true)
 			{
@@ -2535,7 +2392,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		}
 		break;
 	case 40: //pteraANGRYleft
-		if (false == isSFXPlaying[11] && pterodactyl->isVisible() == true && currentlevel > 3) //shouldnt need 3rd check, hack fix for now
+		if (false == isSFXPlaying[11] && pterodactyl->isVisible() == true && levelmanager.currentlevel > 3) //shouldnt need 3rd check, hack fix for now
 		{
 			experimental::AudioEngine::stop(soundIDList[5]);
 			isSFXPlaying[5] = false;
@@ -2548,7 +2405,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 		}
 		break;
 	case 41: //pteraANGRYright
-		if (false == isSFXPlaying[11] && pterodactyl->isVisible() == true && currentlevel > 3) //shouldnt need 3rd check, hack fix for now
+		if (false == isSFXPlaying[11] && pterodactyl->isVisible() == true && levelmanager.currentlevel > 3) //shouldnt need 3rd check, hack fix for now
 		{
 			experimental::AudioEngine::stop(soundIDList[5]);
 			isSFXPlaying[5] = false;
@@ -2576,7 +2433,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	//stopall() in howtoplay.cpp cant be followed too quickly by play2d(). cocos2d bug?
 	if (gSound.musicOn)
 	{
-		if (isSFXPlaying[14] == false && currentlevel == 1)
+		if (isSFXPlaying[14] == false && levelmanager.currentlevel == 1)
 		{
 			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", true, 0.4f);
 			isSFXPlaying[14] = true;
@@ -2590,7 +2447,7 @@ void ClientDemo::goToMainMenu(cocos2d::Ref* pSender)
 	_eventDispatcher->removeAllEventListeners();
 	cocos2d::experimental::AudioEngine::stopAll();
 	auto scene = MenuScene::createMenu();
-	CCDirector::getInstance()->replaceScene(scene);
+	Director::getInstance()->replaceScene(scene);
 }
 
 
@@ -2711,7 +2568,7 @@ void ClientDemo::highlightBuckets(void)
 {
 	if (nullptr != bucketHighlight)
 	{
-		CCPoint tileCoord = plyrCoordToTileCoord(playernum);
+		Point tileCoord = plyrCoordToTileCoord(playernum);
 
 		if (tileCoord.x >= 0 && tileCoord.x <= levelmanager.levelmap->getMapSize().width && tileCoord.y >= 0 && tileCoord.y <= levelmanager.levelmap->getMapSize().height)
 		{
@@ -2938,26 +2795,22 @@ void ClientDemo::ResumeGame(void)
 	{
 		experimental::AudioEngine::stop(soundIDList[14]);
 
-		if (currentlevel == 1)
+		if (levelmanager.currentlevel == 1)
 		{
 			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", true, gSound.mVolume);
 		}
-		else if (currentlevel == 2)
+		else if (levelmanager.currentlevel == 2)
 		{
 			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\candylvl_music.mp3", true, gSound.mVolume);
 		}
-		else if (currentlevel == 3)
+		else if (levelmanager.currentlevel == 3)
 		{
 			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\ptlvl_music.mp3", true, gSound.mVolume);
 		}
-		else if (currentlevel == 4)
+		else if (levelmanager.currentlevel == 4)
 		{
 			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\sunlvl_music.mp3", true, gSound.mVolume);
 		}
-		//else if (currentlevel == 5)
-		//{
-		//	soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\win_music.mp3", true, gSound.mVolume);
-		//}
 	}
 }
 
@@ -3002,7 +2855,7 @@ void ClientDemo::updateFromMenu(void)
 	{
 		gSound.sfxOn = true;
 		//hack fix for now, need to deal with looped sfx properly in processSound()
-		if (currentlevel > 3)
+		if (levelmanager.currentlevel > 3)
 		{
 			soundIDList[5] = experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop.mp3", true, 0.1f);
 			isSFXPlaying[5] = true;
@@ -3148,4 +3001,17 @@ void ClientDemo::runEvents(void)
 			}
 		}
 	}
+}
+
+Player* ClientDemo::addPlayer(int playernum)
+{
+	Player* player = Player::create(playernum);
+	player->setPlayernum(playernum);
+	std::string str = "P" + std::to_string(playernum);
+	player->addLabel(str, "fonts/arial.ttf", 9);
+	player->getTexture()->setAliasTexParameters();
+	player->setAnchorPoint(Vec2(0.5, 0.0));
+	players.push_back(player);
+	addChild(player, 0);
+	return player;
 }

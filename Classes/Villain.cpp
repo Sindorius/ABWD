@@ -5,7 +5,7 @@
 #include "cocos2d.h"
 #include <iostream>
 
-Villain* Villain::create()
+Villain* Villain::create(bool vis)
 {
 	Villain* pSprite = new Villain();
 
@@ -13,10 +13,20 @@ Villain* Villain::create()
 	{
 		pSprite->autorelease();
 
+		pSprite->initialize(vis);
+
 		return pSprite;
 	}
 
 	CC_SAFE_DELETE(pSprite);
 	return NULL;
+}
+
+void Villain::initialize(bool vis)
+{
+	this->getTexture()->setAliasTexParameters();
+	this->setAnchorPoint(Vec2(0.5, 0.0));
+	this->setPosition(Vec2(-250, -150));
+	this->setVisible(vis);
 }
 

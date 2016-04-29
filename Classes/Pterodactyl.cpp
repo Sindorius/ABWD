@@ -1,18 +1,28 @@
 #include "Pterodactyl.h"
 #include "cocos2d.h"
 
-Pterodactyl* Pterodactyl::create()
+Pterodactyl* Pterodactyl::create(bool vis)
 {
 	Pterodactyl* pSprite = new Pterodactyl();
 	if (pSprite->initWithFile("\\res\\sprites\\animations\\pteradactyl\\pteradactyl_left0.png"))
 	{
 		pSprite->autorelease();
 
+		pSprite->initialize(vis);
+
 		return pSprite;
 	}
 
 	CC_SAFE_DELETE(pSprite);
 	return NULL;
+}
+
+void Pterodactyl::initialize(bool vis)
+{
+	this->getTexture()->setAliasTexParameters();
+	this->setAnchorPoint(Vec2(0.5, 0.0));
+	this->setPosition(Vec2(50, 50));
+	this->setVisible(vis);
 }
 
 void Pterodactyl::run(int x, int y) {

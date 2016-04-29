@@ -18,11 +18,8 @@ class Villain : public cocos2d::Sprite
 public:
 	Villain() {};
 	~Villain() {};
-
-
-	static Villain* create();
-	//static Villain* create(int playernum);
-	
+	static Villain* create(bool vis = true);
+	void initialize(bool vis = true);
 	
 	void setAnim(std::string s) { animstate = s; }
 	std::string getAnim() { return animstate; }

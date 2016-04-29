@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <cstring>
 #include "cocos2d.h"
+#include "PaintTile.h"
 #include "Puzzle.hpp"
 
 USING_NS_CC;
@@ -11,12 +12,11 @@ USING_NS_CC;
 class LevelManager
 {
 public:
-	int currentlevel=1;
-	cocos2d::Vec2 tilestartpoint;
+	int currentlevel = 0; //needed for loadlevel check
+	Vec2 tilestartpoint;
 	TMXTiledMap* levelmap;
-	std::vector<Sprite*> levelsprites;
 	Puzzle puzzle;
 
-	void changeLevel(int level);
+	void setLevel(int level);
 
 };

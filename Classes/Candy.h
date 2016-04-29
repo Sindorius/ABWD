@@ -3,11 +3,16 @@
 
 #include <cocos2d.h>
 
+USING_NS_CC;
+
 class Candy : public cocos2d::Sprite {
 public:
 	Candy() {};
 	~Candy() {};
-	static Candy* create();
+	static Candy* create(bool vis = true);
+	void initialize(bool vis = true);
+
+
 	bool notCollected() { return not_collected; }
 	void setStatus(bool collect) { not_collected = collect; }
 	void run() { time--; }

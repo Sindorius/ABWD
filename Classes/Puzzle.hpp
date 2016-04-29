@@ -6,10 +6,23 @@
 #include <boost/multi_array.hpp>
 #include <cereal/types/array.hpp>
 #include "cocos2d.h"
+#include "PaintTile.h"
 
 class Puzzle
 {
 public:
+	std::vector<std::vector<char>> currenttilevector = keytilevectorvalues;
+	std::vector<std::vector<char>> currenttilevectorsolution = keytilevectorsolution;
+	std::vector<std::vector<char>> whichplayertilesvector = keyplayertilesvector;
+	std::vector<std::vector<char>> drytilevector = keydrytilesvector;
+	std::vector<std::vector<PaintTile*>> tilespritevector;
+
+	//boost::multi_array<int, 2> currentarray;
+	//boost::multi_array<int, 2> solutionarray;
+
+	bool isSolved();
+	bool compareTile(int x, int y, int num);
+	void changePuzzle(int level);
 
 	std::vector<std::vector<char>> samtilevectorvalues =
 	{ {
@@ -374,49 +387,5 @@ public:
 		{ 0,0,0,0,0,0,0,0,0,0,0,0,0 },
 		{ 0,0,0,0,0,0,0,0,0,0,0,0,0 }
 		} };
-
-
-
-	std::vector<std::vector<char>> currenttilevector = keytilevectorvalues;
-	std::vector<std::vector<char>> currenttilevectorsolution = keytilevectorsolution;
-	std::vector<std::vector<char>> whichplayertilesvector = keyplayertilesvector;
-	std::vector<std::vector<char>> drytilevector = keydrytilesvector;
-
-
-	//boost::multi_array<int, 2> currentarray;
-	//boost::multi_array<int, 2> solutionarray;
-
-	bool isSolved()
-	{
-		for (unsigned int i = 0; i < currenttilevector.size(); i++)
-		{
-			for (unsigned int j = 0; j < currenttilevector[i].size(); j++)
-			{
-				if (currenttilevector[i][j] != currenttilevectorsolution[i][j])
-				{
-					//CCLOG(std::to_string(i).c_str());
-					//CCLOG(std::to_string(j).c_str());
-					//CCLOG("solution not equal");
-					//CCLOG(std::to_string(currenttilevector[i][j]).c_str());
-					//CCLOG(std::to_string(currenttilevectorsolution[i][j]).c_str());
-					return false;
-				}
-			}
-
-		}
-		return true;
-	}
-
-
-	bool compareTile(int x, int y, int num)
-	{
-		if (currenttilevectorsolution[x][y] == num) {
-			return true;
-		}
-		return false;
-	}
-
-
-	void changePuzzle(int level);
 
 };

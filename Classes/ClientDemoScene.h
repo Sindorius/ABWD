@@ -46,31 +46,23 @@ private:
 	bool alternate = false;
 	int swapframes = 1;
 	int swapframecounter = 1;
-	//CCTMXTiledMap* levelmap; 
-	cocos2d::CCTMXLayer* bucketlayer;
-	cocos2d::CCTMXLayer* blockage;
-	cocos2d::CCTMXLayer* blankCanvas;
-	cocos2d::CCTMXObjectGroup* spawnObjs;
-	Sprite* redBucket;
-	Sprite* blueBucket;
-	Sprite* yellowBucket;
-	Sprite* orangeBucket;
+
+	cocos2d::TMXLayer* bucketlayer;
+	cocos2d::TMXLayer* blockage;
+	cocos2d::TMXLayer* blankCanvas;
+	cocos2d::TMXObjectGroup* spawnObjs;
 
 	Sprite* tileHighlight;
 	Sprite* bucketHighlight;
 	
-
 	Player* player1;
 	Player* player2;
 	Player* player3;
 	Player* player4;
 	std::vector<Player*> players;
-	std::string state1, state2, state3, state4;
 	Villain* villain;
 	Pterodactyl* pterodactyl;
 	Candy* candy;
-	
-	std::vector<cocos2d::Sprite*> objects;
 
 	AnimationManager animationmanager;
 	struct paintEvent {
@@ -107,7 +99,6 @@ public:
 	bool button3 = false;
 	bool needssync = false;
 	int playernum;
-	char currentlevel = 1;
 	int gameTimer = 65; //prevents camera jerking at start
 	bool alreadyPressed = false;
 	int opacity = 255;
@@ -135,8 +126,8 @@ public:
 
 	//PaintTile* tileptrarray[7][3];
 	
-	std::vector<std::vector<PaintTile*>> tilespritevector;
-	std::vector<std::vector<int>> currenttilevector =
+	//std::vector<std::vector<PaintTile*>> tilespritevector;
+	/*std::vector<std::vector<int>> currenttilevector =
 	{ {
 		{ 1,1,1,1,1 },
 		{ 1,1,1,1,1 },
@@ -147,7 +138,7 @@ public:
 		{ 1,1,1,1,1 },
 		{ 1,1,1,1,1 },
 		{ 1,1,1,1,1 }
-	} };
+	} };*/
 	
 	std::vector<unsigned int> soundIDList; //keeps list of unique sound IDs
 	std::vector<bool> isSFXPlaying; //bools that check whether a certain sfx is playing
@@ -187,20 +178,16 @@ public:
 	void ResumeGame(void);
 	void updateFromMenu(void);
 	void runEvents(void);
+
+	Player* addPlayer(int playernum);
 	
 	//currentarray = keytilevalues;
-	
-	///////////////////////////////////////////////////////////////////////////////////// NEW ADDED CODE
-	// The labels
-	CCLabelTTF* p1CLabel;
-	CCLabelTTF* p2CLabel;
-	CCLabelTTF* p3CLabel;
-	CCLabelTTF* p4CLabel;
+
 
 	// Create the space function to handle the label color change
 	void space();
-	cocos2d::CCPoint plyrCoordToTileCoord(int playerNum);
-	int getTileProperties(cocos2d::CCPoint tileCoord);
+	Point plyrCoordToTileCoord(int playerNum);
+	int getTileProperties(Point tileCoord);
 	void changeLabelColor(int bTile, int playerNum);
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 

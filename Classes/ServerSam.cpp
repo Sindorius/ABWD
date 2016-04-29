@@ -5,23 +5,8 @@
 #include "cocos2d.h"
 #include <iostream>
 
-ServerSam* ServerSam::create()
-{
-	ServerSam* pSprite = new ServerSam();
 
-	if (pSprite->initWithFile("\\res\\sprites\\animations\\sam\\sam_walk_front0.png"))
-	{
-		pSprite->autorelease();
-
-		return pSprite;
-	}
-
-	CC_SAFE_DELETE(pSprite);
-	return NULL;
-}
-
-
-ServerSam* ServerSam::create(ServerDemo* ptr)
+ServerSam* ServerSam::create(ServerDemo* ptr, bool vis)
 {
 	ServerSam* pSprite = new ServerSam();
 	pSprite->serverptr = ptr;
@@ -30,11 +15,21 @@ ServerSam* ServerSam::create(ServerDemo* ptr)
 	{
 		pSprite->autorelease();
 
+		pSprite->initialize(vis);
+
 		return pSprite;
 	}
 
 	CC_SAFE_DELETE(pSprite);
 	return NULL;
+}
+
+void ServerSam::initialize(bool vis)
+{
+	this->getTexture()->setAliasTexParameters();
+	this->setPosition(Vec2(-250, -150));
+	this->setAnchorPoint(Vec2(0.5, 0.0));
+	this->setVisible(vis);
 }
 
 
@@ -618,7 +613,7 @@ void ServerSam::candyOff() {
 	}
 }
 
-void ServerSam::setLevel(LevelManager* levelmanager) {
+void ServerSam::attachLevel(LevelManager* levelmanager) {
 	lvm = levelmanager;
 	blockage = lvm->levelmap->getLayer("Collision");
 }

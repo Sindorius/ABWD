@@ -5,11 +5,16 @@
 #include <array>
 #include <stdlib.h>
 
+USING_NS_CC;
+
 class Pterodactyl : public cocos2d::Sprite 
 {
 public:
 	Pterodactyl() {};
 	~Pterodactyl() {};
+	static Pterodactyl* create(bool vis = true);
+	void initialize(bool vis = true);
+
 	void run(int x, int y);
 	void on() { running = true; }
 	void off() { running = false; }
@@ -17,7 +22,6 @@ public:
 	void attack() { hostile = true; cap = 6; }
 	void peace() { hostile = false; cap = 3; }
 	bool isHostile() { return hostile; }
-	static Pterodactyl* create();
 	void setAnim(std::string state) { animstate = state; }
 	std::string getAnim() { return animstate; }
 

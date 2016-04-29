@@ -19,11 +19,8 @@ class ServerSam : public cocos2d::Sprite
 public:
 	ServerSam() {};
 	~ServerSam() {};
-
-
-	static ServerSam* create();
-	static ServerSam* create(ServerDemo* ptr);
-	//static ServerSam* create(int playernum);
+	static ServerSam* create(ServerDemo* ptr, bool vis = true);
+	void initialize(bool vis = true);
 	
 	void setPriority(std::vector<std::vector<char>> tiles, std::vector<std::vector<char>> dry, int time);
 
@@ -63,7 +60,7 @@ public:
 	std::string getAnim() { return animstate; }
 	void linkPtera(Pterodactyl* pterodactyl);
 	void linkCandy(Candy* candies);
-	void setLevel(LevelManager* levelmanager);
+	void attachLevel(LevelManager* levelmanager);
 	void lowerReactW(void);
 	void incReactW(void);
 

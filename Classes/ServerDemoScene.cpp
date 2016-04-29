@@ -32,8 +32,8 @@ bool ServerDemo::init()
 	auto director = Director::getInstance();
 	auto glview = director->getOpenGLView();
 	float animint = director->getAnimationInterval();
-	CCLOG("from animint");
-	CCLOG(std::to_string(animint).c_str());
+	log("from animint");
+	log(std::to_string(animint).c_str());
 	int refreshrate = glview->getRunningRefreshRate();
 	if(refreshrate == 59)
 	{
@@ -43,8 +43,8 @@ bool ServerDemo::init()
 	{
 		refreshrate = 120;
 	}
-	CCLOG("from get refresh rate");
-	CCLOG(std::to_string(refreshrate).c_str());
+	log("from get refresh rate");
+	log(std::to_string(refreshrate).c_str());
 	int newswapinterval = refreshrate*animint;
 	if(newswapinterval < 1)
 	{
@@ -53,58 +53,24 @@ bool ServerDemo::init()
 	swapframes = newswapinterval;
 	swapframecounter = newswapinterval;
 
-	CCLOG("from newswapinterval");
-	CCLOG(std::to_string(newswapinterval).c_str());
+	log("from newswapinterval");
+	log(std::to_string(newswapinterval).c_str());
 	*/
-
-	levelmanager.changeLevel(1);
-	// Check to see if there is an object layer 
-	spawnObjs = levelmanager.levelmap->getObjectGroup("SpawnObjects");
-
-	if (spawnObjs == NULL) {
-		CCLOG("TMX map has SpawnObjects layer");
-	}
-
-	// Player spawn coordinates depend on tiled map
-	ValueMap playerOneSP = spawnObjs->getObject("P1spawnPoint");
-	ValueMap playerTwoSP = spawnObjs->getObject("P2spawnPoint");
-	ValueMap playerThreeSP = spawnObjs->getObject("P3spawnPoint");
-	ValueMap playerFourSP = spawnObjs->getObject("P4spawnPoint");
 		
-	player1 = Player::create(1);
-	player1->setPlayernum(1);
-	player1->getTexture()->setAliasTexParameters();
-	player1->setPosition(Vec2(playerOneSP["x"].asInt(), playerOneSP["y"].asInt()));
-	player1->debugDraw(true);
-	player1->setAnchorPoint(Vec2(0.5, 0.0));
+	player1 = Player::create(1, 0);
 	addChild(player1, 0);
 
-	player2 = Player::create(2);
-	player2->setPlayernum(2);
-	player2->getTexture()->setAliasTexParameters();
-	player2->setPosition(Vec2(playerTwoSP["x"].asInt(), playerTwoSP["y"].asInt()));
+	player2 = Player::create(2, 0);
 	player2->debugDraw(true);
-	player2->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(player2, 0);
 
-	player3 = Player::create(3);
-	player3->setPlayernum(3);
-	player3->getTexture()->setAliasTexParameters();
-	player3->setPosition(Vec2(playerThreeSP["x"].asInt(), playerThreeSP["y"].asInt()));
-	player3->setAnchorPoint(Vec2(0.5, 0.0));
+	player3 = Player::create(3, 0);
+	player2->debugDraw(true);
 	addChild(player3, 0);
 
-	player4 = Player::create(4);
-	player4->setPlayernum(4);
-	player4->getTexture()->setAliasTexParameters();
-	player4->setPosition(Vec2(playerFourSP["x"].asInt(), playerFourSP["y"].asInt()));
-	player4->setAnchorPoint(Vec2(0.5, 0.0));
+	player4 = Player::create(4, 0);
+	player2->debugDraw(true);
 	addChild(player4, 0);
-
-	player1->setVisible(false);
-	player2->setVisible(false);
-	player3->setVisible(false);
-	player4->setVisible(false);
 
 	players.push_back(player1);
 	players.push_back(player2);
@@ -112,27 +78,19 @@ bool ServerDemo::init()
 	players.push_back(player4);
 
 	serversam = ServerSam::create(this);
-	serversam->getTexture()->setAliasTexParameters();
-	serversam->setPosition(Vec2(-250, -150));
-	serversam->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(serversam, 0);
 
 	pterodactyl = Pterodactyl::create();
-	pterodactyl->getTexture()->setAliasTexParameters();
-	pterodactyl->setPosition(Vec2(50, 50));
-	pterodactyl->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(pterodactyl, 0);
 
 	candy = Candy::create();
-	candy->getTexture()->setAliasTexParameters();
-	candy->setPosition(Vec2(-1000, -1000));
-	candy->setAnchorPoint(Vec2(0.5, 0.0));
 	addChild(candy, 0);
-	
+
+	loadLevel(1);
+
 	serversam->linkPtera(pterodactyl);
 	serversam->linkCandy(candy);
-	serversam->setLevel(&levelmanager);
-	loadLevel(1);
+	serversam->attachLevel(&levelmanager);
 
 	std::ifstream is("config.json");
 	cereal::JSONInputArchive configloader(is);
@@ -142,17 +100,17 @@ bool ServerDemo::init()
 
 	srand(time(NULL)); //for better randomness from rand()
 
-	CCLOG("port is");
-	CCLOG(std::to_string(setupdata.port).c_str());
+	log("port is");
+	log(std::to_string(setupdata.port).c_str());
 
 	try
 	{
-		CCLOG("intry");
+		log("intry");
 		//boost::asio::io_service io_service;
 		io_service_p = new boost::asio::io_service;
-		CCLOG("madepastioservice");
+		log("madepastioservice");
 		mytcpserverp = new TCPServer(*io_service_p, setupdata.port, this);
-		CCLOG("madepastserver");
+		log("madepastserver");
 	}
 	catch (std::exception& e)
 	{
@@ -205,8 +163,8 @@ void ServerDemo::update(float dt)
 		return; 
 	}
 	*/
-	//CCLOG("UPDATE DT");
-	//CCLOG(std::to_string(dt).c_str());
+	//log("UPDATE DT");
+	//log(std::to_string(dt).c_str());
 	io_service_p->poll();
 
 	if (eventActive == false)
@@ -273,10 +231,10 @@ void ServerDemo::update(float dt)
 				levelmanager.puzzle.drytilevector[dry_x][dry_y]++;
 			}
 			if (levelmanager.puzzle.drytilevector[dry_x][dry_y] == dried) {
-				if (tilespritevector[dry_x][dry_y]->getColor() != "clear")
+				if (levelmanager.puzzle.tilespritevector[dry_x][dry_y]->getColor() != "clear")
 				{
-					tilespritevector[dry_x][dry_y]->setDry(true); //only useful for visual-based server
-					tilespritevector[dry_x][dry_y]->refreshColor(); //only useful for visual-based server
+					levelmanager.puzzle.tilespritevector[dry_x][dry_y]->setDry(true); //only useful for visual-based server
+					levelmanager.puzzle.tilespritevector[dry_x][dry_y]->refreshColor(); //only useful for visual-based server
 					enqueueMessage(ServerMessage(18, (float)dry_x, (float)dry_y, 0)); //tells client a tile has dried
 
 				}
@@ -291,11 +249,11 @@ void ServerDemo::update(float dt)
 		else {
 			int a = (rand() % levelmanager.puzzle.drytilevector.size());
 			int b = (rand() % levelmanager.puzzle.drytilevector[0].size());
-			if (tilespritevector[a][b]->getColor() != "clear")
+			if (levelmanager.puzzle.tilespritevector[a][b]->getColor() != "clear")
 			{
 				levelmanager.puzzle.drytilevector[a][b] = 1;
-				tilespritevector[a][b]->setDry(true); //only useful for visual-based server
-				tilespritevector[a][b]->refreshColor(); //only useful for visual-based server
+				levelmanager.puzzle.tilespritevector[a][b]->setDry(true); //only useful for visual-based server
+				levelmanager.puzzle.tilespritevector[a][b]->refreshColor(); //only useful for visual-based server
 				enqueueMessage(ServerMessage(18, (float)a, (float)b, 0)); //tells client a tile has dried
 				dry_time = 0;
 			}
@@ -307,17 +265,17 @@ void ServerDemo::update(float dt)
 				if (abs(serversam->getPositionX() - p->getPositionX()) < 5 && abs(serversam->getPositionY() - p->getPositionY()) < 5)
 				{
 					sendmap = true;
-					enqueueMessage(ServerMessage(13, 0, 0, p->getPlayernum())); //SFX triger for sam hitting player
 					for (unsigned int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 					{
 						for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 						{
 							if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != dried)
 							{
+								enqueueMessage(ServerMessage(13, 0, 0, p->getPlayernum())); //SFX triger for sam hitting player
 								levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
 								levelmanager.puzzle.currenttilevector[i][j] = 1;
-								tilespritevector[i][j]->setColor("clear");
-								tilespritevector[i][j]->refreshColor();
+								levelmanager.puzzle.tilespritevector[i][j]->setColor("clear");
+								levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 
 							}
 						}
@@ -328,17 +286,17 @@ void ServerDemo::update(float dt)
 				if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p->getPositionX()) < 10 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 10)
 				{
 					sendmap = true;
-					enqueueMessage(ServerMessage(14, 0, 0, p->getPlayernum())); //SFX triger for pterodactyl hitting player
 					for (unsigned int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 					{
 						for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 						{
 							if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != dried)
 							{
+								enqueueMessage(ServerMessage(14, 0, 0, p->getPlayernum())); //SFX triger for pterodactyl hitting player
 								levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
 								levelmanager.puzzle.currenttilevector[i][j] = 1;
-								tilespritevector[i][j]->setColor("clear");
-								tilespritevector[i][j]->refreshColor();
+								levelmanager.puzzle.tilespritevector[i][j]->setColor("clear");
+								levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 
 							}
 						}
@@ -347,52 +305,6 @@ void ServerDemo::update(float dt)
 				}
 			}
 		}
-
-		/*
-		// serversam checks if she's on a player, messes everything up if she's on them
-		for (Player* p : players)
-		{
-			if (abs(serversam->getPositionX() - p->getPositionX()) < 5 && abs(serversam->getPositionY() - p->getPositionY()) < 5)
-			{
-				sendmap = true;
-				for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
-				{
-					for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
-					{
-						if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
-						{
-							levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
-							levelmanager.puzzle.currenttilevector[i][j] = 1;
-							tilespritevector[i][j]->setColor("clear");
-							tilespritevector[i][j]->refreshColor();
-
-						}
-					}
-				}
-
-			}
-
-			if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p->getPositionX()) < 10 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 10)
-			{
-				sendmap = true;
-				for (int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
-				{
-					for (int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
-					{
-						if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum())
-						{
-							levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
-							levelmanager.puzzle.currenttilevector[i][j] = 1;
-							tilespritevector[i][j]->setColor("clear");
-							tilespritevector[i][j]->refreshColor();
-
-						}
-					}
-				}
-
-			}
-		}
-		*/
 		//let players admire their finished puzzles for a few seconds
 		if (solved_timer_start == true)
 		{
@@ -412,7 +324,7 @@ void ServerDemo::update(float dt)
 				}
 				else if (levelmanager.currentlevel == 4)
 				{
-					enqueueMessage(ServerMessage(15, 0, 0, 0));
+					enqueueMessage(ServerMessage(15, 0, 0, 0)); //gameover
 					loadLevel(1);
 				}
 				solved_timer = 60;
@@ -608,10 +520,10 @@ void ServerDemo::processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionpt
 
 
 
-void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, float dymove)
+void ServerDemo::space(int playernum, Point tileCoord, float dxmove, float dymove)
 {
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// NEW CODE ADDED
+
 	// Check to see if their position is where there is a bucket and assign that color
 	std::string newcolor = "none";
 
@@ -638,14 +550,12 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 				auto g2 = tilemapvals["Green2"].asString();
 				auto g3 = tilemapvals["Green3"].asString();
 
-				// ADDED THIS
 				auto w = tilemapvals["White"].asString();
 				auto gy1 = tilemapvals["Grey1"].asString();
 				auto gy2 = tilemapvals["Grey2"].asString();
 				auto r2 = tilemapvals["Red2"].asString();
 				auto p = tilemapvals["Purple1"].asString();
 				auto r1 = tilemapvals["Red1"].asString();
-				////////////////////
 
 				if ("true" == r)
 				{
@@ -747,7 +657,6 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 					newcolor = "red1";
 					servermessagequeue.emplace_back(ServerMessage(16, playernum, 0, 17));
 				}
-				//// ADDED THIS
 			}
 		}
 
@@ -765,60 +674,43 @@ void ServerDemo::space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, 
 
 void ServerDemo::loadLevel(int level)
 {
-	//reset player color+label on new level
-	for (unsigned int i = 0; i < players.size(); i++)
+	//code that should be run only after game start (removing previous assets)
+	if (levelmanager.currentlevel != 0) //at game start currentlevel = 0
 	{
-		players[i]->setColor("");
-		servermessagequeue.emplace_back(ServerMessage(16, i, 0, 1));
-	}
+		//tell client to load new level
+		servermessagequeue.emplace_back(ServerMessage(10, 0, 0, level));
 
-	if (level == 5)
-	{
-		servermessagequeue.emplace_back(ServerMessage(15, 0, 0, 0));
-		loadLevel(1);
-		return;
-	}
-
-	servermessagequeue.emplace_back(ServerMessage(10, 0, 0, level));
-
-	for (Sprite* s : levelmanager.levelsprites)
-	{
-		removeChild(s);
-	}
-
-	for (unsigned int i = 0; i < tilespritevector.size(); i++)
-	{
-		for (unsigned int j = 0; j < tilespritevector[i].size(); j++)
+		for (unsigned int i = 0; i < levelmanager.puzzle.tilespritevector.size(); i++)
 		{
-			removeChild(tilespritevector[i][j]);
+			for (unsigned int j = 0; j < levelmanager.puzzle.tilespritevector[i].size(); j++)
+			{
+				removeChild(levelmanager.puzzle.tilespritevector[i][j]);
+			}
 		}
+
+		//remove old map
+		removeChild(levelmanager.levelmap);
+
+		//reset player color+label on new level
+		for (unsigned int i = 0; i < players.size(); i++)
+		{
+			players[i]->setColor("");
+		}
+		serversam->setVisible(true);
 	}
-		
-	removeChild(levelmanager.levelmap);
-	
-	levelmanager.changeLevel(level);
+
+	levelmanager.setLevel(level);
 
 	addChild(levelmanager.levelmap, -1000);
+
+	//resizes grid, add new paint grid to game scene
+	setupPaintTiles();
 
 	// Check to see if there is an object layer 
 	spawnObjs = levelmanager.levelmap->getObjectGroup("SpawnObjects");
 
-	blockage = levelmanager.levelmap->getLayer("Collision");
-	if (blockage != NULL)
-	{
-		blockage->setVisible(false);
-	}
-	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
-	blankCanvas = levelmanager.levelmap->getLayer("BlankCanvas");
-
-	if (blankCanvas != NULL)
-	{
-		blankCanvas->setCascadeOpacityEnabled(true);
-	}
-	
-
 	if (spawnObjs == NULL) {
-		CCLOG("TMX map has no SpawnObjects layer");
+		log("TMX map has no SpawnObjects layer");
 	}
 	else
 	{
@@ -833,20 +725,27 @@ void ServerDemo::loadLevel(int level)
 
 	}
 
-	for (Sprite* s : levelmanager.levelsprites)
+	blockage = levelmanager.levelmap->getLayer("Collision");
+	if (blockage != NULL)
 	{
-		addChild(s, -999);
+		blockage->setVisible(false);
+	}
+	bucketlayer = levelmanager.levelmap->getLayer("Paintbuckets");
+	blankCanvas = levelmanager.levelmap->getLayer("BlankCanvas");
+
+	if (blankCanvas != NULL)
+	{
+		blankCanvas->setCascadeOpacityEnabled(true);
 	}
 
-	setupPaintTiles();
-
-	serversam->setLevel(&levelmanager);
-
-	if (level == 1) {
+	if (levelmanager.currentlevel == 1 && level == 1) //if its level 1 AND game start, aka not going from higher level back to 1
+	{
+		serversam->setVisible(false);
+		pterodactyl->setVisible(false);
 		serversam->pteraOff();
 		serversam->candyOff();
 		serversam->setPosition(-1000, -1000);
-		this->setScale(1.0f);
+		//this->setScale(1.0f);
 	}
 	else if (level == 2) {
 		serversam->teleportOn();
@@ -889,6 +788,7 @@ void ServerDemo::loadLevel(int level)
 		enqueueMessage(ServerMessage(19, 1, 0, 5)); //tells client to start sam painting event
 	}
 	else if (level == 4) {
+		pterodactyl->setVisible(false);
 		serversam->pteraOn();
 		serversam->candyOn();
 		serversam->teleportOn();
@@ -939,7 +839,8 @@ void ServerDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 		break;
 	case EventKeyboard::KeyCode::KEY_CAPITAL_E:
 	case EventKeyboard::KeyCode::KEY_E:
-		loadLevel(5);
+		enqueueMessage(ServerMessage(15, 0, 0, 0)); //gameover
+		loadLevel(1);
 		break;
 	case EventKeyboard::KeyCode::KEY_1:
 		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);
@@ -960,25 +861,24 @@ void ServerDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 
 void ServerDemo::setupPaintTiles()
 {
-
-	tilespritevector.resize(levelmanager.puzzle.currenttilevector.size());
-	for (unsigned int i = 0; i < tilespritevector.size(); i++)
+	//resize game grid to fit level's grid size
+	levelmanager.puzzle.tilespritevector.resize(levelmanager.puzzle.currenttilevector.size());
+	for (unsigned int i = 0; i < levelmanager.puzzle.tilespritevector.size(); i++)
 	{
-		tilespritevector[i].resize(levelmanager.puzzle.currenttilevector[i].size());
+		levelmanager.puzzle.tilespritevector[i].resize(levelmanager.puzzle.currenttilevector[i].size());
 	}
-	
-	for (unsigned int i = 0; i < tilespritevector.size(); i++)
+
+	//add new grid to game scene
+	for (unsigned int i = 0; i < levelmanager.puzzle.tilespritevector.size(); i++)
 	{
-		for (unsigned int j = 0; j < tilespritevector[i].size(); j++)
+		for (unsigned int j = 0; j < levelmanager.puzzle.tilespritevector[i].size(); j++)
 		{
-			tilespritevector[i][j] = PaintTile::create();
-			tilespritevector[i][j]->setPosition(24 * j + levelmanager.tilestartpoint.x, 24 * i + levelmanager.tilestartpoint.y);
-			//tilespritevector[i][j]->setScale(1);
-			tilespritevector[i][j]->debugDraw(true);
-			addChild(tilespritevector[i][j], -999);
+			levelmanager.puzzle.tilespritevector[i][j] = PaintTile::create();
+			levelmanager.puzzle.tilespritevector[i][j]->setPosition(24 * j + levelmanager.tilestartpoint.x, 24 * i + levelmanager.tilestartpoint.y);
+			levelmanager.puzzle.tilespritevector[i][j]->debugDraw(true);
+			addChild(levelmanager.puzzle.tilespritevector[i][j], -999);
 		}
 	}
-
 }
 
 void ServerDemo::updatePaintTiles(int playernum)
@@ -991,15 +891,15 @@ void ServerDemo::updatePaintTiles(int playernum)
 		for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 		{
 			if (players[playernum - 1]->getColor() != "" //check if player has paint
-			 &&	players[playernum - 1]->getPositionX() > tilespritevector[i][j]->getPositionX() - 12 
-			 && players[playernum - 1]->getPositionX() < tilespritevector[i][j]->getPositionX() + 12 
-			 && players[playernum - 1]->getPositionY() > tilespritevector[i][j]->getPositionY() - 12 
-			 && players[playernum - 1]->getPositionY() < tilespritevector[i][j]->getPositionY() + 12)
+			 &&	players[playernum - 1]->getPositionX() > levelmanager.puzzle.tilespritevector[i][j]->getPositionX() - 12 
+			 && players[playernum - 1]->getPositionX() < levelmanager.puzzle.tilespritevector[i][j]->getPositionX() + 12 
+			 && players[playernum - 1]->getPositionY() > levelmanager.puzzle.tilespritevector[i][j]->getPositionY() - 12 
+			 && players[playernum - 1]->getPositionY() < levelmanager.puzzle.tilespritevector[i][j]->getPositionY() + 12)
 			{
-				tilespritevector[i][j]->setColor(players[playernum - 1]->getColor());
-				tilespritevector[i][j]->setDry(false); //when dry tile repainted it is wet again
+				levelmanager.puzzle.tilespritevector[i][j]->setColor(players[playernum - 1]->getColor());
+				levelmanager.puzzle.tilespritevector[i][j]->setDry(false); //when dry tile repainted it is wet again
 				enqueueMessage(ServerMessage(18, (float)i, (float)j, 1)); //tells client a tile needs to be wet again
-				tilespritevector[i][j]->refreshColor();
+				levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
 				levelmanager.puzzle.drytilevector[i][j] = 0;
 				if (players[playernum - 1]->getColor() == "red")
 				{
@@ -1051,7 +951,6 @@ void ServerDemo::updatePaintTiles(int playernum)
 						levelmanager.puzzle.currenttilevector[i][j] = 60;
 					}
 				}
-				////////////////////////////// NEW CODE HERE
 				if (players[playernum - 1]->getColor() == "blue2")
 				{
 					if (levelmanager.puzzle.compareTile(i, j, 7))
@@ -1162,7 +1061,6 @@ void ServerDemo::updatePaintTiles(int playernum)
 						levelmanager.puzzle.currenttilevector[i][j] = 80;
 					}
 				}
-				/////////////////////
 				sendmap = true;
 				levelmanager.puzzle.whichplayertilesvector[i][j] = playernum;
 			}
@@ -1209,30 +1107,9 @@ ServerPositionPacket ServerDemo::createPacket()
 		
 }
 
+//UNUSED
 void ServerDemo::addPlayerToGame(int playernum)
 {
-	/*
-	if (playernum == 1)
-	{
-		player1->setVisible(true);
-		players.push_back(player1);
-	}
-	else if (playernum == 2) 
-	{
-		player2->setVisible(true);
-		players.push_back(player2);
-	}
-	else if (playernum == 3)
-	{
-		player3->setVisible(true);
-		players.push_back(player3);
-	}
-	else if (playernum == 4)
-	{
-		player4->setVisible(true);
-		players.push_back(player4);
-	}
-	*/
 	players[playernum - 1]->setVisible(true);
 	enqueueMessage(ServerMessage(12, 0, 0, playernum));
 
@@ -1487,7 +1364,7 @@ bool ServerDemo::runPaintEvent(void)
 
 ServerDemo::~ServerDemo()
 {
-	CCLOG("ServerDemoDeconstructor");
+	log("ServerDemoDeconstructor");
 
 	if (mytcpserverp)
 	{

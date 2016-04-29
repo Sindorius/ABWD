@@ -48,7 +48,6 @@ private:
 	Vec2 samInitPos;
 	std::vector<Sprite*> pSprites;
 	int opacity = 0;
-	std::string samHitWall;
 	int wallYCoord;
 
 	struct scriptEvent {
@@ -62,12 +61,11 @@ private:
 	scriptEvent paintEvent; //new level sam painting event
 	bool solved_timer_start = false;
 	int solved_timer = 60;
-	//cocos2d::CCTMXTiledMap* tileMap;
 	
-	cocos2d::CCTMXLayer* bucketlayer;
-	cocos2d::CCTMXLayer* blockage;
-	cocos2d::CCTMXLayer* blankCanvas;
-	cocos2d::CCTMXObjectGroup* spawnObjs;
+	cocos2d::TMXLayer* bucketlayer;
+	cocos2d::TMXLayer* blockage;
+	cocos2d::TMXLayer* blankCanvas;
+	cocos2d::TMXObjectGroup* spawnObjs;
 
 	Player* player1;
 	Player* player2;
@@ -111,10 +109,10 @@ public:
 
 	void processPlayerPacket(PlayerInputPacket p, TCPSSession* sessionptr);
 
-	std::vector<std::vector<PaintTile*>> tilespritevector;
+	//std::vector<std::vector<PaintTile*>> tilespritevector;
 
 	// Paint on the floor
-	void space(int playernum, cocos2d::CCPoint tileCoord, float dxmove, float dymove);
+	void space(int playernum, Point tileCoord, float dxmove, float dymove);
 
 	AnimationManager animationmanager;
 	LevelManager levelmanager;

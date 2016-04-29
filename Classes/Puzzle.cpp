@@ -47,13 +47,33 @@ void Puzzle::changePuzzle(int level)
 		drytilevector = sundrytilesvector;
 
 	}
-	if (level == 5)
-	{
+}
 
-		currenttilevector = keytilevectorvalues;
-		currenttilevectorsolution = keytilevectorsolution;
-		whichplayertilesvector = keyplayertilesvector;
-		drytilevector = keydrytilesvector;
+bool Puzzle::compareTile(int x, int y, int num)
+{
+	if (currenttilevectorsolution[x][y] == num) {
+		return true;
+	}
+	return false;
+}
+
+bool Puzzle::isSolved()
+{
+	for (unsigned int i = 0; i < currenttilevector.size(); i++)
+	{
+		for (unsigned int j = 0; j < currenttilevector[i].size(); j++)
+		{
+			if (currenttilevector[i][j] != currenttilevectorsolution[i][j])
+			{
+				//log(std::to_string(i).c_str());
+				//log(std::to_string(j).c_str());
+				//log("solution not equal");
+				//log(std::to_string(currenttilevector[i][j]).c_str());
+				//log(std::to_string(currenttilevectorsolution[i][j]).c_str());
+				return false;
+			}
+		}
 
 	}
+	return true;
 }
