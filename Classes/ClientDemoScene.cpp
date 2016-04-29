@@ -1659,23 +1659,23 @@ void ClientDemo::loadLevel(int level)
 		//remove old map
 		removeChild(levelmanager.levelmap);
 
-		if (transitionManager.start_timer == 60) //if not in transition and centercamera() has been called before (not new game, not player joining game in progress)
-		{
-			NotInTransition = false;
-
-			transitionManager.loadTransition(level);
-			for (Sprite* ts : transitionManager.transitionSprite)
-			{
-				addChild(ts, 10);
-			}
-		}
-
 		//reset player color+label on new level
 		for (unsigned int i = 0; i < players.size(); i++)
 		{
 			players[i]->setColor("");
 		}
 
+	}
+
+	if (transitionManager.start_timer == 60) //if not in transition and centercamera() has been called before (not new game, not player joining game in progress)
+	{
+		NotInTransition = false;
+
+		transitionManager.loadTransition(level);
+		for (Sprite* ts : transitionManager.transitionSprite)
+		{
+			addChild(ts, 10);
+		}
 	}
 
 	levelmanager.setLevel(level);

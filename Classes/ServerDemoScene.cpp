@@ -674,12 +674,13 @@ void ServerDemo::space(int playernum, Point tileCoord, float dxmove, float dymov
 
 void ServerDemo::loadLevel(int level)
 {
+
+	//tell client to load new level
+	servermessagequeue.emplace_back(ServerMessage(10, 0, 0, level));
+
 	//code that should be run only after game start (removing previous assets)
 	if (levelmanager.currentlevel != 0) //at game start currentlevel = 0
 	{
-		//tell client to load new level
-		servermessagequeue.emplace_back(ServerMessage(10, 0, 0, level));
-
 		for (unsigned int i = 0; i < levelmanager.puzzle.tilespritevector.size(); i++)
 		{
 			for (unsigned int j = 0; j < levelmanager.puzzle.tilespritevector[i].size(); j++)
