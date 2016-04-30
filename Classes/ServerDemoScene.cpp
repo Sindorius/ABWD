@@ -262,41 +262,52 @@ void ServerDemo::update(float dt)
 		if (levelmanager.currentlevel != 1) {
 			for (Player* p : players)
 			{
+				bool samHit = false;
+				bool pteroHit = false;
+
 				if (abs(serversam->getPositionX() - p->getPositionX()) < 5 && abs(serversam->getPositionY() - p->getPositionY()) < 5)
 				{
-					for (unsigned int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
-					{
-						for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
-						{
-							if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != dried)
-							{
-								enqueueMessage(ServerMessage(13, 0, 0, p->getPlayernum())); //SFX triger for sam hitting player
-								levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
-								levelmanager.puzzle.currenttilevector[i][j] = 1;
-								levelmanager.puzzle.tilespritevector[i][j]->setColor("clear");
-								levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-
-							}
-						}
-					}
-					sendmap = true;
-
+					samHit = true;
 				}
-
 				if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p->getPositionX()) < 10 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 10)
 				{
+					pteroHit = true;
+				}
+				if (samHit == true || pteroHit == true)
+				{
+					//set player to inverted 'hit' animation
+					std::string str = p->getAnim();
+					//log(str.c_str());
+					//check if current animation is already a hit animation
+					std::size_t found = str.find("hit");
+					if (found == std::string::npos)
+					{
+						str.erase(p->getPlayernum(), 1);
+						str.append("hit");
+					}
+					p->setAnim(str);
+					//log(str.c_str());
+
 					for (unsigned int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 					{
 						for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
 						{
 							if (levelmanager.puzzle.whichplayertilesvector[i][j] == p->getPlayernum() && levelmanager.puzzle.drytilevector[i][j] != dried)
 							{
-								enqueueMessage(ServerMessage(14, 0, 0, p->getPlayernum())); //SFX triger for pterodactyl hitting player
 								levelmanager.puzzle.whichplayertilesvector[i][j] = 0;
 								levelmanager.puzzle.currenttilevector[i][j] = 1;
 								levelmanager.puzzle.tilespritevector[i][j]->setColor("clear");
 								levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-
+								if (samHit == true)
+								{
+									enqueueMessage(ServerMessage(13, 0, 0, p->getPlayernum())); //tell client sam hit player
+									samHit = false;
+								}
+								else if (pteroHit == true)
+								{
+									enqueueMessage(ServerMessage(14, 0, 0, p->getPlayernum())); //tell client pterodactyl hit player
+									pteroHit = false;
+								}
 							}
 						}
 					}

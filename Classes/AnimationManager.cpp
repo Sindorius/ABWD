@@ -399,6 +399,102 @@ AnimationManager::AnimationManager()
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p4paint"), paintanim4));
 	animationmap.insert(std::pair<std::string, Animate*>(std::string("p4idle"), idleanim4));
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//inverted/hit player anims
+
+	Vector<SpriteFrame*> walkuphitanimFrames4;
+	walkuphitanimFrames4.reserve(4);
+	Vector<SpriteFrame*> walkdownhitanimFrames4;
+	walkdownhitanimFrames4.reserve(4);
+	Vector<SpriteFrame*> walklefthitanimFrames4;
+	walklefthitanimFrames4.reserve(4);
+	Vector<SpriteFrame*> walkrighthitanimFrames4;
+	walkrighthitanimFrames4.reserve(4);
+	Vector<SpriteFrame*> painthitFrames4;
+	painthitFrames4.reserve(1);
+	Vector<SpriteFrame*> idlehitanimFrames4;
+	idlehitanimFrames4.reserve(4);
+
+	walkuphitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_up0.png", Rect(0, 0, 24, 48)));
+	walkuphitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_up1.png", Rect(0, 0, 24, 48)));
+	walkuphitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_up2.png", Rect(0, 0, 24, 48)));
+	walkuphitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_up3.png", Rect(0, 0, 24, 48)));
+	walkuphitanimFrames4.at(0)->getTexture()->setAliasTexParameters();
+	walkuphitanimFrames4.at(1)->getTexture()->setAliasTexParameters();
+	walkuphitanimFrames4.at(2)->getTexture()->setAliasTexParameters();
+	walkuphitanimFrames4.at(3)->getTexture()->setAliasTexParameters();
+
+	walkdownhitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_down0.png", Rect(0, 0, 24, 46)));
+	walkdownhitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_down1.png", Rect(0, 0, 24, 46)));
+	walkdownhitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_down2.png", Rect(0, 0, 24, 46)));
+	walkdownhitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_down3.png", Rect(0, 0, 24, 46)));
+	walkdownhitanimFrames4.at(0)->getTexture()->setAliasTexParameters();
+	walkdownhitanimFrames4.at(1)->getTexture()->setAliasTexParameters();
+	walkdownhitanimFrames4.at(2)->getTexture()->setAliasTexParameters();
+	walkdownhitanimFrames4.at(3)->getTexture()->setAliasTexParameters();
+
+	walklefthitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_left0.png", Rect(0, 0, 22, 47)));
+	walklefthitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_left1.png", Rect(0, 0, 22, 47)));
+	walklefthitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_left2.png", Rect(0, 0, 22, 47)));
+	walklefthitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_left3.png", Rect(0, 0, 22, 47)));
+	walklefthitanimFrames4.at(0)->getTexture()->setAliasTexParameters();
+	walklefthitanimFrames4.at(1)->getTexture()->setAliasTexParameters();
+	walklefthitanimFrames4.at(2)->getTexture()->setAliasTexParameters();
+	walklefthitanimFrames4.at(3)->getTexture()->setAliasTexParameters();
+
+	walkrighthitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_right0.png", Rect(0, 0, 22, 47)));
+	walkrighthitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_right1.png", Rect(0, 0, 22, 47)));
+	walkrighthitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_right2.png", Rect(0, 0, 22, 47)));
+	walkrighthitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_walking_right3.png", Rect(0, 0, 22, 47)));
+	walkrighthitanimFrames4.at(0)->getTexture()->setAliasTexParameters();
+	walkrighthitanimFrames4.at(1)->getTexture()->setAliasTexParameters();
+	walkrighthitanimFrames4.at(2)->getTexture()->setAliasTexParameters();
+	walkrighthitanimFrames4.at(3)->getTexture()->setAliasTexParameters();
+
+	painthitFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_painting_left0.png", Rect(0, 0, 23, 33)));
+	painthitFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_painting_left1.png", Rect(0, 0, 23, 33)));
+	painthitFrames4.at(0)->getTexture()->setAliasTexParameters();
+	painthitFrames4.at(1)->getTexture()->setAliasTexParameters();
+
+	idlehitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_idle_front0.png", Rect(0, 0, 25, 47)));
+	idlehitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_idle_front1.png", Rect(0, 0, 25, 47)));
+	idlehitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_idle_front2.png", Rect(0, 0, 25, 47)));
+	idlehitanimFrames4.pushBack(SpriteFrame::create("\\res\\sprites\\animations\\main_characters\\inv\\char_default_idle_front3.png", Rect(0, 0, 25, 47)));
+	idlehitanimFrames4.at(0)->getTexture()->setAliasTexParameters();
+	idlehitanimFrames4.at(1)->getTexture()->setAliasTexParameters();
+	idlehitanimFrames4.at(2)->getTexture()->setAliasTexParameters();
+	idlehitanimFrames4.at(3)->getTexture()->setAliasTexParameters();
+
+	// create the animation out of the frames
+	Animation* uphitanimation4 = Animation::createWithSpriteFrames(walkuphitanimFrames4, 0.1f);
+	cocos2d::Animate* walkuphitanim4 = Animate::create(uphitanimation4);
+	walkuphitanim4->retain();
+	Animation* downhitanimation4 = Animation::createWithSpriteFrames(walkdownhitanimFrames4, 0.1f);
+	cocos2d::Animate* walkdownhitanim4 = Animate::create(downhitanimation4);
+	walkdownhitanim4->retain();
+	Animation* lefthitanimation4 = Animation::createWithSpriteFrames(walklefthitanimFrames4, 0.1f);
+	cocos2d::Animate* walklefthitanim4 = Animate::create(lefthitanimation4);
+	walklefthitanim4->retain();
+	Animation* righthitanimation4 = Animation::createWithSpriteFrames(walkrighthitanimFrames4, 0.1f);
+	cocos2d::Animate* walkrighthitanim4 = Animate::create(righthitanimation4);
+	walkrighthitanim4->retain();
+
+
+	Animation* painthitanimation4 = Animation::createWithSpriteFrames(painthitFrames4, 0.1f);
+	Animate* painthitanim4 = Animate::create(painthitanimation4);
+	painthitanim4->retain();
+
+	Animation* idlehitanimation4 = Animation::createWithSpriteFrames(idlehitanimFrames4, 0.2f);
+	cocos2d::Animate* idlehitanim4 = Animate::create(idlehitanimation4);
+	idlehitanim4->retain();
+
+
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("puphit"), walkuphitanim4));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("pdownhit"), walkdownhitanim4));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("plefthit"), walklefthitanim4));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("prighthit"), walkrighthitanim4));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("ppainthit"), painthitanim4));
+	animationmap.insert(std::pair<std::string, Animate*>(std::string("pidlehit"), idlehitanim4));
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -758,7 +854,12 @@ AnimationManager::AnimationManager()
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(38, "p4idle"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(39, "sammunch"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(40, "pteraANGRYleft"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(41, "pteraANGRYright"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(41, "puphit"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(42, "pdownhit"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(43, "plefthit"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(44, "prighthit"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(45, "ppainthit"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(46, "pidlehit"));
 
 
 

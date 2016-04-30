@@ -782,19 +782,11 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	}
 	else if (msg.messagechar == 13)
 	{
-		if (pIFrames[msg.status - 1] == 0)
-		{
-			gSound.pTrigs[msg.status - 1].samCollide = true;
-			pIFrames[msg.status - 1] = 3 * 30; //3 seconds at 30 fps
-		}
+		gSound.pTrigs[msg.status - 1].samCollide = true;
 	}
 	else if (msg.messagechar == 14)
 	{
-		if (pIFrames[msg.status - 1] == 0)
-		{
-			gSound.pTrigs[msg.status - 1].ptCollide = true;
-			pIFrames[msg.status - 1] = 1 * 30; //2 seconds at 30 fps
-		}
+		gSound.pTrigs[msg.status - 1].ptCollide = true;
 	}
 	else if (msg.messagechar == 15)
 	{
@@ -2416,12 +2408,7 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 	//===========================================================
 	//     END OF ANIMATION-BASED AUDIO
 	//===========================================================
-	//iframe decrements
-	for (int i = 0; i < 3; i++)
-	{
-		if (pIFrames[i] > 0)
-			pIFrames[i]--;
-	}
+
 	//hackfix to get lvl 1 music to play
 	//stopall() in howtoplay.cpp cant be followed too quickly by play2d(). cocos2d bug?
 	if (gSound.musicOn)
