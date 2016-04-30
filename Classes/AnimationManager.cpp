@@ -854,12 +854,13 @@ AnimationManager::AnimationManager()
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(38, "p4idle"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(39, "sammunch"));
 	charstringmap.insert(boost::bimap<char, std::string>::value_type(40, "pteraANGRYleft"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(41, "puphit"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(42, "pdownhit"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(43, "plefthit"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(44, "prighthit"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(45, "ppainthit"));
-	charstringmap.insert(boost::bimap<char, std::string>::value_type(46, "pidlehit"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(41, "pteraANGRYright"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(42, "puphit"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(43, "pdownhit"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(44, "plefthit"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(45, "prighthit"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(46, "ppainthit"));
+	charstringmap.insert(boost::bimap<char, std::string>::value_type(47, "pidlehit"));
 
 
 
