@@ -39,7 +39,7 @@ bool GameMenu::init()
 	background = Sprite::create("\\res\\sprites\\ui\\black_screen.png");
 	background->getTexture()->setAliasTexParameters();
 	background->setPosition(Vec2(winSizeWidth, winSizeHeight));
-	background->setScale(1.0f);
+	background->setScale(1.5f);
 	background->setOpacity(150);
 	this->addChild(background, 1);
 
@@ -375,6 +375,7 @@ void GameMenu::CycleButtonsDown(void)
 void GameMenu::SetMenuCamera(Vec2 pos)
 {
 	menu->setPosition(pos);
+	background->setPosition(pos);
 
 	Rect r = buttons[current_button]->getBoundingBox();
 

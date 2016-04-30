@@ -236,13 +236,7 @@ void ClientDemo::update(float dt)
 		return;
 	}
 	*/
-	// NEW CODE TO TRY
-	//if (levelmanager.currentlevel > 4)
-	//{
-//		auto GOScene = GameOver::createGameOver();
-//		Director::getInstance()->replaceScene(GOScene);
-//	}
-	//////////////////
+
 	if (isPaused == true)
 	{
 		updateFromMenu();
@@ -361,7 +355,6 @@ void ClientDemo::update(float dt)
 
 void ClientDemo::processPacket(ServerPositionPacket p)
 {
-	
 	
 	for (ServerMessage msg : p.messagevector)
 	{
@@ -494,7 +487,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	//log(std::to_string(currenttilevector[0][0]).c_str());
 	//log(std::to_string(p.tilevector[0][0]).c_str());
 
-	if (gSound.audioOn && gSound.sfxOn)
+	if (gSound.audioOn && gSound.sfxOn && !gameMenuLayer->isVisible())
 	{
 		processSound(p);
 	}

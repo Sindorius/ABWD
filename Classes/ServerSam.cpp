@@ -364,7 +364,9 @@ void ServerSam::munch() {
 		int newY = abs(this->getPositionY() - candy_spawn_distance*(sin(theta * 3.14159 / 180)));
 
 		//make sure new coords are within map boundaries
-		if (newX > ((lvm->levelmap->getMapSize().width - 1) * lvm->levelmap->getTileSize().width) || newY > ((lvm->levelmap->getMapSize().height - 1) * lvm->levelmap->getTileSize().height))
+		auto testx = ((lvm->levelmap->getMapSize().width - 1) * lvm->levelmap->getTileSize().width);
+		auto testy = (lvm->levelmap->getMapSize().height - 1) * lvm->levelmap->getTileSize().height;
+		if (newX > testx || newY > testy)
 		{
 			resume = false;
 		}

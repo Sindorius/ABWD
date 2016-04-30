@@ -130,7 +130,7 @@ private:
 	bool b_ptera = false;
 
 	//external items
-	cocos2d::CCTMXLayer* blockage;
+	cocos2d::TMXLayer* blockage;
 	LevelManager* lvm;
 
 	//links

@@ -264,7 +264,6 @@ void ServerDemo::update(float dt)
 			{
 				if (abs(serversam->getPositionX() - p->getPositionX()) < 5 && abs(serversam->getPositionY() - p->getPositionY()) < 5)
 				{
-					sendmap = true;
 					for (unsigned int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 					{
 						for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
@@ -280,12 +279,12 @@ void ServerDemo::update(float dt)
 							}
 						}
 					}
+					sendmap = true;
 
 				}
 
 				if (pterodactyl->isHostile() && abs(pterodactyl->getPositionX() + 12 - p->getPositionX()) < 10 && abs(pterodactyl->getPositionY() - p->getPositionY()) < 10)
 				{
-					sendmap = true;
 					for (unsigned int i = 0; i < levelmanager.puzzle.currenttilevector.size(); i++)
 					{
 						for (unsigned int j = 0; j < levelmanager.puzzle.currenttilevector[i].size(); j++)
@@ -301,7 +300,7 @@ void ServerDemo::update(float dt)
 							}
 						}
 					}
-
+					sendmap = true;
 				}
 			}
 		}
@@ -707,6 +706,8 @@ void ServerDemo::loadLevel(int level)
 	//resizes grid, add new paint grid to game scene
 	setupPaintTiles();
 
+	serversam->attachLevel(&levelmanager); //needs to update blockage, should find better way...
+
 	// Check to see if there is an object layer 
 	spawnObjs = levelmanager.levelmap->getObjectGroup("SpawnObjects");
 
@@ -739,14 +740,14 @@ void ServerDemo::loadLevel(int level)
 		blankCanvas->setCascadeOpacityEnabled(true);
 	}
 
-	if (levelmanager.currentlevel == 1 && level == 1) //if its level 1 AND game start, aka not going from higher level back to 1
+	if (level == 1) 
 	{
 		serversam->setVisible(false);
 		pterodactyl->setVisible(false);
 		serversam->pteraOff();
 		serversam->candyOff();
 		serversam->setPosition(-1000, -1000);
-		//this->setScale(1.0f);
+		this->setScale(1.0f);
 	}
 	else if (level == 2) {
 		serversam->teleportOn();
@@ -769,8 +770,8 @@ void ServerDemo::loadLevel(int level)
 		enqueueMessage(ServerMessage(19, 1, 0, 5)); //tells client to start sam painting event
 	}
 	else if (level == 3) {
-		serversam->teleportOn();
-		serversam->walkOn();
+		serversam->teleportOff();
+		serversam->walkOff();
 		serversam->pteraOff();
 		serversam->candyOn();
 		samInitPos.set(Vec2(300, 150));

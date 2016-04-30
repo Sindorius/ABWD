@@ -47,10 +47,10 @@ private:
 	int swapframes = 1;
 	int swapframecounter = 1;
 
-	cocos2d::TMXLayer* bucketlayer;
-	cocos2d::TMXLayer* blockage;
-	cocos2d::TMXLayer* blankCanvas;
-	cocos2d::TMXObjectGroup* spawnObjs;
+	TMXLayer* bucketlayer;
+	TMXLayer* blockage;
+	TMXLayer* blankCanvas;
+	TMXObjectGroup* spawnObjs;
 
 	Sprite* tileHighlight;
 	Sprite* bucketHighlight;
