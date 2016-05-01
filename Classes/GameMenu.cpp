@@ -329,10 +329,11 @@ event->stopPropagation();
 //selects button above current, cycles to bottom button if currently at top button
 void GameMenu::CycleButtonsUp(void)
 {
+	//unselect previous button
+	buttons[current_button]->unselected();
+
 	if (current_button > 0)
 	{
-		//unselect previous button, select new button
-		//buttons[current_button]->unselected();
 		buttons[current_button]->setOpacity(DEFAULT_OPACITY);
 		current_button--;
 		buttons[current_button]->setOpacity(SELECTED_OPACITY);
@@ -346,16 +347,17 @@ void GameMenu::CycleButtonsUp(void)
 		buttons[current_button]->setOpacity(SELECTED_OPACITY);
 		//buttons[current_button]->selected();
 	}
-	timeDelay = 10; //10 frames or 1/3rd of a second
+	timeDelay = 8; //8 frames
 }
 
 //selects button below current, cycles to top button if currently at bottom button
 void GameMenu::CycleButtonsDown(void)
 {
+	//unselect previous button
+	buttons[current_button]->unselected();
+
 	if (current_button < buttons.size() - 1)
 	{
-		//unselect previous button, select new button
-		//buttons[current_button]->unselected();
 		buttons[current_button]->setOpacity(DEFAULT_OPACITY);
 		current_button++;
 		buttons[current_button]->setOpacity(SELECTED_OPACITY);
@@ -369,7 +371,7 @@ void GameMenu::CycleButtonsDown(void)
 		buttons[current_button]->setOpacity(SELECTED_OPACITY);
 		//buttons[current_button]->selected();
 	}
-	timeDelay = 10; //10 frames or 1/3rd of a second
+	timeDelay = 8; //8 frames
 }
 
 void GameMenu::SetMenuCamera(Vec2 pos)

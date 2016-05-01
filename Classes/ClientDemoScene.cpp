@@ -2811,6 +2811,7 @@ void ClientDemo::updateFromMenu(void)
 	if (gameMenuLayer->checkVideo() != Director::getInstance()->getOpenGLView()->getFrameZoomFactor())
 	{
 		Director::getInstance()->getOpenGLView()->setFrameZoomFactor(gameMenuLayer->checkVideo());
+		Camera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition()); //prevents slow re-positioning of gamemenu+camera
 	}
 	//set menu pos to center around camera pos
 	gameMenuLayer->SetMenuCamera(Vec2(Camera::getDefaultCamera()->getPositionX(), Camera::getDefaultCamera()->getPositionY() + 25));
