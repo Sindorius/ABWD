@@ -29,6 +29,11 @@
 
 #define EVENTS_ON 1 //turns scripted events on/off
 
+#define CURRENT_GRID levelmanager.puzzle.currenttilevector
+#define SPRITE_GRID levelmanager.puzzle.tilespritevector
+#define DRY_GRID levelmanager.puzzle.drytilevector
+#define PLAYER_GRID levelmanager.puzzle.whichplayertilesvector
+
 class TCPServer;
 class ServerSam;
 
@@ -42,7 +47,6 @@ private:
 	unsigned int dry_x = 0;
 	unsigned int dry_y = 0;
 	int transitionTimer = 0;
-	int dried = 10;
 	bool eventActive = false; //true when scripted game events are happening
 	Vec2 samTile;
 	Vec2 samInitPos;
@@ -134,6 +138,10 @@ public:
 
 	void runEvent(int e);
 	bool runPaintEvent(void);
+	void checkEnemyCollision(void);
+	void dryTiles(void);
+	void checkSolved(void);
+	void updateIdleAnims(void);
 };
 
 #endif // __SERVERDEMO_SCENE_H__

@@ -277,17 +277,17 @@ void ClientDemo::update(float dt)
 		tileHighlight->setOpacity(0);
 		//bucketHighlight->setOpacity(0);
 
-		for (unsigned int i = 0; i < levelmanager.puzzle.tilespritevector.size(); i++)
+		for (unsigned int i = 0; i < SPRITE_GRID.size(); i++)
 		{
-			for (unsigned int j = 0; j < levelmanager.puzzle.tilespritevector[i].size(); j++)
+			for (unsigned int j = 0; j < SPRITE_GRID[i].size(); j++)
 			{
-				if (players[playernum - 1]->getPositionX() > levelmanager.puzzle.tilespritevector[i][j]->getPositionX() - 12
-					&& players[playernum - 1]->getPositionX() < levelmanager.puzzle.tilespritevector[i][j]->getPositionX() + 12
-					&& players[playernum - 1]->getPositionY() > levelmanager.puzzle.tilespritevector[i][j]->getPositionY() - 12
-					&& players[playernum - 1]->getPositionY() < levelmanager.puzzle.tilespritevector[i][j]->getPositionY() + 12)
+				if (players[playernum - 1]->getPositionX() > SPRITE_GRID[i][j]->getPositionX() - 12
+					&& players[playernum - 1]->getPositionX() < SPRITE_GRID[i][j]->getPositionX() + 12
+					&& players[playernum - 1]->getPositionY() > SPRITE_GRID[i][j]->getPositionY() - 12
+					&& players[playernum - 1]->getPositionY() < SPRITE_GRID[i][j]->getPositionY() + 12)
 				{
 					tileHighlight->setOpacity(255);
-					tileHighlight->setPosition(levelmanager.puzzle.tilespritevector[i][j]->getPositionX(), levelmanager.puzzle.tilespritevector[i][j]->getPositionY());
+					tileHighlight->setPosition(SPRITE_GRID[i][j]->getPositionX(), SPRITE_GRID[i][j]->getPositionY());
 					gSound.pTrigs[playernum - 1].onGrid = true;
 				}
 			}
@@ -550,172 +550,170 @@ void ClientDemo::updateTilesFromPacket(ServerPositionPacket p)
 	{
 		for (unsigned int j = 0; j < p.tilevector[i].size(); j++)
 		{
-			if (levelmanager.puzzle.currenttilevector[i][j] != p.tilevector[i][j])
+			if (CURRENT_GRID[i][j] != p.tilevector[i][j])
 			{
-				levelmanager.puzzle.currenttilevector[i][j] = p.tilevector[i][j];
-				if (levelmanager.puzzle.currenttilevector[i][j] == 1)
+				CURRENT_GRID[i][j] = p.tilevector[i][j];
+				if (CURRENT_GRID[i][j] == 1)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("clear");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("clear");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 2)
+				else if (CURRENT_GRID[i][j] == 2)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("red");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("red");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 3)
+				else if (CURRENT_GRID[i][j] == 3)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("blue");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("blue");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 4)
+				else if (CURRENT_GRID[i][j] == 4)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("yellow");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("yellow");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 5)
+				else if (CURRENT_GRID[i][j] == 5)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("orange");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("orange");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 6)
+				else if (CURRENT_GRID[i][j] == 6)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("black");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 7)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("blue2");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 8)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("blue3");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 9)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("green1");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 10)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("green2");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 11)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("green3");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				// NEW CODE HERE
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 12)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("white");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 13)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("grey1");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 14)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("grey2");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 15)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("red2");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 16)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("purple1");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 17)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("red1");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				///////////////
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 20)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xred1");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 30)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xblue");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 40)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xyellow");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 50)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xorange");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
-				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 60)
-				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xblack");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("black");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
 
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 70)
+				else if (CURRENT_GRID[i][j] == 7)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xblue2");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("blue2");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 71)
+				else if (CURRENT_GRID[i][j] == 8)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xblue3");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("blue3");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 72)
+				else if (CURRENT_GRID[i][j] == 9)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xgreen1");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("green1");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 73)
+				else if (CURRENT_GRID[i][j] == 10)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xgreen2");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("green2");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 74)
+				else if (CURRENT_GRID[i][j] == 11)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xgreen3");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("green3");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 75)
+				else if (CURRENT_GRID[i][j] == 12)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xwhite");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("white");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 76)
+				else if (CURRENT_GRID[i][j] == 13)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xgrey1");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("grey1");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 77)
+				else if (CURRENT_GRID[i][j] == 14)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xgrey2");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("grey2");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 78)
+				else if (CURRENT_GRID[i][j] == 15)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xred2");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("red2");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
-				else if (levelmanager.puzzle.currenttilevector[i][j] == 79)
+				else if (CURRENT_GRID[i][j] == 16)
 				{
-					levelmanager.puzzle.tilespritevector[i][j]->setColor("Xpurple1");
-					levelmanager.puzzle.tilespritevector[i][j]->refreshColor();
+					SPRITE_GRID[i][j]->setColor("purple1");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 17)
+				{
+					SPRITE_GRID[i][j]->setColor("red1");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 20)
+				{
+					SPRITE_GRID[i][j]->setColor("Xred1");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 30)
+				{
+					SPRITE_GRID[i][j]->setColor("Xblue");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 40)
+				{
+					SPRITE_GRID[i][j]->setColor("Xyellow");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 50)
+				{
+					SPRITE_GRID[i][j]->setColor("Xorange");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 60)
+				{
+					SPRITE_GRID[i][j]->setColor("Xblack");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+
+				else if (CURRENT_GRID[i][j] == 70)
+				{
+					SPRITE_GRID[i][j]->setColor("Xblue2");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 71)
+				{
+					SPRITE_GRID[i][j]->setColor("Xblue3");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 72)
+				{
+					SPRITE_GRID[i][j]->setColor("Xgreen1");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 73)
+				{
+					SPRITE_GRID[i][j]->setColor("Xgreen2");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 74)
+				{
+					SPRITE_GRID[i][j]->setColor("Xgreen3");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 75)
+				{
+					SPRITE_GRID[i][j]->setColor("Xwhite");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 76)
+				{
+					SPRITE_GRID[i][j]->setColor("Xgrey1");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 77)
+				{
+					SPRITE_GRID[i][j]->setColor("Xgrey2");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 78)
+				{
+					SPRITE_GRID[i][j]->setColor("Xred2");
+					SPRITE_GRID[i][j]->refreshColor();
+				}
+				else if (CURRENT_GRID[i][j] == 79)
+				{
+					SPRITE_GRID[i][j]->setColor("Xpurple1");
+					SPRITE_GRID[i][j]->refreshColor();
 				}
 			}
 		}
@@ -886,17 +884,17 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	}
 	else if (msg.messagechar == 18)
 	{
-		if ((unsigned int)msg.xpos <= levelmanager.puzzle.tilespritevector.size() && (unsigned int)msg.ypos <= levelmanager.puzzle.tilespritevector[0].size()) //prevents out of bounds vector subscript, but essentially skips over servermessage?
+		if ((unsigned int)msg.xpos <= SPRITE_GRID.size() && (unsigned int)msg.ypos <= SPRITE_GRID[0].size()) //prevents out of bounds vector subscript, but essentially skips over servermessage?
 		{
 			if (msg.status == 0) //paint tile wet
 			{
-				levelmanager.puzzle.tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(true);
+				SPRITE_GRID[(int)msg.xpos][(int)msg.ypos]->setDry(true);
 			}
 			else if (msg.status == 1) //paint tile dry
 			{
-				levelmanager.puzzle.tilespritevector[(int)msg.xpos][(int)msg.ypos]->setDry(false);
+				SPRITE_GRID[(int)msg.xpos][(int)msg.ypos]->setDry(false);
 			}
-			levelmanager.puzzle.tilespritevector[(int)msg.xpos][(int)msg.ypos]->refreshColor();
+			SPRITE_GRID[(int)msg.xpos][(int)msg.ypos]->refreshColor();
 		}
 	}
 	//Event #1: Sam Painting
@@ -1633,11 +1631,11 @@ void ClientDemo::loadLevel(int level)
 	//code that should be run only after game start (removing previous assets)
 	if (levelmanager.currentlevel != 0) //at game start currentlevel = 0
 	{
-		for (unsigned int i = 0; i < levelmanager.puzzle.tilespritevector.size(); i++)
+		for (unsigned int i = 0; i < SPRITE_GRID.size(); i++)
 		{
-			for (unsigned int j = 0; j < levelmanager.puzzle.tilespritevector[i].size(); j++)
+			for (unsigned int j = 0; j < SPRITE_GRID[i].size(); j++)
 			{
-				removeChild(levelmanager.puzzle.tilespritevector[i][j]);
+				removeChild(SPRITE_GRID[i][j]);
 			}
 		}
 
@@ -1755,20 +1753,20 @@ void ClientDemo::loadLevel(int level)
 
 void ClientDemo::setupPaintTiles()
 {
-	levelmanager.puzzle.tilespritevector.resize(levelmanager.puzzle.currenttilevector.size());
-	for (unsigned int i = 0; i < levelmanager.puzzle.tilespritevector.size(); i++)
+	SPRITE_GRID.resize(CURRENT_GRID.size());
+	for (unsigned int i = 0; i < SPRITE_GRID.size(); i++)
 	{
-		levelmanager.puzzle.tilespritevector[i].resize(levelmanager.puzzle.currenttilevector[i].size());
+		SPRITE_GRID[i].resize(CURRENT_GRID[i].size());
 	}
 
-	for (unsigned int i = 0; i < levelmanager.puzzle.tilespritevector.size(); i++)
+	for (unsigned int i = 0; i < SPRITE_GRID.size(); i++)
 	{
-		for (unsigned int j = 0; j < levelmanager.puzzle.tilespritevector[i].size(); j++)
+		for (unsigned int j = 0; j < SPRITE_GRID[i].size(); j++)
 		{
-			levelmanager.puzzle.tilespritevector[i][j] = PaintTile::create();
-			levelmanager.puzzle.tilespritevector[i][j]->setPosition(24 * j + levelmanager.tilestartpoint.x, 24 * i + levelmanager.tilestartpoint.y);
-			levelmanager.puzzle.tilespritevector[i][j]->debugDraw(false);
-			addChild(levelmanager.puzzle.tilespritevector[i][j], -999);
+			SPRITE_GRID[i][j] = PaintTile::create();
+			SPRITE_GRID[i][j]->setPosition(24 * j + levelmanager.tilestartpoint.x, 24 * i + levelmanager.tilestartpoint.y);
+			SPRITE_GRID[i][j]->debugDraw(false);
+			addChild(SPRITE_GRID[i][j], -999);
 		}
 	}
 
@@ -1783,7 +1781,7 @@ void ClientDemo::centerCamera()
 		Vec2 pPos = players[playernum - 1]->getPosition();
 
 		//if camera is further away from player position than normal, smooth camera
-		if (((abs(camPos.x - pPos.x) + abs(camPos.y - pPos.y)) > (players[playernum - 1]->getSpeed()*players[playernum - 1]->speedboost + players[playernum - 1]->getSpeed()*players[playernum - 1]->speedboost)))
+		if ((abs(camPos.x - pPos.x) + abs(camPos.y - pPos.y)) > (players[playernum - 1]->getSpeed()*players[playernum - 1]->speedboost + players[playernum - 1]->getSpeed()*players[playernum - 1]->speedboost) + 2)
 		{
 			//lerping tenth of distance
 			camPos.x += (pPos.x - camPos.x) * 0.1f;
@@ -2981,5 +2979,18 @@ void ClientDemo::runEvents(void)
 				pEvent.init = false;
 			}
 		}
+	}
+}
+
+void ClientDemo::playSound(int id, std::string& filePath)
+{
+	if (gSound.audioOn && gSound.sfxOn && isSFXPlaying[id] == false)
+	{
+		soundIDList[id] = experimental::AudioEngine::play2d(filePath);
+		isSFXPlaying[id] = true;
+		experimental::AudioEngine::setFinishCallback(soundIDList[id], [&](int id, const std::string& filePath)
+		{
+			isSFXPlaying[id] = false;
+		});
 	}
 }

@@ -20,7 +20,7 @@ Pterodactyl* Pterodactyl::create(bool vis)
 void Pterodactyl::initialize(bool vis)
 {
 	this->getTexture()->setAliasTexParameters();
-	this->setAnchorPoint(Vec2(0.5, 0.0));
+	this->setAnchorPoint(Vec2(0.5f, 0.5f));
 	this->setPosition(Vec2(50, 50));
 	this->setVisible(vis);
 }

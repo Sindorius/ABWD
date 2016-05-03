@@ -59,7 +59,7 @@ void LevelManager::setLevel(int level)
 
 		puzzle.changePuzzle(level);
 		tilestartpoint = Vec2(230, 230);
-
+		lastLevel = true;
 	}
 
 }

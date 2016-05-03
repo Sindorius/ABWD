@@ -18,5 +18,8 @@ public:
 	Puzzle puzzle;
 
 	void setLevel(int level);
+	bool isLastLevel(void) { return lastLevel; }
 
+private:
+	bool lastLevel = false;
 };

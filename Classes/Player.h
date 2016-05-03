@@ -31,6 +31,8 @@ public:
 	Label* getLabel(void) { return pLabel; }
 
 	int speedboost = 1;
+	//std::vector<Vec2> paintedTiles; //coords of all player's painted tiles
+	std::vector<std::pair<int, int>> paintedTiles;
 
 private:
 

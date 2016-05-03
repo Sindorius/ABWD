@@ -8,6 +8,8 @@
 #include "cocos2d.h"
 #include "PaintTile.h"
 
+#define DRIED 10
+
 class Puzzle
 {
 public:
@@ -17,12 +19,24 @@ public:
 	std::vector<std::vector<char>> drytilevector = keydrytilesvector;
 	std::vector<std::vector<PaintTile*>> tilespritevector;
 
-	//boost::multi_array<int, 2> currentarray;
-	//boost::multi_array<int, 2> solutionarray;
-
-	bool isSolved();
-	bool compareTile(int x, int y, int num);
+	bool isSolved() { return (tilesCompleted == totalTiles) ? true : false; }
+	//check if a tile is correct (i.e. matches solution value)
+	bool checkTile(int x, int y);
+	bool checkTile(int x, int y, int num);
+	//change grids to match new level's grids
 	void changePuzzle(int level);
+	//get total number of grid tiles
+	int getTotalTiles(void) { return totalTiles; }
+	//set total number of grid tiles
+	void setTotalTiles(int t) { totalTiles = t; }
+	//get number of completed tiles
+	int getTilesCompleted(void) { return tilesCompleted; }
+	//set number of completed tiles
+	void setTilesCompleted(int t) { tilesCompleted = t; }
+	//increase # of completed tiles by 1
+	void tileCompleted() { tilesCompleted++;}
+	//decrement tilesComplete if a correct tile is erased
+	void tileErased() { tilesCompleted--; }
 
 	std::vector<std::vector<char>> samtilevectorvalues =
 	{ {
@@ -388,4 +402,8 @@ public:
 		{ 0,0,0,0,0,0,0,0,0,0,0,0,0 }
 		} };
 
+	private:
+
+		int totalTiles = 0;
+		int tilesCompleted = 0;
 };

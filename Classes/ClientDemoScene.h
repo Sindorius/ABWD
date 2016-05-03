@@ -31,7 +31,11 @@
 #include "GameOver.h"
 #include "GameMenu.h"
 
-class GameMenu; //have to forward declare this class for some reason
+
+#define CURRENT_GRID levelmanager.puzzle.currenttilevector
+#define SPRITE_GRID levelmanager.puzzle.tilespritevector
+#define DRY_GRID levelmanager.puzzle.drytilevector
+#define PLAYER_GRID levelmanager.puzzle.whichplayertilesvector
 
 USING_NS_CC;
 using boost::asio::ip::udp;
@@ -39,6 +43,7 @@ using boost::asio::ip::tcp;
 
 class TCPCSession;
 class Villain;
+class GameMenu;
 
 class ClientDemo : public cocos2d::Layer
 {
@@ -126,6 +131,7 @@ public:
 	
 	std::vector<unsigned int> soundIDList; //keeps list of unique sound IDs
 	std::vector<bool> isSFXPlaying; //bools that check whether a certain sfx is playing
+	//std::vector<std::string> soundFilePaths;
 	//isSFXPlaying indexes correspond to soundIDList indexes, 
 	//i.e. isSFXPlaying[0] corresponds to the sound whose sound ID is in soundIDList[0].
 
@@ -161,6 +167,8 @@ public:
 	void ResumeGame(void);
 	void updateFromMenu(void);
 	void runEvents(void);
+
+	void playSound(int id, std::string& filePath);
 
 	void space();
 	Point plyrCoordToTileCoord(int playerNum);
