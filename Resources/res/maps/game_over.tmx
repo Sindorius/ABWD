@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="27" height="15" tilewidth="24" tileheight="24" nextobjectid="90">
  <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
-  <image source="./res/sprites/tiles/walls.png" width="192" height="192"/>
+  <image source="../sprites/tiles/walls.png" width="192" height="192"/>
  </tileset>
  <tileset firstgid="65" name="ptera_wall" tilewidth="24" tileheight="24" tilecount="48">
-  <image source="./res/sprites/tiles/ptera_wall.png" width="192" height="144"/>
+  <image source="../sprites/tiles/ptera_wall.png" width="192" height="144"/>
  </tileset>
  <tileset firstgid="113" name="ending" tilewidth="24" tileheight="24" tilecount="24">
-  <image source="./res/sprites/tiles/ending.png" width="96" height="144"/>
+  <image source="../sprites/tiles/ending.png" width="96" height="144"/>
  </tileset>
  <layer name="Sky" width="27" height="15">
   <data encoding="base64" compression="zlib">

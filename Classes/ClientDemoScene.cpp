@@ -159,6 +159,7 @@ bool ClientDemo::init()
 	if (nullptr != tileHighlight)
 	{
 		tileHighlight->setPosition(0, 0);
+		tileHighlight->getTexture()->setAliasTexParameters();
 		addChild(tileHighlight, -900);
 	}
 	bucketHighlight = Sprite::create("res//sprites//bucket_highlight.png");
@@ -166,6 +167,7 @@ bool ClientDemo::init()
 	if (nullptr != bucketHighlight)
 	{
 		bucketHighlight->setPosition(0, 0);
+		bucketHighlight->getTexture()->setAliasTexParameters();
 		addChild(bucketHighlight, -901);
 	}
 
@@ -2558,157 +2560,35 @@ void ClientDemo::highlightBuckets(void)
 
 				if (!tilemapvals.empty())
 				{
-					auto r = tilemapvals["Red"].asString();
-					auto b = tilemapvals["Blue"].asString();
-					auto y = tilemapvals["Yellow1"].asString();
-					auto o = tilemapvals["Orange"].asString();
-					auto blk = tilemapvals["Black"].asString();
+					bool r = tilemapvals["Red"].asBool();
+					bool b = tilemapvals["Blue"].asBool();
+					bool y = tilemapvals["Yellow1"].asBool();
+					bool o = tilemapvals["Orange"].asBool();
+					bool blk = tilemapvals["Black"].asBool();
 
-					auto b2 = tilemapvals["Blue2"].asString();
-					auto b3 = tilemapvals["Blue3"].asString();
-					auto g1 = tilemapvals["Green1"].asString();
-					auto g2 = tilemapvals["Green2"].asString();
-					auto g3 = tilemapvals["Green3"].asString();
+					bool b2 = tilemapvals["Blue2"].asBool();
+					bool b3 = tilemapvals["Blue3"].asBool();
+					bool g1 = tilemapvals["Green1"].asBool();
+					bool g2 = tilemapvals["Green2"].asBool();
+					bool g3 = tilemapvals["Green3"].asBool();
 
-					auto w = tilemapvals["White"].asString();
-					auto gy1 = tilemapvals["Grey1"].asString();
-					auto gy2 = tilemapvals["Grey2"].asString();
-					auto r2 = tilemapvals["Red2"].asString();
-					auto p = tilemapvals["Purple1"].asString();
-					auto r1 = tilemapvals["Red1"].asString();
+					bool w = tilemapvals["White"].asBool();
+					bool gy1 = tilemapvals["Grey1"].asBool();
+					bool gy2 = tilemapvals["Grey2"].asBool();
+					bool r2 = tilemapvals["Red2"].asBool();
+					bool p = tilemapvals["Purple1"].asBool();
+					bool r1 = tilemapvals["Red1"].asBool();
 
-					if ("true" == r)
-					{
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
+					bool render = r || b || y || o || blk || b2 || b3 || g1 || g2 || g3 || w || gy1 || gy2 || r2 || p || r1;
+
+					if (render) {
+						Vec2 render_at = bucketlayer->getPositionAt(tileCoord);
+						render_at.x += 12;
+						render_at.y += 12;
+						bucketHighlight->setPosition(render_at);
 						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
-					else if ("true" == b)
-					{
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
-					else if ("true" == y) {
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
-					else if ("true" == o) {
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
-					else if ("true" == blk) {
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
 					}
 
-					else if ("true" == b2) {
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
-					else if ("true" == b3) {
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
-					else if ("true" == g1) {
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
-					else if ("true" == g2) {
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
-					else if ("true" == g3) {
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
-					///// ADDED THIS
-					else if ("true" == w) {
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
-					else if ("true" == gy1) {
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
-					else if ("true" == gy2) {
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
-					else if ("true" == r2) {
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
-					else if ("true" == p) {
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
-					else if ("true" == r1) {
-						Vec2 test = bucketlayer->getPositionAt(tileCoord);
-						test.x += 12;
-						test.y += 12;
-						bucketHighlight->setPosition(test);
-						bucketHighlight->setOpacity(150);
-						//gSound.pTrigs[playernum - 1].onBucket = true;
-					}
 				}
 			}
 			else
