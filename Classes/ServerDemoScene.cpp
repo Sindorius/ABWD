@@ -768,9 +768,20 @@ void ServerDemo::updatePaintTiles(int playernum)
 				{
 					if (PLAYER_GRID[i][j] != playernum)
 					{
-						std::vector<std::pair<int, int>>::iterator it;
-						it = std::find(players[PLAYER_GRID[i][j] - 1]->paintedTiles.begin(), players[PLAYER_GRID[i][j] - 1]->paintedTiles.end(), coords);
-						players[PLAYER_GRID[i][j] - 1]->paintedTiles.erase(it);
+						if (DRY_GRID[i][j] != DRIED)
+						{
+							std::vector<std::pair<int, int>>::iterator it;
+							it = std::find(players[PLAYER_GRID[i][j] - 1]->paintedTiles.begin(), players[PLAYER_GRID[i][j] - 1]->paintedTiles.end(), coords);
+							if (it != players[PLAYER_GRID[i][j] - 1]->paintedTiles.end()) //if dried tile found in player's paintedTiles vector
+							{
+								players[PLAYER_GRID[i][j] - 1]->paintedTiles.erase(it);
+							}
+							else
+							{
+								std::string str = "Error - cannot update tile at " + std::to_string(i) + " " + std::to_string(j) + " not found in players[" + std::to_string(PLAYER_GRID[i][j] - 1) + "]->paintedTiles";
+								log(str.c_str());
+							}
+						}
 						players[playernum - 1]->paintedTiles.push_back(coords);
 					}
 				}
@@ -1411,16 +1422,16 @@ void ServerDemo::checkEnemyCollision(void)
 
 						//set player to inverted 'hit' animation
 						std::string str = p->getAnim();
-						//log(str.c_str());
+						log(str.c_str());
 						//check if current animation is already a hit animation
 						std::size_t found = str.find("hit");
 						if (found == std::string::npos) //if NOT found
 						{
-							str.erase(p->getPlayernum(), 1);
+							str.erase(1, 1);
 							str.append("hit");
 						}
 						p->setAnim(str);
-						//log(str.c_str());
+						log(str.c_str());
 
 						p->paintedTiles.erase(p->paintedTiles.begin() + i);
 						if (samHit == true)
