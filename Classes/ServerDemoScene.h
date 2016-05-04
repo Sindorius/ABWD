@@ -33,6 +33,7 @@
 #define SPRITE_GRID levelmanager.puzzle.tilespritevector
 #define DRY_GRID levelmanager.puzzle.drytilevector
 #define PLAYER_GRID levelmanager.puzzle.whichplayertilesvector
+#define SOLUTION_GRID levelmanager.puzzle.currenttilevectorsolution
 
 class TCPServer;
 class ServerSam;

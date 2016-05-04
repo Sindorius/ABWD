@@ -764,29 +764,33 @@ void ServerDemo::updatePaintTiles(int playernum)
 				coords.first = i;
 				coords.second = j;
 
-				if (PLAYER_GRID[i][j] != playernum)
+				if (PLAYER_GRID[i][j] != 0)
 				{
-					if (PLAYER_GRID[i][j] != 0)
+					if (PLAYER_GRID[i][j] != playernum)
 					{
 						std::vector<std::pair<int, int>>::iterator it;
 						it = std::find(players[PLAYER_GRID[i][j] - 1]->paintedTiles.begin(), players[PLAYER_GRID[i][j] - 1]->paintedTiles.end(), coords);
 						players[PLAYER_GRID[i][j] - 1]->paintedTiles.erase(it);
+						players[playernum - 1]->paintedTiles.push_back(coords);
 					}
+				}
+				else
+				{
 					players[playernum - 1]->paintedTiles.push_back(coords);
 				}
 
 				if (players[playernum - 1]->getColor() == "red")
 				{
-					if (levelmanager.puzzle.checkTile(i, j, 2))
+					if (levelmanager.puzzle.checkTile(i, j, 2)) //if the right color for that tile is red
 					{
-						if (CURRENT_GRID[i][j] != 2)
+						if (CURRENT_GRID[i][j] != 2) //if its not already painted red
 						{
 							CURRENT_GRID[i][j] = 2;
 							levelmanager.puzzle.tileCompleted();
 						}
 					}
-					else {
-						if (CURRENT_GRID[i][j] == 2)
+					else { //if correct color for tile is NOT red
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j]) //if the tile was right before re-painting
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -804,7 +808,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 3)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -822,7 +826,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 4)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -840,7 +844,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 5)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -858,7 +862,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 6)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -876,7 +880,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 7)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -894,7 +898,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 8)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -912,7 +916,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 9)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -930,7 +934,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 10)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -948,7 +952,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 11)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -966,7 +970,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 12)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -984,7 +988,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 13)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -1002,7 +1006,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 14)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -1020,7 +1024,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 15)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -1038,7 +1042,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 16)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -1056,7 +1060,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 						}
 					}
 					else {
-						if (CURRENT_GRID[i][j] == 17)
+						if (CURRENT_GRID[i][j] == SOLUTION_GRID[i][j])
 						{
 							levelmanager.puzzle.tileErased();
 						}
@@ -1388,10 +1392,10 @@ void ServerDemo::checkEnemyCollision(void)
 			if (samHit == true || pteroHit == true)
 			{
 				//parse through player's wet tiles and erase
-				while(p->paintedTiles.size() > 0)
+				for (unsigned int i = 0; i < p->paintedTiles.size();)
 				{
-					int a = p->paintedTiles[0].first;
-					int b = p->paintedTiles[0].second;
+					int a = p->paintedTiles[i].first;
+					int b = p->paintedTiles[i].second;
 
 					if (DRY_GRID[a][b] != DRIED)
 					{
@@ -1418,7 +1422,7 @@ void ServerDemo::checkEnemyCollision(void)
 						p->setAnim(str);
 						//log(str.c_str());
 
-						p->paintedTiles.erase(p->paintedTiles.begin());
+						p->paintedTiles.erase(p->paintedTiles.begin() + i);
 						if (samHit == true)
 						{
 							enqueueMessage(ServerMessage(13, 0, 0, p->getPlayernum())); //tell client sam hit player
@@ -1431,6 +1435,10 @@ void ServerDemo::checkEnemyCollision(void)
 							pteroHit = false;
 							sendmap = true;
 						}
+					}
+					else
+					{
+						i++;
 					}
 				}
 			}
@@ -1460,7 +1468,7 @@ void ServerDemo::dryTiles(void)
 		if (DRY_GRID[dry_x][dry_y] == DRIED && SPRITE_GRID[dry_x][dry_y]->isDry() == false) {
 			if (SPRITE_GRID[dry_x][dry_y]->getColor() != "clear")
 			{
-				SPRITE_GRID[dry_x][dry_y]->setDry(true); //only useful for visual-based server
+				SPRITE_GRID[dry_x][dry_y]->setDry(true);
 				SPRITE_GRID[dry_x][dry_y]->refreshColor(); //only useful for visual-based server
 				enqueueMessage(ServerMessage(18, (float)dry_x, (float)dry_y, 0)); //tells client a tile has dried
 
@@ -1478,7 +1486,6 @@ void ServerDemo::dryTiles(void)
 					std::string str = "Error - dried tile at " + std::to_string(dry_x) + " " + std::to_string(dry_y) + " not found in players[" + std::to_string(PLAYER_GRID[dry_x][dry_y] - 1) + "]->paintedTiles";
 					log(str.c_str());
 				}
-
 			}
 		}
 	}
