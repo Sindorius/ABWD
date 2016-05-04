@@ -1,5 +1,8 @@
 #include "ClientAppDelegate.h"
 #include "ClientDemoScene.h"
+#include "MenuScene.h"
+
+#define FULLSCREEN 0
 
 USING_NS_CC;
 
@@ -38,27 +41,47 @@ bool ClientAppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = GLViewImpl::create("Horror Demo Client");
+		if (FULLSCREEN)
+		{
+			glview = GLViewImpl::createWithFullScreen("A Brush with Danger");
+		}
+		else
+		{
+			glview = GLViewImpl::create("A Brush with Danger");
+		}
         director->setOpenGLView(glview);
     }
+	auto screenSize = glview->getVisibleSize();
 
     // turn on display FPS
-    director->setDisplayStats(true);
+    director->setDisplayStats(false);
 
     // set FPS. the default value is 1.0/60 if you don't call this
-    director->setAnimationInterval(1.0 / 60);
+    director->setAnimationInterval(1.0f / 30.0f);
 
     // Set the design resolution
-    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::FIXED_HEIGHT);
-	glview->setFrameSize(designResolutionSize.width*2,designResolutionSize.height*2);
-	director->setContentScaleFactor(0.5f);
+    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::SHOW_ALL);
 
+	glview->setFrameSize(designResolutionSize.width, designResolutionSize.height);
+
+	if (FULLSCREEN)
+	{
+		//adjusts zoom factor for all resolutions, though for resolutions above 1080p might have too much aliasing
+		director->getOpenGLView()->setFrameZoomFactor(screenSize.height/designResolutionSize.height);
+	}
+	else
+	{
+		director->getOpenGLView()->setFrameZoomFactor(2.0f);
+	}
+	//director->setProjection(cocos2d::Director::Projection::_2D);
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = ClientDemo::createScene();
+    //auto scene = ClientDemo::createScene();
+	auto scene = MenuScene::createMenu();
 
-    // run
+
+	// run
     director->runWithScene(scene);
 
     return true;
@@ -66,16 +89,14 @@ bool ClientAppDelegate::applicationDidFinishLaunching() {
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
 void ClientAppDelegate::applicationDidEnterBackground() {
-    Director::getInstance()->stopAnimation();
-
-    // if you use SimpleAudioEngine, it must be pause
-    // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+    //Director::getInstance()->stopAnimation();
+	CCDirector::sharedDirector()->pause();
+	experimental::AudioEngine::pauseAll();
 }
 
 // this function will be called when the app is active again
 void ClientAppDelegate::applicationWillEnterForeground() {
-    Director::getInstance()->startAnimation();
-
-    // if you use SimpleAudioEngine, it must resume here
-    // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+    //Director::getInstance()->startAnimation();
+	CCDirector::sharedDirector()->resume();
+	experimental::AudioEngine::resumeAll();
 }

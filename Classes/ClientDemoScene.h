@@ -1,9 +1,14 @@
 #ifndef __CLIENTDEMO_SCENE_H__
 #define __CLIENTDEMO_SCENE_H__
 
+#pragma warning(disable : 4996)
+
 #include "cocos2d.h"
 #include "Player.h"
 #include "Villain.h"
+#include "Pterodactyl.h"
+#include "Candy.h"
+#include "AudioEngine.h"
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
@@ -17,90 +22,74 @@
 #include "ServerPositionPacket.hpp"
 #include "PlayerInputPacket.hpp"
 #include "PaintTile.h"
+#include "TCPSplitter.hpp"
+#include "TCPCSession.hpp"
+#include "AnimationManager.hpp"
+#include "LevelManager.hpp"
+#include "TransitionManager.h" // NEW CODE ADDED
+#include "MenuScene.h"
+#include "GameOver.h"
+#include "GameMenu.h"
+
+
+#define CURRENT_GRID levelmanager.puzzle.currenttilevector
+#define SPRITE_GRID levelmanager.puzzle.tilespritevector
+#define DRY_GRID levelmanager.puzzle.drytilevector
+#define PLAYER_GRID levelmanager.puzzle.whichplayertilesvector
 
 USING_NS_CC;
 using boost::asio::ip::udp;
+using boost::asio::ip::tcp;
+
+class TCPCSession;
+class Villain;
+class GameMenu;
 
 class ClientDemo : public cocos2d::Layer
 {
 private:
-	cocos2d::CCTMXTiledMap* tileMap;
+	bool alternate = false;
+	int swapframes = 1;
+	int swapframecounter = 1;
 
+	TMXLayer* bucketlayer;
+	TMXLayer* blockage;
+	TMXLayer* blankCanvas;
+	TMXObjectGroup* spawnObjs;
+
+	Sprite* tileHighlight;
+	Sprite* bucketHighlight;
+	
 	Player* player1;
 	Player* player2;
 	Player* player3;
 	Player* player4;
 	std::vector<Player*> players;
-	std::string state1, state2, state3, state4;
-	bool anim1a = true;
-	bool anim1b = true;
-	bool anim1c = true;
-	bool anim1d = true;
-	
-	bool anim2a = true;
-	bool anim2b = true;
-	bool anim2c = true;
-	bool anim2d = true;
-
-	bool anim3a = true;
-	bool anim3b = true;
-	bool anim3c = true;
-	bool anim3d = true;
-
-	bool anim4a = true;
-	bool anim4b = true;
-	bool anim4c = true;
-	bool anim4d = true;
-
 	Villain* villain;
+	Pterodactyl* pterodactyl;
+	Candy* candy;
 
-	bool sam1a = true;
-	bool sam1b = true;
-	bool sam1c = true;
-	bool sam1d = true;
+	AnimationManager animationmanager;
+	struct paintEvent {
+		bool active = false; //true when scripted game event is happening
+		bool canvasFade = false;
+		bool init = false;
+		std::vector<Sprite*> tileSprites;
+	};
 
-	std::vector<cocos2d::Sprite*> objects;
+	paintEvent pEvent;
 
-	//temp//
-	cocos2d::Animate* walkupanim;
-	cocos2d::Animate* walkdownanim;
-	cocos2d::Animate* walkleftanim;
-	cocos2d::Animate* walkrightanim;
-	cocos2d::Animate* paintanim;
+	GameMenu* gameMenuLayer;
 
-	cocos2d::Animate* walkupanim1;
-	cocos2d::Animate* walkdownanim1;
-	cocos2d::Animate* walkleftanim1;
-	cocos2d::Animate* walkrightanim1;
-	cocos2d::Animate* paintanim1;
-
-	cocos2d::Animate* walkupanim2;
-	cocos2d::Animate* walkdownanim2;
-	cocos2d::Animate* walkleftanim2;
-	cocos2d::Animate* walkrightanim2;
-	cocos2d::Animate* paintanim2;
-
-	cocos2d::Animate* walkupanim3;
-	cocos2d::Animate* walkdownanim3;
-	cocos2d::Animate* walkleftanim3;
-	cocos2d::Animate* walkrightanim3;
-	cocos2d::Animate* paintanim3;
-
-	cocos2d::Animate* samupanim;
-	cocos2d::Animate* samdownanim;
-	cocos2d::Animate* samleftanim;
-	cocos2d::Animate* samrightanim;
+	bool isPaused = false;
 
 
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
-
+	static cocos2d::Scene* createScene(std::string ipA, int playerNum);
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();
-    
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
     
     // implement the "static create()" method manually
     CREATE_FUNC(ClientDemo);
@@ -111,27 +100,107 @@ public:
 	float xmove = 0;
 	float ymove = 0;
 	bool button1 = false;
+	bool button2 = false; 
+	bool button3 = false;
+	bool needssync = false;
 	int playernum;
+	int gameTimer = 65; //prevents camera jerking at start
+	bool alreadyPressed = false;
+	int opacity = 255;
 	ConfigFileInput setupdata;
 
 	boost::asio::io_service* io_service_p;
 	boost::asio::io_service io_service_;
 	//UDPInterface* myudpinterfacep;
-	udp::socket* myudpsocketp;
-	
-	udp::endpoint myendpoint;
+	//udp::socket* myudpsocketp;
+	std::shared_ptr<tcp::socket> mytcpsocketp;
+
+	//udp::endpoint myendpoint;
+	tcp::endpoint myendpoint;
 
 	void processPacket(ServerPositionPacket p);
-	void doReceive();
+	void processServerMessage(ServerMessage msg);
+	//void doReceive();
 
 	enum { max_length = 1024 };
 	char indata[max_length];
 	char outdata[max_length];
 	std::string outstringbuffer;
+	TCPSplitter tcpsplitter;
+	TCPCSession* tcpsessionptr;
+	
+	std::vector<unsigned int> soundIDList; //keeps list of unique sound IDs
+	std::vector<bool> isSFXPlaying; //bools that check whether a certain sfx is playing
+	//std::vector<std::string> soundFilePaths;
+	//isSFXPlaying indexes correspond to soundIDList indexes, 
+	//i.e. isSFXPlaying[0] corresponds to the sound whose sound ID is in soundIDList[0].
 
+	//struct of audio trigger checks for players
+	struct playerSFX {
+		bool onGrid = false;
+		bool onBucket = false;
+		bool hasPainted = false;
+		bool gotCandy = false;
+		bool lostCandy = false;
+		bool samCollide = false;
+		bool ptCollide = false;
+	};
+	//all game triggers 
+	struct SFXTriggers {
+		bool levelChange = false;
+		bool musicOn = true;
+		bool sfxOn = true;
+		bool audioOn = true;
+		float oldMVol = 0.4f; //used to remember music volume before it was toggled off
+		float oldSVol = 0.7f; //used to remember sfx volume before it was toggled off
+		float mVolume = 0.4f;
+		float sVolume = 0.7f;
+		playerSFX pTrigs[4];
+	};
+	SFXTriggers gSound;
+	void processSound(ServerPositionPacket &p);
+	void initializeSound();
 
-	PaintTile* tileptrarray[6][6];
-	std::array<std::array<int, 6>, 6> tilevalues = { 1 };
+	void highlightBuckets(void);
+
+	void PauseGame(void);
+	void ResumeGame(void);
+	void updateFromMenu(void);
+	void runEvents(void);
+
+	void playSound(int id, std::string& filePath);
+
+	void space();
+	Point plyrCoordToTileCoord(int playerNum);
+	int getTileProperties(Point tileCoord);
+	void changeLabelColor(int bTile, int playerNum);
+
+	LevelManager levelmanager;
+	TransitionManager transitionManager;
+	bool NotInTransition = true;
+	float winSizeWidth;
+	float winSizeHeight;
+
+	bool playerOneActive = false;
+	bool playerTwoActive = false;
+	bool playerThreeActive = false;
+	bool playerFourActive = false;
+	ValueMap playerOneSP;
+	ValueMap playerTwoSP;
+	ValueMap playerThreeSP;
+	ValueMap playerFourSP;
+
+	void loadLevel(int level);
+	void setupPaintTiles();
+	void centerCamera();
+	void samCam();
+	void updateTilesFromPacket(ServerPositionPacket p);
+	
+	void goToMainMenu(cocos2d::Ref* pSender);
+
+	void Joystick(cocos2d::Event*);
+	void ClientDemo::setVisiblePlayers(char activechars);
+	char activechars = 0;
 
 	~ClientDemo();
 	

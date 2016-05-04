@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="31" height="24" tilewidth="24" tileheight="24" nextobjectid="98">
+ <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64" columns="8">
+  <image source="../../sprites/tiles/walls.png" width="192" height="192"/>
+ </tileset>
+ <tileset firstgid="65" name="floor" tilewidth="24" tileheight="24" tilecount="42" columns="7">
+  <image source="../../sprites/tiles/floor.png" width="168" height="144"/>
+  <tile id="0">
+   <properties>
+    <property name="block" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="107" name="buckets" tilewidth="24" tileheight="24" tilecount="15" columns="15">
+  <image source="../../sprites/buckets.png" width="360" height="24"/>
+  <tile id="0">
+   <properties>
+    <property name="Red" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Blue1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Orange" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Yellow1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Black" value="true"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Blue2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Blue3" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Green1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Green2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="Green3" value="true"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="White" value="true"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="Red2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="Grey1" value="true"/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="Grey2" value="true"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="Purple1" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="122" name="meta" tilewidth="24" tileheight="24" tilecount="2" columns="2">
+  <image source="../../sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
+  <tile id="0">
+   <properties>
+    <property name="Collidable" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="124" name="instructions" tilewidth="24" tileheight="24" tilecount="18" columns="6">
+  <image source="../../sprites/objects/instructions.png" width="144" height="72"/>
+ </tileset>
+ <tileset firstgid="142" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35" columns="5">
+  <image source="../../sprites/tiles/paintings as tiles.png" width="120" height="168"/>
+ </tileset>
+ <tileset firstgid="177" name="outside_wall" tilewidth="24" tileheight="24" tilecount="40" columns="8">
+  <image source="../../sprites/tiles/outside_wall.png" width="192" height="120"/>
+ </tileset>
+ <tileset firstgid="217" name="s" tilewidth="24" tileheight="24" tilecount="61" columns="0">
+  <tile id="34">
+   <image width="24" height="24" source="../../sprites/paint_overlay_dry.png"/>
+  </tile>
+  <tile id="35">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_black.png"/>
+  </tile>
+  <tile id="36">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_blue1.png"/>
+  </tile>
+  <tile id="37">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_blue2.png"/>
+  </tile>
+  <tile id="38">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_blue3.png"/>
+  </tile>
+  <tile id="39">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_green1.png"/>
+  </tile>
+  <tile id="40">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_green2.png"/>
+  </tile>
+  <tile id="41">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_green3.png"/>
+  </tile>
+  <tile id="42">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_grey1.png"/>
+  </tile>
+  <tile id="43">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_grey2.png"/>
+  </tile>
+  <tile id="44">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_orange.png"/>
+  </tile>
+  <tile id="45">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_purple1.png"/>
+  </tile>
+  <tile id="46">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_red1.png"/>
+  </tile>
+  <tile id="47">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_red2.png"/>
+  </tile>
+  <tile id="48">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_white.png"/>
+  </tile>
+  <tile id="49">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_dry_yellow1.png"/>
+  </tile>
+  <tile id="50">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_black.png"/>
+  </tile>
+  <tile id="51">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_blue1.png"/>
+  </tile>
+  <tile id="52">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_blue2.png"/>
+  </tile>
+  <tile id="53">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_blue3.png"/>
+  </tile>
+  <tile id="54">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_green1.png"/>
+  </tile>
+  <tile id="55">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_green2.png"/>
+  </tile>
+  <tile id="56">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_green3.png"/>
+  </tile>
+  <tile id="57">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_grey1.png"/>
+  </tile>
+  <tile id="58">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_grey2.png"/>
+  </tile>
+  <tile id="59">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_orange.png"/>
+  </tile>
+  <tile id="60">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_purple1.png"/>
+  </tile>
+  <tile id="61">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_red1.png"/>
+  </tile>
+  <tile id="62">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_red2.png"/>
+  </tile>
+  <tile id="63">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_white.png"/>
+  </tile>
+  <tile id="64">
+   <image width="24" height="24" source="../../sprites/objects/tile_correct_wet_yellow1.png"/>
+  </tile>
+  <tile id="65">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_black.png"/>
+  </tile>
+  <tile id="66">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_blue1.png"/>
+  </tile>
+  <tile id="67">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_blue2.png"/>
+  </tile>
+  <tile id="68">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_blue3.png"/>
+  </tile>
+  <tile id="69">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_green1.png"/>
+  </tile>
+  <tile id="70">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_green2.png"/>
+  </tile>
+  <tile id="71">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_green3.png"/>
+  </tile>
+  <tile id="72">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_grey1.png"/>
+  </tile>
+  <tile id="73">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_grey2.png"/>
+  </tile>
+  <tile id="74">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_orange.png"/>
+  </tile>
+  <tile id="75">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_purple1.png"/>
+  </tile>
+  <tile id="76">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_red1.png"/>
+  </tile>
+  <tile id="77">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_red2.png"/>
+  </tile>
+  <tile id="78">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_white.png"/>
+  </tile>
+  <tile id="79">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_dry_yellow1.png"/>
+  </tile>
+  <tile id="80">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_black.png"/>
+  </tile>
+  <tile id="81">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_blue1.png"/>
+  </tile>
+  <tile id="82">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_blue2.png"/>
+  </tile>
+  <tile id="83">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_blue3.png"/>
+  </tile>
+  <tile id="84">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_green1.png"/>
+  </tile>
+  <tile id="85">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_green2.png"/>
+  </tile>
+  <tile id="86">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_green3.png"/>
+  </tile>
+  <tile id="87">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_grey1.png"/>
+  </tile>
+  <tile id="88">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_grey2.png"/>
+  </tile>
+  <tile id="89">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_orange.png"/>
+  </tile>
+  <tile id="90">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_purple1.png"/>
+  </tile>
+  <tile id="91">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_red1.png"/>
+  </tile>
+  <tile id="92">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_red2.png"/>
+  </tile>
+  <tile id="93">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_white.png"/>
+  </tile>
+  <tile id="94">
+   <image width="24" height="24" source="../../sprites/objects/tile_incorrect_wet_yellow1.png"/>
+  </tile>
+ </tileset>
+ <layer name="Floor" width="31" height="24">
+  <data encoding="base64" compression="zlib">
+   eJydlVtuBDEIBH3/g9l/cKUk0kTqrRQeKR+WvTs8G2j2Wut8nz3c9dznRe4/94/tft77eRfkevjWod+X3xZ3hc+Cf9qfYrCTmKVsDf477E+Yp+6vbMMe7TRs8W0Y029ikj5TtmEzT+Nt+WRcJbZTJvOf+mC6rW69PuPK+LI+W2StB7KfrE5Tf2zxmd9St0Pe8ky/iZ/VzeLKWWRvsVemecj4medZf/POuGp94md6iav1svU/sTdu2eL/wAfrdSBDTmEtbT4MM363GUn8UjfzIe8Zv3C+3vjR+Nr62ObCOKEvb6s/eyrPjavY06z7xEmWO/WoY/Nt81mwSXnDnHXnfKac7RvLl/xGGy3vtJk5My/jMNuPNiO288h37DmbC+ZW8M2bO2Pa37f9Y/1g/Jl1v+Gcdlhf1vbGh1brI/9xlizfrAHxJfYT/xsnWy8Y/uQt28fUS6xtTxM39sTbXsj6G46Jl/EdY/kCjKhMFw==
+  </data>
+ </layer>
+ <layer name="Walls" width="31" height="24">
+  <data encoding="base64" compression="zlib">
+   eJzllbEKAkEMRKOeymGlV6mV3v//owmSJmSWvTDqgYHXpJiBbGYziMglsFeGpF8BaVn/pNwCI+hXQFrefwbOypT0KyAt9451Ve5Jv1JIC3k/lJnkjbSQ9zdqTd4bZavsyD6ZbvS2nbTsTWTvTDd6205a9lg73tKN3raTlj3Wjrd017Rr/+R9kPf+R1g583xFjoJvJStnnq/eG8rMmeer94ainKH5td7J89V7Q1Gh+VXeaak3ml/lnZZ6o/m13onlzaxfe6O/5dPY3/ICeFETdw==
+  </data>
+ </layer>
+ <layer name="Paintbuckets" width="31" height="24">
+  <data encoding="base64" compression="zlib">
+   eJxjYMANDgHxVShGZl+B8g+h8a9g4Y8CykEhErsSiZ1Nb4eMglEwCkgGeTQyt5RG5o6CUTAKRgGloAiJXYzELqG3Q4YwAAAnVBFA
+  </data>
+ </layer>
+ <objectgroup name="SpawnObjects" visible="0">
+  <object id="84" name="P1spawnPoint" x="96" y="456" width="24" height="48"/>
+  <object id="85" name="P2spawnPoint" x="48" y="96" width="24" height="48"/>
+  <object id="87" name="P3spawnPoint" x="624" y="456" width="24" height="48"/>
+  <object id="88" name="P4spawnPoint" x="672" y="96" width="24" height="48"/>
+ </objectgroup>
+ <layer name="Collision" width="31" height="24" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJyrYmBgqBrFdMfoAJc4OYBUOwbSbnqAwWQ3vjRADXuw2TVq98DZTU8w0u0mtqylhR2jdhNXv1FTDzX9QKpZo3bTDwwGuwcKAwCsKYVx
+  </data>
+ </layer>
+ <layer name="Wall" width="31" height="24">
+  <data encoding="base64" compression="zlib">
+   eJzlVu0KwjAM7Pu/jToVEfyYf+r8U+cGPo4Ja/AI7aAj6sDC0RjHHTRJr5Vzrid0ERyvCRXk6pivVSw7ftMDH3Lhd13M7wknQgP7LuY5DpAPsAf1f0jEQXE1oCP5J8HHvSUcCMcYt5AX+ARa4PAQay6BaOt1JdwS+Skrx5XTvhMeRto5rpz2N9actBeEJWFlrJPi1dpnN8zfxVg7xau1uSd5/qx6fIxXa3NP8uxZ9fgY75x67Z+0N27ofw2rOZP50ti6t7+h91nOmcwXejT/Rg9loE9aegl6p/BLvbUX5uYsd35jdZL5Ek8VPy7tNT4/fHvIGUqtSupUqo3nh++cKXUq1dZ1wfdJ6X346/me493yafDd8gLLPdVy
+  </data>
+ </layer>
+ <layer name="Painting" width="31" height="24">
+  <data encoding="base64" compression="zlib">
+   eJzt1jkOgDAMBVHufwz2HY7I0LkjJLGr/6RpncpWmua/ljrqaaAxY0auiWZaaKUt8O2dDjrpojvwbZFSdmej59qdrSllrt3ZmrzmiogPrxuYwusGfnn/a/ZWRf7XpMwDjTodAw==
+  </data>
+ </layer>
+ <layer name="Tile Layer 7" width="31" height="24" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAIAXAwugAAE=
+  </data>
+ </layer>
+ <layer name="Pseudo Accurate tile Testing1" width="31" height="24" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2DwABVGBgZRRgRtTARNLYBsLsh+NiLspxYwhtonikSLovGRxantb3SM7gZ0TG27sdnHhkOc2nbjw+j209JubP5FFqOV3bjCnlb+Jiau2WhkN6l4FIyCUTAKBgoAANlxC5Y=
+  </data>
+ </layer>
+ <layer name="paint_tiles" width="31" height="24" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztlVtPAjEQhbuYDXhF8YYi3lCjqBvQqL+bixpiogRfEF8ENfHHGPVMOA2V7GrFhhed5EuX3WVOz7TbqSqlnsETkWvXUQUN5tfjObgCddAyxhrvtxzqtwzqhsYLaHLsgGtww+uOQ30dHUO7P+4c6kiu+5D7Udouow0ef6Gd95RaApsgDaZAEiyAEbAD9sE4yIIT7/ucttrLzDfL3DKXDeCDFT5b53zk2dkA2iVQDnnvGLlmmHtS8oICvXrgkM9SIB7iu8SxMoDvwOt6l5rvklUwx1rIvOZBAhTBosOa51hjWdd31V1zn97jrIP4j7EGow61xUtAX1nuryLnItp7XOMj1ubNImfN4h2JU+TbBmvc4+I9T68F1uBVdeeV/oFvW+0k/SapN8EaiMcD7m+91zzHNU/Rn8/1lXpvgQz33jQ9i/+EpfaF6n1XZQPze8jQi9Q64NqP0at8fznOJ8ba5Pu0yyFcql5/071T97lbi3rYhu6bukfLb7OHCrpnyhh2/g8aZu98UJ/7dNPgq56pz70oKiH/aTOn7tG6Tw+jj0XFv/bf09Zny7CRs+UDIdCMbQ==
+  </data>
+ </layer>
+ <layer name="Copy of Pseudo Accurate tile Testing1" width="31" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztk7EOgzAMRGMGKhhSZWgFCxNDl04M+f/v6kAd+Sy5KB0qI3XJSdZDEPvsJITQ1PRfbRTCSsLIceHY+X3PfDFvFZZ1d9CjifMHEmrdmp9lb/rzaOb8kYQ13w3UsN93n3XIXONBQjtX4Yq+tLejv3fuxPkdCY/zzuY8JvSQD/15dC29k/Cb72Ce7fzeuZ+cv5AwIWaE9a15J6d3xJ2JmL3U1DMY6fM/GODdGX+Pyj732G/1Vmacr/YwYn/sutNk6gb46N4WLrgb6nuqd1NTU9OPegO7CzII
+  </data>
+ </layer>
+ <layer name="Tile Layer 12" width="31" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztkUEKgDAMBLungCdP/YX//54EKSzFasVEPOxASSGwk7SlCPFfKs7rV15L9HuW53Mme4z6/RzR8L69oyLv/XmvUTb3LNh/5W0Y4r2YzPPZloQ/n/WvOE6GezTDXf8tbR+voPuW7BVCiCfsHwEDFw==
+  </data>
+ </layer>
+ <layer name="Tile Layer 11" width="31" height="24">
+  <data encoding="base64" compression="zlib">
+   eJzt0cEJACAMBMHrvzDziy2pEMEKXMQbuPeikcxYrRZAO+d69W9rx6h2Au3VDDH33m/+7d4h7s/JtpnZqwb8GhUV
+  </data>
+ </layer>
+</map>

@@ -141,7 +141,7 @@ THE SOFTWARE.
  * To enable set it to 1. Enabled by default.
  */
 #ifndef CC_NODE_RENDER_SUBPIXEL
-#define CC_NODE_RENDER_SUBPIXEL 1
+#define CC_NODE_RENDER_SUBPIXEL 0
 #endif
 
 /** @def CC_SPRITEBATCHNODE_RENDER_SUBPIXEL
@@ -150,7 +150,7 @@ THE SOFTWARE.
  * To enable set it to 1. Enabled by default.
  */
 #ifndef CC_SPRITEBATCHNODE_RENDER_SUBPIXEL
-#define CC_SPRITEBATCHNODE_RENDER_SUBPIXEL    1
+#define CC_SPRITEBATCHNODE_RENDER_SUBPIXEL    0
 #endif
 
 /** @def CC_TEXTURE_ATLAS_USE_VAO
@@ -260,7 +260,7 @@ THE SOFTWARE.
 
 /** Use physics integration API. */
 #ifndef CC_USE_PHYSICS
-#define CC_USE_PHYSICS 1
+#define CC_USE_PHYSICS 0
 #endif
 
 /** Use 3d physics integration API. */
@@ -273,7 +273,7 @@ THE SOFTWARE.
 #if (CC_USE_3D_PHYSICS)
 /** Use bullet physics engine. */
 #ifndef CC_ENABLE_BULLET_INTEGRATION
-#define CC_ENABLE_BULLET_INTEGRATION 1
+#define CC_ENABLE_BULLET_INTEGRATION 0
 #endif
 #endif
 
@@ -375,5 +375,23 @@ THE SOFTWARE.
 #ifndef CC_ALLOCATOR_GLOBAL_NEW_DELETE
 # define CC_ALLOCATOR_GLOBAL_NEW_DELETE cocos2d::allocator::AllocatorStrategyGlobalSmallBlock
 #endif
+
+ /** Use VSYNC **EXPERIMENTAL FOR WIN32** */
+#ifndef CC_USE_VSYNC
+#define CC_USE_VSYNC 1
+#endif
+
+ /** Change Windows timer resolution to 1 ms** */
+#ifndef CC_WIN_TIMER1 
+#define CC_WIN_TIMER1 1
+#endif
+
+ /** Sleep for 1 millisecond when waiting to draw frame.  
+ *   If not enabled game loop will busy wait full CPU usage **WARNING** */
+
+#ifndef CC_SLEEP_1_MSEC
+#define CC_SLEEP_1_MSEC 0
+#endif
+
 
 #endif // __CCCONFIG_H__

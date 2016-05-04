@@ -3,32 +3,46 @@
 
 #include "cocos2d.h"
 
+USING_NS_CC;
+
 class Player : public cocos2d::Sprite
 {
 
 public:
-	Player(){};
+	Player() {};
 	~Player(){};
 	static Player* create();
-	static Player* create(int playernum);
+	static Player* create(int playernum, bool vis = true);
+
+	void initialize(int playernum, bool vis = true);
+
+	void addLabel(const std::string& string, const std::string& fontName, float fontSize,
+		const Size& dimensions = Size::ZERO, TextHAlignment hAlignment = TextHAlignment::CENTER,
+		TextVAlignment vAlignment = TextVAlignment::TOP);
 
 	int getPlayernum(){ return playernumber; };
 	void setPlayernum(int playernum){ playernumber = playernum; };
-	void setHitpoints(int hp){ hitpoints = hp; }
-	int getHitpoints(){ return hitpoints; }
-
 	void setColor(std::string c) { color = c; }
 	std::string getColor() { return color; }
+	void setAnim(std::string s) { animstate = s; }
+	std::string getAnim() { return animstate; }
+	void setSpeed(int s) { speed = s; }
+	int getSpeed(void) { return speed; }
+	Label* getLabel(void) { return pLabel; }
 
+	int speedboost = 1;
+	//std::vector<Vec2> paintedTiles; //coords of all player's painted tiles
+	std::vector<std::pair<int, int>> paintedTiles;
 
 private:
+
 	int playernumber = 0;
-	int inventoryitem = 0;
-	int hitpoints = 1;
-	int speedboost = 1;
+	int speed = 2;
+
+	Label* pLabel;
 
 	std::string color = "";
-
+	std::string animstate = "";
 };
 
 

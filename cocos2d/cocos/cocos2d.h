@@ -79,6 +79,8 @@ THE SOFTWARE.
 #include "base/CCEventMouse.h"
 #include "base/CCEventTouch.h"
 #include "base/CCEventType.h"
+#include "base/EventListenerJoystick.h"
+
 
 // math
 #include "math/CCAffineTransform.h"

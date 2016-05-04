@@ -31,7 +31,6 @@ THE SOFTWARE.
 #include <algorithm>
 #include "platform/CCFileUtils.h"
 #include <shellapi.h>
-#include <boost/thread.hpp>
 #include <iostream>
 
 /**
@@ -57,21 +56,16 @@ Application::Application()
 
 Application::~Application()
 {
-    CC_ASSERT(this == sm_pSharedApplication);
-    sm_pSharedApplication = nullptr;
-	UINT TARGET_RESOLUTION = 1;         // 1-millisecond target resolution
-	TIMECAPS tc;
-	UINT     wTimerRes;
-	wTimerRes = std::min(std::max(tc.wPeriodMin, TARGET_RESOLUTION), tc.wPeriodMax);
-	timeEndPeriod(wTimerRes);
+	CC_ASSERT(this == sm_pSharedApplication);
+	sm_pSharedApplication = nullptr;
 }
 
 int Application::run()
 {
     PVRFrameEnableControlWindow(false);
-
+#if CC_WIN_TIMER1 == 1
+	
 	UINT TARGET_RESOLUTION = 1;         // 1-millisecond target resolution
-
 	TIMECAPS tc;
 	UINT     wTimerRes;
 
@@ -82,7 +76,7 @@ int Application::run()
 
 	wTimerRes = std::min(std::max(tc.wPeriodMin, TARGET_RESOLUTION), tc.wPeriodMax);
 	timeBeginPeriod(wTimerRes);
-
+#endif
 
     // Main message loop:
     LARGE_INTEGER nLast;
@@ -103,22 +97,31 @@ int Application::run()
 
     // Retain glview to avoid glview being released in the while loop
     glview->retain();
+	
+	
+#if CC_USE_VSYNC == 1
+	glview->setSwapInterval(1);
+#endif
+		
 
     while(!glview->windowShouldClose())
     {
-        QueryPerformanceCounter(&nNow);
+       
+		QueryPerformanceCounter(&nNow);
         if (nNow.QuadPart - nLast.QuadPart > _animationInterval.QuadPart)
         {
-            nLast.QuadPart = nNow.QuadPart - (nNow.QuadPart % _animationInterval.QuadPart);
-            
-            director->mainLoop();
-            glview->pollEvents();
+           nLast.QuadPart = nNow.QuadPart - (nNow.QuadPart % _animationInterval.QuadPart);
+		   director->mainLoop();
+           //glview->pollEvents();
+
         }
         else
         {
-			boost::this_thread::sleep(boost::posix_time::milliseconds(1));
-        }
-    }
+#if CC_SLEEP_1_MSEC == 1
+			Sleep(1);
+#endif
+		}
+	}
 
     // Director should still do a cleanup if the window was closed manually.
     if (glview->isOpenGLReady())
@@ -128,6 +131,11 @@ int Application::run()
         director = nullptr;
     }
     glview->release();
+#if CC_WIN_TIMER1 == 1
+
+	wTimerRes = std::min(std::max(tc.wPeriodMin, TARGET_RESOLUTION), tc.wPeriodMax);
+	timeEndPeriod(wTimerRes);
+#endif
     return 0;
 }
 

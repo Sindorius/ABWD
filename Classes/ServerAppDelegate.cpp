@@ -38,7 +38,7 @@ bool ServerAppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = GLViewImpl::create("Horror Demo Server");
+        glview = GLViewImpl::create("A Brush With Danger Server");
         director->setOpenGLView(glview);
     }
 
@@ -46,12 +46,13 @@ bool ServerAppDelegate::applicationDidFinishLaunching() {
     director->setDisplayStats(true);
 
     // set FPS. the default value is 1.0/60 if you don't call this
-    director->setAnimationInterval(1.0 / 60);
+    director->setAnimationInterval(1.0f / 60);
 
     // Set the design resolution
-    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::FIXED_HEIGHT);
-	glview->setFrameSize(designResolutionSize.width*2,designResolutionSize.height*2);
-	director->setContentScaleFactor(0.5f);
+    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::SHOW_ALL);
+	glview->setFrameSize(designResolutionSize.width, designResolutionSize.height);
+	director->getOpenGLView()->setFrameZoomFactor(2.0f);
+
 
     register_all_packages();
 
@@ -66,16 +67,12 @@ bool ServerAppDelegate::applicationDidFinishLaunching() {
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
 void ServerAppDelegate::applicationDidEnterBackground() {
-    Director::getInstance()->stopAnimation();
+    //Director::getInstance()->stopAnimation();
 
-    // if you use SimpleAudioEngine, it must be pause
-    // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
 }
 
 // this function will be called when the app is active again
 void ServerAppDelegate::applicationWillEnterForeground() {
-    Director::getInstance()->startAnimation();
+    //Director::getInstance()->startAnimation();
 
-    // if you use SimpleAudioEngine, it must resume here
-    // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }

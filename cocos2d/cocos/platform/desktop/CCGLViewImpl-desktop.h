@@ -84,6 +84,8 @@ public:
     virtual void swapBuffers() override;
     virtual void setFrameSize(float width, float height) override;
     virtual void setIMEKeyboardState(bool bOpen) override;
+	virtual void setSwapInterval(int interval) override;
+	virtual int getRunningRefreshRate() override;
 
     /*
      * Set zoom factor for frame. This method is for debugging big resolution (e.g.new ipad) app on desktop.
@@ -153,6 +155,7 @@ protected:
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(GLViewImpl);
+	void pollJoystickEvent(int id);
 };
 
 NS_CC_END   // end of namespace   cocos2d
