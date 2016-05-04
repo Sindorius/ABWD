@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="26" height="15" tilewidth="24" tileheight="24" nextobjectid="90">
  <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
-  <image source="../sprites/tiles/walls.png" width="192" height="192"/>
+  <image source="./res/sprites/tiles/walls.png" width="192" height="192"/>
  </tileset>
  <tileset firstgid="65" name="floor" tilewidth="24" tileheight="24" tilecount="42">
-  <image source="../sprites/tiles/floor.png" width="168" height="144"/>
+  <image source="./res/sprites/tiles/floor.png" width="168" height="144"/>
   <tile id="0">
    <properties>
     <property name="block" value="true"/>
@@ -12,7 +12,7 @@
   </tile>
  </tileset>
  <tileset firstgid="107" name="buckets" tilewidth="24" tileheight="24" tilecount="15">
-  <image source="../sprites/buckets.png" width="360" height="24"/>
+  <image source="./res/sprites/buckets.png" width="360" height="24"/>
   <tile id="0">
    <properties>
     <property name="Red" value="true"/>
@@ -35,7 +35,7 @@
   </tile>
  </tileset>
  <tileset firstgid="122" name="meta" tilewidth="24" tileheight="24" tilecount="2">
-  <image source="../sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
+  <image source="./res/sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
   <tile id="0">
    <properties>
     <property name="Collidable" value="true"/>
@@ -43,7 +43,7 @@
   </tile>
  </tileset>
  <tileset firstgid="124" name="candy_wall" tilewidth="24" tileheight="24" tilecount="40">
-  <image source="../sprites/tiles/candy_wall.png" width="192" height="120"/>
+  <image source="./res/sprites/tiles/candy_wall.png" width="192" height="120"/>
  </tileset>
  <layer name="Floor" width="26" height="15">
   <data encoding="base64" compression="zlib">

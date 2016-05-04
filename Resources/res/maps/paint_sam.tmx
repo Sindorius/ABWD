@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="21" height="14" tilewidth="24" tileheight="24" nextobjectid="90">
  <tileset firstgid="1" name="walls" tilewidth="24" tileheight="24" tilecount="64">
-  <image source="../sprites/tiles/walls.png" width="192" height="192"/>
+  <image source="./res/sprites/tiles/walls.png" width="192" height="192"/>
  </tileset>
  <tileset firstgid="65" name="floor" tilewidth="24" tileheight="24" tilecount="42">
-  <image source="../sprites/tiles/floor.png" width="168" height="144"/>
+  <image source="./res/sprites/tiles/floor.png" width="168" height="144"/>
   <tile id="0">
    <properties>
     <property name="block" value="true"/>
@@ -12,7 +12,7 @@
   </tile>
  </tileset>
  <tileset firstgid="107" name="buckets" tilewidth="24" tileheight="24" tilecount="15">
-  <image source="../sprites/buckets.png" width="360" height="24"/>
+  <image source="./res/sprites/buckets.png" width="360" height="24"/>
   <tile id="0">
    <properties>
     <property name="Red1" value="true"/>
@@ -90,7 +90,7 @@
   </tile>
  </tileset>
  <tileset firstgid="122" name="meta" tilewidth="24" tileheight="24" tilecount="2">
-  <image source="../sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
+  <image source="./res/sprites/tiles/meta_tiles.png" trans="ff00ff" width="67" height="34"/>
   <tile id="0">
    <properties>
     <property name="Collidable" value="true"/>
@@ -98,13 +98,13 @@
   </tile>
  </tileset>
  <tileset firstgid="124" name="instructions" tilewidth="24" tileheight="24" tilecount="18">
-  <image source="../sprites/objects/instructions.png" width="144" height="72"/>
+  <image source="./res/sprites/objects/instructions.png" width="144" height="72"/>
  </tileset>
  <tileset firstgid="142" name="paintings as tiles" tilewidth="24" tileheight="24" tilecount="35">
-  <image source="../sprites/tiles/paintings as tiles.png" width="120" height="168"/>
+  <image source="./res/sprites/tiles/paintings as tiles.png" width="120" height="168"/>
  </tileset>
  <tileset firstgid="177" name="sam_wall" tilewidth="24" tileheight="24" tilecount="72">
-  <image source="../sprites/tiles/sam_wall.png" width="216" height="192"/>
+  <image source="./res/sprites/tiles/sam_wall.png" width="216" height="192"/>
  </tileset>
  <layer name="Floor" width="21" height="14">
   <data encoding="base64" compression="zlib">
