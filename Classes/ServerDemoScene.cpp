@@ -756,7 +756,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 			{
 				SPRITE_GRID[i][j]->setColor(players[playernum - 1]->getColor());
 				SPRITE_GRID[i][j]->setDry(false); //when dry tile repainted it is wet again
-				enqueueMessage(ServerMessage(18, (float)i, (float)j, 1)); //tells client a tile needs to be wet again
+				//enqueueMessage(ServerMessage(18, (float)i, (float)j, 1)); //tells client a tile needs to be wet again
 				SPRITE_GRID[i][j]->refreshColor();
 				DRY_GRID[i][j] = 0;
 
@@ -1481,7 +1481,7 @@ void ServerDemo::dryTiles(void)
 			{
 				SPRITE_GRID[dry_x][dry_y]->setDry(true);
 				SPRITE_GRID[dry_x][dry_y]->refreshColor(); //only useful for visual-based server
-				enqueueMessage(ServerMessage(18, (float)dry_x, (float)dry_y, 0)); //tells client a tile has dried
+				//enqueueMessage(ServerMessage(18, (float)dry_x, (float)dry_y, 0)); //tells client a tile has dried
 
 				std::pair<int, int> coords;
 				coords.first = dry_x;
@@ -1514,7 +1514,7 @@ void ServerDemo::dryTiles(void)
 	DRY_GRID[a][b] = 1;
 	SPRITE_GRID[a][b]->setDry(true); //only useful for visual-based server
 	SPRITE_GRID[a][b]->refreshColor(); //only useful for visual-based server
-	enqueueMessage(ServerMessage(18, (float)a, (float)b, 0)); //tells client a tile has dried
+	//enqueueMessage(ServerMessage(18, (float)a, (float)b, 0)); //tells client a tile has dried
 	dry_time = 0;
 	}
 	} //end of drying code

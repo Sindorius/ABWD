@@ -884,7 +884,8 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		auto scene = ServerConnection::createServerConnection(ipaddress, activechars);
 		Director::getInstance()->replaceScene(scene);
 	}
-	else if (msg.messagechar == 18)
+
+	/*else if (msg.messagechar == 18)
 	{
 		if ((unsigned int)msg.xpos <= SPRITE_GRID.size() && (unsigned int)msg.ypos <= SPRITE_GRID[0].size()) //prevents out of bounds vector subscript, but essentially skips over servermessage?
 		{
@@ -898,7 +899,8 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 			}
 			SPRITE_GRID[(int)msg.xpos][(int)msg.ypos]->refreshColor();
 		}
-	}
+	}*/
+
 	//Event #1: Sam Painting
 	//Event #2: TBA
 	//Event #3: TBA
@@ -1769,6 +1771,7 @@ void ClientDemo::setupPaintTiles()
 		for (unsigned int j = 0; j < SPRITE_GRID[i].size(); j++)
 		{
 			SPRITE_GRID[i][j] = PaintTile::create();
+			SPRITE_GRID[i][j]->setDry(true); //client will not see wet tiles (hidden server mechanic)
 			SPRITE_GRID[i][j]->setPosition(24 * j + levelmanager.tilestartpoint.x, 24 * i + levelmanager.tilestartpoint.y);
 			SPRITE_GRID[i][j]->debugDraw(false);
 			addChild(SPRITE_GRID[i][j], -999);
