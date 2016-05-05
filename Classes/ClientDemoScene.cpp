@@ -976,12 +976,15 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 
 		case EventKeyboard::KeyCode::KEY_1:
 			Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);
+			Camera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition()); //prevents slow re-positioning of gamemenu+camera
 			break;
 		case EventKeyboard::KeyCode::KEY_2:
 			Director::getInstance()->getOpenGLView()->setFrameZoomFactor(2.0f);
+			Camera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
 			break;
 		case EventKeyboard::KeyCode::KEY_3:
 			Director::getInstance()->getOpenGLView()->setFrameZoomFactor(3.0f);
+			Camera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
 			break;
 
 		case EventKeyboard::KeyCode::KEY_ESCAPE:
@@ -2411,15 +2414,6 @@ void ClientDemo::processSound(ServerPositionPacket &p) {
 
 	//hackfix to get lvl 1 music to play
 	//stopall() in howtoplay.cpp cant be followed too quickly by play2d(). cocos2d bug?
-	if (gSound.musicOn)
-	{
-		if (isSFXPlaying[14] == false && levelmanager.currentlevel == 1)
-		{
-			soundIDList[14] = experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", true, 0.4f);
-			isSFXPlaying[14] = true;
-
-		}
-	}
 }
 
 void ClientDemo::goToMainMenu(cocos2d::Ref* pSender)
@@ -2521,7 +2515,7 @@ void ClientDemo::initializeSound()
 			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_swoop_fast.mp3", false, 0.0f));
 			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\ptero_playerhit.mp3", false, 0.0f));
 			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\player_footsteps.mp3", false, 0.0f));
-			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", false, 0.0f)); //part of hackfix to get lvl 1 music to play
+			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\music\\samlvl_music.mp3", false, 0.5f)); //hackfix to get lvl 1 music to play
 			soundIDList.push_back(experimental::AudioEngine::play2d("\\res\\sound\\sfx\\sam_laugh.mp3", false, 0.0f));
 
 			for (unsigned int i = 0; i < soundIDList.size(); i++)
