@@ -76,6 +76,16 @@ void PlayerConnection::beginGame(cocos2d::Ref* pSender)
 		//keyboard->release();
 		//keyboard = nullptr;
 
+		std::ofstream os("config.json");
+		{
+			cereal::JSONOutputArchive configwriter(os);
+			ConfigFileInput setupdata = ConfigFileInput();
+			setupdata.ipaddress = IPAddress;
+			configwriter(setupdata);
+		}
+		os.close();
+		
+
 		auto scene = ServerConnection::createServerConnection(IPAddress,0); 
 		CCDirector::getInstance()->replaceScene(TransitionFade::create(0.5f, scene));
 	}
