@@ -136,17 +136,6 @@ void ServerDemo::update(float dt)
 	{
 		alternate = true;
 		io_service_p->poll();
-		/*if (eventActive == true)
-		{
-			if (transitionTimer == 0) //wait till transition is over to start event
-			{
-				runPaintEvent();
-			}
-			else
-			{
-				transitionTimer--;
-			}
-		}*/
 		return;
 	}
 	else
@@ -1393,9 +1382,9 @@ void ServerDemo::checkEnemyCollision(void)
 				samHit = true;
 			}
 			if (pterodactyl->isHostile()
-			 && p->getPositionX() > pterodactyl->getPositionX() - 12
-			 && p->getPositionX() < pterodactyl->getPositionX() + 12
-			 && p->getPositionY() > pterodactyl->getPositionY() - 10
+			 && p->getPositionX() > pterodactyl->getPositionX() - 12.5f
+			 && p->getPositionX() < pterodactyl->getPositionX() + 12.5f
+			 && p->getPositionY() > pterodactyl->getPositionY() - 55
 			 && p->getPositionY() < pterodactyl->getPositionY() + 10)
 			{
 				pteroHit = true;
@@ -1536,7 +1525,6 @@ void ServerDemo::checkSolved(void)
 			{
 				loadLevel(levelmanager.currentlevel + 1);
 			}
-			solved_timer = 60;
 			solved_timer_start = false;
 			sendmap = true;
 		}
@@ -1548,6 +1536,8 @@ void ServerDemo::checkSolved(void)
 	if (solved_timer_start == false && levelmanager.puzzle.isSolved())
 	{
 		solved_timer_start = true;
+		solved_timer = 180;
+		enqueueMessage(ServerMessage(18,0,0,0));
 	}
 }
 

@@ -243,7 +243,7 @@ void ClientDemo::update(float dt)
 	{
 		updateFromMenu();
 	}
-	if (pEvent.active == false && isPaused == false)
+	if (eventActive == 0 && isPaused == false)
 	{
 		players[playernum - 1]->setPositionX(players[playernum - 1]->getPositionX() + xmove * players[playernum - 1]->speedboost);
 		players[playernum - 1]->setPositionY(players[playernum - 1]->getPositionY() + ymove * players[playernum - 1]->speedboost);
@@ -254,7 +254,7 @@ void ClientDemo::update(float dt)
 
 	io_service_p->poll();
 	//log("POLLING");
-	if (pEvent.active == false)
+	if (eventActive == 0)
 	{
 		if (isPaused == false)
 		{
@@ -350,7 +350,19 @@ void ClientDemo::update(float dt)
 			}
 			villain->runAction(FadeIn::create(1.0f));
 		}
-		runEvents();
+
+		if (gameTimer == 0)
+		{
+			centerCamera();
+		}
+		else
+		{
+			gameTimer--;
+		}
+		if (eventActive != 0)
+		{
+			runEvents();
+		}
 }
 
 
@@ -375,7 +387,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	
 	activechars = p.activeplayers;
 	
-	if (pEvent.active == false)
+	if (eventActive != 1)
 	{
 		setVisiblePlayers(activechars);
 	}
@@ -744,7 +756,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	15. Go to win game, unused, unused, unused	
 	16. Player got bucket, player number, unused, color #
 	17. Player already taken, unused, unused, player #
-	18. Paint tile dried/wet, row, column, wet = 0/dry = 1
+	18. Puzzle completed, unused, unused, unused
 	19. Event change, event #, phase #, event status
 	*/
 	
@@ -885,6 +897,16 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		Director::getInstance()->replaceScene(scene);
 	}
 
+	else if (msg.messagechar == 18)
+	{
+		//could prob do this with client-side tilesCompleted handling
+		eventActive = 2;
+		//play victory music until level completed screen comes
+		experimental::AudioEngine::stop(soundIDList[14]);
+		soundIDList[14] = experimental::AudioEngine::play2d("res\\sound\\music\\victory.mp3", false, 0.5f);
+		
+	}
+
 	/*else if (msg.messagechar == 18)
 	{
 		if ((unsigned int)msg.xpos <= SPRITE_GRID.size() && (unsigned int)msg.ypos <= SPRITE_GRID[0].size()) //prevents out of bounds vector subscript, but essentially skips over servermessage?
@@ -926,11 +948,11 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 				}
 				else if (msg.status == 4) //event is over
 				{
-					pEvent.active = false;
+					eventActive = 0;
 				}
 				else if (msg.status == 5) //event started
 				{
-					pEvent.active = true;
+					eventActive = 1;
 					blankCanvas->setVisible(true);
 				}
 			}
@@ -974,24 +996,6 @@ void ClientDemo::KeyDown(EventKeyboard::KeyCode keyCode, Event* event)
 		case EventKeyboard::KeyCode::KEY_SPACE:
 			button1 = true;
 			//space(); - handled server-side now
-			break;
-
-		case EventKeyboard::KeyCode::KEY_1:
-			Director::getInstance()->getOpenGLView()->setFrameZoomFactor(1.0f);
-			Camera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition()); //prevents slow re-positioning of gamemenu+camera
-			break;
-		case EventKeyboard::KeyCode::KEY_2:
-			Director::getInstance()->getOpenGLView()->setFrameZoomFactor(2.0f);
-			Camera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
-			break;
-		case EventKeyboard::KeyCode::KEY_3:
-			Director::getInstance()->getOpenGLView()->setFrameZoomFactor(3.0f);
-			Camera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
-			break;
-
-		case EventKeyboard::KeyCode::KEY_ESCAPE:
-			//Director::getInstance()->end();
-			//exit(0);
 			break;
 		case EventKeyboard::KeyCode::KEY_CTRL:
 			button2 = true;
@@ -1217,11 +1221,11 @@ Point ClientDemo::plyrCoordToTileCoord(int playerNum)
 	return(Point(tilex,tiley));
 }
 
-int ClientDemo::getTileProperties(Point tileCoord)
+int ClientDemo::getTileProperties(TMXLayer* mapLayer, Point tileCoord)
 {
 	if (tileCoord.x >= 0 && tileCoord.x <= levelmanager.levelmap->getMapSize().width && tileCoord.y >= 0 && tileCoord.y <= levelmanager.levelmap->getMapSize().height)
 	{
-		return (bucketlayer->getTileGIDAt(tileCoord));
+		return (mapLayer->getTileGIDAt(tileCoord));
 	}
 }
 
@@ -1628,7 +1632,7 @@ void ClientDemo::changeLabelColor(int bTile, int playerNum)
 void ClientDemo::space()
 {	
 		Point tileCoord = plyrCoordToTileCoord(playernum);
-		int bTile = getTileProperties(tileCoord);
+		int bTile = getTileProperties(blockage, tileCoord);
 		changeLabelColor(bTile, playernum);
 }
 
@@ -1660,6 +1664,9 @@ void ClientDemo::loadLevel(int level)
 	if (transitionManager.start_timer == 60) //if not in transition and centercamera() has been called before (not new game, not player joining game in progress)
 	{
 		NotInTransition = false;
+
+		//stop playing victory music
+		experimental::AudioEngine::stop(soundIDList[14]);
 
 		transitionManager.loadTransition(level);
 		for (Sprite* ts : transitionManager.transitionSprite)
@@ -1752,7 +1759,7 @@ void ClientDemo::loadLevel(int level)
 	}
 	else
 	{
-		//pEvent.active = true;
+		//eventActive = 1;
 	}
 
 	button1 = false;
@@ -1785,37 +1792,30 @@ void ClientDemo::centerCamera()
 {
 	if (NotInTransition)
 	{
-		Vec2 camPos = Camera::getDefaultCamera()->getPosition();
-		Vec2 pPos = players[playernum - 1]->getPosition();
+		if (eventActive == 0)
+		{
+			Vec2 camPos = Camera::getDefaultCamera()->getPosition();
+			Vec2 pPos = players[playernum - 1]->getPosition();
 
-		//if camera is further away from player position than normal, smooth camera
-		if ((abs(camPos.x - pPos.x) + abs(camPos.y - pPos.y)) > (players[playernum - 1]->getSpeed()*players[playernum - 1]->speedboost + players[playernum - 1]->getSpeed()*players[playernum - 1]->speedboost) + 2)
-		{
-			//lerping tenth of distance
-			camPos.x += (pPos.x - camPos.x) * 0.1f;
-			camPos.y += (pPos.y - camPos.y) * 0.1f;
-			Camera::getDefaultCamera()->setPosition(camPos);
+			//if camera is further away from player position than normal, smooth camera
+			if ((abs(camPos.x - pPos.x) + abs(camPos.y - pPos.y)) > (players[playernum - 1]->getSpeed()*players[playernum - 1]->speedboost + players[playernum - 1]->getSpeed()*players[playernum - 1]->speedboost) + 2)
+			{
+				//lerping tenth of distance
+				camPos.x += (pPos.x - camPos.x) * 0.1f;
+				camPos.y += (pPos.y - camPos.y) * 0.1f;
+				Camera::getDefaultCamera()->setPosition(camPos);
+			}
+			else
+			{
+				Camera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
+			}
 		}
-		else
+		else if (eventActive == 1) //sam painting event happening
 		{
-			Camera::getDefaultCamera()->setPosition(players[playernum - 1]->getPosition());
+			Camera::getDefaultCamera()->setPosition(villain->getPosition());
 		}
 		transitionManager.start_timer = 60;
 		//if((players[playernum -1]->getPositionX() > 320 && players[playernum - 1]->getPositionX() < (levelmanager.levelmap->getMapSize().width*24)-320) || (players[playernum - 1]->getPositionY() > 180 && players[playernum - 1]->getPositionY() < (levelmanager.levelmap->getMapSize().height * 24) - 180))
-	}
-	else
-	{
-		Camera::getDefaultCamera()->setPosition(winSizeWidth, winSizeHeight);
-	}
-}
-
-void ClientDemo::samCam()
-{
-	if (NotInTransition)
-	{
-		transitionManager.start_timer = 60;
-		//if((players[playernum -1]->getPositionX() > 320 && players[playernum - 1]->getPositionX() < (levelmanager.levelmap->getMapSize().width*24)-320) || (players[playernum - 1]->getPositionY() > 180 && players[playernum - 1]->getPositionY() < (levelmanager.levelmap->getMapSize().height * 24) - 180))
-		Camera::getDefaultCamera()->setPosition(villain->getPosition());
 	}
 	else
 	{
@@ -2726,22 +2726,10 @@ void ClientDemo::updateFromMenu(void)
 	}
 }
 
-void ClientDemo::runEvents(void)
+void ClientDemo::runEvents()
 {
-	if (pEvent.active == false)
+	if (eventActive == 1) //sam painting event
 	{
-		if (gameTimer == 0)
-		{
-			centerCamera();
-		}
-		else
-		{
-			gameTimer--;
-		}
-	}
-	else
-	{
-		samCam();
 		if (pEvent.canvasFade == true) //if phase 2 started
 		{
 			if (pEvent.init == false) //if phase 2 has not been initialized yet (getting blank canvas sprites)
@@ -2856,6 +2844,12 @@ void ClientDemo::runEvents(void)
 				pEvent.init = false;
 			}
 		}
+	}
+	if (eventActive == 2) //end of level victory freeze
+	{
+		//play victory music until level completed screen comes
+		//experimental::AudioEngine::stop(soundIDList[14]);
+		//soundIDList[14] = experimental::AudioEngine::play2d("res\\sound\\music\\victory.mp3", false, 0.5f);
 	}
 }
 

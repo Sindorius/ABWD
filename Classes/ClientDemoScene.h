@@ -71,7 +71,6 @@ private:
 
 	AnimationManager animationmanager;
 	struct paintEvent {
-		bool active = false; //true when scripted game event is happening
 		bool canvasFade = false;
 		bool init = false;
 		std::vector<Sprite*> tileSprites;
@@ -82,6 +81,8 @@ private:
 	GameMenu* gameMenuLayer;
 
 	bool isPaused = false;
+
+	int eventActive = 0;
 
 
 public:
@@ -166,13 +167,13 @@ public:
 	void PauseGame(void);
 	void ResumeGame(void);
 	void updateFromMenu(void);
-	void runEvents(void);
+	void runEvents();
 
 	void playSound(int id, std::string& filePath);
 
 	void space();
 	Point plyrCoordToTileCoord(int playerNum);
-	int getTileProperties(Point tileCoord);
+	int getTileProperties(TMXLayer* mapLayer, Point tileCoord);
 	void changeLabelColor(int bTile, int playerNum);
 
 	LevelManager levelmanager;
@@ -193,7 +194,6 @@ public:
 	void loadLevel(int level);
 	void setupPaintTiles();
 	void centerCamera();
-	void samCam();
 	void updateTilesFromPacket(ServerPositionPacket p);
 	
 	void goToMainMenu(cocos2d::Ref* pSender);
