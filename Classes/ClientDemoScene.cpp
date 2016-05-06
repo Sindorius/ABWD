@@ -745,7 +745,7 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	4. Player 4 pos, xpos, ypos, animation #
 	5. Sam pos, xpos, ypos, animation #
 	6. Ptera pos, xpos, ypos, animmation #
-	7. Candy pos, xpos, ypos, unused
+	7. Candy spawned, xpos, ypos, unused
 	8. Got candy, unused, unused, player #
 	9. Candy wore off, unused, unused, player #
 	10. Change Level, unused, unused, new level #
@@ -763,6 +763,10 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	if(msg.messagechar == 0)
 	{
 		playernum = msg.status;
+	}
+	else if (msg.messagechar == 7)
+	{
+		experimental::AudioEngine::play2d("\\res\\sound\\sfx\\candy_spawn.mp3", false, 0.7f);
 	}
 	else if (msg.messagechar == 8)
 	{

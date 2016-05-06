@@ -402,6 +402,7 @@ void ServerSam::munch() {
 			flag = false;
 			candy->setPosition(newX, newY);
 			candy->setStatus(true);
+			serverptr->enqueueMessage(ServerMessage(7, newX, newY, 0));
 
 			//If sam is closer to candy cane, make her wait long enough for closest player to catch up:
 
