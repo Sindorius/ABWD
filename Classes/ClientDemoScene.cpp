@@ -1657,6 +1657,7 @@ void ClientDemo::loadLevel(int level)
 		for (unsigned int i = 0; i < players.size(); i++)
 		{
 			players[i]->setColor("");
+			players[i]->getLabel()->setColor(Color3B::WHITE);
 		}
 
 	}

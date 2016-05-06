@@ -540,8 +540,13 @@ void ServerDemo::loadLevel(int level)
 		for (unsigned int i = 0; i < players.size(); i++)
 		{
 			players[i]->setColor("");
+			players[i]->setAnim("");
+
 		}
+		pterodactyl->setAnim("");
+		serversam->setAnim("");
 		serversam->setVisible(true);
+
 	}
 
 	levelmanager.setLevel(level);

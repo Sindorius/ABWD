@@ -15,8 +15,8 @@ class GameOver : public cocos2d::Layer
 {
 private:
 	Sprite* gameover;
-	CCTMXTiledMap* titleScreen;
-	cocos2d::MenuItemImage* menu_item;
+	TMXTiledMap* titleScreen;
+	MenuItemImage* menu_item;
 	EventListenerJoystick* joyListener;
 
 	bool button1 = false;
@@ -24,8 +24,8 @@ private:
 public:
 	static cocos2d::Scene* createGameOver();
 	virtual bool init();
-	void menuCloseCallback(cocos2d::Ref * pSender);
-	void goToMainMenu(cocos2d::Ref* pSender);
+	void menuCloseCallback(Ref * pSender);
+	void goToMainMenu(Ref* pSender);
 
 	void Joystick(cocos2d::Event*);
 
