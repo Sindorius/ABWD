@@ -65,7 +65,7 @@ private:
 	};
 	scriptEvent paintEvent; //new level sam painting event
 	bool solved_timer_start = false;
-	int solved_timer = 60;
+	int solved_timer = 0;
 	
 	cocos2d::TMXLayer* bucketlayer;
 	cocos2d::TMXLayer* blockage;

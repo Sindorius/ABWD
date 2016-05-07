@@ -243,7 +243,7 @@ void ClientDemo::update(float dt)
 	{
 		updateFromMenu();
 	}
-	if (eventActive == 0 && isPaused == false)
+	if (eventActive == 0 && isPaused == false && smoothCamera == false)
 	{
 		players[playernum - 1]->setPositionX(players[playernum - 1]->getPositionX() + xmove * players[playernum - 1]->speedboost);
 		players[playernum - 1]->setPositionY(players[playernum - 1]->getPositionY() + ymove * players[playernum - 1]->speedboost);
@@ -256,7 +256,7 @@ void ClientDemo::update(float dt)
 	//log("POLLING");
 	if (eventActive == 0)
 	{
-		if (isPaused == false)
+		if (isPaused == false && smoothCamera == false)
 		{
 			if (xmove || ymove || button1)
 			{
@@ -1754,6 +1754,8 @@ void ClientDemo::loadLevel(int level)
 		villain->setOpacity(0);
 	}
 
+	smoothCamera = true;
+
 	for (unsigned int i = 0; i < players.size(); i++)
 	{
 		players[i]->setVisible(false);
@@ -1799,16 +1801,24 @@ void ClientDemo::centerCamera()
 	{
 		if (eventActive == 0)
 		{
-			Vec2 camPos = Camera::getDefaultCamera()->getPosition();
-			Vec2 pPos = players[playernum - 1]->getPosition();
-
-			//if camera is further away from player position than normal, smooth camera
-			if ((abs(camPos.x - pPos.x) + abs(camPos.y - pPos.y)) > (players[playernum - 1]->getSpeed()*players[playernum - 1]->speedboost + players[playernum - 1]->getSpeed()*players[playernum - 1]->speedboost) + 2)
+			if (smoothCamera)
 			{
-				//lerping tenth of distance
-				camPos.x += (pPos.x - camPos.x) * 0.1f;
-				camPos.y += (pPos.y - camPos.y) * 0.1f;
-				Camera::getDefaultCamera()->setPosition(camPos);
+				Vec2 camPos = Camera::getDefaultCamera()->getPosition();
+				Vec2 pPos = players[playernum - 1]->getPosition();
+				int dist = players[playernum - 1]->getSpeed()*players[playernum - 1]->speedboost + players[playernum - 1]->getSpeed()*players[playernum - 1]->speedboost;
+
+				//if camera is further away from player position than normal, smooth camera
+				if ((abs(camPos.x - pPos.x) + abs(camPos.y - pPos.y)) > dist)
+				{
+					//lerping tenth of distance
+					camPos.x += (pPos.x - camPos.x) * 0.1f;
+					camPos.y += (pPos.y - camPos.y) * 0.1f;
+					Camera::getDefaultCamera()->setPosition(camPos);
+				}
+				else
+				{
+					smoothCamera = false;
+				}
 			}
 			else
 			{

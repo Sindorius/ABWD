@@ -162,7 +162,7 @@ void ServerDemo::update(float dt)
 		//update and check if any players are idle, update anims
 		updateIdleAnims();
 
-		if (levelmanager.currentlevel != 1)
+		if (levelmanager.currentlevel != 1 && solved_timer_start == false)
 		{
 			serversam->setPriority(PLAYER_GRID, DRY_GRID, DRIED);
 			serversam->runAI(&players);
@@ -640,7 +640,7 @@ void ServerDemo::loadLevel(int level)
 		enqueueMessage(ServerMessage(19, 1, 0, 5)); //tells client to start sam painting event
 	}
 	else if (level == 4) {
-		pterodactyl->setVisible(false);
+		pterodactyl->setVisible(true);
 		serversam->pteraOn();
 		serversam->candyOn();
 		serversam->teleportOn();
@@ -1542,7 +1542,7 @@ void ServerDemo::checkSolved(void)
 	{
 		solved_timer_start = true;
 		solved_timer = 180;
-		enqueueMessage(ServerMessage(18,0,0,0));
+		enqueueMessage(ServerMessage(18,0,0,0)); //tell client to start victory event
 	}
 }
 

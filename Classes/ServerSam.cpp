@@ -362,21 +362,12 @@ void ServerSam::munch() {
 		int theta = (rand() % 360);
 		int newX = abs((this->getPositionX() - candy_spawn_distance*(cos(theta * 3.14159 / 180))));
 		int newY = abs(this->getPositionY() - candy_spawn_distance*(sin(theta * 3.14159 / 180)));
+		int tileX = newX / lvm->levelmap->getTileSize().width;
+		int tileY = ((lvm->levelmap->getMapSize().height * lvm->levelmap->getTileSize().height) - newY) / (lvm->levelmap->getTileSize().height);
+		Vec2 tileCoord = Vec2(tileX, tileY);
 
-		//make sure new coords are within map boundaries
-		auto testx = ((lvm->levelmap->getMapSize().width - 1) * lvm->levelmap->getTileSize().width);
-		auto testy = (lvm->levelmap->getMapSize().height - 1) * lvm->levelmap->getTileSize().height;
-		if (newX > testx || newY > testy)
+		if (tileCoord.x > 0 && tileCoord.x < lvm->levelmap->getMapSize().width && tileCoord.y > 0 && tileCoord.y < lvm->levelmap->getMapSize().height)
 		{
-			resume = false;
-		}
-		else
-		{
-			//int tileX = abs((lvm->levelmap->getMapSize().width * lvm->levelmap->getTileSize().width) - newX - 1) / (lvm->levelmap->getTileSize().width); 
-			int tileX = newX / lvm->levelmap->getTileSize().width;
-			int tileY = ((lvm->levelmap->getMapSize().height * lvm->levelmap->getTileSize().height) - newY) / (lvm->levelmap->getTileSize().height);
-			Vec2 tileCoord = Vec2(tileX, tileY);
-
 			if (blockage != NULL)
 			{
 				int bkTile = blockage->getTileGIDAt(tileCoord);
@@ -393,10 +384,10 @@ void ServerSam::munch() {
 					}
 				}
 			}
-			else 
-			{
-				resume = false;
-			}
+		}
+		else 
+		{
+			resume = false;
 		}
 		if (resume) {
 			flag = false;

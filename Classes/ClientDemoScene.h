@@ -169,6 +169,9 @@ public:
 	void updateFromMenu(void);
 	void runEvents();
 
+	const float factor = 0.5;
+	const float fixedStep = 1.0f / 30.0f;
+
 	void playSound(int id, std::string& filePath);
 
 	void space();
@@ -194,6 +197,7 @@ public:
 	void loadLevel(int level);
 	void setupPaintTiles();
 	void centerCamera();
+	bool smoothCamera = false;
 	void updateTilesFromPacket(ServerPositionPacket p);
 	
 	void goToMainMenu(cocos2d::Ref* pSender);
