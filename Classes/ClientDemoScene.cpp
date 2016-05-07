@@ -387,7 +387,7 @@ void ClientDemo::processPacket(ServerPositionPacket p)
 	
 	activechars = p.activeplayers;
 	
-	if (eventActive != 1)
+	if (eventActive == 0)
 	{
 		setVisiblePlayers(activechars);
 	}
@@ -905,6 +905,13 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 	{
 		//could prob do this with client-side tilesCompleted handling
 		eventActive = 2;
+		for (unsigned int i = 0; i < players.size(); i++)
+		{
+			players[i]->setVisible(false);
+		}
+		villain->setVisible(false);
+		pterodactyl->setVisible(false);
+		candy->setVisible(false);
 		//play victory music until level completed screen comes
 		experimental::AudioEngine::stop(soundIDList[14]);
 		soundIDList[14] = experimental::AudioEngine::play2d("res\\sound\\music\\victory.mp3", false, 0.5f);
@@ -1733,6 +1740,7 @@ void ClientDemo::loadLevel(int level)
 	{
 		pterodactyl->setVisible(false);
 		villain->setVisible(false);
+		candy->setVisible(false);
 		//this->setScale(1.0f);
 	}
 	else if (level == 2) {
@@ -1745,12 +1753,14 @@ void ClientDemo::loadLevel(int level)
 		gSound.levelChange = true;
 		pterodactyl->setVisible(false);
 		villain->setVisible(true);
+		candy->setVisible(true);
 		villain->setOpacity(0);
 	}
 	else if (level == 4) {
 		gSound.levelChange = true;
 		pterodactyl->setVisible(true);
 		villain->setVisible(true);
+		candy->setVisible(true);
 		villain->setOpacity(0);
 	}
 
@@ -1828,6 +1838,30 @@ void ClientDemo::centerCamera()
 		else if (eventActive == 1) //sam painting event happening
 		{
 			Camera::getDefaultCamera()->setPosition(villain->getPosition());
+		}
+		else if (eventActive == 2)
+		{
+			Vec2 pos;
+			if (levelmanager.currentlevel == 1)
+			{
+
+			}
+			else if (levelmanager.currentlevel == 2)
+			{
+				pos.x = 238;
+				pos.y = 150;
+			}
+			else if (levelmanager.currentlevel == 3)
+			{
+				pos.x = 300;
+				pos.y = 150;
+			}
+			else if (levelmanager.currentlevel == 4)
+			{
+				pos.x = 370;
+				pos.y = 320;
+			}
+			Camera::getDefaultCamera()->setPosition(pos);
 		}
 		transitionManager.start_timer = 60;
 		//if((players[playernum -1]->getPositionX() > 320 && players[playernum - 1]->getPositionX() < (levelmanager.levelmap->getMapSize().width*24)-320) || (players[playernum - 1]->getPositionY() > 180 && players[playernum - 1]->getPositionY() < (levelmanager.levelmap->getMapSize().height * 24) - 180))

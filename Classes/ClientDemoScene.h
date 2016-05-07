@@ -169,9 +169,6 @@ public:
 	void updateFromMenu(void);
 	void runEvents();
 
-	const float factor = 0.5;
-	const float fixedStep = 1.0f / 30.0f;
-
 	void playSound(int id, std::string& filePath);
 
 	void space();
