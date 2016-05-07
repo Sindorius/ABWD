@@ -8,8 +8,6 @@
 #include "cocos2d.h"
 #include "PaintTile.h"
 
-#define DRIED 10
-
 class Puzzle
 {
 public:

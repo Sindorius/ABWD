@@ -164,7 +164,7 @@ void ServerDemo::update(float dt)
 
 		if (levelmanager.currentlevel != 1 && solved_timer_start == false)
 		{
-			serversam->setPriority(PLAYER_GRID, DRY_GRID, DRIED);
+			serversam->setPriority(PLAYER_GRID, DRY_GRID, dried);
 			serversam->runAI(&players);
 		}
 
@@ -597,7 +597,7 @@ void ServerDemo::loadLevel(int level)
 		serversam->pteraOff();
 		serversam->candyOff();
 		serversam->setPosition(-1000, -1000);
-
+		dried = 10;
 		eventActive = paintEvent.phase1 = false;
 		this->setScale(1.0f);
 	}
@@ -608,6 +608,7 @@ void ServerDemo::loadLevel(int level)
 		serversam->candyOff();
 		samInitPos.set(Vec2(238, 150));
 		serversam->setPosition(samInitPos);
+		dried = 8;
 		wallYCoord = 302;
 		if (EVENTS_ON == 1)
 		{
@@ -628,6 +629,7 @@ void ServerDemo::loadLevel(int level)
 		serversam->candyOn();
 		samInitPos.set(Vec2(300, 150));
 		serversam->setPosition(samInitPos);
+		dried = 8;
 		wallYCoord = 278;
 		if (EVENTS_ON == 1)
 		{
@@ -649,6 +651,7 @@ void ServerDemo::loadLevel(int level)
 		serversam->walkOn();
 		samInitPos.set(Vec2(370, 320));
 		serversam->setPosition(samInitPos);
+		dried = 7;
 		wallYCoord = 496;
 		if (EVENTS_ON == 1)
 		{
@@ -764,7 +767,7 @@ void ServerDemo::updatePaintTiles(int playernum)
 				{
 					if (PLAYER_GRID[i][j] != playernum)
 					{
-						if (DRY_GRID[i][j] != DRIED)
+						if (DRY_GRID[i][j] != dried)
 						{
 							std::vector<std::pair<int, int>>::iterator it;
 							it = std::find(players[PLAYER_GRID[i][j] - 1]->paintedTiles.begin(), players[PLAYER_GRID[i][j] - 1]->paintedTiles.end(), coords);
@@ -1404,7 +1407,7 @@ void ServerDemo::checkEnemyCollision(void)
 					int a = p->paintedTiles[i].first;
 					int b = p->paintedTiles[i].second;
 
-					if (DRY_GRID[a][b] != DRIED)
+					if (DRY_GRID[a][b] != dried)
 					{
 						PLAYER_GRID[a][b] = 0;
 						//check if erased tile at [a][b] was correct, decrement tilescompleted if it was
@@ -1469,10 +1472,10 @@ void ServerDemo::dryTiles(void)
 	}
 	if (dry_x <= DRY_GRID.size() && dry_y <= DRY_GRID[0].size()) //prevents out of bounds vector subscript
 	{
-		if (DRY_GRID[dry_x][dry_y] < DRIED) {
+		if (DRY_GRID[dry_x][dry_y] < dried) {
 			DRY_GRID[dry_x][dry_y]++;
 		}
-		if (DRY_GRID[dry_x][dry_y] == DRIED && SPRITE_GRID[dry_x][dry_y]->isDry() == false) {
+		if (DRY_GRID[dry_x][dry_y] == dried && SPRITE_GRID[dry_x][dry_y]->isDry() == false) {
 			if (SPRITE_GRID[dry_x][dry_y]->getColor() != "clear")
 			{
 				SPRITE_GRID[dry_x][dry_y]->setDry(true);

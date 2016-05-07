@@ -425,6 +425,10 @@ void ServerSam::munch() {
 			{
 				//below is a multipler that makes sam's speed fast enough to get to candy at the same time as player
 				walk_speed *= ((player_list->at(0)->getSpeed() * sam_candy_dist) / (player_candy_dist * walk_speed));
+				if (walk_speed > 4) //cap sam's speed when chasing after candy cane
+				{
+					walk_speed = 4;
+				}
 				candy_wait = reaction_time_weight;
 			}
 			}
@@ -470,8 +474,8 @@ void ServerSam::munch() {
 				candy->start();
 				candy->setPosition(-1000, -1000);
 				flag = true;
-				behavior_timer = 150;
-				behavior = 5;
+				behavior_timer = 100; //set back to 150 when pout implemented
+				behavior = 0; //set this back to 5 when pout implemented
 				pl_candy_score++;
 				walk_speed = 2; //set sam speed back to normal
 				player_candy_dist = 9999; //set this back to default value

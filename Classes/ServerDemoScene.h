@@ -54,6 +54,7 @@ private:
 	std::vector<Sprite*> pSprites;
 	int opacity = 0;
 	int wallYCoord;
+	int dried = 10;
 
 	struct scriptEvent {
 		int eventTimer = 0;
