@@ -162,6 +162,8 @@ public:
 	void processSound(ServerPositionPacket &p);
 	void initializeSound();
 
+	Vec2 pos;
+
 	void highlightBuckets(void);
 
 	void PauseGame(void);

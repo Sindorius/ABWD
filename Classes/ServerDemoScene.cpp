@@ -597,6 +597,8 @@ void ServerDemo::loadLevel(int level)
 		serversam->pteraOff();
 		serversam->candyOff();
 		serversam->setPosition(-1000, -1000);
+
+		eventActive = paintEvent.phase1 = false;
 		this->setScale(1.0f);
 	}
 	else if (level == 2) {
@@ -1542,6 +1544,14 @@ void ServerDemo::checkSolved(void)
 	{
 		solved_timer_start = true;
 		solved_timer = 180;
+		for (unsigned int i = 0; i < players.size(); i++)
+		{
+			players[i]->setColor("");
+			players[i]->setAnim("");
+
+		}
+		pterodactyl->setAnim("");
+		serversam->setAnim("");
 		enqueueMessage(ServerMessage(18,0,0,0)); //tell client to start victory event
 	}
 }

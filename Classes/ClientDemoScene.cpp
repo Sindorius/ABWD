@@ -909,12 +909,35 @@ void ClientDemo::processServerMessage(ServerMessage msg)
 		{
 			players[i]->setVisible(false);
 		}
+		tileHighlight->setOpacity(0);
+		bucketHighlight->setOpacity(0);
 		villain->setVisible(false);
 		pterodactyl->setVisible(false);
 		candy->setVisible(false);
+		smoothCamera = true;
+		if (levelmanager.currentlevel == 1)
+		{
+			pos.x = 240;
+			pos.y = 168;
+		}
+		else if (levelmanager.currentlevel == 2)
+		{
+			pos.x = 238;
+			pos.y = 150;
+		}
+		else if (levelmanager.currentlevel == 3)
+		{
+			pos.x = 300;
+			pos.y = 150;
+		}
+		else if (levelmanager.currentlevel == 4)
+		{
+			pos.x = 370;
+			pos.y = 320;
+		}
 		//play victory music until level completed screen comes
 		experimental::AudioEngine::stop(soundIDList[14]);
-		soundIDList[14] = experimental::AudioEngine::play2d("res\\sound\\music\\victory.mp3", false, 0.5f);
+		soundIDList[14] = experimental::AudioEngine::play2d("res\\sound\\music\\victory.mp3", false, gSound.mVolume);
 		
 	}
 
@@ -1841,27 +1864,27 @@ void ClientDemo::centerCamera()
 		}
 		else if (eventActive == 2)
 		{
-			Vec2 pos;
-			if (levelmanager.currentlevel == 1)
+			if (smoothCamera)
 			{
+				Vec2 camPos = Camera::getDefaultCamera()->getPosition();
 
+				//if camera is further away from player position than normal, smooth camera
+				if ((abs(camPos.x - pos.x) + abs(camPos.y - pos.y)) > 4)
+				{
+					//lerping tenth of distance
+					camPos.x += (pos.x - camPos.x) * 0.1f;
+					camPos.y += (pos.y - camPos.y) * 0.1f;
+					Camera::getDefaultCamera()->setPosition(camPos);
+				}
+				else
+				{
+					smoothCamera = false;
+				}
 			}
-			else if (levelmanager.currentlevel == 2)
+			else
 			{
-				pos.x = 238;
-				pos.y = 150;
+				Camera::getDefaultCamera()->setPosition(pos);
 			}
-			else if (levelmanager.currentlevel == 3)
-			{
-				pos.x = 300;
-				pos.y = 150;
-			}
-			else if (levelmanager.currentlevel == 4)
-			{
-				pos.x = 370;
-				pos.y = 320;
-			}
-			Camera::getDefaultCamera()->setPosition(pos);
 		}
 		transitionManager.start_timer = 60;
 		//if((players[playernum -1]->getPositionX() > 320 && players[playernum - 1]->getPositionX() < (levelmanager.levelmap->getMapSize().width*24)-320) || (players[playernum - 1]->getPositionY() > 180 && players[playernum - 1]->getPositionY() < (levelmanager.levelmap->getMapSize().height * 24) - 180))

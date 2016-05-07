@@ -13,6 +13,7 @@ void LevelManager::setLevel(int level)
 
 		tilestartpoint = Vec2(276, 48);
 		puzzle.changePuzzle(level);
+		lastLevel = false;
 	}
 	
 	if (level == 1)
@@ -25,7 +26,7 @@ void LevelManager::setLevel(int level)
 
 		puzzle.changePuzzle(level);
 		tilestartpoint = Vec2(180, 90);
-
+		lastLevel = false;
 
 	}
 	else if (level == 2)
@@ -38,7 +39,7 @@ void LevelManager::setLevel(int level)
 
 		puzzle.changePuzzle(level);
 		tilestartpoint = Vec2(134, 104);
-
+		lastLevel = false;
 	}
 	else if (level == 3)
 	{
@@ -49,6 +50,7 @@ void LevelManager::setLevel(int level)
 
 		puzzle.changePuzzle(level);
 		tilestartpoint = Vec2(168, 64);
+		lastLevel = false;
 	}
 	else if (level == 4)
 	{
