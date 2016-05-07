@@ -644,16 +644,16 @@ void ServerSam::pteraOn() {
 void ServerSam::lowerReactW(void) {
 	//5 frames is bottom limt of reaction time weight.
 	//5 frames at 30 fps is 0.167s and fastest possible human reaction time is 0.15s
-	if (reaction_time_weight > 5) {
-		reaction_time_weight--;
+	if (reaction_time_weight > 4) {
+		reaction_time_weight -= 2;
 	}
 }
 
 void ServerSam::incReactW(void) {
 	//15 frames is upper limt of reaction time weight.
 	//15 frames at 30 fps is 0.5s which is kind of the upper outlier of normal human reaction time
-	if (reaction_time_weight < 15) {
-		reaction_time_weight++;
+	if (reaction_time_weight < 16) {
+		reaction_time_weight += 2;
 	}
 }
 

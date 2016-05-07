@@ -100,7 +100,7 @@ private:
 	int sam_candy_dist = 0;
 	int player_candy_dist = 9999;
 	int player_dist_check = 0;
-	int reaction_time_weight = 8; //weight for player reaction time, default is avg human reaction time of 0.25s
+	int reaction_time_weight = 10; //weight for player reaction time, default is avg human reaction time of 0.25s plus a little extra
 
 	//statistics
 
