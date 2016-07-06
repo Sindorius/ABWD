@@ -1,0 +1,76 @@
+if you remember back at IEEE, there was a little girl who
+tried to play our game and got adorably frustrated
+
+that got me thinking about how to curve the difficulty of the game
+to avoid that but there really wasn't a simple solution
+
+to that end i want to change the direction of our difficulty 
+setup which is simply getting wiped
+
+the current problem is that sam won't promote interesting
+gameplay as it goes on as is evidenced from the accursed walk
+when it comes to the walk, there is actually nothing i can
+come up with to make it more interesting
+
+my proposals
+1. we remove the painting erasing as the default
+this should be something extreme and not the norm
+it doesn't really make sense and it's more frustrating
+than it is challenging
+
+i would instead like to make all obstacles based on
+disruption as the primary focus
+so for example, ptera would have a few personal behaviors
+first is the old stun idea where tera slams you away and takes your
+paintbrush forcing you to retrieve it
+second, ptera will carry around a small paint can which will
+recolor the players paintbrush to a random color
+more later
+
+we can always increase the difficulty by adding the old method later
+
+2. seperate entities
+currently only 1 action runs at a time and it runs through
+a behavior from sam like the whistling
+this is totally adorable and i love it but its stagnant
+they can't cooperate like this which makes less unique gameplay
+i want to let every entity run concurrently so they make
+obnoxious maneuvers
+
+
+3. sam is the supplement element to the challenge
+sam's power can't be overbearing or it overshadows
+all the other items we introduce
+and if she is powerful why bring in others?
+i want to make sam what she is supposed to be to the player
+and that is an annoying twerp
+when she chases you and catches you this is the slow down
+in this example, ptera is the dangerous one who really affects you
+sam will just hug your leg hampering your speed but this lets
+ptera do the damage
+
+another thing is that she might throw paintballs at players randomly 
+assigning a color if it hits
+
+4. playing with sam
+sams out to have fun so that should be an option
+this would be associated with some secret ending
+so ill leave this to later discussion
+
+5. we need a story
+
+6. weak swarms or powerful individuals
+theres a couple design flows we can follow
+the first is the current though model where
+we have a single powerful creature accompany sam throughout each area
+another option im throwing out is that each creature
+is excessively weak in impact, but they don't stop existing
+
+so ptera is a very weak creature not doing much,
+but suddenly we add the low impact trex,
+the low impact walrus,
+low impact flying shark
+and now the game is hectic
+of course we would need to include ways to remove
+creatures overtime, maybe by playing with sam
+she will remove some of the creatures
