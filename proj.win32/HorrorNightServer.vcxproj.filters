@@ -53,6 +53,9 @@
     <ClInclude Include="..\Classes\Candy.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\AiHandler.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
@@ -98,6 +101,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Candy.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AiHandler.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

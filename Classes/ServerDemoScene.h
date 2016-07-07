@@ -7,6 +7,7 @@
 #include "ServerSam.h"
 #include "Pterodactyl.h"
 #include "Candy.h"
+#include "AiHandler.h"
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
@@ -37,6 +38,7 @@
 
 class TCPServer;
 class ServerSam;
+class AiHandler;
 
 class ServerDemo : public cocos2d::Layer
 {
@@ -81,6 +83,7 @@ private:
 	ServerSam* serversam;
 	Pterodactyl* pterodactyl;
 	Candy* candy;
+	AiHandler* Ai;
 
 	std::vector<cocos2d::Sprite*> objects;
 	std::vector<ServerMessage> servermessagequeue;

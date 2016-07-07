@@ -4,13 +4,18 @@
 #include <stdlib.h>
 #include "cocos2d.h"
 #include <iostream>
+#include <random>
+#include <time.h>
 
 
-ServerSam* ServerSam::create(ServerDemo* ptr, bool vis)
+ServerSam::ServerSam(std::vector<Player*>* players)
+	:player_list(players)
 {
-	ServerSam* pSprite = new ServerSam();
-	pSprite->serverptr = ptr;
+}
 
+ServerSam* ServerSam::create(std::vector<Player*>* players, bool vis)
+{
+	ServerSam* pSprite = new ServerSam(players);
 	if (pSprite->initWithFile("\\res\\sprites\\animations\\sam\\sam_walk_front0.png"))
 	{
 		pSprite->autorelease();
@@ -34,80 +39,21 @@ void ServerSam::initialize(bool vis)
 
 
 void ServerSam::setPriority(std::vector<std::vector<char>> tiles, std::vector<std::vector<char>> dry, int time) {
-	for (int i = 0; i < 4; i++) {
-		priority[i] = 0;
-		idle = true;
-	}
-	for (unsigned int i = 0; i < tiles.size(); i++) {
-		for (unsigned int j = 0; j < tiles[i].size(); j++ ) {
-			if (tiles[i][j] == 1 && dry[i][j] != time) {
-				priority[0]++;
-				idle = false;
-			}
-			else if (tiles[i][j] == 2 && dry[i][j] != time) {
-				priority[1]++;
-				idle = false;
-			}
-			else if (tiles[i][j] == 3 && dry[i][j] != time) {
-				priority[2]++;
-				idle = false;
-			}
-			else if (tiles[i][j] == 4 && dry[i][j] != time) {
-				priority[3]++;
-				idle = false;
-			}
-		}
-	}
+
 }
 
-void ServerSam::runAI(std::vector<Player*>* players)
+void ServerSam::runAI()
 {
-
-	player_list = players;
-	calculations();
-	teleport_cd--;
-	candy->run();
-	if (candy->getTime() == 1) {
-		candyOn();
-	}
-	if(candy->getTime() == 1)
-	{
-		serverptr->enqueueMessage(ServerMessage(9, 0, 0, candy->getOwner()+1));
-	}
-	if (!(candy->active())) {
-		candy->setOwner(-1);
-	}
-	if (behavior_unlocked) {
-		chooseBehavior();
-	}
-	switch (behavior) {
-	case 0:
-		walk();
-		break;
-	case 1:
-		pteraSummon();
-		break;
-	case 2:
-		charge();
-		break;
-	case 3:
-		chargeTeleport();
-		break;
-	case 4:
-		teleport();
-		break;
-	case 5:
-		wait();
-		break;
-	case 6:
-		munch();
-		break;
-	case 7:
-		munching();
-		break;
-	}
-	if (behavior != 1 && b_ptera) {
-		ptera->run(this->getPositionX(), this->getPositionY());
+	send_map = false;
+	queued_messages.clear();
+	current_behavior = behavior_list[0];
+	if ((this->*current_behavior)()) {}
+	else {
+		std::default_random_engine generator;
+		std::uniform_int_distribution<int> distribution(0, behavior_list.size() - 1);
+		int selection = distribution(generator);
+		current_behavior = behavior_list[selection];
+		behavior_timer = behavior_timers[selection];
 	}
 }
 
@@ -116,89 +62,19 @@ void ServerSam::calculations() {
 	int ServerSamX = this->getPositionX();
 	int ServerSamY = this->getPositionY();
 	for (unsigned int i = 0; i < player_list->size(); i++) {
-		int temp = sqrt(pow((ServerSamX - player_list->at(i)->getPositionX()), 2) + pow((ServerSamY - player_list->at(i)->getPositionY()), 2));
-		distance.push_back(temp);
+		if (player_list->at(i)->isVisible()) {
+			int temp = sqrt(pow((ServerSamX - player_list->at(i)->getPositionX()), 2) + pow((ServerSamY - player_list->at(i)->getPositionY()), 2));
+			distance.push_back(temp);
+		}
+		else {
+			distance.push_back(20000);
+		}
 	}
 }
 
 
 void ServerSam::chooseBehavior() {
-	int choose;
-	if (idle) {
-		choose = 0;
-	}
-	else {
-		choose = behaviors.at((rand() % behaviors.size()));
-	}
-	switch (choose) {
-		//wait
-	case 0:
-		behavior_timer = idle_time;
-		behavior = 5;
-		setAnim("samdown");
-		break;
-		//walk
-	case 1:
-		behavior_timer = walk_time;
-		behavior = 0;
-		break;
-		//ptera
-	case 2:
-		behavior_timer = 400;
-		secondary_time = 30;
-		behavior = 1;
-		break;
-		//teleport
-	case 3:
-		if (teleport_cd <= 0) {
-			int total = priority[0] + priority[1] + priority[2] + priority[3];
-			int guess = rand() % (total + 1);
-			int guess1 = rand() % (total - priority[0] + 1);
-			int guess2 = rand() % (total - priority[0] - priority[1] + 1);
-			int guess3 = rand() % (total - priority[0] - priority[1] - priority[2] + 1);
 
-			if (guess < priority[0]) {
-				target = 0;
-				x = player_list->at(target)->getPositionX();
-				y = player_list->at(target)->getPositionY();
-				behavior_timer = charge_teleport_time;
-				behavior = 3;
-			}
-			else if (guess1 < priority[1]) {
-				target = 1;
-				x = player_list->at(target)->getPositionX();
-				y = player_list->at(target)->getPositionY();
-				behavior_timer = charge_teleport_time;
-				behavior = 3;
-			}
-			else if (guess2 < priority[2]) {
-				target = 2;
-				x = player_list->at(target)->getPositionX();
-				y = player_list->at(target)->getPositionY();
-				behavior_timer = charge_teleport_time;
-				behavior = 3;
-			}
-			else if (guess3 < priority[3]) {
-				target = 3;
-				x = player_list->at(target)->getPositionX();
-				y = player_list->at(target)->getPositionY();
-				behavior_timer = charge_teleport_time;
-				behavior = 3;
-			}
-			else {
-				behavior_timer = teleport_fail_timer;
-				behavior = 0;
-			}
-		}
-		break;
-		//candy
-	case 4:
-		behavior = 6;
-		behavior_timer = 120;
-		secondary_time = 30;
-		break;
-	}
-	behavior_unlocked = false;
 }
 
 
@@ -254,294 +130,156 @@ void ServerSam::walk() {
 				}
 
 			}
-			else {
-				behavior_timer = 0;
-				behavior = 0;
-				walk_speed = 2;
-				setAnim("samdown");
-			}
+
 		}
-		else {
-			behavior_timer = 0;
-			behavior = 0;
-		}
+
 	}
-	else {
-		behavior_unlocked = true;
-		walk_speed = 2;
-	}
+
 }
 
 
-void ServerSam::charge() {
-	if (timeCheck()) {
-		behavior_timer--;
-	}
-	else {
-		behavior_unlocked = true;
-	}
-}
 
 
-void ServerSam::chargeCharge() {
-	if (timeCheck()) {
-		behavior_timer--;
-	}
-	else {
-		behavior = 2;
-		behavior_timer = 300;
-	}
-}
-
-
-void ServerSam::teleport() {
-	if (timeCheck()) {
-		
-		behavior_timer--;
-	}
-	else {
-		
-		behavior = 0;
-		behavior_timer = 150;
-		teleport_cd = 150;
-	}
-}
-
-void ServerSam::chargeTeleport() {
-	if (timeCheck()) {
-		setAnim("samwarp");
-		behavior_timer--;
-	}
-	else {
-		setAnim("samappear");
-		this->setPositionX(x);
-		this->setPositionY(y);
-		behavior_timer = teleport_arrival_time;
-		behavior = 4;
-	}
-}
-
-void ServerSam::wait() {
-	if (timeCheck()) {
-		behavior_timer--;
-	}
-	else {
-		behavior_timer = 0;
-		behavior_unlocked = true;
-	}
-}
-
-void ServerSam::pteraSummon() {
-	if (timeCheck()) {
-		animstate = "samwhistle";
-		if (secondary_time <= 0) {
-			ptera->attack();
-		}
-		else {
-			secondary_time--;
-		}
-		int temp = -1;
-		for (unsigned int i = 0; i < distance.size(); i++) {
-			int temp1 = distance[i];
-			if (temp < temp1 && priority[i] > 0) { temp = temp1; target = i; }
-		}
-		ptera->run(player_list->at(target)->getPositionX(), player_list->at(target)->getPositionY());
-		behavior_timer--;
-	}
-	else {
-		behavior = 0;
-		behavior_timer = 300;
-		ptera->peace();
-	}
-}
-//munchFunction
-void ServerSam::munch() {
-	bool resume = true;
-	if (flag) {
-		
-		int theta = (rand() % 360);
-		int newX = abs((this->getPositionX() - candy_spawn_distance*(cos(theta * 3.14159 / 180))));
-		int newY = abs(this->getPositionY() - candy_spawn_distance*(sin(theta * 3.14159 / 180)));
-		int tileX = newX / lvm->levelmap->getTileSize().width;
-		int tileY = ((lvm->levelmap->getMapSize().height * lvm->levelmap->getTileSize().height) - newY) / (lvm->levelmap->getTileSize().height);
-		Vec2 tileCoord = Vec2(tileX, tileY);
-
-		if (tileCoord.x > 0 && tileCoord.x < lvm->levelmap->getMapSize().width && tileCoord.y > 0 && tileCoord.y < lvm->levelmap->getMapSize().height)
-		{
-			if (blockage != NULL)
-			{
-				int bkTile = blockage->getTileGIDAt(tileCoord);
-				if (bkTile)
-				{
-					auto tilemapvals = lvm->levelmap->getPropertiesForGID(bkTile).asValueMap();
-					if (!tilemapvals.empty())
-					{
-						auto w = tilemapvals["Collidable"].asString();
-
-						if ("true" == w) {
-							resume = false;
-						}
-					}
-				}
-			}
-		}
-		else 
-		{
-			resume = false;
-		}
-		if (resume) {
-			flag = false;
-			candy->setPosition(newX, newY);
-			candy->setStatus(true);
-			serverptr->enqueueMessage(ServerMessage(7, newX, newY, 0));
-
-			//If sam is closer to candy cane, make her wait long enough for closest player to catch up:
-
-			//get sam's distance from candy; d=sqrt((x_2 - x_1)^2 + (y_2 - y_1)^2)
-			sam_candy_dist = (int)(sqrt((int)(pow((newX - this->getPositionX()), 2)) + (int)(pow((newY - this->getPositionY()), 2))));
-			//find player closest to candy cane
-			for (unsigned int i = 0; i < player_list->size(); i++) 
-			{
-				if (player_list->at(i)->isVisible())
-				{
-					player_dist_check = sqrt(pow((newX - player_list->at(i)->getPositionX()), 2) + pow((newY - player_list->at(i)->getPositionY()), 2));
-					//if player i is closer to candy than anyone checked previously, 
-					//set as closest player distance to candy
-					if (player_dist_check < player_candy_dist)
-					{
-						player_candy_dist = player_dist_check;
-					}
-				}
-			}
-			//if sam is closer to candy than any player, make sam wait
-			//to pursue candy for the amount of time it would take the
-			//closest player to catch up
-            if (sam_candy_dist < player_candy_dist) 
-			{
-				//candy_wait = (how much closer sam is to candy than player) / how many pixels a player can move per frame
-				candy_wait = ((player_candy_dist - sam_candy_dist) / 2) + reaction_time_weight;
-			}
-			else
-			{
-				//below is a multipler that makes sam's speed fast enough to get to candy at the same time as player
-				walk_speed *= ((player_list->at(0)->getSpeed() * sam_candy_dist) / (player_candy_dist * walk_speed));
-				if (walk_speed > 4) //cap sam's speed when chasing after candy cane
-				{
-					walk_speed = 4;
-				}
-				candy_wait = reaction_time_weight;
-			}
-			}
-	}
-	if (resume) {
-		if (candy_wait <= 0)
-		{
-			double theta = 0;
-			if (candy->getPositionX() >= this->getPositionX()) {
-				theta = atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159;
-			}
-			else if (candy->getPositionX() > this->getPositionY()) {
-				theta = 180 + (atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159);
-			}
-			else {
-				theta = -180 + atan((candy->getPositionY() - this->getPositionY()) / (candy->getPositionX() - this->getPositionX())) * 180 / 3.14159;
-			}
-
-			this->setPositionX(this->getPositionX() + walk_speed*(cos(theta * 3.14159 / 180)));
-			this->setPositionY(this->getPositionY() + walk_speed*(sin(theta * 3.14159 / 180)));
-
-			if (theta > 45 && theta < 135) {
-				setAnim("samup");
-			}
-			else if (theta >= 135 || theta <= -135) {
-				setAnim("samleft");
-			}
-			else if (theta <= 45 && theta >= -45) {
-				setAnim("samright");
-			}
-			else if (theta < -45 && theta > -135) {
-				setAnim("samdown");
-			}
-		}
-		else
-		{
-			candy_wait--;
-		}
-		for (unsigned int i = 0; i < player_list->size(); i++) {
-			if (abs(player_list->at(i)->getPositionX() - candy->getPositionX()) < 10 && abs(player_list->at(i)->getPositionY() - candy->getPositionY()) < 10 && candy->notCollected()) {
-				candy->setStatus(false);
-				candy->setOwner(i);
-				candy->start();
-				candy->setPosition(-1000, -1000);
-				flag = true;
-				behavior_timer = 100; //set back to 150 when pout implemented
-				behavior = 0; //set this back to 5 when pout implemented
-				pl_candy_score++;
-				walk_speed = 2; //set sam speed back to normal
-				player_candy_dist = 9999; //set this back to default value
-				//check sam-player candy acquisition ratio + adjust reaction time weight
-				//every 2 times the candy is picked up
-				if (sam_candy_score + pl_candy_score % 2 == 0)
-				{
-					int check = sam_candy_score - pl_candy_score;
-					//if sam is getting more candy than players, 
-					//make her wait longer before running to candy
-					if (check > 0) {
-						incReactW();
-					}
-					//if sam is getting less candy, make her wait less
-					else if (check < 0) {
-						lowerReactW();
-					}
-				}
-				serverptr->enqueueMessage(ServerMessage(8, 0, 0, i + 1));
-			}
-		}
-		if (abs(this->getPositionX() - candy->getPositionX()) < 10 && abs(this->getPositionY() - candy->getPositionY()) < 10 && candy->notCollected()) {
-			candy->setStatus(false);
-			candy->setPosition(-1000, -1000);
-			behavior = 7;
-			behavior_timer = 150;
-			flag = true;
-			walk_speed = 4;
-			sam_candy_score++;
-			player_candy_dist = 9999; //set this back to default value
-			//check sam-player candy acquisition ratio + adjust reaction time weight
-			//every 2 times the candy is picked up
-			if (sam_candy_score + pl_candy_score % 2 == 0)
-			{
-				int check = sam_candy_score - pl_candy_score;
-				//if sam is getting more candy than players, 
-				//make her wait longer before running to candy
-				if (check > 0) {
-					incReactW();
-				}
-				//if sam is getting less candy, make her wait less
-				else if (check < 0) {
-					lowerReactW();
-				}
-			}
-		}
-	}
-	else {
-		behavior_unlocked = true;
-		flag = true;
-	}
-}
-
-void ServerSam::munching() {
-	if (timeCheck()) {
-		behavior_timer--;
-		setAnim("sammunch");
-	}
-	else {
-		behavior_timer = sprint_timer;
-		behavior = 0;
-	}
-}
 
 int ServerSam::getTarget() {
 	return target;
+}
+
+bool ServerSam::tag()
+{
+	
+	if (tag_phase == 0) {
+		chase();
+	}
+	else if (tag_phase == 1) {
+		flee();
+	}
+	else if (tag_phase == 2) {
+		appear();
+	}
+	else if (tag_phase == 3) {
+		hide();
+	}
+	else if (tag_phase == 4) {
+		tantrum();
+	}
+	else if (tag_phase == 5) {
+		idle();
+	}
+
+	return timer();
+}
+
+void ServerSam::chase()
+{
+	calculations();
+	behavior_timer--;
+	int temp = -1;
+	for (unsigned int i = 0; i < distance.size(); i++) {
+		int temp1 = distance[i];
+		if (temp == -1) {
+			temp = temp1;
+			target = i;
+		}
+		else if (temp > temp1) {
+			temp = temp1;
+			target = i;
+		}
+	}
+	double playerx = player_list->at(target)->getPositionX();
+	double playery = player_list->at(target)->getPositionY();
+
+	step(playerx, playery);
+	if (abs(this->getPositionX() - playerx) < 5 && abs(this->getPositionY() - playery) < 5)
+	{
+		tag_phase = 1;
+		behavior_timer = 60;
+	}
+}
+
+void ServerSam::flee()
+{
+	behavior_timer--;
+	if (behavior_timer > 0) {
+		setAnim("samwarp");
+	}
+	else {
+		this->setPositionX(50);
+		this->setPositionY(50);
+		tag_phase = 2;
+		behavior_timer = 60;
+	}
+}
+
+void ServerSam::appear()
+{
+	behavior_timer--;
+	if (behavior_timer > 0) {
+		setAnim("samappear");
+	}
+	else {
+		tag_phase = 3;
+		behavior_timer = 210;
+	}
+}
+
+void ServerSam::hide()
+{
+	behavior_timer--;
+	setAnim("samleft");
+	double playerx = player_list->at(target)->getPositionX();
+	double playery = player_list->at(target)->getPositionY();
+	if (abs(this->getPositionX() - playerx) < 5 && abs(this->getPositionY() - playery) < 5)
+	{
+		tag_phase = 5;
+		behavior_timer = 60;
+	}
+	else if (behavior_timer == 0) {
+		tag_phase = 4;
+		behavior_timer = 60;
+	}
+}
+
+void ServerSam::tantrum()
+{
+	behavior_timer--;
+	if (behavior_timer > 0) {
+		setAnim("samright");
+	}
+	else {
+		tag_phase = 0;
+		int erase = lvm->puzzle.getTotalTiles() / 5;
+		srand(time(NULL));
+		std::default_random_engine generator;
+		std::uniform_int_distribution<int> distribution(0, lvm->puzzle.currenttilevector.size() - 1);
+		std::uniform_int_distribution<int> distribution1(0, lvm->puzzle.currenttilevector[0].size() - 1);
+		for (int i = 0; i < erase; i++) {
+
+			int selectionx = rand() % lvm->puzzle.currenttilevector.size();
+			int selectiony = rand() % lvm->puzzle.currenttilevector[0].size();
+			if (lvm->puzzle.checkTile(selectionx, selectiony))
+			{
+				lvm->puzzle.tileErased();
+			}
+			lvm->puzzle.currenttilevector[selectionx][selectiony] = 1;
+			lvm->puzzle.tilespritevector[selectionx][selectiony]->setColor("clear");
+			lvm->puzzle.tilespritevector[selectionx][selectiony]->refreshColor();
+		}
+		queued_messages.emplace_back(ServerMessage(13, 0, 0, target+1));
+		send_map = true;
+	}
+}
+
+void ServerSam::idle()
+{
+	behavior_timer--;
+	setAnim("samup");
+	if (behavior_timer > 0)
+	{
+	}
+	else{
+		tag_phase = 0;
+	}
 }
 
 int ServerSam::getBehavior() {
@@ -552,14 +290,7 @@ bool ServerSam::timeCheck() {
 	return behavior_timer > 0;
 }
 
-void ServerSam::linkPtera(Pterodactyl* pterodactyl) {
-	ptera = pterodactyl;
-	ptera->on();
-}
 
-void ServerSam::linkCandy(Candy* candies) {
-	candy = candies;
-}
 
 void ServerSam::walkOff() {
 	if (b_walk) {
@@ -585,6 +316,64 @@ void ServerSam::pteraOff() {
 			}
 		}
 	}
+}
+
+bool ServerSam::timer()
+{
+	if (behavior_timer > 0) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+void ServerSam::step(int x, int y)
+{
+	double playerx, playery, samx, samy;
+	playerx = x;
+	playery = y;
+	samx = this->getPositionX();
+	samy = this->getPositionY();
+	double theta;
+	if (playerx >= samx) {
+		theta = atan((playery - samy) / (playerx - samx)) * 180 / 3.14159;
+	}
+	else if (playery > samy) {
+		theta = 180 + (atan((playery - samy) / (playerx - samx)) * 180 / 3.14159);
+	}
+	else {
+		theta = -180 + atan((playery - samy) / (playerx - samx)) * 180 / 3.14159;
+	}
+	if (distance[target] > 2) {
+
+		this->setPositionX(this->getPositionX() + walk_speed*(cos(theta * 3.14159 / 180)));
+		this->setPositionY(this->getPositionY() + walk_speed*(sin(theta * 3.14159 / 180)));
+
+		if (theta > 45 && theta < 135) {
+			setAnim("samup");
+		}
+		else if (theta >= 135 || theta <= -135) {
+			setAnim("samleft");
+		}
+		else if (theta <= 45 && theta >= -45) {
+			setAnim("samright");
+		}
+		else if (theta < -45 && theta > -135) {
+			setAnim("samdown");
+		}
+
+	}
+}
+
+std::vector<ServerMessage> ServerSam::getServerMessage()
+{
+	return queued_messages;
+}
+
+bool ServerSam::sendMap()
+{
+	return send_map;
 }
 
 void ServerSam::teleportOff() {

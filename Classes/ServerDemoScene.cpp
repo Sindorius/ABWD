@@ -78,10 +78,12 @@ bool ServerDemo::init()
 	players.push_back(player3);
 	players.push_back(player4);
 
-	serversam = ServerSam::create(this);
+	Ai = new AiHandler(&players);
+
+	serversam = Ai->getSam();
 	addChild(serversam, 0);
 
-	pterodactyl = Pterodactyl::create();
+	pterodactyl = Ai->getPtera();
 	addChild(pterodactyl, 0);
 
 	candy = Candy::create();
@@ -89,8 +91,6 @@ bool ServerDemo::init()
 
 	loadLevel(1);
 
-	serversam->linkPtera(pterodactyl);
-	serversam->linkCandy(candy);
 	serversam->attachLevel(&levelmanager);
 
 	std::ifstream is("config.json");
@@ -165,7 +165,11 @@ void ServerDemo::update(float dt)
 		if (levelmanager.currentlevel != 1 && solved_timer_start == false)
 		{
 			serversam->setPriority(PLAYER_GRID, DRY_GRID, dried);
-			serversam->runAI(&players);
+			Ai->runAI();
+			for (int i = 0; i < serversam->getServerMessage().size(); i++) {
+				enqueueMessage(serversam->getServerMessage()[i]);
+				sendmap = Ai->getSam()->sendMap();
+			}
 		}
 
 		//set local z-order
@@ -180,7 +184,7 @@ void ServerDemo::update(float dt)
 		dryTiles();
 
 		//check if a player collides with sam/ptero and erase tiles
-		checkEnemyCollision();
+		//checkEnemyCollision();
 
 		//check is puzzle solved, then let players admire their finished puzzles for a few seconds
 		checkSolved();
@@ -1455,6 +1459,7 @@ void ServerDemo::checkEnemyCollision(void)
 		}
 	}
 }
+
 
 void ServerDemo::dryTiles(void)
 {

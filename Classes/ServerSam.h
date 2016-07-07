@@ -10,6 +10,7 @@
 #include "ServerMessage.hpp"
 #include "ServerDemoScene.h" 
 #include "LevelManager.hpp"
+#include "ServerMessage.hpp"
 
 class ServerDemo;
 
@@ -17,49 +18,39 @@ class ServerSam : public cocos2d::Sprite
 {
 
 public:
-	ServerSam() {};
+	ServerSam(std::vector<Player*>* players);
 	~ServerSam() {};
-	static ServerSam* create(ServerDemo* ptr, bool vis = true);
+	static ServerSam* create(std::vector<Player*>* players, bool vis = true);
 	void initialize(bool vis = true);
 	
 	void setPriority(std::vector<std::vector<char>> tiles, std::vector<std::vector<char>> dry, int time);
 
 	//gameloop ServerSam function
-	void runAI(std::vector<Player*>* players);
+	void runAI();
 	//update ServerSam knowledge
 	void calculations();
 	//determines which behavior the ai should use
 	void chooseBehavior();
 	//walk to target
 	void walk();
-	//charge at target
-	void charge();
-	//charge charge
-	void chargeCharge();
-	//warp to a location
-	void teleport();
-	//charge teleport
-	void chargeTeleport();
-	//idle
-	void wait();
-	// CAW CAW CAW
-	void pteraSummon();
-
-	void munch();
 
 	void munching();
 	//the index of the ai's current target
 	int getTarget();
 	//the current action type the ServerSam uses, use to determine animations and whatnot
 	
+	bool tag();
+	void chase();
+	void flee();
+	void appear();
+	void hide();
+	void tantrum();
+	void idle();
 
-	//number key located at the end of file
 	int getBehavior();
 	bool timeCheck();
 	void setAnim(std::string s) { animstate = s; }
 	std::string getAnim() { return animstate; }
-	void linkPtera(Pterodactyl* pterodactyl);
-	void linkCandy(Candy* candies);
 	void attachLevel(LevelManager* levelmanager);
 	void lowerReactW(void);
 	void incReactW(void);
@@ -73,16 +64,27 @@ public:
 	void candyOff();
 	void pteraOff();
 
+	bool timer();
+	void step(int x, int y);
+	
 
-
-	ServerDemo* serverptr;
+	std::vector<ServerMessage> getServerMessage();
+	bool sendMap();
 
 private:
+	
+	typedef bool (ServerSam::*FunctionPointer)(void);
+	FunctionPointer current_behavior;
+	std::vector<FunctionPointer> behavior_list{ &ServerSam::tag };
+	std::vector<int> behavior_timers{ 600 };
 
+	int tag_phase = 0;
+
+	bool send_map = false;
 
 	int target = 0;
 	int behavior = 0;
-	int behavior_timer = 0;
+	int behavior_timer = 600;
 	float walk_speed = 2;
 	int charge_speed = 4;
 	int x = 0, y = 0;
@@ -92,7 +94,6 @@ private:
 	std::vector<int> distance;
 	bool behavior_unlocked = true;
 	int priority[4];
-	bool idle = false;
 	bool flag = true;
 	bool pteraphase = 0;
 
@@ -110,6 +111,10 @@ private:
 
 
 	//timers
+	const int TAG_TIMER = 600;
+
+
+
 	int teleport_cd = 150;
 	int secondary_time = 0;
 	int idle_time = 50;
@@ -129,6 +134,7 @@ private:
 	bool b_candy = false;
 	bool b_ptera = false;
 
+
 	//external items
 	cocos2d::TMXLayer* blockage;
 	LevelManager* lvm;
@@ -137,6 +143,8 @@ private:
 	Pterodactyl* ptera;
 	Candy* candy;
 
+
+	std::vector<ServerMessage> queued_messages;
 };
 
 #endif // _ServerSam_HPP_
