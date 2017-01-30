@@ -598,18 +598,18 @@ void ServerDemo::loadLevel(int level)
 	{
 		serversam->setVisible(false);
 		pterodactyl->setVisible(false);
-		serversam->pteraOff();
-		serversam->candyOff();
+		//serversam->pteraOff();
+		//serversam->candyOff();
 		serversam->setPosition(-1000, -1000);
 		dried = 10;
 		eventActive = paintEvent.phase1 = false;
 		this->setScale(1.0f);
 	}
 	else if (level == 2) {
-		serversam->teleportOn();
-		serversam->walkOn();
-		serversam->pteraOff();
-		serversam->candyOff();
+		//serversam->teleportOn();
+		//serversam->walkOn();
+		//serversam->pteraOff();
+		//serversam->candyOff();
 		samInitPos.set(Vec2(238, 150));
 		serversam->setPosition(samInitPos);
 		dried = 8;
@@ -627,10 +627,10 @@ void ServerDemo::loadLevel(int level)
 		enqueueMessage(ServerMessage(19, 1, 0, 5)); //tells client to start sam painting event
 	}
 	else if (level == 3) {
-		serversam->teleportOn();
-		serversam->walkOn();
-		serversam->pteraOff();
-		serversam->candyOn();
+		//serversam->teleportOn();
+		//serversam->walkOn();
+		//serversam->pteraOff();
+		//serversam->candyOn();
 		samInitPos.set(Vec2(300, 150));
 		serversam->setPosition(samInitPos);
 		dried = 8;
@@ -649,10 +649,10 @@ void ServerDemo::loadLevel(int level)
 	}
 	else if (level == 4) {
 		pterodactyl->setVisible(true);
-		serversam->pteraOn();
-		serversam->candyOn();
-		serversam->teleportOn();
-		serversam->walkOn();
+		//serversam->pteraOn();
+		//serversam->candyOn();
+		//serversam->teleportOn();
+		//serversam->walkOn();
 		samInitPos.set(Vec2(370, 320));
 		serversam->setPosition(samInitPos);
 		dried = 7;
@@ -782,7 +782,8 @@ void ServerDemo::updatePaintTiles(int playernum)
 							else
 							{
 								std::string str = "Error - cannot update tile at " + std::to_string(i) + " " + std::to_string(j) + " not found in players[" + std::to_string(PLAYER_GRID[i][j] - 1) + "]->paintedTiles";
-								log(str.c_str());
+								
+								(str.c_str());
 							}
 						}
 						players[playernum - 1]->paintedTiles.push_back(coords);

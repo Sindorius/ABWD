@@ -25,20 +25,58 @@ public:
 	
 	void setPriority(std::vector<std::vector<char>> tiles, std::vector<std::vector<char>> dry, int time);
 
+	////////////////////////////////////////////////////////////////////////////////////////////
 	//gameloop ServerSam function
+	////////////////////////////////////////////////////////////////////////////////////////////
 	void runAI();
-	//update ServerSam knowledge
+
+	////////////////////////////////////////////////////////////////////////////////////////////
+	//update ServerSam knowledge 
+	////////////////////////////////////////////////////////////////////////////////////////////
+	/*
+	Identifies nearest player
+	*/
 	void calculations();
+
+	////////////////////////////////////////////////////////////////////////////////////////////
 	//determines which behavior the ai should use
+	////////////////////////////////////////////////////////////////////////////////////////////
+	/*
+	Currently unused
+	*/
 	void chooseBehavior();
+
+	////////////////////////////////////////////////////////////////////////////////////////////
 	//walk to target
+	////////////////////////////////////////////////////////////////////////////////////////////
+	/*
+	OBSOLETE
+	*/
 	void walk();
 
-	void munching();
 	//the index of the ai's current target
 	int getTarget();
-	//the current action type the ServerSam uses, use to determine animations and whatnot
 	
+	//////////////////////////////////////////////////////////////////////////////////////////// 
+	// Sam behaviors
+	////////////////////////////////////////////////////////////////////////////////////////////
+	
+	////////////////////////////////////////////////////////////////////////////////////////////
+	// Empty behavior for start
+	////////////////////////////////////////////////////////////////////////////////////////////
+	bool emptyBehavior() { return false; };
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////
+	// Sam Tag
+	////////////////////////////////////////////////////////////////////////////////////////////
+	/*
+	Sam pursues the nearest player
+	If not caught, she will change behaviors
+	If caught, Sam flees and waits for a player to catch her
+	If Sam is caught, the pauses for a short time and changes behaviors
+	If not caught, she throws a tantrum for a moment and erases board progress
+	*/
 	bool tag();
 	void chase();
 	void flee();
@@ -47,6 +85,8 @@ public:
 	void tantrum();
 	void idle();
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////
 	int getBehavior();
 	bool timeCheck();
 	void setAnim(std::string s) { animstate = s; }
@@ -55,6 +95,10 @@ public:
 	void lowerReactW(void);
 	void incReactW(void);
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////
+	//OBSOLETE
+	/*
 	void walkOn();
 	void teleportOn();
 	void candyOn();
@@ -63,28 +107,78 @@ public:
 	void teleportOff();
 	void candyOff();
 	void pteraOff();
-
+	*/
+	////////////////////////////////////////////////////////////////////////////////////////////
 	bool timer();
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////
+	// Sam walking functions
+	////////////////////////////////////////////////////////////////////////////////////////////
+
+	//umbrella behavior
+	// accepts pixel coordinates
+	bool pursue();
+
+	//sam moves 1 walkspeed towards the coordinates
+	//accepts pixels
 	void step(int x, int y);
 	
+	//returns a vector of tile coordinates to the destination at x y
+	//accepts tile coordinates
+	std::vector<std::pair<int, int>> generatePath(int x, int y);
+
+	//accepts tile coordinates, not pixel coordinates
+	bool isClear(int x, int y);
+
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 	std::vector<ServerMessage> getServerMessage();
 	bool sendMap();
 
+	bool testingBehavior();
+	void testPath();
+	
+	//takes a coordinate and returns the coordinates of the tile it is at
+	Vec2 coordinateToTile(int x, int y);
+
+
+
 private:
 	
+	//TypeDefs
 	typedef bool (ServerSam::*FunctionPointer)(void);
-	FunctionPointer current_behavior;
-	std::vector<FunctionPointer> behavior_list{ &ServerSam::tag };
+	typedef void (ServerSam::*Phase)(void);
+
+	//Function Pointers
+	FunctionPointer current_behavior = &ServerSam::emptyBehavior;
+	Phase current_phase;
+
+	// Behavior vector and initial times
+	/*
+	1. Tag
+	2. 
+	*/
+	//std::vector<FunctionPointer> behavior_list{ &ServerSam::tag };
+	//testing vector
+	std::vector<FunctionPointer> behavior_list{ &ServerSam::pursue };
+
 	std::vector<int> behavior_timers{ 600 };
 
-	int tag_phase = 0;
 
+	// Map refresh
 	bool send_map = false;
 
+	// Data
 	int target = 0;
 	int behavior = 0;
-	int behavior_timer = 600;
+	int behavior_timer = 0;
+	bool initialize_behavior = true;
+
+	// Behavior Timers
 	float walk_speed = 2;
 	int charge_speed = 4;
 	int x = 0, y = 0;
@@ -135,6 +229,22 @@ private:
 	bool b_ptera = false;
 
 
+	//pathing items
+	struct PathNode  {
+		int x = 0;
+		int y = 0;
+		float cost = 0;
+		float step = 0;
+		int index = 0;
+		int parent_index = 0;
+
+		PathNode::PathNode(int x, int y, float cost, float step, int index, int parent_index)
+			: x{ x }, y{ y }, cost{ cost }, step{ step }, index{ index }, parent_index { parent_index }
+		{}
+	};
+
+
+
 	//external items
 	cocos2d::TMXLayer* blockage;
 	LevelManager* lvm;
@@ -145,6 +255,20 @@ private:
 
 
 	std::vector<ServerMessage> queued_messages;
+
+
+	bool run_once = true;
+	
+
+
+	class NodePathCompare
+	{
+	public:
+		bool operator()(int* n1, int* n2) {
+			return *(n1+4)>*(n2+4);
+		}
+	};
+	
 };
 
 #endif // _ServerSam_HPP_

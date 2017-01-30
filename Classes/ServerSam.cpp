@@ -6,6 +6,7 @@
 #include <iostream>
 #include <random>
 #include <time.h>
+#include <algorithm>
 
 
 ServerSam::ServerSam(std::vector<Player*>* players)
@@ -44,18 +45,29 @@ void ServerSam::setPriority(std::vector<std::vector<char>> tiles, std::vector<st
 
 void ServerSam::runAI()
 {
+	if (run_once){
+		generatePath(13, 1);
+		run_once = false;
+		this->setPosition(1 * 24 + 12, 1 * 24 + 12);
+		log(std::to_string(lvm->levelmap->getMapSize().height).c_str());
+		
+	}
 	send_map = false;
 	queued_messages.clear();
-	current_behavior = behavior_list[0];
-	if ((this->*current_behavior)()) {}
+	//function pointers return bools which self indicate when the behavior is completed
+	if ((this->*current_behavior)()) {
+	}
 	else {
 		std::default_random_engine generator;
 		std::uniform_int_distribution<int> distribution(0, behavior_list.size() - 1);
 		int selection = distribution(generator);
 		current_behavior = behavior_list[selection];
 		behavior_timer = behavior_timers[selection];
+		initialize_behavior = true;
 	}
 }
+
+
 
 void ServerSam::calculations() {
 	distance.erase(distance.begin(), distance.end());
@@ -147,26 +159,11 @@ int ServerSam::getTarget() {
 
 bool ServerSam::tag()
 {
-	
-	if (tag_phase == 0) {
-		chase();
+	if (initialize_behavior) {
+		current_phase = &ServerSam::chase;
+		initialize_behavior = false; 
 	}
-	else if (tag_phase == 1) {
-		flee();
-	}
-	else if (tag_phase == 2) {
-		appear();
-	}
-	else if (tag_phase == 3) {
-		hide();
-	}
-	else if (tag_phase == 4) {
-		tantrum();
-	}
-	else if (tag_phase == 5) {
-		idle();
-	}
-
+	(this->*current_phase)();
 	return timer();
 }
 
@@ -192,8 +189,8 @@ void ServerSam::chase()
 	step(playerx, playery);
 	if (abs(this->getPositionX() - playerx) < 5 && abs(this->getPositionY() - playery) < 5)
 	{
-		tag_phase = 1;
 		behavior_timer = 60;
+		current_phase = &ServerSam::flee;
 	}
 }
 
@@ -206,8 +203,8 @@ void ServerSam::flee()
 	else {
 		this->setPositionX(50);
 		this->setPositionY(50);
-		tag_phase = 2;
 		behavior_timer = 60;
+		current_phase = &ServerSam::appear;
 	}
 }
 
@@ -218,7 +215,7 @@ void ServerSam::appear()
 		setAnim("samappear");
 	}
 	else {
-		tag_phase = 3;
+		current_phase = &ServerSam::hide;
 		behavior_timer = 210;
 	}
 }
@@ -231,11 +228,11 @@ void ServerSam::hide()
 	double playery = player_list->at(target)->getPositionY();
 	if (abs(this->getPositionX() - playerx) < 5 && abs(this->getPositionY() - playery) < 5)
 	{
-		tag_phase = 5;
+		current_phase = &ServerSam::idle;
 		behavior_timer = 60;
 	}
 	else if (behavior_timer == 0) {
-		tag_phase = 4;
+		current_phase = &ServerSam::tantrum;
 		behavior_timer = 60;
 	}
 }
@@ -247,7 +244,7 @@ void ServerSam::tantrum()
 		setAnim("samright");
 	}
 	else {
-		tag_phase = 0;
+		current_phase = &ServerSam::chase;
 		int erase = lvm->puzzle.getTotalTiles() / 5;
 		srand(time(NULL));
 		std::default_random_engine generator;
@@ -278,7 +275,7 @@ void ServerSam::idle()
 	{
 	}
 	else{
-		tag_phase = 0;
+		current_phase = &ServerSam::chase;
 	}
 }
 
@@ -289,9 +286,7 @@ int ServerSam::getBehavior() {
 bool ServerSam::timeCheck() {
 	return behavior_timer > 0;
 }
-
-
-
+/*
 void ServerSam::walkOff() {
 	if (b_walk) {
 		b_walk = false;
@@ -303,7 +298,6 @@ void ServerSam::walkOff() {
 		}
 	}
 }
-
 
 void ServerSam::pteraOff() {
 	if (b_ptera) {
@@ -317,7 +311,7 @@ void ServerSam::pteraOff() {
 		}
 	}
 }
-
+*/
 bool ServerSam::timer()
 {
 	if (behavior_timer > 0) {
@@ -326,6 +320,16 @@ bool ServerSam::timer()
 	else {
 		return false;
 	}
+}
+
+bool ServerSam::pursue()
+{
+	if (initialize_behavior) {
+		current_phase = &ServerSam::testPath;
+		initialize_behavior = false;
+	}
+	(this->*current_phase)();
+	return timer();
 }
 
 void ServerSam::step(int x, int y)
@@ -345,7 +349,6 @@ void ServerSam::step(int x, int y)
 	else {
 		theta = -180 + atan((playery - samy) / (playerx - samx)) * 180 / 3.14159;
 	}
-	if (distance[target] > 2) {
 
 		this->setPositionX(this->getPositionX() + walk_speed*(cos(theta * 3.14159 / 180)));
 		this->setPositionY(this->getPositionY() + walk_speed*(sin(theta * 3.14159 / 180)));
@@ -363,7 +366,188 @@ void ServerSam::step(int x, int y)
 			setAnim("samdown");
 		}
 
+}
+
+std::vector<std::pair<int, int>> ServerSam::generatePath(int x, int y)
+{
+	log("start");
+	// parameter x and y indicate the destination tile coordinates
+	//the cost at start is not 0, fix that for block distance
+	bool success = false;
+	std::vector<PathNode> open_list = {};
+	std::vector<PathNode> closed_list = {};
+	int temp_x = this->getPositionX() / lvm->levelmap->getTileSize().width;
+	int temp_y = this->getPositionY() / lvm->levelmap->getTileSize().height;
+	log("starts");
+	log(std::to_string(temp_x).c_str());
+	log(std::to_string(temp_y).c_str());
+	PathNode initial_node = { temp_x, temp_y, (float)(abs(x - temp_x) + abs(y - temp_y)), 0, 0, 0 };
+	open_list.push_back(initial_node);
+	
+	bool searching = true;
+	//tiles are 24x24
+	
+	while (searching) {
+		log("iteration");
+		//index of lowest score item in open list reset
+		int score_search = -1;
+
+		//theres nothing in the open list and we didn't find a destination so stop searching
+		// FIXME
+		// there is not option yet for when there is no path
+		if (open_list.size() == 0) {
+			log("open list empty");
+			searching = false;
+			success = false;
+			break;
+		}
+
+
+		// iterate through the open list searching for the lowest score
+		for (int i = 0; i < open_list.size(); i++) {
+			if (score_search == -1 || open_list[i].cost + open_list[i].step <= open_list[score_search].cost + open_list[score_search].step) {
+				score_search = i;
+			}
+		}
+		
+
+		// add the cheapest item location to the closed list and remove it from the open list
+		closed_list.push_back(open_list[score_search]);
+		open_list.erase(open_list.begin() + score_search);
+
+
+		//if the new item is the destination, exit
+		if (closed_list[closed_list.size() - 1].x == x && closed_list[closed_list.size() - 1].y == y) {
+			log("solution in closed list");
+			searching = false;
+			success = true;
+			break;
+		}
+
+
+		//search every surrounding walkable tile of the newly added item
+		int baseX = closed_list[closed_list.size() - 1].x;
+		int baseY = closed_list[closed_list.size() - 1].y;
+		bool not_in_closed = true;
+		bool not_in_open = true;
+
+		log("searching around: ");
+		log(std::to_string(baseX).c_str());
+		log(std::to_string(23-baseY).c_str());
+
+		//iterates 9 squares around current open list
+		for (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				not_in_closed = true;
+				not_in_open = true;
+				float step_weight = 1;
+				if (i != 0 && j != 0) {
+					step_weight = 1.414;
+				}
+				//bars selecting the center tile and blockage tiles from being checked
+				if (!(i == 0 && j == 0) && isClear(baseX + i, baseY + j)) {
+					//if a tile is in the closed list, ignore it
+					for (int closed_index = 0; closed_index < closed_list.size() && not_in_closed; closed_index++) {
+						if (closed_list[closed_index].x == baseX + i && closed_list[closed_index].y == baseY + j) {
+							not_in_closed = false;
+						}
+					}
+					
+					
+					//else if it is in the open list, save the cheaper item and update its parent cost
+					if (not_in_closed) {
+						for (int open_index = 0; open_index < open_list.size() && not_in_open; open_index++) {
+							if (open_list[open_index].x == baseX + i && open_list[open_index].y == baseY + j) {
+								not_in_open = false;
+								log("hit");
+								int old_cost = open_list[open_index].step;
+								int new_cost = closed_list[closed_list.size() - 1].step + step_weight;
+								if (new_cost < old_cost) {
+									open_list[open_index].step = closed_list[closed_list.size() - 1].step + step_weight;
+									open_list[open_index].parent_index = closed_list.size() - 1;
+
+								}
+							}
+						}
+					}
+					
+					
+					//else if it is not in the open list, add it to the open list and give it a score
+					if (not_in_open && not_in_closed) {
+						float step_weight = 1;
+						if (i != 0 && j != 0) {
+							step_weight = 1.414;
+						}
+						int end = closed_list.size();
+						int parent = closed_list.size() - 1;
+						PathNode new_node = { 
+							baseX + i, 
+							baseY + j, 
+							(float)(abs(x - (baseX + i)) + abs(y - (baseY + j))), 
+							(float) (closed_list[closed_list.size() - 1].step) + step_weight,
+							end,
+							parent
+						};
+
+						open_list.push_back(new_node);
+					}
+				}
+			}
+		}
 	}
+
+
+	std::vector <std::pair<int, int>> solution_vector;
+	if (success) {
+		
+		int trace_index = closed_list[closed_list.size() - 1].index;
+		
+		bool tracing = true; 
+		log("we got here");
+		while (tracing) {
+			
+			std::pair<int, int> next_item = { closed_list[trace_index].x, closed_list[trace_index].y };
+			log(std::to_string(next_item.first).c_str());
+			log(std::to_string(next_item.second).c_str());
+			log("");
+
+			solution_vector.push_back(next_item);
+			
+			trace_index = closed_list[trace_index].parent_index;
+
+			if (closed_list[trace_index].index == 0) { tracing = false; }
+		}
+		std::reverse(solution_vector.begin(), solution_vector.end());
+	}
+	return solution_vector;
+}
+
+bool ServerSam::isClear(int x, int y)
+{
+	Vec2 tileCoord = Vec2(x, lvm->levelmap->getMapSize().height - 1 - y);
+	if (tileCoord.x > 0 && tileCoord.x < lvm->levelmap->getMapSize().width && tileCoord.y > 0 && tileCoord.y < lvm->levelmap->getMapSize().height)
+	{
+		if (blockage != NULL)
+		{
+			int bkTile = blockage->getTileGIDAt(tileCoord);
+			if (bkTile)
+			{
+				auto tilemapvals = lvm->levelmap->getPropertiesForGID(bkTile).asValueMap();
+				if (!tilemapvals.empty())
+				{
+					auto w = tilemapvals["Collidable"].asString();
+
+					if ("true" == w) {
+						return false;
+					}
+				}
+			}
+		}
+	}
+	else {
+		return false;
+	}
+	return true;
 }
 
 std::vector<ServerMessage> ServerSam::getServerMessage()
@@ -376,6 +560,31 @@ bool ServerSam::sendMap()
 	return send_map;
 }
 
+
+bool ServerSam::testingBehavior()
+{
+	if (initialize_behavior) {
+		current_phase = &ServerSam::testPath;
+		initialize_behavior = false;
+	}
+	(this->*current_phase)();
+	return timer();
+}
+
+void ServerSam::testPath()
+{
+	this->setPositionX(this->getPositionX()+1);
+}
+
+Vec2 ServerSam::coordinateToTile(int x, int y)
+{
+	
+	int tilex = x / (lvm->levelmap->getTileSize().width);
+	int tiley = y / (lvm->levelmap->getTileSize().height);
+	
+	return Vec2(0,0);
+}
+/*
 void ServerSam::teleportOff() {
 	if (b_teleport) {
 		b_teleport = false;
@@ -399,12 +608,12 @@ void ServerSam::candyOff() {
 		}
 	}
 }
-
+*/
 void ServerSam::attachLevel(LevelManager* levelmanager) {
 	lvm = levelmanager;
 	blockage = lvm->levelmap->getLayer("Collision");
 }
-
+/*
 void ServerSam::walkOn() {
 	if (!b_walk) {
 		b_walk = true;
@@ -433,7 +642,7 @@ void ServerSam::pteraOn() {
 		behaviors.push_back(2);
 	}
 }
-
+*/
 void ServerSam::lowerReactW(void) {
 	//5 frames is bottom limt of reaction time weight.
 	//5 frames at 30 fps is 0.167s and fastest possible human reaction time is 0.15s
