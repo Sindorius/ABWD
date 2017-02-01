@@ -134,6 +134,13 @@ public:
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// Utility functions
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	//takes a coordinate and returns the coordinates of the tile it is at
+	Vec2 coordinateToTile(int x, int y);
+
+
+
 
 
 	std::vector<ServerMessage> getServerMessage();
@@ -142,8 +149,6 @@ public:
 	bool testingBehavior();
 	void testPath();
 	
-	//takes a coordinate and returns the coordinates of the tile it is at
-	Vec2 coordinateToTile(int x, int y);
 
 
 
@@ -243,7 +248,7 @@ private:
 		{}
 	};
 
-
+	std::vector<std::pair<int, int>> walk_path;
 
 	//external items
 	cocos2d::TMXLayer* blockage;

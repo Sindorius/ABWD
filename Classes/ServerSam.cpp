@@ -45,15 +45,17 @@ void ServerSam::setPriority(std::vector<std::vector<char>> tiles, std::vector<st
 
 void ServerSam::runAI()
 {
+	/*
 	if (run_once){
 		generatePath(13, 1);
 		run_once = false;
-		this->setPosition(1 * 24 + 12, 1 * 24 + 12);
 		log(std::to_string(lvm->levelmap->getMapSize().height).c_str());
 		
 	}
+	*/
 	send_map = false;
 	queued_messages.clear();
+	target = 0;
 	//function pointers return bools which self indicate when the behavior is completed
 	if ((this->*current_behavior)()) {
 	}
@@ -325,11 +327,24 @@ bool ServerSam::timer()
 bool ServerSam::pursue()
 {
 	if (initialize_behavior) {
+		Vec2 coordinate = coordinateToTile(player_list->at(target)->getPositionX(), player_list->at(target)->getPositionY());
+		log("generating path");
+		walk_path = generatePath(coordinate.x, coordinate.y);
+		log("path generated");
+		player_list->at(target)->getPositionX();
 		current_phase = &ServerSam::testPath;
 		initialize_behavior = false;
 	}
-	(this->*current_phase)();
-	return timer();
+	step(24 * walk_path[0].first + 12, 24 * walk_path[0].second + 12);
+	Vec2 check = coordinateToTile(this->getPositionX(), this->getPositionY());
+	if (check.x == walk_path[0].first && check.y == walk_path[0].second) {
+		log(" ");
+		log(std::to_string(walk_path[0].first).c_str());
+		log(std::to_string(walk_path[0].second).c_str());
+		walk_path.erase(walk_path.begin());
+	}
+	//log(std::to_string(walk_path.size()).c_str());
+	return (walk_path.size() > 0);
 }
 
 void ServerSam::step(int x, int y)
@@ -370,7 +385,7 @@ void ServerSam::step(int x, int y)
 
 std::vector<std::pair<int, int>> ServerSam::generatePath(int x, int y)
 {
-	log("start");
+	//log("start");
 	// parameter x and y indicate the destination tile coordinates
 	//the cost at start is not 0, fix that for block distance
 	bool success = false;
@@ -378,9 +393,8 @@ std::vector<std::pair<int, int>> ServerSam::generatePath(int x, int y)
 	std::vector<PathNode> closed_list = {};
 	int temp_x = this->getPositionX() / lvm->levelmap->getTileSize().width;
 	int temp_y = this->getPositionY() / lvm->levelmap->getTileSize().height;
-	log("starts");
-	log(std::to_string(temp_x).c_str());
-	log(std::to_string(temp_y).c_str());
+	//log(std::to_string(temp_x).c_str());
+	//log(std::to_string(temp_y).c_str());
 	PathNode initial_node = { temp_x, temp_y, (float)(abs(x - temp_x) + abs(y - temp_y)), 0, 0, 0 };
 	open_list.push_back(initial_node);
 	
@@ -388,7 +402,7 @@ std::vector<std::pair<int, int>> ServerSam::generatePath(int x, int y)
 	//tiles are 24x24
 	
 	while (searching) {
-		log("iteration");
+		//log("iteration");
 		//index of lowest score item in open list reset
 		int score_search = -1;
 
@@ -396,7 +410,7 @@ std::vector<std::pair<int, int>> ServerSam::generatePath(int x, int y)
 		// FIXME
 		// there is not option yet for when there is no path
 		if (open_list.size() == 0) {
-			log("open list empty");
+			//log("open list empty");
 			searching = false;
 			success = false;
 			break;
@@ -418,7 +432,7 @@ std::vector<std::pair<int, int>> ServerSam::generatePath(int x, int y)
 
 		//if the new item is the destination, exit
 		if (closed_list[closed_list.size() - 1].x == x && closed_list[closed_list.size() - 1].y == y) {
-			log("solution in closed list");
+			//log("solution in closed list");
 			searching = false;
 			success = true;
 			break;
@@ -431,9 +445,9 @@ std::vector<std::pair<int, int>> ServerSam::generatePath(int x, int y)
 		bool not_in_closed = true;
 		bool not_in_open = true;
 
-		log("searching around: ");
-		log(std::to_string(baseX).c_str());
-		log(std::to_string(23-baseY).c_str());
+		//log("searching around: ");
+		//log(std::to_string(baseX).c_str());
+		//log(std::to_string(23-baseY).c_str());
 
 		//iterates 9 squares around current open list
 		for (int i = -1; i < 2; i++) {
@@ -459,7 +473,7 @@ std::vector<std::pair<int, int>> ServerSam::generatePath(int x, int y)
 						for (int open_index = 0; open_index < open_list.size() && not_in_open; open_index++) {
 							if (open_list[open_index].x == baseX + i && open_list[open_index].y == baseY + j) {
 								not_in_open = false;
-								log("hit");
+								//log("hit");
 								int old_cost = open_list[open_index].step;
 								int new_cost = closed_list[closed_list.size() - 1].step + step_weight;
 								if (new_cost < old_cost) {
@@ -503,7 +517,7 @@ std::vector<std::pair<int, int>> ServerSam::generatePath(int x, int y)
 		int trace_index = closed_list[closed_list.size() - 1].index;
 		
 		bool tracing = true; 
-		log("we got here");
+		//log("we got here");
 		while (tracing) {
 			
 			std::pair<int, int> next_item = { closed_list[trace_index].x, closed_list[trace_index].y };
@@ -582,7 +596,7 @@ Vec2 ServerSam::coordinateToTile(int x, int y)
 	int tilex = x / (lvm->levelmap->getTileSize().width);
 	int tiley = y / (lvm->levelmap->getTileSize().height);
 	
-	return Vec2(0,0);
+	return Vec2(tilex,tiley);
 }
 /*
 void ServerSam::teleportOff() {
