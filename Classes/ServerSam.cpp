@@ -338,6 +338,8 @@ bool ServerSam::pursue()
 	step(24 * walk_path[0].first + 12, 24 * walk_path[0].second + 12);
 	Vec2 check = coordinateToTile(this->getPositionX(), this->getPositionY());
 	if (check.x == walk_path[0].first && check.y == walk_path[0].second) {
+		Vec2 coordinate = coordinateToTile(player_list->at(target)->getPositionX(), player_list->at(target)->getPositionY());
+		walk_path = generatePath(coordinate.x, coordinate.y);
 		log(" ");
 		log(std::to_string(walk_path[0].first).c_str());
 		log(std::to_string(walk_path[0].second).c_str());
