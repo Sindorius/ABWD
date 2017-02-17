@@ -117,8 +117,13 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////
 
 	//umbrella behavior
-	// accepts pixel coordinates
+	//sam initially selects the closest target in view and runs after them
+	//if sam loses sight of the player she will run to the last location
+	//she saw them at and attempt to relocate them
+	//if she can not locate the target, she will switch behaviors
 	bool pursue();
+
+	void follow();
 
 	//sam moves 1 walkspeed towards the coordinates
 	//accepts pixels
@@ -149,6 +154,10 @@ public:
 	// for each, parallel rays need to be cast to either side and if either remains uninterrupted then vision is clear.
 	// if both rays are blocked at any point, then there is no line of sight
 	int search();
+
+	// returns distance to visible player
+	// returns -1 if there is no vision on the player
+	int checkSight(int player);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// Utility functions
@@ -266,6 +275,8 @@ private:
 	};
 
 	std::vector<std::pair<int, int>> walk_path;
+
+	Vec2 last_seen;
 
 	//external items
 	cocos2d::TMXLayer* blockage;

@@ -184,7 +184,7 @@ void ServerDemo::update(float dt)
 		dryTiles();
 
 		//check if a player collides with sam/ptero and erase tiles
-		//checkEnemyCollision();
+		checkEnemyCollision();
 
 		//check is puzzle solved, then let players admire their finished puzzles for a few seconds
 		checkSolved();
