@@ -131,7 +131,24 @@ public:
 	//accepts tile coordinates, not pixel coordinates
 	bool isClear(int x, int y);
 
-
+	//sam searches for a player in her line of sight
+	//returns the id of the nearest seen player or -1 if none were seen
+	//FIXME 
+	// the formula to calculate line of sight is a slope aray that calculates every box it passes through
+	// if every box it passes is clear then a line of sight is registered
+	// however, this doesn't fit for slopes of 1 or -1 as they do not cross the side boxes ie.
+	// --0100
+	// --1000
+	// 01--00
+	// 10--00
+	// where 0 is an empty square, - is a solid object, and 1 is line of sight, the slope directly slices between the corner
+	// intersection walls because the floor and ceil functions used to determine the crossings at each coordinate
+	// always return a single whole value on slopes of 1 and -1
+	// ie with a slope of .5 at x = 3, .5 * x = 1.5, floor (1.5) = 1, ceil (1.5) = 2 and this gives the crossing tiles
+	// slopes of 1 and -1 always return whole numbers so floor and ceil return the same value
+	// for each, parallel rays need to be cast to either side and if either remains uninterrupted then vision is clear.
+	// if both rays are blocked at any point, then there is no line of sight
+	int search();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// Utility functions

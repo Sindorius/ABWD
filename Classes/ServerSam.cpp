@@ -45,14 +45,7 @@ void ServerSam::setPriority(std::vector<std::vector<char>> tiles, std::vector<st
 
 void ServerSam::runAI()
 {
-	/*
-	if (run_once){
-		generatePath(13, 1);
-		run_once = false;
-		log(std::to_string(lvm->levelmap->getMapSize().height).c_str());
-		
-	}
-	*/
+
 	send_map = false;
 	queued_messages.clear();
 	target = 0;
@@ -326,11 +319,13 @@ bool ServerSam::timer()
 
 bool ServerSam::pursue()
 {
+	int chase = search();
+	log(std::to_string(chase).c_str());
 	if (initialize_behavior) {
 		Vec2 coordinate = coordinateToTile(player_list->at(target)->getPositionX(), player_list->at(target)->getPositionY());
-		log("generating path");
+		//log("generating path");
 		walk_path = generatePath(coordinate.x, coordinate.y);
-		log("path generated");
+		//log("path generated");
 		player_list->at(target)->getPositionX();
 		current_phase = &ServerSam::testPath;
 		initialize_behavior = false;
@@ -340,9 +335,9 @@ bool ServerSam::pursue()
 	if (check.x == walk_path[0].first && check.y == walk_path[0].second) {
 		Vec2 coordinate = coordinateToTile(player_list->at(target)->getPositionX(), player_list->at(target)->getPositionY());
 		walk_path = generatePath(coordinate.x, coordinate.y);
-		log(" ");
-		log(std::to_string(walk_path[0].first).c_str());
-		log(std::to_string(walk_path[0].second).c_str());
+		//log(" ");
+		//log(std::to_string(walk_path[0].first).c_str());
+		//log(std::to_string(walk_path[0].second).c_str());
 		walk_path.erase(walk_path.begin());
 	}
 	//log(std::to_string(walk_path.size()).c_str());
@@ -523,9 +518,9 @@ std::vector<std::pair<int, int>> ServerSam::generatePath(int x, int y)
 		while (tracing) {
 			
 			std::pair<int, int> next_item = { closed_list[trace_index].x, closed_list[trace_index].y };
-			log(std::to_string(next_item.first).c_str());
-			log(std::to_string(next_item.second).c_str());
-			log("");
+			//log(std::to_string(next_item.first).c_str());
+			//log(std::to_string(next_item.second).c_str());
+			//log("");
 
 			solution_vector.push_back(next_item);
 			
@@ -564,6 +559,102 @@ bool ServerSam::isClear(int x, int y)
 		return false;
 	}
 	return true;
+}
+
+//returns the id of the nearest seen player or -1 if none were seen
+int ServerSam::search()
+{
+	log("search");
+	//-1 indicates no player has been found in line of sight
+	int result = -1;
+	// closest start should be in excess of any tile maps dimensions
+	double closest = 1000;
+	Vec2 sam_coordinates = coordinateToTile(this->getPositionX(), this->getPositionY());
+	
+	//cycle through every in game player
+	for (int i = 0; i < player_list->size() && player_list->at(i)->isVisible(); i++) {
+		Vec2 player_coordinates = coordinateToTile(player_list->at(i)->getPositionX(), player_list->at(i)->getPositionY());
+
+		//distance between sam and player i
+		double range = sqrt(pow(sam_coordinates.x - player_coordinates.x, 2) + pow(sam_coordinates.y - player_coordinates.y, 2));
+		
+		// sam occupies a square with a player 
+		// immediate selection
+		if (sam_coordinates.x == player_coordinates.x && sam_coordinates.y == player_coordinates.y) { 
+			log("same tile");
+			return i; 
+		}
+
+		// player i is straight up or down of sam
+		// exceptional case for divide by 0 slope
+		else if (sam_coordinates.x == player_coordinates.x && range < closest) {
+			int bottom_most = std::min(sam_coordinates.y, player_coordinates.y);
+			bool clear = true;
+			for (int i = bottom_most; i < bottom_most + range && clear; i++) {
+				clear = isClear(sam_coordinates.x, i);
+			}
+			if (clear) {
+				result = i;
+				closest = range;
+			}
+			log("vertical");
+		}
+
+		else if (range < closest) {
+			double x = sam_coordinates.x - player_coordinates.x;
+			double y = sam_coordinates.y - player_coordinates.y;
+			double slope = y / x;
+			bool clear = true;
+			//log(std::to_string(slope).c_str());
+
+
+			if (slope <= 1 && slope >= -1) {
+				int left_most_x = 0;
+				int left_most_y = 0;
+				log("low angle");
+				if (x > 0) {
+					left_most_x = player_coordinates.x;
+					left_most_y = player_coordinates.y;
+				}
+				else {
+					left_most_x = sam_coordinates.x;
+					left_most_y = sam_coordinates.y;
+				}
+				
+				for (int i = 0; i < x && clear; i++) {
+					clear = (isClear(i + left_most_x, (int) floor(i * slope + left_most_y)) && isClear(i + left_most_x, (int) ceil(i * slope + left_most_y)));
+				}
+
+			}
+			else {
+				slope = x / y;
+				int bottom_most_x = 0;
+				int bottom_most_y = 0;
+				log("high angle");
+				if (y > 0) {
+					bottom_most_x = player_coordinates.x;
+					bottom_most_y = player_coordinates.y;
+				}
+				else {
+					bottom_most_x = sam_coordinates.x;
+					bottom_most_y = sam_coordinates.y;
+				}
+
+				for (int i = 0; i < y && clear; i++) {
+
+					clear = (isClear((int) floor(i * slope + bottom_most_x), i + bottom_most_y) && isClear((int) ceil(i * slope + bottom_most_x), i + bottom_most_y));
+				}
+			}
+			if (clear) {
+				result = i;
+				closest = range;
+			}
+
+		}
+
+	}
+
+	return result;
 }
 
 std::vector<ServerMessage> ServerSam::getServerMessage()
